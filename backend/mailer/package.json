@@ -1,0 +1,11 @@
+{
+  "name": "dayform-mailer",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Nodemailer email dispatcher for DAYFORM OTP authentication",
+  "dependencies": {
+    "nodemailer": "^6.9.16"
+  }
+}
+

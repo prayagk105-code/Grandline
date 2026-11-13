@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Dayform.Api/Dayform.Api.csproj" />
+    <Project Path="src/Dayform.Application/Dayform.Application.csproj" />
+    <Project Path="src/Dayform.Domain/Dayform.Domain.csproj" />
+    <Project Path="src/Dayform.Infrastructure/Dayform.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Dayform.IntegrationTests/Dayform.IntegrationTests.csproj" />
+    <Project Path="tests/Dayform.UnitTests/Dayform.UnitTests.csproj" />
+  </Folder>
+</Solution>

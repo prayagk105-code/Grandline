@@ -1,0 +1,6 @@
+@Dayform.Api_HostAddress = http://localhost:5058
+
+GET {{Dayform.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

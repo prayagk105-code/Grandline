@@ -1,0 +1,146 @@
+.df-shell {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.df-body {
+  flex: 1;
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.df-sidebar {
+  display: none;
+}
+
+.df-main {
+  padding: 18px 16px 116px;
+  min-width: 0;
+}
+
+.df-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  align-items: start;
+}
+
+@media (max-width: 479px) {
+  .g2-stack-mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 768px) {
+  .sh {
+    align-items: center;
+    padding: 20px;
+  }
+
+  .sb {
+    border-radius: var(--radius-sheet);
+    max-height: 85dvh;
+  }
+
+  .mg {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 960px) {
+  .df-header {
+    padding: 12px 28px;
+  }
+
+  .df-body {
+    max-width: 1120px;
+    display: grid;
+    grid-template-columns: 228px minmax(0, 1fr);
+    gap: 28px;
+    padding: 24px 28px 48px;
+    align-items: start;
+  }
+
+  .df-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    position: sticky;
+    top: 84px;
+    background: var(--cd);
+    border: 1px solid var(--ln);
+    border-radius: var(--radius-xl);
+    padding: 12px;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .df-side-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--mut);
+    transition: background-color 0.15s ease, color 0.15s ease;
+  }
+
+  .df-side-link:hover {
+    background: var(--sf);
+    color: var(--ink);
+  }
+
+  .df-side-link.on {
+    background: var(--ac2);
+    color: var(--ac);
+    font-weight: 700;
+  }
+
+  .df-main {
+    padding: 0;
+  }
+
+  .nv {
+    display: none;
+  }
+
+  .df-grid-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .df-grid-2 > div > .sec:first-child {
+    margin-top: 0;
+  }
+
+  .df-grid-2 > .cd {
+    margin-bottom: 0;
+  }
+
+  .g4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .hs {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    overflow: visible;
+  }
+
+  .hs .mc {
+    width: auto;
+  }
+
+  .mg {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .toast-wrap {
+    bottom: 24px;
+  }
+}
+
