@@ -102,29 +102,31 @@ const state = {
 };
 
 function seedUserData(userId, email, password, displayName, isDemo = false, seed = 7) {
-  const existing = state.users.find((u) => u.id === userId || u.email.toLowerCase() === email.toLowerCase());
-  if (existing) {
-    existing.password = password;
-    return existing;
-  }
-
   const today = todayStr();
   const totalDays = 150;
   const startDate = addDays(today, -(totalDays - 1));
   const nowIso = new Date().toISOString();
 
-  const user = {
-    id: userId,
-    displayName,
-    email,
-    password,
-    themePreference: 'Auto',
-    journeyStartDate: addDays(today, -83),
-    timeZoneId: 'UTC',
-    isDemoUser: isDemo,
-    createdAtUtc: nowIso
-  };
-  state.users.push(user);
+  let user = state.users.find((u) => u.id === userId || u.email.toLowerCase() === email.toLowerCase());
+  if (user) {
+    user.password = password;
+    if (state.habits.some((h) => h.userId === user.id)) {
+      return user;
+    }
+  } else {
+    user = {
+      id: userId,
+      displayName,
+      email,
+      password,
+      themePreference: 'Auto',
+      journeyStartDate: addDays(today, -83),
+      timeZoneId: 'UTC',
+      isDemoUser: isDemo,
+      createdAtUtc: nowIso
+    };
+    state.users.push(user);
+  }
 
   const rng = createRng(seed);
 
@@ -324,6 +326,7 @@ function seedUserData(userId, email, password, displayName, isDemo = false, seed
 function createDemoDataset(resetExisting = false) {
   const demoEmail = 'alex@example.com';
   const prayagEmail = 'prayagk@gmail.com';
+  const memberEmail = 'user@grandline.com';
 
   if (resetExisting) {
     state.users = [];
@@ -338,6 +341,7 @@ function createDemoDataset(resetExisting = false) {
 
   const alex = seedUserData('00000000-0000-0000-0000-00000000d300', demoEmail, 'DayformDemo123!', 'Alex Morgan', true, 7);
   seedUserData('00000000-0000-0000-0000-000000000001', prayagEmail, 'Prayagk@123', 'Prayag', false, 42);
+  seedUserData('00000000-0000-0000-0000-000000000002', memberEmail, 'Password@123', 'Grandline Member', false, 99);
 
   return alex;
 }
@@ -632,14 +636,17 @@ export async function handleRequest(req, res) {
       const passTrimmed = rawPassword.trim();
 
       // Ensure seed users exist in memory
-      if (!state.users.some((u) => u.email.toLowerCase() === 'prayagk@gmail.com')) {
+      if (!state.users.some((u) => u.email.toLowerCase() === 'user@grandline.com')) {
         createDemoDataset(false);
       }
 
-      // Check user matching by email (and alias prayag@gmail.com to prayagk@gmail.com)
+      // Check user matching by email (with friendly aliases)
       const user = state.users.find((u) => {
         const uEmail = u.email.toLowerCase();
-        const matchesEmail = uEmail === email || (uEmail === 'prayagk@gmail.com' && email === 'prayag@gmail.com');
+        const matchesEmail =
+          uEmail === email ||
+          (uEmail === 'prayagk@gmail.com' && (email === 'prayag@gmail.com' || email === 'prayagk@gmail.com')) ||
+          (uEmail === 'user@grandline.com' && (email === 'user@grandline.app' || email === 'user@test.com' || email === 'user@grandline.com'));
         if (!matchesEmail) return false;
 
         const uPass = String(u.password || '');
