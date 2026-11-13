@@ -70,3 +70,4 @@ Grandline features are structured into cohesive modules:
 - **Rate Limiting**: Auth endpoints utilize IP and identity rate limiting to prevent brute force attacks.
 - **Input Validation**: Backend FluentValidation validates all incoming DTOs; frontend Zod / HTML5 schemas provide immediate feedback.
 - **Zero Secrets in Source**: All API keys, connection strings, and credentials are provided via environment variables or secret managers and excluded from Git.
+

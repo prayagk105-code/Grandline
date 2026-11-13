@@ -34,3 +34,4 @@ cd backend
 dotnet test tests/Dayform.UnitTests/Dayform.UnitTests.csproj
 dotnet test tests/Dayform.IntegrationTests/Dayform.IntegrationTests.csproj
 ```
+

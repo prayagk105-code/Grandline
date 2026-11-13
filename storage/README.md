@@ -27,3 +27,4 @@ Cloudinary__ApiSecret=<your-cloudinary-api-secret>
 ```
 
 Refer to [documentation/API.md](../documentation/API.md) and [documentation/ARCHITECTURE.md](../documentation/ARCHITECTURE.md) for more details.
+

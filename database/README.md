@@ -40,3 +40,4 @@ To generate idempotent SQL scripts for deployment:
 ```bash
 dotnet ef migrations script --idempotent --output database/schema.sql --project backend/src/Dayform.Infrastructure --startup-project backend/src/Dayform.Api
 ```
+
