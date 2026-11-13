@@ -211,3 +211,31 @@ CREATE TABLE IF NOT EXISTS reminders (
 );
 
 CREATE INDEX IF NOT EXISTS "IX_reminders_UserId_ReminderDate_IsActive" ON reminders ("UserId", "ReminderDate", "IsActive");
+
+-- -----------------------------------------------------------------------------
+-- 9. Seed Default User (Prayag)
+-- -----------------------------------------------------------------------------
+INSERT INTO users (
+    "Id",
+    "DisplayName",
+    "Email",
+    "NormalizedEmail",
+    "PasswordHash",
+    "ThemePreference",
+    "JourneyStartDate",
+    "TimeZoneId",
+    "IsActive",
+    "IsDemoUser"
+) VALUES (
+    '00000000-0000-0000-0000-000000000001',
+    'Prayag',
+    'Prayagk@gmail.com',
+    'PRAYAGK@GMAIL.COM',
+    'Prayagk@123',
+    'auto',
+    CURRENT_DATE,
+    'UTC',
+    TRUE,
+    FALSE
+) ON CONFLICT ("NormalizedEmail") DO NOTHING;
+

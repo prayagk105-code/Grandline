@@ -101,44 +101,32 @@ const state = {
   reminders: []
 };
 
-function createDemoDataset(resetExisting = false) {
-  const demoEmail = 'alex@example.com';
-  const existing = state.users.find((u) => u.email.toLowerCase() === demoEmail);
-  if (existing && !resetExisting) {
+function seedUserData(userId, email, password, displayName, isDemo = false, seed = 7) {
+  const existing = state.users.find((u) => u.id === userId || u.email.toLowerCase() === email.toLowerCase());
+  if (existing) {
+    existing.password = password;
     return existing;
-  }
-  if (existing && resetExisting) {
-    const uid = existing.id;
-    state.users = state.users.filter((u) => u.id !== uid);
-    state.habits = state.habits.filter((x) => x.userId !== uid);
-    state.habitLogs = state.habitLogs.filter((x) => x.userId !== uid);
-    state.learningPaths = state.learningPaths.filter((x) => x.userId !== uid);
-    state.studySessions = state.studySessions.filter((x) => x.userId !== uid);
-    state.memories = state.memories.filter((x) => x.userId !== uid);
-    state.journals = state.journals.filter((x) => x.userId !== uid);
-    state.reminders = state.reminders.filter((x) => x.userId !== uid);
   }
 
   const today = todayStr();
   const totalDays = 150;
   const startDate = addDays(today, -(totalDays - 1));
-  const userId = '00000000-0000-0000-0000-00000000d300';
   const nowIso = new Date().toISOString();
 
   const user = {
     id: userId,
-    displayName: 'Alex Morgan',
-    email: demoEmail,
-    password: 'DayformDemo123!',
+    displayName,
+    email,
+    password,
     themePreference: 'Auto',
     journeyStartDate: addDays(today, -83),
     timeZoneId: 'UTC',
-    isDemoUser: true,
+    isDemoUser: isDemo,
     createdAtUtc: nowIso
   };
   state.users.push(user);
 
-  const rng = createRng(7);
+  const rng = createRng(seed);
 
   const habitSpecs = [
     ['Wake up early', 'Lifestyle', 'Before 6:30 AM', 'sun'],
@@ -234,7 +222,7 @@ function createDemoDataset(resetExisting = false) {
           topic: topics[Math.floor(rng() * topics.length)],
           minutes: mins,
           sessionDate: d,
-          notes: 'Demo study block',
+          notes: 'Daily study block',
           startedAtUtc: null,
           completedAtUtc: null,
           clientSessionKey: null,
@@ -331,6 +319,27 @@ function createDemoDataset(resetExisting = false) {
   });
 
   return user;
+}
+
+function createDemoDataset(resetExisting = false) {
+  const demoEmail = 'alex@example.com';
+  const prayagEmail = 'prayagk@gmail.com';
+
+  if (resetExisting) {
+    state.users = [];
+    state.habits = [];
+    state.habitLogs = [];
+    state.learningPaths = [];
+    state.studySessions = [];
+    state.memories = [];
+    state.journals = [];
+    state.reminders = [];
+  }
+
+  const alex = seedUserData('00000000-0000-0000-0000-00000000d300', demoEmail, 'DayformDemo123!', 'Alex Morgan', true, 7);
+  seedUserData('00000000-0000-0000-0000-000000000001', prayagEmail, 'Prayagk@123', 'Prayag', false, 42);
+
+  return alex;
 }
 
 createDemoDataset(false);
