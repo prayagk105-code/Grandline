@@ -382,6 +382,9 @@ function getAuthUser(req) {
 }
 
 function parseCookies(req) {
+  if (req.cookies && typeof req.cookies === 'object' && Object.keys(req.cookies).length > 0) {
+    return req.cookies;
+  }
   const raw = req.headers.cookie || '';
   const map = {};
   raw.split(';').forEach((pair) => {
@@ -407,6 +410,7 @@ function sendProblem(res, status, title, detail) {
 
 function readRawBody(req) {
   return new Promise((resolve, reject) => {
+    if (Buffer.isBuffer(req.body)) return resolve(req.body);
     const chunks = [];
     req.on('data', (c) => chunks.push(c));
     req.on('end', () => resolve(Buffer.concat(chunks)));
@@ -415,9 +419,21 @@ function readRawBody(req) {
 }
 
 async function readJson(req) {
+  if (req.body && typeof req.body === 'object') return req.body;
+  if (typeof req.body === 'string') {
+    try {
+      return JSON.parse(req.body);
+    } catch {
+      return {};
+    }
+  }
   const buf = await readRawBody(req);
-  if (!buf.length) return {};
-  return JSON.parse(buf.toString('utf8'));
+  if (!buf || !buf.length) return {};
+  try {
+    return JSON.parse(buf.toString('utf8'));
+  } catch {
+    return {};
+  }
 }
 
 function extractMultipartFile(buf, contentType) {
@@ -568,7 +584,7 @@ function listDatesBetween(fromStr, toStr) {
   return out;
 }
 
-const server = http.createServer(async (req, res) => {
+export async function handleRequest(req, res) {
   const origin = req.headers.origin;
   if (origin) {
     res.setHeader('Access-Control-Allow-Origin', origin);
@@ -577,7 +593,7 @@ const server = http.createServer(async (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', ALLOWED_ORIGIN);
   }
   res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, Cookie');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
 
   if (req.method === 'OPTIONS') {
@@ -585,8 +601,11 @@ const server = http.createServer(async (req, res) => {
     return res.end();
   }
 
-  const parsedUrl = new URL(req.url || '/', `http://localhost:${PORT}`);
-  const path = parsedUrl.pathname;
+  const parsedUrl = new URL(req.url || '/', `http://${req.headers.host || 'localhost'}`);
+  let path = parsedUrl.pathname;
+  if (!path.startsWith('/api/') && path.startsWith('/v1/')) {
+    path = '/api' + path;
+  }
   const q = parsedUrl.searchParams;
 
   try {
@@ -1648,10 +1667,17 @@ const server = http.createServer(async (req, res) => {
   } catch (err) {
     return sendProblem(res, 500, 'Server Error', err instanceof Error ? err.message : 'Unexpected dev demo error.');
   }
-});
+}
 
-server.listen(PORT, () => {
-  console.log(`[DAYFORM DEV DEMO API] Listening at http://localhost:${PORT}/api/v1`);
-  console.log('[DAYFORM DEV DEMO API] Seeded 150 days (5 months) of dummy data for alex@example.com / DayformDemo123!');
-  console.log('[DAYFORM DEV DEMO API] Note: In-memory dev preview server (for hosts where .NET runtime is blocked).');
-});
+const server = http.createServer(handleRequest);
+
+const isDirectRun = process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1];
+if (isDirectRun) {
+  server.listen(PORT, () => {
+    console.log(`[DAYFORM DEV DEMO API] Listening at http://localhost:${PORT}/api/v1`);
+    console.log('[DAYFORM DEV DEMO API] Seeded 150 days (5 months) of dummy data for alex@example.com / DayformDemo123!');
+    console.log('[DAYFORM DEV DEMO API] Note: In-memory dev preview server (for hosts where .NET runtime is blocked).');
+  });
+}
+
+export default handleRequest;
