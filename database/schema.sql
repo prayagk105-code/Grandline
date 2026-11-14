@@ -263,3 +263,28 @@ INSERT INTO users (
     FALSE
 ) ON CONFLICT ("NormalizedEmail") DO NOTHING;
 
+INSERT INTO users (
+    "Id",
+    "DisplayName",
+    "Email",
+    "NormalizedEmail",
+    "PasswordHash",
+    "ThemePreference",
+    "JourneyStartDate",
+    "TimeZoneId",
+    "IsActive",
+    "IsDemoUser"
+) VALUES (
+    '00000000-0000-0000-0000-000000000003',
+    'Tracker User',
+    'tracker@grandline.com',
+    'TRACKER@GRANDLINE.COM',
+    'Tracker@123',
+    'auto',
+    CURRENT_DATE,
+    'UTC',
+    TRUE,
+    FALSE
+) ON CONFLICT ("NormalizedEmail") DO NOTHING;
+
+

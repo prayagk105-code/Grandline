@@ -1,7 +1,11 @@
 import axios, { type AxiosError, type InternalAxiosRequestConfig } from 'axios';
 import type { ApiResponse, AuthResponse } from '../../types/api';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api/v1';
+const rawBaseUrl = (import.meta.env.VITE_API_BASE_URL || '/api/v1')
+  .toString()
+  .replace(/[\uFEFF\u200B]/g, '')
+  .trim();
+const API_BASE_URL = rawBaseUrl.length > 0 ? rawBaseUrl : '/api/v1';
 
 let accessToken: string | null = null;
 let refreshPromise: Promise<AuthResponse | null> | null = null;

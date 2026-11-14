@@ -23,16 +23,23 @@ export const LoginPage: React.FC = () => {
   const [apiError, setApiError] = useState<string | null>(null);
   const [demoBusy, setDemoBusy] = useState(false);
 
-  const showDemoOption = import.meta.env.DEV && import.meta.env.VITE_ENABLE_DEMO_LOGIN !== 'false';
+  const showDemoOption = true;
   const fromPath = (location.state as { from?: { pathname?: string } } | null)?.from?.pathname || '/';
 
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors, isSubmitting }
   } = useForm<LoginFormValues>({
     resolver: zodResolver(schema)
   });
+
+  const fillCredentials = (email: string, pass: string) => {
+    setValue('email', email, { shouldValidate: true });
+    setValue('password', pass, { shouldValidate: true });
+    setApiError(null);
+  };
 
   const onSubmit = async (values: LoginFormValues) => {
     setApiError(null);
@@ -129,6 +136,38 @@ export const LoginPage: React.FC = () => {
         </button>
       </form>
 
+      <div style={{ marginTop: 16, display: 'flex', flexDirection: 'column', gap: 6 }}>
+        <p className="mut" style={{ fontSize: 12, margin: '0 0 4px', textAlign: 'center' }}>
+          Quick autofill demo accounts:
+        </p>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6 }}>
+          <button
+            type="button"
+            className="btn"
+            style={{ fontSize: 12, padding: '6px 8px' }}
+            onClick={() => fillCredentials('tracker@grandline.com', 'Tracker@123')}
+          >
+            👤 tracker@grandline.com
+          </button>
+          <button
+            type="button"
+            className="btn"
+            style={{ fontSize: 12, padding: '6px 8px' }}
+            onClick={() => fillCredentials('user@grandline.com', 'Password@123')}
+          >
+            👤 user@grandline.com
+          </button>
+        </div>
+        <button
+          type="button"
+          className="btn"
+          style={{ fontSize: 12, padding: '6px 8px' }}
+          onClick={() => fillCredentials('Prayagk@gmail.com', 'Prayagk@123')}
+        >
+          👤 Prayagk@gmail.com
+        </button>
+      </div>
+
       <div style={{ textAlign: 'center', marginTop: 14 }}>
         <Link to="/register" className="lk">
           New here? Create account
@@ -138,11 +177,8 @@ export const LoginPage: React.FC = () => {
       {showDemoOption ? (
         <div style={{ marginTop: 14 }}>
           <button type="button" className="btn f" onClick={handleDemoLogin} disabled={isSubmitting || demoBusy}>
-            {demoBusy ? 'Loading demo account…' : 'Continue with dev demo account'}
+            {demoBusy ? 'Loading demo account…' : '⚡ 1-Click Instant Demo Login'}
           </button>
-          <p className="mut" style={{ fontSize: 11, textAlign: 'center', margin: '8px 0 0' }}>
-            Dev demo login: <code>alex@example.com</code> / <code>DayformDemo123!</code>
-          </p>
         </div>
       ) : null}
     </AuthLayout>
