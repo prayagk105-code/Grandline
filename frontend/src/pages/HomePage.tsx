@@ -1,13 +1,19 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { DayformIcon } from '../components/common/DayformIcon';
+import { WidgetErrorBoundary } from '../components/common/ErrorBoundary';
 import { PageHeader } from '../components/common/PageHeader';
 import { ProgressRing } from '../components/common/ProgressRing';
 import { StatCard } from '../components/common/StatCard';
 import { EmptyState, ErrorState, LoadingSkeleton } from '../components/common/StateBlocks';
 import { HabitRow } from '../components/habits/HabitRow';
+import { CustomDashboardModal, DEFAULT_DASHBOARD_CONFIG, type DashboardConfig } from '../components/home/CustomDashboardModal';
+import { DailyMissionsWidget } from '../components/home/DailyMissionsWidget';
+import { DisciplineScoreCard } from '../components/home/DisciplineScoreCard';
+import { PinnedTasksWidget } from '../components/home/PinnedTasksWidget';
 import { MemoryCard } from '../components/memories/MemoryCard';
 import { MemoryDetailSheet } from '../components/memories/MemoryDetailSheet';
+import { RandomMemoryCard } from '../components/memories/RandomMemoryCard';
 import { FocusTimerCard } from '../components/study/FocusTimerCard';
 import { useAuth } from '../contexts/AuthContext';
 import { useFocusTimer } from '../contexts/FocusTimerContext';
@@ -17,6 +23,8 @@ import { dashboardService } from '../services/dashboardService';
 import { habitService } from '../services/habitService';
 import type { DashboardSummaryDto, HabitDto, MemoryDto } from '../types/api';
 import { formatDurationMinutes, getGreetingWord, toIsoDate } from '../utils/date';
+
+const DASHBOARD_CONFIG_KEY = 'grandline_dashboard_config';
 
 export const HomePage: React.FC = () => {
   const { user } = useAuth();
@@ -29,6 +37,22 @@ export const HomePage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [busyHabitId, setBusyHabitId] = useState<string | null>(null);
   const [selectedMemory, setSelectedMemory] = useState<MemoryDto | null>(null);
+
+  // Dashboard configuration
+  const [showConfigModal, setShowConfigModal] = useState(false);
+  const [dashConfig, setDashConfig] = useState<DashboardConfig>(() => {
+    try {
+      const saved = localStorage.getItem(DASHBOARD_CONFIG_KEY);
+      return saved ? { ...DEFAULT_DASHBOARD_CONFIG, ...JSON.parse(saved) } : DEFAULT_DASHBOARD_CONFIG;
+    } catch {
+      return DEFAULT_DASHBOARD_CONFIG;
+    }
+  });
+
+  const handleConfigChange = (newConfig: DashboardConfig) => {
+    setDashConfig(newConfig);
+    localStorage.setItem(DASHBOARD_CONFIG_KEY, JSON.stringify(newConfig));
+  };
 
   const load = useCallback(async (silent = false) => {
     if (!silent) setLoading(true);
@@ -92,59 +116,98 @@ export const HomePage: React.FC = () => {
     );
   }
 
-  if (!summary) return null;
+  if (!summary) {
+    return (
+      <>
+        <PageHeader eyebrow={todayLabel} title={`Good ${getGreetingWord()}, ${firstName}`} />
+        <LoadingSkeleton lines={4} />
+      </>
+    );
+  }
 
   return (
     <>
       <PageHeader
         eyebrow={todayLabel}
         title={`Good ${getGreetingWord()}, ${firstName}`}
-        subtitle={`Day ${summary.journeyDay} of your ${summary.journeyTotalDays}-day journey`}
+        subtitle={`Day ${summary.journeyDay ?? 1} of your ${summary.journeyTotalDays ?? 100}-day journey`}
+        action={
+          <button
+            type="button"
+            className="ib"
+            onClick={() => setShowConfigModal(true)}
+            title="Customize Dashboard"
+            aria-label="Customize Dashboard"
+          >
+            <DayformIcon name="settings" size={16} />
+          </button>
+        }
       />
 
       <div className="df-grid-2">
-        <div>
-          <div className="cd rg">
-            <ProgressRing
-              percent={summary.completionPercentToday}
-              size={92}
-              strokeWidth={9}
-              label={`${summary.completionPercentToday}%`}
-            />
-            <div className="g">
-              <b className="d" style={{ fontSize: 18, whiteSpace: 'normal' }}>
-                {summary.completedHabitsToday} of {summary.totalActiveHabits} habits done
-              </b>
-              <p className="mut" style={{ margin: '4px 0 10px' }}>
-                {summary.totalActiveHabits === 0
-                  ? 'Add your first habit to begin tracking.'
-                  : summary.nextIncompleteHabitName
-                    ? `Next: ${summary.nextIncompleteHabitName}`
-                    : 'All done for today.'}
-              </p>
-              <Link to="/habits" className="btn pri">
-                Check in <DayformIcon name="right" size={16} />
-              </Link>
+        {/* Left Column */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+          {dashConfig.showHabits && (
+            <div className="cd rg">
+              <ProgressRing
+                percent={summary.completionPercentToday ?? 0}
+                size={92}
+                strokeWidth={9}
+                label={`${summary.completionPercentToday ?? 0}%`}
+              />
+              <div className="g">
+                <b className="d" style={{ fontSize: 18, whiteSpace: 'normal' }}>
+                  {summary.completedHabitsToday ?? 0} of {summary.totalActiveHabits ?? 0} habits done
+                </b>
+                <p className="mut" style={{ margin: '4px 0 10px' }}>
+                  {(summary.totalActiveHabits ?? 0) === 0
+                    ? 'Add your first habit to begin tracking.'
+                    : summary.nextIncompleteHabitName
+                      ? `Next: ${summary.nextIncompleteHabitName}`
+                      : 'All done for today.'}
+                </p>
+                <Link to="/habits" className="btn pri">
+                  Check in <DayformIcon name="right" size={16} />
+                </Link>
+              </div>
             </div>
-          </div>
+          )}
+
+          {dashConfig.showDisciplineScore && (
+            <WidgetErrorBoundary>
+              <DisciplineScoreCard />
+            </WidgetErrorBoundary>
+          )}
+
+          {dashConfig.showMissions && (
+            <WidgetErrorBoundary>
+              <DailyMissionsWidget />
+            </WidgetErrorBoundary>
+          )}
+
+          {dashConfig.showPinnedTasks && (
+            <WidgetErrorBoundary>
+              <PinnedTasksWidget />
+            </WidgetErrorBoundary>
+          )}
 
           <div className="g3">
             <StatCard
               icon="flame"
               label="Streak"
-              value={`${summary.currentStreakDays}d`}
-              note={`Best ${summary.bestStreakDays}d`}
+              value={`${summary.currentStreakDays ?? 0}d`}
+              note={`Best ${summary.bestStreakDays ?? 0}d`}
             />
             <StatCard
               icon="clock"
               label="Focus 7d"
-              value={formatDurationMinutes(summary.focusMinutesLast7Days)}
+              value={formatDurationMinutes(summary.focusMinutesLast7Days ?? 0)}
               note="logged"
             />
             <StatCard
               icon="chart"
               label="Habits 7d"
-              value={`${Math.round(summary.habitAverageLast7Days)}%`}
+              value={`${Math.round(summary.habitAverageLast7Days ?? 0)}%`}
               note="average"
             />
           </div>
@@ -157,7 +220,7 @@ export const HomePage: React.FC = () => {
           </div>
           <div className="cd">
             <div className="wk">
-              {summary.last7Days.map((day) => {
+              {(summary.last7Days ?? []).map((day) => {
                 const isToday = day.date === summary.todayDate;
                 const dayNum = new Date(`${day.date}T12:00:00`).getDate();
                 return (
@@ -166,11 +229,11 @@ export const HomePage: React.FC = () => {
                     type="button"
                     className={isToday ? 'tdy' : ''}
                     onClick={() => navigate(`/planner?date=${day.date}`)}
-                    aria-label={`${day.date}: ${Math.round(day.completionPercent)}% habits`}
+                    aria-label={`${day.date}: ${Math.round(day.completionPercent ?? 0)}% habits`}
                   >
                     <span>{day.weekdayShort}</span>
                     <div className="tr">
-                      <i style={{ height: `${Math.min(100, Math.max(0, day.completionPercent))}%` }} />
+                      <i style={{ height: `${Math.min(100, Math.max(0, day.completionPercent ?? 0))}%` }} />
                     </div>
                     <b>{dayNum}</b>
                   </button>
@@ -179,48 +242,63 @@ export const HomePage: React.FC = () => {
             </div>
           </div>
 
-          <div className="sec">
-            <h2>Focus timer</h2>
-            <Link to="/study" className="lk">
-              Study <DayformIcon name="right" size={15} />
-            </Link>
-          </div>
-          <FocusTimerCard compact />
+          {dashConfig.showFocusTimer && (
+            <>
+              <div className="sec">
+                <h2>Focus timer</h2>
+                <Link to="/study" className="lk">
+                  Study <DayformIcon name="right" size={15} />
+                </Link>
+              </div>
+              <FocusTimerCard compact />
+            </>
+          )}
         </div>
 
-        <div>
-          <div className="sec">
-            <h2>Today’s habits</h2>
-            <Link to="/habits" className="lk">
-              All <DayformIcon name="right" size={15} />
-            </Link>
-          </div>
-          <div className="cd">
-            {summary.todayHabits.length > 0 ? (
-              summary.todayHabits.map((h) => (
-                <HabitRow
-                  key={h.id}
-                  habit={h}
-                  busy={busyHabitId === h.id}
-                  onToggle={handleToggleHabit}
-                />
-              ))
-            ) : (
-              <p className="mut" style={{ margin: 0 }}>
-                No habits yet. <Link to="/habits" className="lk">Create one</Link>
-              </p>
-            )}
-          </div>
+        {/* Right Column */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+          {dashConfig.showRandomMemory && (
+            <WidgetErrorBoundary>
+              <RandomMemoryCard />
+            </WidgetErrorBoundary>
+          )}
+
+          {dashConfig.showHabits && (
+            <div>
+              <div className="sec">
+                <h2>Today’s habits</h2>
+                <Link to="/habits" className="lk">
+                  All <DayformIcon name="right" size={15} />
+                </Link>
+              </div>
+              <div className="cd">
+                {(summary.todayHabits ?? []).length > 0 ? (
+                  summary.todayHabits.map((h) => (
+                    <HabitRow
+                      key={h.id}
+                      habit={h}
+                      busy={busyHabitId === h.id}
+                      onToggle={handleToggleHabit}
+                    />
+                  ))
+                ) : (
+                  <p className="mut" style={{ margin: 0 }}>
+                    No habits yet. <Link to="/habits" className="lk">Create one</Link>
+                  </p>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
-      <div className="sec">
+      <div className="sec" style={{ marginTop: 24 }}>
         <h2>Recent memories</h2>
         <Link to="/memories" className="lk">
           All <DayformIcon name="right" size={15} />
         </Link>
       </div>
-      {summary.recentMemories.length > 0 ? (
+      {(summary.recentMemories ?? []).length > 0 ? (
         <div className="hs">
           {summary.recentMemories.map((m) => (
             <MemoryCard key={m.id} memory={m} onSelect={setSelectedMemory} />
@@ -250,7 +328,14 @@ export const HomePage: React.FC = () => {
           navigate('/memories');
         }}
       />
+
+      {showConfigModal && (
+        <CustomDashboardModal
+          config={dashConfig}
+          onChange={handleConfigChange}
+          onClose={() => setShowConfigModal(false)}
+        />
+      )}
     </>
   );
 };
-

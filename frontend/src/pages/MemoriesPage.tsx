@@ -1,8 +1,12 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { ConfirmDialog } from '../components/common/ConfirmDialog';
 import { DayformIcon } from '../components/common/DayformIcon';
 import { PageHeader } from '../components/common/PageHeader';
 import { EmptyState, ErrorState, LoadingSkeleton } from '../components/common/StateBlocks';
+import { FutureSelfView } from '../components/memories/FutureSelfView';
+import { KnowledgeHub } from '../components/memories/KnowledgeHub';
+import { LifeTimelineView } from '../components/memories/LifeTimelineView';
 import { MemoryCard } from '../components/memories/MemoryCard';
 import { MemoryDetailSheet } from '../components/memories/MemoryDetailSheet';
 import { MemoryFormSheet, type MemoryFormValues } from '../components/memories/MemoryFormSheet';
@@ -18,8 +22,23 @@ const FILTERS: { value: 'All' | MemoryCategory; label: string }[] = [
   { value: 'Milestone', label: 'Milestones' }
 ];
 
+type MemoriesTab = 'memories' | 'knowledge' | 'futureself' | 'timeline';
+
 export const MemoriesPage: React.FC = () => {
+  const [params, setParams] = useSearchParams();
   const { showToast } = useToast();
+
+  const tabParam = (params.get('tab') as MemoriesTab) || 'memories';
+  const [activeTab, setActiveTab] = useState<MemoriesTab>(tabParam);
+
+  const setTab = (t: MemoriesTab) => {
+    setActiveTab(t);
+    setParams((p) => {
+      p.set('tab', t);
+      return p;
+    });
+  };
+
   const [memories, setMemories] = useState<MemoryDto[]>([]);
   const [totalCount, setTotalCount] = useState(0);
   const [filter, setFilter] = useState<'All' | MemoryCategory>('All');
@@ -58,45 +77,46 @@ export const MemoriesPage: React.FC = () => {
     const map = new Map<string, MemoryDto[]>();
     memories.forEach((m) => {
       const key = m.memoryDate.slice(0, 7);
-      const list = map.get(key) ?? [];
+      const list = map.get(key) || [];
       list.push(m);
       map.set(key, list);
     });
-    return Array.from(map.entries());
+    return Array.from(map.entries()).sort((a, b) => b[0].localeCompare(a[0]));
   }, [memories]);
 
   const handleSave = async (vals: MemoryFormValues, file: File | null) => {
+    setUploadProgress(10);
     try {
       let saved: MemoryDto;
       if (editing) {
         saved = await memoryService.update(editing.id, {
           title: vals.title,
-          memoryDate: vals.memoryDate,
           category: vals.category,
+          memoryDate: vals.memoryDate,
           icon: vals.icon,
           note: vals.note
         });
+        showToast('Memory updated');
       } else {
         saved = await memoryService.create({
           title: vals.title,
-          memoryDate: vals.memoryDate,
           category: vals.category,
+          memoryDate: vals.memoryDate,
           icon: vals.icon,
           note: vals.note
         });
+        showToast('Memory saved');
       }
 
       if (file) {
-        setUploadProgress(0);
-        await memoryService.uploadImage(saved.id, file, setUploadProgress);
+        await memoryService.uploadImage(saved.id, file, (pct) => setUploadProgress(pct));
       }
 
-      showToast(editing ? 'Memory updated' : 'Memory saved');
       setFormOpen(false);
       setEditing(null);
       await load(true);
     } catch (err) {
-      showToast(parseApiError(err, 'Could not save memory.').message, 'error');
+      showToast(parseApiError(err).message, 'error');
     } finally {
       setUploadProgress(null);
     }
@@ -104,9 +124,8 @@ export const MemoriesPage: React.FC = () => {
 
   const handleRemoveImage = async (memoryId: string) => {
     try {
-      const updated = await memoryService.deleteImage(memoryId);
-      setEditing(updated);
-      showToast('Photo removed');
+      await memoryService.deleteImage(memoryId);
+      showToast('Image removed');
       await load(true);
     } catch (err) {
       showToast(parseApiError(err).message, 'error');
@@ -132,111 +151,156 @@ export const MemoriesPage: React.FC = () => {
   return (
     <>
       <PageHeader
-        eyebrow="Your archive"
-        title="Memories"
-        subtitle={`${totalCount} moment${totalCount === 1 ? '' : 's'} kept`}
-        action={
-          <button
-            type="button"
-            className="ib"
-            onClick={() => {
-              setEditing(null);
-              setFormOpen(true);
-            }}
-            aria-label="Add memory"
-          >
-            <DayformIcon name="plus" />
-          </button>
+        eyebrow="Your lifelong archive"
+        title="Memories & Knowledge"
+        subtitle={
+          activeTab === 'memories'
+            ? `${totalCount} moments captured across your journey.`
+            : 'Photos, reading notes, letters to future self, and timeline milestones.'
         }
-      />
-
-      <div className="chips">
-        {FILTERS.map((f) => (
-          <button
-            key={f.value}
-            type="button"
-            className={`chip ${filter === f.value ? 'on' : ''}`}
-            onClick={() => setFilter(f.value)}
-          >
-            {f.label}
-          </button>
-        ))}
-      </div>
-
-      {loading && memories.length === 0 ? <LoadingSkeleton lines={5} /> : null}
-      {error && memories.length === 0 ? <ErrorState message={error} onRetry={() => load()} /> : null}
-
-      {!loading && !error && memories.length === 0 ? (
-        <EmptyState
-          title="No memories here yet"
-          description="Save a note, milestone, or photo worth remembering."
-          action={
+        action={
+          activeTab === 'memories' ? (
             <button
               type="button"
-              className="btn pri"
+              className="ib"
               onClick={() => {
                 setEditing(null);
                 setFormOpen(true);
               }}
+              aria-label="Add memory"
             >
-              Add memory
+              <DayformIcon name="plus" />
             </button>
-          }
-        />
-      ) : null}
-
-      {grouped.map(([monthKey, list]) => {
-        const label = new Date(`${monthKey}-15T12:00:00`).toLocaleDateString(undefined, {
-          month: 'long',
-          year: 'numeric'
-        });
-        return (
-          <section key={monthKey}>
-            <div className="sec">
-              <h2>{label}</h2>
-              <span className="eyebrow">{list.length}</span>
-            </div>
-            <div className="mg">
-              {list.map((m) => (
-                <MemoryCard key={m.id} memory={m} onSelect={setSelected} />
-              ))}
-            </div>
-          </section>
-        );
-      })}
-
-      <MemoryDetailSheet
-        memory={selected}
-        onClose={() => setSelected(null)}
-        onEdit={(m) => {
-          setSelected(null);
-          setEditing(m);
-          setFormOpen(true);
-        }}
-        onDelete={setDeleting}
+          ) : undefined
+        }
       />
 
-      <MemoryFormSheet
-        isOpen={formOpen}
-        editing={editing}
-        uploadProgress={uploadProgress}
-        onClose={() => {
-          setFormOpen(false);
-          setEditing(null);
-        }}
-        onSubmit={handleSave}
-        onRemoveExistingImage={handleRemoveImage}
-      />
+      {/* Main Tabs */}
+      <div className="chips" style={{ marginBottom: 20 }}>
+        <button
+          type="button"
+          className={`chip ${activeTab === 'memories' ? 'on' : ''}`}
+          onClick={() => setTab('memories')}
+        >
+          Memories & Photos
+        </button>
+        <button
+          type="button"
+          className={`chip ${activeTab === 'knowledge' ? 'on' : ''}`}
+          onClick={() => setTab('knowledge')}
+        >
+          Knowledge Hub
+        </button>
+        <button
+          type="button"
+          className={`chip ${activeTab === 'futureself' ? 'on' : ''}`}
+          onClick={() => setTab('futureself')}
+        >
+          Future Self
+        </button>
+        <button
+          type="button"
+          className={`chip ${activeTab === 'timeline' ? 'on' : ''}`}
+          onClick={() => setTab('timeline')}
+        >
+          Life Timeline
+        </button>
+      </div>
 
-      <ConfirmDialog
-        isOpen={Boolean(deleting)}
-        title="Delete memory"
-        message={`Delete "${deleting?.title}"? Any attached photo will also be removed from storage.`}
-        isBusy={deleteBusy}
-        onConfirm={handleConfirmDelete}
-        onCancel={() => setDeleting(null)}
-      />
+      {activeTab === 'knowledge' && <KnowledgeHub />}
+      {activeTab === 'futureself' && <FutureSelfView />}
+      {activeTab === 'timeline' && <LifeTimelineView />}
+
+      {activeTab === 'memories' && (
+        <>
+          <div className="chips">
+            {FILTERS.map((f) => (
+              <button
+                key={f.value}
+                type="button"
+                className={`chip ${filter === f.value ? 'on' : ''}`}
+                onClick={() => setFilter(f.value)}
+              >
+                {f.label}
+              </button>
+            ))}
+          </div>
+
+          {loading && memories.length === 0 ? <LoadingSkeleton lines={5} /> : null}
+          {error && memories.length === 0 ? <ErrorState message={error} onRetry={() => load()} /> : null}
+
+          {!loading && !error && memories.length === 0 ? (
+            <EmptyState
+              title="No memories here yet"
+              description="Save a note, milestone, or photo worth remembering."
+              action={
+                <button
+                  type="button"
+                  className="btn pri"
+                  onClick={() => {
+                    setEditing(null);
+                    setFormOpen(true);
+                  }}
+                >
+                  Add memory
+                </button>
+              }
+            />
+          ) : null}
+
+          {grouped.map(([monthKey, list]) => {
+            const label = new Date(`${monthKey}-15T12:00:00`).toLocaleDateString(undefined, {
+              month: 'long',
+              year: 'numeric'
+            });
+            return (
+              <section key={monthKey}>
+                <div className="sec">
+                  <h2>{label}</h2>
+                  <span className="eyebrow">{list.length}</span>
+                </div>
+                <div className="mg">
+                  {list.map((m) => (
+                    <MemoryCard key={m.id} memory={m} onSelect={setSelected} />
+                  ))}
+                </div>
+              </section>
+            );
+          })}
+
+          <MemoryDetailSheet
+            memory={selected}
+            onClose={() => setSelected(null)}
+            onEdit={(m) => {
+              setSelected(null);
+              setEditing(m);
+              setFormOpen(true);
+            }}
+            onDelete={setDeleting}
+          />
+
+          <MemoryFormSheet
+            isOpen={formOpen}
+            editing={editing}
+            uploadProgress={uploadProgress}
+            onClose={() => {
+              setFormOpen(false);
+              setEditing(null);
+            }}
+            onSubmit={handleSave}
+            onRemoveExistingImage={handleRemoveImage}
+          />
+
+          <ConfirmDialog
+            isOpen={Boolean(deleting)}
+            title="Delete memory"
+            message={`Delete "${deleting?.title}"? Any attached photo will also be removed from storage.`}
+            isBusy={deleteBusy}
+            onConfirm={handleConfirmDelete}
+            onCancel={() => setDeleting(null)}
+          />
+        </>
+      )}
     </>
   );
 };
-

@@ -20,7 +20,17 @@ public static class DependencyInjection
         services.AddScoped<IProgressService, ProgressService>();
         services.AddScoped<IProfileService, ProfileService>();
 
+        // Grandline Expansion Services
+        services.AddScoped<IGoalService, GoalsService>();
+        services.AddScoped<ITaskService, TasksService>();
+        services.AddScoped<IPersonalDevelopmentService, PersonalDevelopmentService>();
+        services.AddScoped<IFocusService, FocusService>();
+        services.AddScoped<IHealthService, HealthService>();
+        services.AddScoped<IKnowledgeService, KnowledgeService>();
+        services.AddScoped<IFinanceService, FinanceService>();
+        services.AddScoped<IGamificationService, GamificationService>();
+        services.AddScoped<ISpecialGrandlineService, SpecialGrandlineService>();
+
         return services;
     }
 }
-

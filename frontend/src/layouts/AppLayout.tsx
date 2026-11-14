@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { DayformIcon } from '../components/common/DayformIcon';
+import { GlobalSearchModal } from '../components/common/GlobalSearchModal';
+import { PinLockModal } from '../components/common/PinLockModal';
 import { QuickAddModal } from '../components/layout/QuickAddModal';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -23,18 +25,55 @@ export const AppLayout: React.FC = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [quickAddOpen, setQuickAddOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+
+  // App Lock PIN check
+  const [isPinLocked, setIsPinLocked] = useState(() => {
+    return Boolean(user?.hasAppPin && sessionStorage.getItem('grandline_pin_unlocked') !== 'true');
+  });
+
+  useEffect(() => {
+    if (user?.hasAppPin && sessionStorage.getItem('grandline_pin_unlocked') !== 'true') {
+      setIsPinLocked(true);
+    } else {
+      setIsPinLocked(false);
+    }
+  }, [user?.hasAppPin]);
 
   const initial = (user?.displayName?.trim()?.[0] || 'A').toUpperCase();
+
+  if (isPinLocked) {
+    return <PinLockModal onUnlock={() => setIsPinLocked(false)} />;
+  }
 
   return (
     <div className="df-shell">
       <header className="df-header">
-        <NavLink to="/" className="df-logo" aria-label="DAYFORM Home">
-          <b className="df-logo-mark">d</b>
-          <span>DAYFORM</span>
+        <NavLink to="/" className="df-logo" aria-label="Grandline Home">
+          <b className="df-logo-mark">G</b>
+          <span>GRANDLINE</span>
         </NavLink>
 
-        <div className="df-header-actions">
+        <div className="df-header-actions" style={{ alignItems: 'center' }}>
+          {/* Cloud Sync Status Indicator */}
+          <div
+            className="row"
+            style={{ gap: 6, alignItems: 'center', padding: '4px 8px', borderRadius: 12, background: 'var(--sf)' }}
+            title="Cloud synchronised and up-to-date"
+          >
+            <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#22c55e', display: 'inline-block' }} />
+            <span style={{ fontSize: 11, fontWeight: 500 }} className="mut">Synced</span>
+          </div>
+
+          <button
+            type="button"
+            className="ib"
+            onClick={() => setSearchOpen(true)}
+            aria-label="Global Search (Ctrl+K)"
+            title="Global Search (Ctrl+K)"
+          >
+            <DayformIcon name="search" />
+          </button>
           <button type="button" className="ib" onClick={() => navigate('/journal')} aria-label="Journal">
             <DayformIcon name="pen" />
           </button>
@@ -98,7 +137,7 @@ export const AppLayout: React.FC = () => {
       </nav>
 
       <QuickAddModal isOpen={quickAddOpen} onClose={() => setQuickAddOpen(false)} />
+      <GlobalSearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
     </div>
   );
 };
-

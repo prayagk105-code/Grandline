@@ -1,12 +1,16 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { ConfirmDialog } from '../components/common/ConfirmDialog';
 import { DayformIcon } from '../components/common/DayformIcon';
 import { PageHeader } from '../components/common/PageHeader';
 import { StatCard } from '../components/common/StatCard';
 import { EmptyState, ErrorState, LoadingSkeleton } from '../components/common/StateBlocks';
+import { BadHabitsManager } from '../components/habits/BadHabitsManager';
 import { HabitFormSheet, type HabitFormValues } from '../components/habits/HabitFormSheet';
 import { HabitHeatmap } from '../components/habits/HabitHeatmap';
 import { HabitRow } from '../components/habits/HabitRow';
+import { PersonalRulesManager } from '../components/habits/PersonalRulesManager';
+import { ResetDayView } from '../components/habits/ResetDayView';
 import { useToast } from '../contexts/ToastContext';
 import { parseApiError } from '../services/api/apiError';
 import { habitService } from '../services/habitService';
@@ -15,8 +19,23 @@ import { toIsoDate } from '../utils/date';
 
 const BASE_CATEGORIES = ['All', 'Health', 'Learning', 'Mind', 'Lifestyle'];
 
+type HabitMainTab = 'habits' | 'badhabits' | 'rules' | 'reset';
+
 export const HabitsPage: React.FC = () => {
+  const [params, setParams] = useSearchParams();
   const { showToast } = useToast();
+
+  const tabParam = (params.get('tab') as HabitMainTab) || 'habits';
+  const [mainTab, setMainTab] = useState<HabitMainTab>(tabParam);
+
+  const setTab = (t: HabitMainTab) => {
+    setMainTab(t);
+    setParams((p) => {
+      p.set('tab', t);
+      return p;
+    });
+  };
+
   const [habits, setHabits] = useState<HabitDto[]>([]);
   const [summary, setSummary] = useState<HabitSummaryDto | null>(null);
   const [heatmap, setHeatmap] = useState<HabitHeatmapDayDto[]>([]);
@@ -99,7 +118,7 @@ export const HabitsPage: React.FC = () => {
           target: vals.target,
           icon: vals.icon
         });
-        showToast('Habit added');
+        showToast('Habit created');
       }
       setFormOpen(false);
       setEditingHabit(null);
@@ -114,7 +133,7 @@ export const HabitsPage: React.FC = () => {
     setDeleteBusy(true);
     try {
       await habitService.remove(deletingHabit.id);
-      showToast('Habit deleted');
+      showToast('Habit removed');
       setDeletingHabit(null);
       await load(true);
     } catch (err) {
@@ -128,125 +147,166 @@ export const HabitsPage: React.FC = () => {
     <>
       <PageHeader
         eyebrow="Show up for yourself"
-        title="Habits"
+        title="Habits & Principles"
         subtitle="Consistency, not perfection."
         action={
-          <button
-            type="button"
-            className="ib"
-            onClick={() => {
-              setEditingHabit(null);
-              setFormOpen(true);
-            }}
-            aria-label="Add habit"
-          >
-            <DayformIcon name="plus" />
-          </button>
+          mainTab === 'habits' ? (
+            <button
+              type="button"
+              className="ib"
+              onClick={() => {
+                setEditingHabit(null);
+                setFormOpen(true);
+              }}
+              aria-label="Add habit"
+            >
+              <DayformIcon name="plus" />
+            </button>
+          ) : undefined
         }
       />
 
-      {loading && !summary ? <LoadingSkeleton lines={3} /> : null}
-      {error && !summary ? <ErrorState message={error} onRetry={() => load()} /> : null}
+      {/* Main Subtabs */}
+      <div className="chips" style={{ marginBottom: 20 }}>
+        <button
+          type="button"
+          className={`chip ${mainTab === 'habits' ? 'on' : ''}`}
+          onClick={() => setTab('habits')}
+        >
+          My Habits
+        </button>
+        <button
+          type="button"
+          className={`chip ${mainTab === 'badhabits' ? 'on' : ''}`}
+          onClick={() => setTab('badhabits')}
+        >
+          Bad Habits
+        </button>
+        <button
+          type="button"
+          className={`chip ${mainTab === 'rules' ? 'on' : ''}`}
+          onClick={() => setTab('rules')}
+        >
+          Personal Rules
+        </button>
+        <button
+          type="button"
+          className={`chip ${mainTab === 'reset' ? 'on' : ''}`}
+          onClick={() => setTab('reset')}
+        >
+          Reset Day
+        </button>
+      </div>
 
-      {summary ? (
+      {mainTab === 'badhabits' && <BadHabitsManager />}
+      {mainTab === 'rules' && <PersonalRulesManager />}
+      {mainTab === 'reset' && <ResetDayView habits={habits} />}
+
+      {mainTab === 'habits' && (
         <>
-          <div className="g3">
-            <StatCard icon="habit" label="7 days" value={`${Math.round(summary.weeklyAveragePercent)}%`} note="completion" />
-            <StatCard icon="flame" label="Streak" value={`${summary.currentStreakDays}d`} note="current" />
-            <StatCard icon="star" label="Best" value={`${summary.bestStreakDays}d`} note="longest" />
-          </div>
+          {loading && !summary ? <LoadingSkeleton lines={3} /> : null}
+          {error && !summary ? <ErrorState message={error} onRetry={() => load()} /> : null}
 
-          <div className="row" style={{ justifyContent: 'space-between', marginBottom: 12, flexWrap: 'wrap', gap: 10 }}>
-            <div className="chips" style={{ marginBottom: 0 }}>
-              {categories.map((cat) => (
-                <button
-                  key={cat}
-                  type="button"
-                  className={`chip ${category === cat ? 'on' : ''}`}
-                  onClick={() => setCategory(cat)}
-                >
-                  {cat}
-                </button>
-              ))}
-            </div>
-            <label className="mut" style={{ display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer' }}>
-              <input
-                type="checkbox"
-                checked={showArchived}
-                onChange={(e) => setShowArchived(e.target.checked)}
-              />
-              <span>Show archived</span>
-            </label>
-          </div>
+          {summary ? (
+            <>
+              <div className="g3">
+                <StatCard icon="habit" label="7 days" value={`${Math.round(summary.weeklyAveragePercent)}%`} note="completion" />
+                <StatCard icon="flame" label="Streak" value={`${summary.currentStreakDays}d`} note="current" />
+                <StatCard icon="star" label="Best" value={`${summary.bestStreakDays}d`} note="longest" />
+              </div>
 
-          {filtered.length > 0 ? (
-            <div className="cd">
-              {filtered.map((h) => (
-                <HabitRow
-                  key={h.id}
-                  habit={h}
-                  busy={busyId === h.id}
-                  onToggle={handleToggle}
-                  onEdit={(item) => {
-                    setEditingHabit(item);
-                    setFormOpen(true);
-                  }}
-                  onDelete={setDeletingHabit}
+              <div className="row" style={{ justifyContent: 'space-between', marginBottom: 12, flexWrap: 'wrap', gap: 10 }}>
+                <div className="chips" style={{ marginBottom: 0 }}>
+                  {categories.map((cat) => (
+                    <button
+                      key={cat}
+                      type="button"
+                      className={`chip ${category === cat ? 'on' : ''}`}
+                      onClick={() => setCategory(cat)}
+                    >
+                      {cat}
+                    </button>
+                  ))}
+                </div>
+                <label className="mut" style={{ display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer' }}>
+                  <input
+                    type="checkbox"
+                    checked={showArchived}
+                    onChange={(e) => setShowArchived(e.target.checked)}
+                  />
+                  <span>Show archived</span>
+                </label>
+              </div>
+
+              {filtered.length > 0 ? (
+                <div className="cd">
+                  {filtered.map((h) => (
+                    <HabitRow
+                      key={h.id}
+                      habit={h}
+                      busy={busyId === h.id}
+                      onToggle={handleToggle}
+                      onEdit={(item) => {
+                        setEditingHabit(item);
+                        setFormOpen(true);
+                      }}
+                      onDelete={setDeletingHabit}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <EmptyState
+                  title="No habits here"
+                  description={
+                    category === 'All'
+                      ? 'Add a daily habit you want to build.'
+                      : `No habits in ${category} yet.`
+                  }
+                  action={
+                    <button
+                      type="button"
+                      className="btn pri"
+                      onClick={() => {
+                        setEditingHabit(null);
+                        setFormOpen(true);
+                      }}
+                    >
+                      Add habit
+                    </button>
+                  }
                 />
-              ))}
-            </div>
-          ) : (
-            <EmptyState
-              title="No habits here"
-              description={
-                category === 'All'
-                  ? 'Add a daily habit you want to build.'
-                  : `No habits in ${category} yet.`
-              }
-              action={
-                <button
-                  type="button"
-                  className="btn pri"
-                  onClick={() => {
-                    setEditingHabit(null);
-                    setFormOpen(true);
-                  }}
-                >
-                  Add habit
-                </button>
-              }
-            />
-          )}
+              )}
 
-          <div className="sec">
-            <h2>Activity</h2>
-            <span className="eyebrow">Last 21 weeks</span>
-          </div>
-          <div className="cd">
-            <HabitHeatmap days={heatmap} />
-          </div>
+              <div className="sec">
+                <h2>Activity</h2>
+                <span className="eyebrow">Last 21 weeks</span>
+              </div>
+              <div className="cd">
+                <HabitHeatmap days={heatmap} />
+              </div>
+            </>
+          ) : null}
+
+          <HabitFormSheet
+            isOpen={formOpen}
+            editing={editingHabit}
+            onClose={() => {
+              setFormOpen(false);
+              setEditingHabit(null);
+            }}
+            onSubmit={handleSaveForm}
+          />
+
+          <ConfirmDialog
+            isOpen={Boolean(deletingHabit)}
+            title="Delete habit"
+            message={`Delete "${deletingHabit?.name}" and its check-in history? This cannot be undone.`}
+            isBusy={deleteBusy}
+            onConfirm={handleConfirmDelete}
+            onCancel={() => setDeletingHabit(null)}
+          />
         </>
-      ) : null}
-
-      <HabitFormSheet
-        isOpen={formOpen}
-        editing={editingHabit}
-        onClose={() => {
-          setFormOpen(false);
-          setEditingHabit(null);
-        }}
-        onSubmit={handleSaveForm}
-      />
-
-      <ConfirmDialog
-        isOpen={Boolean(deletingHabit)}
-        title="Delete habit"
-        message={`Delete "${deletingHabit?.name}" and its check-in history? This cannot be undone.`}
-        isBusy={deleteBusy}
-        onConfirm={handleConfirmDelete}
-        onCancel={() => setDeletingHabit(null)}
-      />
+      )}
     </>
   );
 };
-

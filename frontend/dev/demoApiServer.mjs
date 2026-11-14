@@ -4,6 +4,7 @@ import child_process from 'node:child_process';
 import nodePath from 'node:path';
 import fs from 'node:fs';
 import { fileURLToPath } from 'node:url';
+import { handleGrandlineRoutes } from './grandlineDemoRoutes.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = nodePath.dirname(__filename);
@@ -1718,6 +1719,9 @@ export async function handleRequest(req, res) {
         }
       });
     }
+
+    const grandlineHandled = await handleGrandlineRoutes(req, res, path, user, state);
+    if (grandlineHandled) return;
 
     return sendProblem(res, 404, 'Not Found', `Route ${req.method} ${path} was not found.`);
   } catch (err) {

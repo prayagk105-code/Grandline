@@ -55,6 +55,10 @@ export const studyService = {
     await apiClient.delete(`/learning-paths/${id}`);
   },
 
+  async removeLearningPath(id: string): Promise<void> {
+    await apiClient.delete(`/learning-paths/${id}`);
+  },
+
   async getSessions(params: {
     learningPathId?: string;
     from?: string;
@@ -77,6 +81,10 @@ export const studyService = {
   },
 
   async deleteSession(id: string): Promise<void> {
+    await apiClient.delete(`/study-sessions/${id}`);
+  },
+
+  async removeSession(id: string): Promise<void> {
     await apiClient.delete(`/study-sessions/${id}`);
   },
 

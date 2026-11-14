@@ -1,10 +1,14 @@
+using System.Security.Cryptography;
+using System.Text;
 using Dayform.Application.Common;
 using Dayform.Application.DTOs.Habits;
 using Dayform.Application.DTOs.Journal;
+using Dayform.Application.DTOs.Memories;
 using Dayform.Application.DTOs.Planner;
 using Dayform.Application.DTOs.Profile;
 using Dayform.Application.DTOs.Study;
 using Dayform.Application.Interfaces;
+using Dayform.Domain.Entities;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 
@@ -43,6 +47,12 @@ public class ProfileService : IProfileService
         if (request.JourneyStartDate.HasValue)
             u.JourneyStartDate = request.JourneyStartDate.Value;
 
+        if (request.DashboardConfigJson != null)
+            u.DashboardConfigJson = request.DashboardConfigJson;
+
+        if (request.DailyFocusTargetMinutes.HasValue && request.DailyFocusTargetMinutes.Value > 0)
+            u.DailyFocusTargetMinutes = request.DailyFocusTargetMinutes.Value;
+
         await _db.SaveChangesAsync(ct);
         return MapToDto(u);
     }
@@ -72,6 +82,7 @@ public class ProfileService : IProfileService
                 Icon = h.Icon,
                 Color = h.Color,
                 IsActive = h.IsActive,
+                CompletedToday = false,
                 CreatedAtUtc = h.CreatedAtUtc
             }).ToList(),
             HabitLogs = logs.Select(l => new HabitLogDto
@@ -88,8 +99,11 @@ public class ProfileService : IProfileService
                 Description = p.Description,
                 Icon = p.Icon,
                 TargetMinutes = p.TargetMinutes,
-                Progress = p.Progress,
+                Progress = 0,
                 IsArchived = p.IsArchived,
+                TotalMinutesLogged = 0,
+                SessionCount = 0,
+                LastSessionDate = null,
                 CreatedAtUtc = p.CreatedAtUtc
             }).ToList(),
             StudySessions = sessions.Select(s => new StudySessionDto
@@ -128,16 +142,129 @@ public class ProfileService : IProfileService
         };
     }
 
-    private static ProfileDto MapToDto(Domain.Entities.User u) => new()
+    public async Task<string> ExportCsvAsync(Guid userId, CancellationToken ct = default)
     {
-        Id = u.Id,
-        DisplayName = u.DisplayName,
-        Email = u.Email,
-        ThemePreference = u.ThemePreference,
-        JourneyStartDate = u.JourneyStartDate,
-        TimeZoneId = u.TimeZoneId,
-        IsDemoUser = u.IsDemoUser,
-        CreatedAtUtc = u.CreatedAtUtc
-    };
-}
+        var sb = new StringBuilder();
+        sb.AppendLine("Type,Date,Title/Name,Category/Topic,Details,Status/Completed");
 
+        var habits = await _db.Habits.AsNoTracking().Where(h => h.UserId == userId).ToListAsync(ct);
+        foreach (var h in habits)
+        {
+            sb.AppendLine($"Habit,,{EscapeCsv(h.Name)},{EscapeCsv(h.Category)},{EscapeCsv(h.Target ?? "")},{(h.IsActive ? "Active" : "Archived")}");
+        }
+
+        var tasks = await _db.Tasks.AsNoTracking().Where(t => t.UserId == userId).ToListAsync(ct);
+        foreach (var t in tasks)
+        {
+            sb.AppendLine($"Task,{t.DueDate?.ToString("yyyy-MM-dd")},{EscapeCsv(t.Title)},{EscapeCsv(t.Priority)},{EscapeCsv(t.Description ?? "")},{(t.IsCompleted ? "Completed" : "Pending")}");
+        }
+
+        var journals = await _db.JournalEntries.AsNoTracking().Where(j => j.UserId == userId).ToListAsync(ct);
+        foreach (var j in journals)
+        {
+            sb.AppendLine($"Journal,{j.EntryDate:yyyy-MM-dd},Reflection,,{EscapeCsv(j.Accomplishments ?? "")},Done");
+        }
+
+        var sessions = await _db.StudySessions.AsNoTracking().Where(s => s.UserId == userId).ToListAsync(ct);
+        foreach (var s in sessions)
+        {
+            sb.AppendLine($"StudySession,{s.SessionDate:yyyy-MM-dd},{EscapeCsv(s.Topic)},{s.Minutes} mins,{EscapeCsv(s.Notes ?? "")},Logged");
+        }
+
+        return sb.ToString();
+    }
+
+    public async Task RestoreDataAsync(Guid userId, UserExportDto data, CancellationToken ct = default)
+    {
+        if (data.Habits != null && data.Habits.Count > 0)
+        {
+            foreach (var h in data.Habits)
+            {
+                var existing = await _db.Habits.FirstOrDefaultAsync(x => x.UserId == userId && x.Name == h.Name, ct);
+                if (existing == null)
+                {
+                    _db.Habits.Add(new Habit
+                    {
+                        UserId = userId,
+                        Name = h.Name,
+                        Category = h.Category,
+                        Target = h.Target,
+                        Icon = h.Icon,
+                        Color = h.Color,
+                        IsActive = h.IsActive
+                    });
+                }
+            }
+            await _db.SaveChangesAsync(ct);
+        }
+    }
+
+    public async Task<bool> SetPinAsync(Guid userId, string? pin, CancellationToken ct = default)
+    {
+        var user = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId, ct)
+            ?? throw new NotFoundAppException("User not found.");
+
+        if (string.IsNullOrWhiteSpace(pin))
+        {
+            user.AppPinHash = null;
+        }
+        else
+        {
+            user.AppPinHash = HashPin(pin.Trim());
+        }
+
+        await _db.SaveChangesAsync(ct);
+        return true;
+    }
+
+    public async Task<bool> VerifyPinAsync(Guid userId, string pin, CancellationToken ct = default)
+    {
+        var user = await _db.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == userId, ct)
+            ?? throw new NotFoundAppException("User not found.");
+
+        if (string.IsNullOrWhiteSpace(user.AppPinHash))
+            return true; // No PIN configured
+
+        return user.AppPinHash == HashPin(pin.Trim());
+    }
+
+    public async Task DeleteAccountAsync(Guid userId, CancellationToken ct = default)
+    {
+        var user = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId, ct);
+        if (user == null) return;
+
+        _db.Users.Remove(user);
+        await _db.SaveChangesAsync(ct);
+    }
+
+    private static string HashPin(string pin)
+    {
+        var bytes = SHA256.HashData(Encoding.UTF8.GetBytes(pin + "_dayform_salt"));
+        return Convert.ToHexString(bytes);
+    }
+
+    private static string EscapeCsv(string val)
+    {
+        if (val.Contains(',') || val.Contains('"') || val.Contains('\n') || val.Contains('\r'))
+            return $"\"{val.Replace("\"", "\"\"")}\"";
+        return val;
+    }
+
+    private static ProfileDto MapToDto(User u)
+    {
+        return new ProfileDto
+        {
+            Id = u.Id,
+            DisplayName = u.DisplayName,
+            Email = u.Email,
+            ThemePreference = u.ThemePreference,
+            JourneyStartDate = u.JourneyStartDate,
+            TimeZoneId = u.TimeZoneId,
+            IsDemoUser = u.IsDemoUser,
+            HasAppPin = !string.IsNullOrWhiteSpace(u.AppPinHash),
+            DashboardConfigJson = u.DashboardConfigJson,
+            DailyFocusTargetMinutes = u.DailyFocusTargetMinutes,
+            CreatedAtUtc = u.CreatedAtUtc
+        };
+    }
+}
