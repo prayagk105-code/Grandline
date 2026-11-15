@@ -119,10 +119,10 @@ export const FocusTimerCard: React.FC<FocusTimerCardProps> = ({ compact = false,
           <DayformIcon name={status === 'running' ? 'pause' : 'play'} size={15} />
           <span>{status === 'running' ? 'Pause' : 'Start'}</span>
         </button>
-        <button type="button" className="btn" onClick={reset} aria-label="Reset timer">
+        <button type="button" className="btn sec" onClick={reset} aria-label="Reset timer">
           <DayformIcon name="reset" size={16} />
         </button>
-        <button type="button" className="btn" onClick={saveElapsed} disabled={isSaving}>
+        <button type="button" className="btn sec" onClick={saveElapsed} disabled={isSaving}>
           {isSaving ? 'Saving…' : 'Save'}
         </button>
       </div>

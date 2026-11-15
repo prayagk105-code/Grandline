@@ -24,7 +24,7 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
     <SheetModal isOpen={isOpen} title={title} onClose={onCancel}>
       <p style={{ marginTop: 0 }}>{message}</p>
       <div className="row" style={{ marginTop: 14 }}>
-        <button type="button" className="btn" style={{ flex: 1 }} onClick={onCancel} disabled={isBusy}>
+        <button type="button" className="btn sec" style={{ flex: 1 }} onClick={onCancel} disabled={isBusy}>
           Cancel
         </button>
         <button type="button" className="btn dg" style={{ flex: 1 }} onClick={onConfirm} disabled={isBusy}>

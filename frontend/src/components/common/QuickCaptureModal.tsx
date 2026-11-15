@@ -254,7 +254,7 @@ export const QuickCaptureModal: React.FC<QuickCaptureModalProps> = ({ isOpen, on
           )}
 
           <div className="row" style={{ justifyContent: 'flex-end', gap: 10, marginTop: 10 }}>
-            <button type="button" className="btn" onClick={handleClose} disabled={saving}>
+            <button type="button" className="btn sec" onClick={handleClose} disabled={saving}>
               Cancel
             </button>
             <button type="submit" className="btn pri" disabled={saving || !content.trim()}>

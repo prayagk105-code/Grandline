@@ -342,7 +342,7 @@ export const ProfilePage: React.FC = () => {
               {user?.hasAppPin && (
                 <button
                   type="button"
-                  className="btn"
+                  className="btn sec"
                   onClick={handleRemovePin}
                   style={{ fontSize: 13 }}
                 >
@@ -388,22 +388,22 @@ export const ProfilePage: React.FC = () => {
             </p>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              <button type="button" className="btn f" onClick={handleExportJson} disabled={exporting}>
+              <button type="button" className="btn sec f" onClick={handleExportJson} disabled={exporting}>
                 <DayformIcon name="copy" size={15} />
                 <span>{exporting ? 'Preparing export…' : 'Export Full Backup (JSON)'}</span>
               </button>
 
-              <button type="button" className="btn f" onClick={handleExportCsv}>
+              <button type="button" className="btn sec f" onClick={handleExportCsv}>
                 <DayformIcon name="habit" size={15} />
                 <span>Export Habit Records (CSV)</span>
               </button>
 
-              <button type="button" className="btn f" onClick={handleExportPdf}>
+              <button type="button" className="btn sec f" onClick={handleExportPdf}>
                 <DayformIcon name="pen" size={15} />
                 <span>Print & Save Summary Report (PDF)</span>
               </button>
 
-              <button type="button" className="btn f" onClick={handleExportCalendarIcs}>
+              <button type="button" className="btn sec f" onClick={handleExportCalendarIcs}>
                 <DayformIcon name="cal" size={15} />
                 <span>Export Calendar Schedule (.ICS)</span>
               </button>
@@ -418,7 +418,7 @@ export const ProfilePage: React.FC = () => {
 
               <button
                 type="button"
-                className="btn f"
+                className="btn sec f"
                 disabled={restoring}
                 onClick={() => fileInputRef.current?.click()}
               >
@@ -438,7 +438,7 @@ export const ProfilePage: React.FC = () => {
               {canResetDemo ? (
                 <button
                   type="button"
-                  className="btn f"
+                  className="btn sec f"
                   onClick={() => setResetDialogOpen(true)}
                 >
                   <DayformIcon name="reset" size={15} />
@@ -452,8 +452,7 @@ export const ProfilePage: React.FC = () => {
 
               <button
                 type="button"
-                className="btn f"
-                style={{ color: '#dc2626', borderColor: 'rgba(239, 68, 68, 0.4)' }}
+                className="btn dg f"
                 onClick={() => setDeleteAccountOpen(true)}
               >
                 <DayformIcon name="trash" size={15} />
@@ -491,7 +490,7 @@ export const ProfilePage: React.FC = () => {
               </div>
 
               <div className="row" style={{ justifyContent: 'flex-end', gap: 10 }}>
-                <button type="button" className="btn" onClick={() => setPinDialogOpen(false)}>
+                <button type="button" className="btn sec" onClick={() => setPinDialogOpen(false)}>
                   Cancel
                 </button>
                 <button type="submit" className="btn pri" disabled={savingPin || pinInput.length !== 4}>

@@ -369,7 +369,7 @@ export const FocusProductivityCard: React.FC<FocusProductivityCardProps> = ({
 
             <button
               type="button"
-              className="btn"
+              className="btn sec"
               onClick={handleReset}
               title="Reset Timer"
               aria-label="Reset Timer"
@@ -378,7 +378,7 @@ export const FocusProductivityCard: React.FC<FocusProductivityCardProps> = ({
             </button>
 
             {mode === 'stopwatch' && isRunning && (
-              <button type="button" className="btn" onClick={handleLap} style={{ fontSize: 12 }}>
+              <button type="button" className="btn sec" onClick={handleLap} style={{ fontSize: 12 }}>
                 Lap
               </button>
             )}
@@ -398,7 +398,7 @@ export const FocusProductivityCard: React.FC<FocusProductivityCardProps> = ({
               </span>
               <button
                 type="button"
-                className="btn"
+                className="btn sec"
                 onClick={handleDistraction}
                 style={{ fontSize: 12, padding: '4px 10px' }}
               >

@@ -1,167 +1,197 @@
 :root {
-  /* Grandline Modern Color System - Light Mode */
-  --bg: #f8f6f0;
-  --cd: #ffffff;
-  --sf: #efebe1;
-  --ink: #191c19;
-  --mut: #6e776e;
-  --ln: #e5e1d5;
-  --ln-subtle: #eeece4;
-  --bd: #e5e1d5;
+  /* ==========================================================================
+     GRANDLINE Modern Lavender Color System - Light Mode
+     Visual Design System: Soft Lavender, Pale Lavender, Charcoal & White
+     ========================================================================== */
+
+  /* Primary Surface & Background Palette */
+  --bg: #F3F2FA;             /* Main background: Soft Lavender Grey */
+  --sf: #EBE9F8;             /* Secondary background / surface: Pale Lavender */
+  --cd: #FFFFFF;             /* Main cards: Pure White */
+  --cd-sec: #F0EFFB;         /* Secondary cards / panels: Light Lavender */
   
-  /* Primary & Accents: Forest Green, Soft Sage, Soft Orange */
-  --ac: #23533c;
-  --ac-hover: #1b4230;
-  --ac-active: #153426;
-  --ac2: #e3ede6;
-  --ac2-text: #1d4b35;
-  --hot: #d86538;
-  --hot-hover: #c4572c;
-  --hot-soft: rgba(216, 101, 56, 0.12);
-  --on: #ffffff;
+  /* Typography & Ink */
+  --ink: #26252D;            /* Primary text: Deep Charcoal */
+  --mut: #85838E;            /* Secondary text: Muted Grey */
+  
+  /* Borders & Dividers */
+  --ln: #E5E3EF;             /* Borders: Soft Lavender Grey */
+  --ln-subtle: #ECEAF4;      /* Subtle borders */
+  --bd: #E5E3EF;
+  
+  /* Primary & Secondary Action Tokens */
+  --btn-pri-bg: #25242B;     /* Primary buttons: Deep Charcoal */
+  --btn-pri-text: #FFFFFF;   /* Primary button text: White */
+  --btn-pri-hover: #17161B;  /* Primary button hover */
+  --btn-pri-active: #0D0C10; /* Primary button active */
+  
+  --btn-sec-bg: #EEEEF1;     /* Secondary buttons: Soft Grey */
+  --btn-sec-text: #26252D;   /* Secondary button text: Dark Charcoal */
+  --btn-sec-border: #E5E3EF; /* Secondary button border */
+  --btn-sec-hover: #E2E1E7;  /* Secondary button hover */
+  
+  /* Accents & Highlights */
+  --ac: #7775C7;             /* Accent: Muted Lavender */
+  --ac-hover: #6764B7;       /* Accent hover */
+  --ac-active: #5653A5;      /* Accent active */
+  --ac-periwinkle: #A5A4E8;  /* Secondary accent: Periwinkle */
+  --ac2: #F0EFFB;            /* Soft accent surface: Light Lavender */
+  --ac2-text: #5957A8;       /* Soft accent text */
+  --on: #FFFFFF;             /* Text on accent */
 
-  /* Module Color Identities - Light Mode */
-  --mod-home: #23533c;
-  --mod-home-soft: #eaf2ed;
-  --mod-habits: #16a34a;
-  --mod-habits-soft: #eaf5ee;
-  --mod-study: #2563eb;
-  --mod-study-soft: #eff6ff;
-  --mod-planner: #4f46e5;
-  --mod-planner-soft: #eef2ff;
-  --mod-memories: #e11d48;
-  --mod-memories-soft: #fff1f2;
-  --mod-balance: #0d9488;
-  --mod-balance-soft: #f0fdfa;
-  --mod-progress: #d97706;
-  --mod-progress-soft: #fffbeb;
-  --mod-focus: #7c3aed;
-  --mod-focus-soft: #f5f3ff;
-  --mod-health: #059669;
-  --mod-health-soft: #ecfdf5;
-  --mod-personal: #9333ea;
-  --mod-personal-soft: #faf5ff;
+  /* Hot / Highlight / Urgent */
+  --hot: #B85A2A;            /* Warm Coral / High Priority */
+  --hot-hover: #A34E23;
+  --hot-soft: #FCE9DE;
 
-  /* Heatmap Greens */
-  --h0: #e9e4d6;
-  --h1: #cadbc9;
-  --h2: #91baa0;
-  --h3: #569470;
-  --h4: #23533c;
+  /* ==========================================================================
+     Module Color Identities - Light Mode
+     ========================================================================== */
+  --mod-home: #7775C7;       /* Home: Lavender */
+  --mod-home-soft: #F0EFFB;
+  --mod-habits: #287447;     /* Habits: Soft Mint / Green */
+  --mod-habits-soft: #E3F3E8;
+  --mod-study: #2563EB;      /* Study: Sky Blue */
+  --mod-study-soft: #EBF2FE;
+  --mod-planner: #6366F1;    /* Planner: Periwinkle */
+  --mod-planner-soft: #EEF0FE;
+  --mod-memories: #D94676;   /* Memories: Dusty Rose */
+  --mod-memories-soft: #FDF0F4;
+  --mod-balance: #0D9488;    /* Balance: Muted Teal */
+  --mod-balance-soft: #E6F7F5;
+  --mod-progress: #D97706;   /* Progress: Soft Amber */
+  --mod-progress-soft: #FEF6E8;
+  --mod-focus: #7775C7;      /* Focus: Lavender Purple */
+  --mod-focus-soft: #F0EFFB;
+  --mod-health: #3D8B57;     /* Health: Sage */
+  --mod-health-soft: #ECF7F0;
+  --mod-personal: #8B5CF6;   /* Journal / Personal: Soft Violet */
+  --mod-personal-soft: #F5F0FE;
 
-  /* Standard Labels & Badges - Light Mode */
-  --badge-streak-bg: #fef0ea;
-  --badge-streak-text: #c25324;
-  --badge-streak-border: #fbdcd0;
+  /* Heatmap Soft Lavender Progression */
+  --h0: #EBE9F8;
+  --h1: #D6D3F3;
+  --h2: #ACA7E6;
+  --h3: #8B86D9;
+  --h4: #6863C4;
 
-  --badge-completed-bg: #eaf5ee;
-  --badge-completed-text: #1c7340;
-  --badge-completed-border: #cde9d7;
+  /* ==========================================================================
+     Semantic Status Colours & Badges - Light Mode (Exact Prompt Table)
+     ========================================================================== */
+  --badge-completed-bg: #E3F3E8;
+  --badge-completed-text: #287447;
+  --badge-completed-border: #CBE6D3;
 
-  --badge-pending-bg: #fef7e7;
-  --badge-pending-text: #a16207;
-  --badge-pending-border: #fae9b8;
+  --badge-active-bg: #E3F3E8;
+  --badge-active-text: #287447;
+  --badge-active-border: #CBE6D3;
 
-  --badge-overdue-bg: #fdeeed;
-  --badge-overdue-text: #b91c1c;
-  --badge-overdue-border: #f9cfce;
+  --badge-high-bg: #FCE9DE;
+  --badge-high-text: #B85A2A;
+  --badge-high-border: #F7D0BD;
 
-  --badge-high-bg: #fdeeed;
-  --badge-high-text: #b91c1c;
-  --badge-high-border: #f9cfce;
+  --badge-overdue-bg: #FCE5E7;
+  --badge-overdue-text: #C4424E;
+  --badge-overdue-border: #F8CCD0;
 
-  --badge-med-bg: #fef0ea;
-  --badge-med-text: #c25324;
-  --badge-med-border: #fbdcd0;
+  --badge-pending-bg: #FFF2D9;
+  --badge-pending-text: #A36E16;
+  --badge-pending-border: #FFE4B2;
 
-  --badge-low-bg: #eef5ff;
-  --badge-low-text: #1d4ed8;
-  --badge-low-border: #d3e4fe;
+  --badge-med-bg: #FFF0E0;
+  --badge-med-text: #B8752B;
+  --badge-med-border: #FFDFBF;
 
-  --badge-active-bg: #eaf5ee;
-  --badge-active-text: #1c7340;
-  --badge-active-border: #cde9d7;
+  --badge-low-bg: #E7EFFB;
+  --badge-low-text: #426DAB;
+  --badge-low-border: #CFE0F7;
 
-  --badge-archived-bg: #f1efe9;
-  --badge-archived-text: #5f665e;
-  --badge-archived-border: #e0dcd4;
+  --badge-archived-bg: #ECECF0;
+  --badge-archived-text: #73737D;
+  --badge-archived-border: #DCDCE2;
 
-  --badge-success-bg: #eaf5ee;
-  --badge-success-text: #1c7340;
-  --badge-success-border: #cde9d7;
+  --badge-info-bg: #E7EEFC;
+  --badge-info-text: #416CB0;
+  --badge-info-border: #CFDEF7;
 
-  --badge-warning-bg: #fef7e7;
-  --badge-warning-text: #a16207;
-  --badge-warning-border: #fae9b8;
+  --badge-warning-bg: #FFF1D7;
+  --badge-warning-text: #A36E16;
+  --badge-warning-border: #FFE4B2;
 
-  --badge-error-bg: #fdeeed;
-  --badge-error-text: #b91c1c;
-  --badge-error-border: #f9cfce;
+  --badge-error-bg: #FCE5E7;
+  --badge-error-text: #C4424E;
+  --badge-error-border: #F8CCD0;
 
-  --badge-info-bg: #eef5ff;
-  --badge-info-text: #1d4ed8;
-  --badge-info-border: #d3e4fe;
+  --badge-streak-bg: #FFF0E0;
+  --badge-streak-text: #B8752B;
+  --badge-streak-border: #FFDFBF;
 
-  --badge-goals-bg: #e6f2eb;
-  --badge-goals-text: #1c5035;
-  --badge-goals-border: #cbe3d4;
+  --badge-success-bg: #E3F3E8;
+  --badge-success-text: #287447;
+  --badge-success-border: #CBE6D3;
 
-  --badge-home-bg: #eaf2ed;
-  --badge-home-text: #1d4b35;
-  --badge-home-border: #cde0d5;
+  /* Module Specific Badges */
+  --badge-home-bg: #F0EFFB;
+  --badge-home-text: #5957A8;
+  --badge-home-border: #DDD9F4;
 
-  --badge-habits-bg: #eaf5ee;
-  --badge-habits-text: #15803d;
-  --badge-habits-border: #cde9d7;
+  --badge-habits-bg: #E3F3E8;
+  --badge-habits-text: #287447;
+  --badge-habits-border: #CBE6D3;
 
-  --badge-study-bg: #eff6ff;
-  --badge-study-text: #2563eb;
-  --badge-study-border: #dbeafe;
+  --badge-goals-bg: #F0EFFB;
+  --badge-goals-text: #5957A8;
+  --badge-goals-border: #DDD9F4;
 
-  --badge-planner-bg: #eef2ff;
-  --badge-planner-text: #4338ca;
-  --badge-planner-border: #e0e7ff;
+  --badge-study-bg: #EBF2FE;
+  --badge-study-text: #2563EB;
+  --badge-study-border: #CFE0FC;
 
-  --badge-memories-bg: #fff1f2;
-  --badge-memories-text: #be123c;
-  --badge-memories-border: #ffe4e6;
+  --badge-planner-bg: #EEF0FE;
+  --badge-planner-text: #4F46E5;
+  --badge-planner-border: #D8DCFD;
 
-  --badge-balance-bg: #e6f7f5;
-  --badge-balance-text: #0f766e;
-  --badge-balance-border: #c9ede8;
+  --badge-memories-bg: #FDF0F4;
+  --badge-memories-text: #BE123C;
+  --badge-memories-border: #FAD1DE;
 
-  --badge-progress-bg: #fef3c7;
-  --badge-progress-text: #b45309;
-  --badge-progress-border: #fde68a;
+  --badge-balance-bg: #E6F7F5;
+  --badge-balance-text: #0F766E;
+  --badge-balance-border: #C8ECE7;
 
-  --badge-finance-bg: #e6f7f5;
-  --badge-finance-text: #0f766e;
-  --badge-finance-border: #c9ede8;
+  --badge-finance-bg: #E6F7F5;
+  --badge-finance-text: #0F766E;
+  --badge-finance-border: #C8ECE7;
 
-  --badge-health-bg: #edf4ee;
-  --badge-health-text: #2c633d;
-  --badge-health-border: #d2e5d5;
+  --badge-progress-bg: #FEF6E8;
+  --badge-progress-text: #B45309;
+  --badge-progress-border: #FCE5BA;
 
-  --badge-focus-bg: #f3effd;
-  --badge-focus-text: #6d28d9;
-  --badge-focus-border: #e2d6fb;
+  --badge-health-bg: #ECF7F0;
+  --badge-health-text: #2D6A4F;
+  --badge-health-border: #D2EADB;
 
-  --badge-personal-bg: #f5eff7;
-  --badge-personal-text: #7e22ce;
-  --badge-personal-border: #ebd9f0;
+  --badge-focus-bg: #F0EFFB;
+  --badge-focus-text: #6D28D9;
+  --badge-focus-border: #DDD9F4;
+
+  --badge-personal-bg: #F5F0FE;
+  --badge-personal-text: #7E22CE;
+  --badge-personal-border: #EADBFC;
 
   /* Typography */
   --font-display: 'Bricolage Grotesque', 'DM Sans', system-ui, -apple-system, sans-serif;
   --font-body: 'DM Sans', system-ui, -apple-system, sans-serif;
 
-  /* Dimensions & Radius */
+  /* Dimensions & Rounded Corners */
   --radius-xs: 6px;
   --radius-sm: 8px;
-  --radius-md: 10px;
-  --radius-lg: 14px;
-  --radius-xl: 18px;
-  --radius-sheet: 22px;
-  --radius-pill: 999px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
+  --radius-sheet: 26px;
+  --radius-pill: 9999px;
 
   --space-1: 4px;
   --space-2: 8px;
@@ -170,338 +200,389 @@
   --space-5: 20px;
   --space-6: 24px;
 
-  /* Shadows */
-  --shadow-xs: 0 1px 3px rgba(25, 28, 25, 0.04);
-  --shadow-soft: 0 2px 10px rgba(25, 28, 25, 0.05);
-  --shadow-md: 0 4px 16px rgba(25, 28, 25, 0.07);
-  --shadow-sheet: 0 -8px 32px rgba(15, 20, 16, 0.15);
-  --focus-ring: 0 0 0 3px rgba(35, 83, 60, 0.24);
+  /* Soft, Minimal Elevation */
+  --shadow-xs: 0 1px 2px rgba(37, 36, 43, 0.04);
+  --shadow-soft: 0 2px 8px rgba(37, 36, 43, 0.04);
+  --shadow-md: 0 4px 16px rgba(37, 36, 43, 0.06);
+  --shadow-sheet: 0 -8px 30px rgba(37, 36, 43, 0.12);
+  --focus-ring: 0 0 0 3px rgba(119, 117, 199, 0.28);
 
-  /* Buttons & Inputs */
-  --btn-h: 38px;
-  --btn-h-sm: 30px;
-  --btn-h-lg: 44px;
+  /* Button Heights */
+  --btn-h: 40px;
+  --btn-h-sm: 32px;
+  --btn-h-lg: 46px;
 
   color-scheme: light;
 }
 
+/* ==========================================================================
+   GRANDLINE Modern Dark Theme - System Default (Dark)
+   ========================================================================== */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    /* Grandline Modern Color System - Dark Mode */
-    --bg: #121513;
-    --cd: #1a201c;
-    --sf: #222b25;
-    --ink: #f0f3ec;
-    --mut: #96a196;
-    --ln: #2b352d;
-    --ln-subtle: #242c26;
-    --bd: #2b352d;
+    /* Primary Surface & Background Palette */
+    --bg: #191922;             /* Main background */
+    --sf: #22222E;             /* Secondary background / surface */
+    --cd: #252531;             /* Main cards */
+    --cd-sec: #2D2C3B;         /* Secondary cards */
 
-    --ac: #52b788;
-    --ac-hover: #67c598;
-    --ac-active: #419c72;
-    --ac2: #1e3125;
-    --ac2-text: #86d3a3;
-    --hot: #ea7a4d;
-    --hot-hover: #f38a5f;
-    --hot-soft: rgba(234, 122, 77, 0.18);
-    --on: #0c130e;
+    /* Typography & Ink */
+    --ink: #F4F2F8;            /* Primary text */
+    --mut: #A7A4B1;            /* Secondary text */
+
+    /* Borders */
+    --ln: #393746;             /* Borders */
+    --ln-subtle: #2F2E3D;
+    --bd: #393746;
+
+    /* Primary & Secondary Action Tokens */
+    --btn-pri-bg: #E7E4F5;     /* Primary buttons: Light Lavender */
+    --btn-pri-text: #292735;   /* Primary button text: Dark Charcoal */
+    --btn-pri-hover: #F3F0FC;
+    --btn-pri-active: #DAD5EF;
+
+    --btn-sec-bg: #2D2C3B;     /* Secondary buttons: Dark Card */
+    --btn-sec-text: #F4F2F8;   /* Secondary button text: White */
+    --btn-sec-border: #393746;
+    --btn-sec-hover: #373548;
+
+    /* Accents */
+    --ac: #A6A1E8;             /* Accent: Lavender */
+    --ac-hover: #B7B3ED;
+    --ac-active: #948FE0;
+    --ac-periwinkle: #A6A1E8;
+    --ac2: #2E2B45;
+    --ac2-text: #C4C0F4;
+    --on: #292735;
+
+    /* Hot / Highlight */
+    --hot: #FBA079;
+    --hot-hover: #FCAE8D;
+    --hot-soft: #321B13;
 
     /* Module Color Identities - Dark Mode */
-    --mod-home: #52b788;
-    --mod-home-soft: #172c1f;
-    --mod-habits: #4ade80;
-    --mod-habits-soft: #132b1a;
-    --mod-study: #60a5fa;
-    --mod-study-soft: #12243d;
-    --mod-planner: #818cf8;
-    --mod-planner-soft: #1c1d3b;
-    --mod-memories: #fb7185;
-    --mod-memories-soft: #38141d;
-    --mod-balance: #2dd4bf;
-    --mod-balance-soft: #0d2826;
-    --mod-progress: #fbbf24;
-    --mod-progress-soft: #2e230b;
-    --mod-focus: #a78bfa;
-    --mod-focus-soft: #241838;
-    --mod-health: #34d399;
-    --mod-health-soft: #132b20;
-    --mod-personal: #c084fc;
-    --mod-personal-soft: #271736;
+    --mod-home: #A6A1E8;
+    --mod-home-soft: #2A2744;
+    --mod-habits: #4ADE80;
+    --mod-habits-soft: #153322;
+    --mod-study: #60A5FA;
+    --mod-study-soft: #162B47;
+    --mod-planner: #818CF8;
+    --mod-planner-soft: #21224A;
+    --mod-memories: #FB7185;
+    --mod-memories-soft: #3D1822;
+    --mod-balance: #2DD4BF;
+    --mod-balance-soft: #123330;
+    --mod-progress: #FBBF24;
+    --mod-progress-soft: #382A0E;
+    --mod-focus: #A78BFA;
+    --mod-focus-soft: #292042;
+    --mod-health: #34D399;
+    --mod-health-soft: #153325;
+    --mod-personal: #C084FC;
+    --mod-personal-soft: #2D1A45;
 
-    /* Heatmap Greens - Dark */
-    --h0: #222b25;
-    --h1: #2a4333;
-    --h2: #3a684b;
-    --h3: #4b9268;
-    --h4: #67c598;
+    /* Heatmap Levels - Dark */
+    --h0: #252533;
+    --h1: #383454;
+    --h2: #524B80;
+    --h3: #756DAB;
+    --h4: #A6A1E8;
 
-    /* Standard Labels & Badges - Dark Mode */
-    --badge-streak-bg: #2d1a11;
-    --badge-streak-text: #f89e74;
-    --badge-streak-border: #4d2817;
+    /* Semantic Status Colours - Dark Mode */
+    --badge-completed-bg: #14281B;
+    --badge-completed-text: #6FE198;
+    --badge-completed-border: #1E462D;
 
-    --badge-completed-bg: #13261a;
-    --badge-completed-text: #6ee7b7;
-    --badge-completed-border: #1e472d;
+    --badge-active-bg: #14281B;
+    --badge-active-text: #6FE198;
+    --badge-active-border: #1E462D;
 
-    --badge-pending-bg: #2a200b;
-    --badge-pending-text: #fcd34d;
-    --badge-pending-border: #4a3610;
+    --badge-high-bg: #321B13;
+    --badge-high-text: #FBA079;
+    --badge-high-border: #562716;
 
-    --badge-overdue-bg: #2e1414;
-    --badge-overdue-text: #fca5a5;
-    --badge-overdue-border: #521c1c;
+    --badge-overdue-bg: #331518;
+    --badge-overdue-text: #F87D8A;
+    --badge-overdue-border: #5A2127;
 
-    --badge-high-bg: #2e1414;
-    --badge-high-text: #fca5a5;
-    --badge-high-border: #521c1c;
+    --badge-pending-bg: #2E220D;
+    --badge-pending-text: #F7CB62;
+    --badge-pending-border: #523B10;
 
-    --badge-med-bg: #2d1a11;
-    --badge-med-text: #f89e74;
-    --badge-med-border: #4d2817;
+    --badge-med-bg: #311E0E;
+    --badge-med-text: #F9A867;
+    --badge-med-border: #542F11;
 
-    --badge-low-bg: #12243d;
-    --badge-low-text: #93c5fd;
-    --badge-low-border: #1d3b66;
+    --badge-low-bg: #142238;
+    --badge-low-text: #8DB8F5;
+    --badge-low-border: #1E3760;
 
-    --badge-active-bg: #13261a;
-    --badge-active-text: #6ee7b7;
-    --badge-active-border: #1e472d;
+    --badge-archived-bg: #23232C;
+    --badge-archived-text: #9B9AA8;
+    --badge-archived-border: #353442;
 
-    --badge-archived-bg: #212622;
-    --badge-archived-text: #9ca3af;
-    --badge-archived-border: #333a34;
+    --badge-info-bg: #142238;
+    --badge-info-text: #8DB8F5;
+    --badge-info-border: #1E3760;
 
-    --badge-success-bg: #13261a;
-    --badge-success-text: #6ee7b7;
-    --badge-success-border: #1e472d;
+    --badge-warning-bg: #2E220D;
+    --badge-warning-text: #F7CB62;
+    --badge-warning-border: #523B10;
 
-    --badge-warning-bg: #2a200b;
-    --badge-warning-text: #fcd34d;
-    --badge-warning-border: #4a3610;
+    --badge-error-bg: #331518;
+    --badge-error-text: #F87D8A;
+    --badge-error-border: #5A2127;
 
-    --badge-error-bg: #2e1414;
-    --badge-error-text: #fca5a5;
-    --badge-error-border: #521c1c;
+    --badge-streak-bg: #311E0E;
+    --badge-streak-text: #F9A867;
+    --badge-streak-border: #542F11;
 
-    --badge-info-bg: #12243d;
-    --badge-info-text: #93c5fd;
-    --badge-info-border: #1d3b66;
+    --badge-success-bg: #14281B;
+    --badge-success-text: #6FE198;
+    --badge-success-border: #1E462D;
 
-    --badge-goals-bg: #16291e;
-    --badge-goals-text: #86d3a3;
-    --badge-goals-border: #224932;
+    /* Module Specific Badges - Dark */
+    --badge-home-bg: #2A2744;
+    --badge-home-text: #C4C0F4;
+    --badge-home-border: #3E3B61;
 
-    --badge-home-bg: #172c1f;
-    --badge-home-text: #86d3a3;
-    --badge-home-border: #234931;
+    --badge-habits-bg: #153322;
+    --badge-habits-text: #86EFAC;
+    --badge-habits-border: #1F4C33;
 
-    --badge-habits-bg: #132b1a;
-    --badge-habits-text: #6ee7b7;
-    --badge-habits-border: #1e472d;
+    --badge-goals-bg: #2A2744;
+    --badge-goals-text: #C4C0F4;
+    --badge-goals-border: #3E3B61;
 
-    --badge-study-bg: #12243d;
-    --badge-study-text: #93c5fd;
-    --badge-study-border: #1d3b66;
+    --badge-study-bg: #162B47;
+    --badge-study-text: #93C5FD;
+    --badge-study-border: #214068;
 
-    --badge-planner-bg: #1c1d3b;
-    --badge-planner-text: #a5b4fc;
-    --badge-planner-border: #2e2f5b;
+    --badge-planner-bg: #21224A;
+    --badge-planner-text: #A5B4FC;
+    --badge-planner-border: #30336D;
 
-    --badge-memories-bg: #38141d;
-    --badge-memories-text: #fda4af;
-    --badge-memories-border: #5c1d2c;
+    --badge-memories-bg: #3D1822;
+    --badge-memories-text: #FDA4AF;
+    --badge-memories-border: #5D2333;
 
-    --badge-balance-bg: #0d2826;
-    --badge-balance-text: #5eead4;
-    --badge-balance-border: #154743;
+    --badge-balance-bg: #123330;
+    --badge-balance-text: #5EEAD4;
+    --badge-balance-border: #1C4D49;
 
-    --badge-progress-bg: #2e230b;
-    --badge-progress-text: #fde68a;
-    --badge-progress-border: #4a3610;
+    --badge-finance-bg: #123330;
+    --badge-finance-text: #5EEAD4;
+    --badge-finance-border: #1C4D49;
 
-    --badge-finance-bg: #0d2826;
-    --badge-finance-text: #5eead4;
-    --badge-finance-border: #154743;
+    --badge-progress-bg: #382A0E;
+    --badge-progress-text: #FDE68A;
+    --badge-progress-border: #543E14;
 
-    --badge-health-bg: #172c1f;
-    --badge-health-text: #a7f3d0;
-    --badge-health-border: #234931;
+    --badge-health-bg: #153325;
+    --badge-health-text: #A7F3D0;
+    --badge-health-border: #214C37;
 
-    --badge-focus-bg: #241838;
-    --badge-focus-text: #d8b4fe;
-    --badge-focus-border: #422668;
+    --badge-focus-bg: #292042;
+    --badge-focus-text: #D8B4FE;
+    --badge-focus-border: #3D3063;
 
-    --badge-personal-bg: #271736;
-    --badge-personal-text: #e9d5ff;
-    --badge-personal-border: #482563;
+    --badge-personal-bg: #2D1A45;
+    --badge-personal-text: #E9D5FF;
+    --badge-personal-border: #442767;
 
+    /* Shadows - Dark */
     --shadow-xs: 0 1px 3px rgba(0, 0, 0, 0.25);
     --shadow-soft: 0 2px 10px rgba(0, 0, 0, 0.3);
     --shadow-md: 0 4px 18px rgba(0, 0, 0, 0.38);
     --shadow-sheet: 0 -8px 32px rgba(0, 0, 0, 0.5);
-    --focus-ring: 0 0 0 3px rgba(82, 183, 136, 0.32);
+    --focus-ring: 0 0 0 3px rgba(166, 161, 232, 0.32);
 
     color-scheme: dark;
   }
 }
 
+/* ==========================================================================
+   GRANDLINE Modern Dark Theme - Explicit Toggle [data-theme='dark']
+   ========================================================================== */
 :root[data-theme='dark'] {
-  --bg: #121513;
-  --cd: #1a201c;
-  --sf: #222b25;
-  --ink: #f0f3ec;
-  --mut: #96a196;
-  --ln: #2b352d;
-  --ln-subtle: #242c26;
-  --bd: #2b352d;
+  /* Primary Surface & Background Palette */
+  --bg: #191922;             /* Main background */
+  --sf: #22222E;             /* Secondary background / surface */
+  --cd: #252531;             /* Main cards */
+  --cd-sec: #2D2C3B;         /* Secondary cards */
 
-  --ac: #52b788;
-  --ac-hover: #67c598;
-  --ac-active: #419c72;
-  --ac2: #1e3125;
-  --ac2-text: #86d3a3;
-  --hot: #ea7a4d;
-  --hot-hover: #f38a5f;
-  --hot-soft: rgba(234, 122, 77, 0.18);
-  --on: #0c130e;
+  /* Typography & Ink */
+  --ink: #F4F2F8;            /* Primary text */
+  --mut: #A7A4B1;            /* Secondary text */
+
+  /* Borders */
+  --ln: #393746;             /* Borders */
+  --ln-subtle: #2F2E3D;
+  --bd: #393746;
+
+  /* Primary & Secondary Action Tokens */
+  --btn-pri-bg: #E7E4F5;     /* Primary buttons: Light Lavender */
+  --btn-pri-text: #292735;   /* Primary button text: Dark Charcoal */
+  --btn-pri-hover: #F3F0FC;
+  --btn-pri-active: #DAD5EF;
+
+  --btn-sec-bg: #2D2C3B;     /* Secondary buttons: Dark Card */
+  --btn-sec-text: #F4F2F8;   /* Secondary button text: White */
+  --btn-sec-border: #393746;
+  --btn-sec-hover: #373548;
+
+  /* Accents */
+  --ac: #A6A1E8;             /* Accent: Lavender */
+  --ac-hover: #B7B3ED;
+  --ac-active: #948FE0;
+  --ac-periwinkle: #A6A1E8;
+  --ac2: #2E2B45;
+  --ac2-text: #C4C0F4;
+  --on: #292735;
+
+  /* Hot / Highlight */
+  --hot: #FBA079;
+  --hot-hover: #FCAE8D;
+  --hot-soft: #321B13;
 
   /* Module Color Identities - Dark Mode */
-  --mod-home: #52b788;
-  --mod-home-soft: #172c1f;
-  --mod-habits: #4ade80;
-  --mod-habits-soft: #132b1a;
-  --mod-study: #60a5fa;
-  --mod-study-soft: #12243d;
-  --mod-planner: #818cf8;
-  --mod-planner-soft: #1c1d3b;
-  --mod-memories: #fb7185;
-  --mod-memories-soft: #38141d;
-  --mod-balance: #2dd4bf;
-  --mod-balance-soft: #0d2826;
-  --mod-progress: #fbbf24;
-  --mod-progress-soft: #2e230b;
-  --mod-focus: #a78bfa;
-  --mod-focus-soft: #241838;
-  --mod-health: #34d399;
-  --mod-health-soft: #132b20;
-  --mod-personal: #c084fc;
-  --mod-personal-soft: #271736;
+  --mod-home: #A6A1E8;
+  --mod-home-soft: #2A2744;
+  --mod-habits: #4ADE80;
+  --mod-habits-soft: #153322;
+  --mod-study: #60A5FA;
+  --mod-study-soft: #162B47;
+  --mod-planner: #818CF8;
+  --mod-planner-soft: #21224A;
+  --mod-memories: #FB7185;
+  --mod-memories-soft: #3D1822;
+  --mod-balance: #2DD4BF;
+  --mod-balance-soft: #123330;
+  --mod-progress: #FBBF24;
+  --mod-progress-soft: #382A0E;
+  --mod-focus: #A78BFA;
+  --mod-focus-soft: #292042;
+  --mod-health: #34D399;
+  --mod-health-soft: #153325;
+  --mod-personal: #C084FC;
+  --mod-personal-soft: #2D1A45;
 
-  /* Heatmap Greens - Dark */
-  --h0: #222b25;
-  --h1: #2a4333;
-  --h2: #3a684b;
-  --h3: #4b9268;
-  --h4: #67c598;
+  /* Heatmap Levels - Dark */
+  --h0: #252533;
+  --h1: #383454;
+  --h2: #524B80;
+  --h3: #756DAB;
+  --h4: #A6A1E8;
 
-  /* Standard Labels & Badges - Dark Mode */
-  --badge-streak-bg: #2d1a11;
-  --badge-streak-text: #f89e74;
-  --badge-streak-border: #4d2817;
+  /* Semantic Status Colours - Dark Mode */
+  --badge-completed-bg: #14281B;
+  --badge-completed-text: #6FE198;
+  --badge-completed-border: #1E462D;
 
-  --badge-completed-bg: #13261a;
-  --badge-completed-text: #6ee7b7;
-  --badge-completed-border: #1e472d;
+  --badge-active-bg: #14281B;
+  --badge-active-text: #6FE198;
+  --badge-active-border: #1E462D;
 
-  --badge-pending-bg: #2a200b;
-  --badge-pending-text: #fcd34d;
-  --badge-pending-border: #4a3610;
+  --badge-high-bg: #321B13;
+  --badge-high-text: #FBA079;
+  --badge-high-border: #562716;
 
-  --badge-overdue-bg: #2e1414;
-  --badge-overdue-text: #fca5a5;
-  --badge-overdue-border: #521c1c;
+  --badge-overdue-bg: #331518;
+  --badge-overdue-text: #F87D8A;
+  --badge-overdue-border: #5A2127;
 
-  --badge-high-bg: #2e1414;
-  --badge-high-text: #fca5a5;
-  --badge-high-border: #521c1c;
+  --badge-pending-bg: #2E220D;
+  --badge-pending-text: #F7CB62;
+  --badge-pending-border: #523B10;
 
-  --badge-med-bg: #2d1a11;
-  --badge-med-text: #f89e74;
-  --badge-med-border: #4d2817;
+  --badge-med-bg: #311E0E;
+  --badge-med-text: #F9A867;
+  --badge-med-border: #542F11;
 
-  --badge-low-bg: #12243d;
-  --badge-low-text: #93c5fd;
-  --badge-low-border: #1d3b66;
+  --badge-low-bg: #142238;
+  --badge-low-text: #8DB8F5;
+  --badge-low-border: #1E3760;
 
-  --badge-active-bg: #13261a;
-  --badge-active-text: #6ee7b7;
-  --badge-active-border: #1e472d;
+  --badge-archived-bg: #23232C;
+  --badge-archived-text: #9B9AA8;
+  --badge-archived-border: #353442;
 
-  --badge-archived-bg: #212622;
-  --badge-archived-text: #9ca3af;
-  --badge-archived-border: #333a34;
+  --badge-info-bg: #142238;
+  --badge-info-text: #8DB8F5;
+  --badge-info-border: #1E3760;
 
-  --badge-success-bg: #13261a;
-  --badge-success-text: #6ee7b7;
-  --badge-success-border: #1e472d;
+  --badge-warning-bg: #2E220D;
+  --badge-warning-text: #F7CB62;
+  --badge-warning-border: #523B10;
 
-  --badge-warning-bg: #2a200b;
-  --badge-warning-text: #fcd34d;
-  --badge-warning-border: #4a3610;
+  --badge-error-bg: #331518;
+  --badge-error-text: #F87D8A;
+  --badge-error-border: #5A2127;
 
-  --badge-error-bg: #2e1414;
-  --badge-error-text: #fca5a5;
-  --badge-error-border: #521c1c;
+  --badge-streak-bg: #311E0E;
+  --badge-streak-text: #F9A867;
+  --badge-streak-border: #542F11;
 
-  --badge-info-bg: #12243d;
-  --badge-info-text: #93c5fd;
-  --badge-info-border: #1d3b66;
+  --badge-success-bg: #14281B;
+  --badge-success-text: #6FE198;
+  --badge-success-border: #1E462D;
 
-  --badge-goals-bg: #16291e;
-  --badge-goals-text: #86d3a3;
-  --badge-goals-border: #224932;
+  /* Module Specific Badges - Dark */
+  --badge-home-bg: #2A2744;
+  --badge-home-text: #C4C0F4;
+  --badge-home-border: #3E3B61;
 
-  --badge-home-bg: #172c1f;
-  --badge-home-text: #86d3a3;
-  --badge-home-border: #234931;
+  --badge-habits-bg: #153322;
+  --badge-habits-text: #86EFAC;
+  --badge-habits-border: #1F4C33;
 
-  --badge-habits-bg: #132b1a;
-  --badge-habits-text: #6ee7b7;
-  --badge-habits-border: #1e472d;
+  --badge-goals-bg: #2A2744;
+  --badge-goals-text: #C4C0F4;
+  --badge-goals-border: #3E3B61;
 
-  --badge-study-bg: #12243d;
-  --badge-study-text: #93c5fd;
-  --badge-study-border: #1d3b66;
+  --badge-study-bg: #162B47;
+  --badge-study-text: #93C5FD;
+  --badge-study-border: #214068;
 
-  --badge-planner-bg: #1c1d3b;
-  --badge-planner-text: #a5b4fc;
-  --badge-planner-border: #2e2f5b;
+  --badge-planner-bg: #21224A;
+  --badge-planner-text: #A5B4FC;
+  --badge-planner-border: #30336D;
 
-  --badge-memories-bg: #38141d;
-  --badge-memories-text: #fda4af;
-  --badge-memories-border: #5c1d2c;
+  --badge-memories-bg: #3D1822;
+  --badge-memories-text: #FDA4AF;
+  --badge-memories-border: #5D2333;
 
-  --badge-balance-bg: #0d2826;
-  --badge-balance-text: #5eead4;
-  --badge-balance-border: #154743;
+  --badge-balance-bg: #123330;
+  --badge-balance-text: #5EEAD4;
+  --badge-balance-border: #1C4D49;
 
-  --badge-progress-bg: #2e230b;
-  --badge-progress-text: #fde68a;
-  --badge-progress-border: #4a3610;
+  --badge-finance-bg: #123330;
+  --badge-finance-text: #5EEAD4;
+  --badge-finance-border: #1C4D49;
 
-  --badge-finance-bg: #0d2826;
-  --badge-finance-text: #5eead4;
-  --badge-finance-border: #154743;
+  --badge-progress-bg: #382A0E;
+  --badge-progress-text: #FDE68A;
+  --badge-progress-border: #543E14;
 
-  --badge-health-bg: #172c1f;
-  --badge-health-text: #a7f3d0;
-  --badge-health-border: #234931;
+  --badge-health-bg: #153325;
+  --badge-health-text: #A7F3D0;
+  --badge-health-border: #214C37;
 
-  --badge-focus-bg: #241838;
-  --badge-focus-text: #d8b4fe;
-  --badge-focus-border: #422668;
+  --badge-focus-bg: #292042;
+  --badge-focus-text: #D8B4FE;
+  --badge-focus-border: #3D3063;
 
-  --badge-personal-bg: #271736;
-  --badge-personal-text: #e9d5ff;
-  --badge-personal-border: #482563;
+  --badge-personal-bg: #2D1A45;
+  --badge-personal-text: #E9D5FF;
+  --badge-personal-border: #442767;
 
+  /* Shadows - Dark */
   --shadow-xs: 0 1px 3px rgba(0, 0, 0, 0.25);
   --shadow-soft: 0 2px 10px rgba(0, 0, 0, 0.3);
   --shadow-md: 0 4px 18px rgba(0, 0, 0, 0.38);
   --shadow-sheet: 0 -8px 32px rgba(0, 0, 0, 0.5);
-  --focus-ring: 0 0 0 3px rgba(82, 183, 136, 0.32);
+  --focus-ring: 0 0 0 3px rgba(166, 161, 232, 0.32);
 
   color-scheme: dark;
 }

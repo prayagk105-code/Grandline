@@ -207,7 +207,7 @@ export const FutureSelfView: React.FC = () => {
             <div className="row" style={{ justifyContent: 'space-between', marginBottom: 16 }}>
               <h3 style={{ margin: 0, fontSize: 18 }}>Write to Your Future Self</h3>
               <button type="button" className="ib" onClick={() => setShowModal(false)}>
-                <DayformIcon name="close" size={16} />
+                <DayformIcon name="x" size={16} />
               </button>
             </div>
 
@@ -249,7 +249,7 @@ export const FutureSelfView: React.FC = () => {
               </div>
 
               <div className="row" style={{ justifyContent: 'flex-end', gap: 10, marginTop: 8 }}>
-                <button type="button" className="btn" onClick={() => setShowModal(false)}>
+                <button type="button" className="btn sec" onClick={() => setShowModal(false)}>
                   Cancel
                 </button>
                 <button type="submit" className="btn pri">
@@ -273,7 +273,7 @@ export const FutureSelfView: React.FC = () => {
                 <h3 style={{ margin: 0, fontSize: 20 }}>{readingLetter.title}</h3>
               </div>
               <button type="button" className="ib" onClick={() => setReadingLetter(null)}>
-                <DayformIcon name="close" size={16} />
+                <DayformIcon name="x" size={16} />
               </button>
             </div>
 

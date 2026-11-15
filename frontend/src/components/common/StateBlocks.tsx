@@ -29,7 +29,7 @@ export const ErrorState: React.FC<{ message: string; onRetry?: () => void }> = (
     <b className="d" style={{ color: 'var(--hot)', fontSize: 16 }}>Unable to load</b>
     <p className="mut" style={{ margin: '6px 0 12px' }}>{message}</p>
     {onRetry ? (
-      <button type="button" className="btn" onClick={onRetry}>
+      <button type="button" className="btn sec" onClick={onRetry}>
         Try again
       </button>
     ) : null}

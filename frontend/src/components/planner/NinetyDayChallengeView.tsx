@@ -209,7 +209,7 @@ export const NinetyDayChallengeView: React.FC = () => {
                       fontWeight: 600,
                       cursor: 'pointer',
                       border: isCurrentNext ? '2px solid var(--ac)' : '1px solid var(--ln)',
-                      background: isCompleted ? 'var(--ac)' : 'var(--sf)',
+                      background: isCompleted ? 'var(--badge-completed-text)' : 'var(--sf)',
                       color: isCompleted ? '#ffffff' : 'var(--ink)',
                       transition: 'all 0.15s ease'
                     }}
@@ -252,7 +252,7 @@ export const NinetyDayChallengeView: React.FC = () => {
             <div className="row" style={{ justifyContent: 'space-between', marginBottom: 16 }}>
               <h3 style={{ margin: 0, fontSize: 18 }}>Launch 90-Day Challenge</h3>
               <button type="button" className="ib" onClick={() => setShowCreateModal(false)}>
-                <DayformIcon name="close" size={16} />
+                <DayformIcon name="x" size={16} />
               </button>
             </div>
             <form onSubmit={handleCreate} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
@@ -299,7 +299,7 @@ export const NinetyDayChallengeView: React.FC = () => {
                 />
               </div>
               <div className="row" style={{ justifyContent: 'flex-end', gap: 10, marginTop: 8 }}>
-                <button type="button" className="btn" onClick={() => setShowCreateModal(false)}>
+                <button type="button" className="btn sec" onClick={() => setShowCreateModal(false)}>
                   Cancel
                 </button>
                 <button type="submit" className="btn pri">
@@ -318,7 +318,7 @@ export const NinetyDayChallengeView: React.FC = () => {
             <div className="row" style={{ justifyContent: 'space-between', marginBottom: 16 }}>
               <h3 style={{ margin: 0, fontSize: 18 }}>Log Day {checkinDayNumber}</h3>
               <button type="button" className="ib" onClick={() => setCheckinChallengeId(null)}>
-                <DayformIcon name="close" size={16} />
+                <DayformIcon name="x" size={16} />
               </button>
             </div>
             <p className="mut" style={{ margin: '0 0 16px', fontSize: 13 }}>
@@ -336,7 +336,7 @@ export const NinetyDayChallengeView: React.FC = () => {
                 />
               </div>
               <div className="row" style={{ justifyContent: 'flex-end', gap: 10 }}>
-                <button type="button" className="btn" onClick={() => setCheckinChallengeId(null)}>
+                <button type="button" className="btn sec" onClick={() => setCheckinChallengeId(null)}>
                   Cancel
                 </button>
                 <button

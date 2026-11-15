@@ -67,10 +67,10 @@ export const GoalOverviewWidget: React.FC = () => {
             <div
               key={g.id}
               style={{
-                padding: '9px 12px',
+                padding: '10px 12px',
                 borderRadius: 'var(--radius-md)',
-                background: 'var(--sf)',
-                border: '1px solid var(--ln-subtle)'
+                background: 'var(--cd-sec)',
+                border: '1px solid var(--ln)'
               }}
             >
               <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>

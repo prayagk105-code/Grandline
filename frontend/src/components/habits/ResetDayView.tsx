@@ -166,7 +166,7 @@ export const ResetDayView: React.FC<ResetDayViewProps> = ({ habits = [] }) => {
               />
 
               <div className="row" style={{ justifyContent: 'space-between' }}>
-                <button type="button" className="btn" onClick={() => setStep(1)}>
+                <button type="button" className="btn sec" onClick={() => setStep(1)}>
                   ← Back
                 </button>
                 <button type="button" className="btn pri" onClick={() => setStep(3)}>
@@ -193,7 +193,7 @@ export const ResetDayView: React.FC<ResetDayViewProps> = ({ habits = [] }) => {
               />
 
               <div className="row" style={{ justifyContent: 'space-between' }}>
-                <button type="button" className="btn" onClick={() => setStep(2)}>
+                <button type="button" className="btn sec" onClick={() => setStep(2)}>
                   ← Back
                 </button>
                 <button type="button" className="btn pri" onClick={() => setStep(4)}>
@@ -220,7 +220,7 @@ export const ResetDayView: React.FC<ResetDayViewProps> = ({ habits = [] }) => {
               />
 
               <div className="row" style={{ justifyContent: 'space-between' }}>
-                <button type="button" className="btn" onClick={() => setStep(3)}>
+                <button type="button" className="btn sec" onClick={() => setStep(3)}>
                   ← Back
                 </button>
                 <button type="button" className="btn pri" onClick={handleFinishReset}>

@@ -92,7 +92,7 @@ export const PinLockModal: React.FC<PinLockModalProps> = ({ onUnlock }) => {
         </div>
 
         {errorMsg && (
-          <div style={{ color: '#dc2626', fontSize: 12, marginBottom: 16 }}>
+          <div style={{ color: 'var(--badge-overdue-text)', fontSize: 12, marginBottom: 16 }}>
             {errorMsg}
           </div>
         )}
@@ -111,8 +111,8 @@ export const PinLockModal: React.FC<PinLockModalProps> = ({ onUnlock }) => {
             <button
               key={d}
               type="button"
-              className="btn"
-              style={{ height: 48, fontSize: 18, fontWeight: 600 }}
+              className="btn sec"
+              style={{ height: 48, fontSize: 18, fontWeight: 600, borderRadius: 'var(--radius-pill)' }}
               disabled={checking}
               onClick={() => handleDigit(d)}
             >
@@ -122,8 +122,8 @@ export const PinLockModal: React.FC<PinLockModalProps> = ({ onUnlock }) => {
           <div />
           <button
             type="button"
-            className="btn"
-            style={{ height: 48, fontSize: 18, fontWeight: 600 }}
+            className="btn sec"
+            style={{ height: 48, fontSize: 18, fontWeight: 600, borderRadius: 'var(--radius-pill)' }}
             disabled={checking}
             onClick={() => handleDigit('0')}
           >
@@ -131,8 +131,8 @@ export const PinLockModal: React.FC<PinLockModalProps> = ({ onUnlock }) => {
           </button>
           <button
             type="button"
-            className="btn"
-            style={{ height: 48, fontSize: 14 }}
+            className="btn sec"
+            style={{ height: 48, fontSize: 14, borderRadius: 'var(--radius-pill)' }}
             disabled={checking || pin.length === 0}
             onClick={handleBackspace}
             aria-label="Delete"

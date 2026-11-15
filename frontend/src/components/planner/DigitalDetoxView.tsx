@@ -224,7 +224,7 @@ export const DigitalDetoxView: React.FC = () => {
             <div className="row" style={{ justifyContent: 'space-between', marginBottom: 16 }}>
               <h3 style={{ margin: 0, fontSize: 18 }}>Activate Digital Detox Protocol</h3>
               <button type="button" className="ib" onClick={() => setShowModal(false)}>
-                <DayformIcon name="close" size={16} />
+                <DayformIcon name="x" size={16} />
               </button>
             </div>
 
@@ -273,7 +273,7 @@ export const DigitalDetoxView: React.FC = () => {
                       }
                     }}
                   />
-                  <button type="button" className="btn" onClick={addCustomApp}>
+                  <button type="button" className="btn sec" onClick={addCustomApp}>
                     Add
                   </button>
                 </div>
@@ -303,7 +303,7 @@ export const DigitalDetoxView: React.FC = () => {
               </div>
 
               <div className="row" style={{ justifyContent: 'flex-end', gap: 10, marginTop: 8 }}>
-                <button type="button" className="btn" onClick={() => setShowModal(false)}>
+                <button type="button" className="btn sec" onClick={() => setShowModal(false)}>
                   Cancel
                 </button>
                 <button type="submit" className="btn pri">

@@ -122,7 +122,7 @@ export const MyJourneyView: React.FC = () => {
                   width: 14,
                   height: 14,
                   borderRadius: '50%',
-                  background: item.type === 'Goal' ? 'var(--ac)' : item.type === 'Milestone' ? '#f59e0b' : '#3b82f6',
+                  background: item.type === 'Goal' ? 'var(--ac)' : item.type === 'Milestone' ? 'var(--badge-medium-text)' : 'var(--badge-info-text)',
                   border: '3px solid var(--bg)'
                 }}
               />

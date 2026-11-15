@@ -101,7 +101,7 @@ export const AppLayout: React.FC = () => {
                 width: 7,
                 height: 7,
                 borderRadius: '50%',
-                background: isOnline ? '#22c55e' : '#f59e0b',
+                background: isOnline ? '#287447' : '#B8752B',
                 display: 'inline-block'
               }}
             />

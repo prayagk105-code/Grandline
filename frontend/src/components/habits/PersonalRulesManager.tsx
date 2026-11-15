@@ -182,7 +182,7 @@ export const PersonalRulesManager: React.FC = () => {
                   <span style={{ fontSize: 13 }}>"{sug.ruleText}"</span>
                   <button
                     type="button"
-                    className="btn"
+                    className="btn sec"
                     style={{ fontSize: 12, padding: '4px 10px' }}
                     onClick={() => addSuggestion(sug)}
                   >
@@ -216,8 +216,8 @@ export const PersonalRulesManager: React.FC = () => {
                         width: 28,
                         height: 28,
                         borderRadius: 8,
-                        border: isFollowedToday ? '2px solid var(--ac)' : '2px solid var(--ln)',
-                        background: isFollowedToday ? 'var(--ac)' : 'transparent',
+                        border: isFollowedToday ? '2px solid var(--badge-completed-text)' : '2px solid var(--ln)',
+                        background: isFollowedToday ? 'var(--badge-completed-text)' : 'transparent',
                         color: isFollowedToday ? '#ffffff' : 'transparent',
                         display: 'flex',
                         alignItems: 'center',
@@ -277,7 +277,7 @@ export const PersonalRulesManager: React.FC = () => {
             <div className="row" style={{ justifyContent: 'space-between', marginBottom: 16 }}>
               <h3 style={{ margin: 0, fontSize: 18 }}>Define Personal Rule</h3>
               <button type="button" className="ib" onClick={() => setModalOpen(false)}>
-                <DayformIcon name="close" size={16} />
+                <DayformIcon name="x" size={16} />
               </button>
             </div>
 
@@ -310,7 +310,7 @@ export const PersonalRulesManager: React.FC = () => {
               </div>
 
               <div className="row" style={{ justifyContent: 'flex-end', gap: 10, marginTop: 8 }}>
-                <button type="button" className="btn" onClick={() => setModalOpen(false)}>
+                <button type="button" className="btn sec" onClick={() => setModalOpen(false)}>
                   Cancel
                 </button>
                 <button type="submit" className="btn pri">

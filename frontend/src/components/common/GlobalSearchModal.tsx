@@ -141,7 +141,7 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({ isOpen, on
       <div
         className="sheet"
         onClick={(e) => e.stopPropagation()}
-        style={{ maxWidth: 540, width: '90%', borderRadius: 14, overflow: 'hidden' }}
+        style={{ maxWidth: 540, width: '90%', borderRadius: 'var(--radius-xl)', border: '1px solid var(--ln)', boxShadow: 'var(--shadow-sheet)', overflow: 'hidden' }}
       >
         <div className="row" style={{ alignItems: 'center', gap: 10, padding: '12px 16px', borderBottom: '1px solid var(--ln)' }}>
           <DayformIcon name="search" size={18} />
@@ -160,8 +160,8 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({ isOpen, on
               color: 'var(--ink)'
             }}
           />
-          <button type="button" className="ib" onClick={onClose}>
-            <DayformIcon name="close" size={16} />
+          <button type="button" className="ib sm" onClick={onClose} aria-label="Close search">
+            <DayformIcon name="x" size={16} />
           </button>
         </div>
 

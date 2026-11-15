@@ -178,8 +178,8 @@ export const BadHabitsManager: React.FC = () => {
                   </button>
                   <button
                     type="button"
-                    className="btn"
-                    style={{ fontSize: 13, color: '#dc2626' }}
+                    className="btn sec"
+                    style={{ fontSize: 13, color: 'var(--badge-overdue-text)' }}
                     onClick={() => {
                       setRelapseHabit(h);
                       setRelapseTrigger('');
@@ -209,7 +209,7 @@ export const BadHabitsManager: React.FC = () => {
             <div className="row" style={{ justifyContent: 'space-between', marginBottom: 16 }}>
               <h3 style={{ margin: 0, fontSize: 18 }}>Target Habit to Break</h3>
               <button type="button" className="ib" onClick={() => setModalOpen(false)}>
-                <DayformIcon name="close" size={16} />
+                <DayformIcon name="x" size={16} />
               </button>
             </div>
 
@@ -249,7 +249,7 @@ export const BadHabitsManager: React.FC = () => {
               </div>
 
               <div className="row" style={{ justifyContent: 'flex-end', gap: 10, marginTop: 8 }}>
-                <button type="button" className="btn" onClick={() => setModalOpen(false)}>
+                <button type="button" className="btn sec" onClick={() => setModalOpen(false)}>
                   Cancel
                 </button>
                 <button type="submit" className="btn pri">
@@ -268,7 +268,7 @@ export const BadHabitsManager: React.FC = () => {
             <div className="row" style={{ justifyContent: 'space-between', marginBottom: 16 }}>
               <h3 style={{ margin: 0, fontSize: 18 }}>Log Slip / Relapse</h3>
               <button type="button" className="ib" onClick={() => setRelapseHabit(null)}>
-                <DayformIcon name="close" size={16} />
+                <DayformIcon name="x" size={16} />
               </button>
             </div>
 
@@ -289,7 +289,7 @@ export const BadHabitsManager: React.FC = () => {
               </div>
 
               <div className="row" style={{ justifyContent: 'flex-end', gap: 10 }}>
-                <button type="button" className="btn" onClick={() => setRelapseHabit(null)}>
+                <button type="button" className="btn sec" onClick={() => setRelapseHabit(null)}>
                   Cancel
                 </button>
                 <button type="button" className="btn pri" onClick={handleConfirmRelapse}>

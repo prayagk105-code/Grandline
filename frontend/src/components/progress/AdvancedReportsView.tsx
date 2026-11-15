@@ -159,12 +159,12 @@ Verdict: Maintain foundational morning habits; momentum is firmly compounding.`;
             const pct = d.completionPercent / 100;
             const bg =
               pct === 0
-                ? 'var(--sf)'
+                ? 'var(--h0)'
                 : pct < 0.35
-                  ? 'rgba(45, 90, 61, 0.25)'
+                  ? 'var(--h1)'
                   : pct < 0.7
-                    ? 'rgba(45, 90, 61, 0.6)'
-                    : 'var(--ac)';
+                    ? 'var(--h3)'
+                    : 'var(--h4)';
             const color = pct >= 0.7 ? '#ffffff' : 'var(--ink)';
 
             return (

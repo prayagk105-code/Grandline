@@ -618,7 +618,7 @@ export const PersonalFinanceView: React.FC = () => {
               </div>
 
               <div className="row" style={{ justifyContent: 'flex-end', gap: 10, marginTop: 8 }}>
-                <button type="button" className="btn" onClick={() => setTxModal(false)}>Cancel</button>
+                <button type="button" className="btn sec" onClick={() => setTxModal(false)}>Cancel</button>
                 <button type="submit" className="btn pri">Save Transaction</button>
               </div>
             </form>
@@ -641,7 +641,7 @@ export const PersonalFinanceView: React.FC = () => {
                 <input type="number" min={1} className="inp" value={bAmount} onChange={(e) => setBAmount(parseFloat(e.target.value) || 0)} required />
               </div>
               <div className="row" style={{ justifyContent: 'flex-end', gap: 10, marginTop: 8 }}>
-                <button type="button" className="btn" onClick={() => setBModal(false)}>Cancel</button>
+                <button type="button" className="btn sec" onClick={() => setBModal(false)}>Cancel</button>
                 <button type="submit" className="btn pri">Set Limit</button>
               </div>
             </form>
@@ -668,7 +668,7 @@ export const PersonalFinanceView: React.FC = () => {
                 <input type="number" min={0} className="inp" value={sgCurrent} onChange={(e) => setSgCurrent(parseFloat(e.target.value) || 0)} />
               </div>
               <div className="row" style={{ justifyContent: 'flex-end', gap: 10, marginTop: 8 }}>
-                <button type="button" className="btn" onClick={() => setSgModal(false)}>Cancel</button>
+                <button type="button" className="btn sec" onClick={() => setSgModal(false)}>Cancel</button>
                 <button type="submit" className="btn pri">Commit Goal</button>
               </div>
             </form>
@@ -695,7 +695,7 @@ export const PersonalFinanceView: React.FC = () => {
                 <input type="number" min={0} className="inp" value={debtBalance} onChange={(e) => setDebtBalance(parseFloat(e.target.value) || 0)} required />
               </div>
               <div className="row" style={{ justifyContent: 'flex-end', gap: 10, marginTop: 8 }}>
-                <button type="button" className="btn" onClick={() => setDebtModal(false)}>Cancel</button>
+                <button type="button" className="btn sec" onClick={() => setDebtModal(false)}>Cancel</button>
                 <button type="submit" className="btn pri">Save Debt</button>
               </div>
             </form>
@@ -726,7 +726,7 @@ export const PersonalFinanceView: React.FC = () => {
                 </select>
               </div>
               <div className="row" style={{ justifyContent: 'flex-end', gap: 10, marginTop: 8 }}>
-                <button type="button" className="btn" onClick={() => setSubModal(false)}>Cancel</button>
+                <button type="button" className="btn sec" onClick={() => setSubModal(false)}>Cancel</button>
                 <button type="submit" className="btn pri">Track Subscription</button>
               </div>
             </form>

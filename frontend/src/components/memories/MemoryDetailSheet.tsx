@@ -46,7 +46,7 @@ export const MemoryDetailSheet: React.FC<MemoryDetailSheetProps> = ({ memory, on
       {memory.note ? <p style={{ margin: '0 0 16px', whiteSpace: 'pre-wrap' }}>{memory.note}</p> : null}
 
       <div className="row">
-        <button type="button" className="btn" style={{ flex: 1 }} onClick={() => onEdit(memory)}>
+        <button type="button" className="btn sec" style={{ flex: 1 }} onClick={() => onEdit(memory)}>
           <DayformIcon name="pen" size={16} /> Edit
         </button>
         <button type="button" className="btn dg" style={{ flex: 1 }} onClick={() => onDelete(memory)}>

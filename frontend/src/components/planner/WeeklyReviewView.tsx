@@ -112,7 +112,7 @@ export const WeeklyReviewView: React.FC = () => {
           </div>
           {completedTasks.slice(0, 4).map((t) => (
             <div key={t.id} className="row" style={{ gap: 8, alignItems: 'center', fontSize: 13 }}>
-              <span style={{ color: '#22c55e' }}>✓</span>
+              <span style={{ color: 'var(--badge-completed-text)' }}>✓</span>
               <span>{t.title}</span>
             </div>
           ))}

@@ -109,7 +109,7 @@ export const FocusHistoryView: React.FC = () => {
           </div>
           <button
             type="button"
-            className="btn"
+            className="btn sec"
             style={{ fontSize: 12, padding: '4px 10px' }}
             onClick={() => setShowScreenModal(true)}
           >
@@ -208,7 +208,7 @@ export const FocusHistoryView: React.FC = () => {
             <div className="row" style={{ justifyContent: 'space-between', marginBottom: 16 }}>
               <h3 style={{ margin: 0, fontSize: 18 }}>Log Screen Time</h3>
               <button type="button" className="ib" onClick={() => setShowScreenModal(false)}>
-                <DayformIcon name="close" size={16} />
+                <DayformIcon name="x" size={16} />
               </button>
             </div>
 
@@ -264,7 +264,7 @@ export const FocusHistoryView: React.FC = () => {
               </div>
 
               <div className="row" style={{ justifyContent: 'flex-end', gap: 10, marginTop: 8 }}>
-                <button type="button" className="btn" onClick={() => setShowScreenModal(false)}>
+                <button type="button" className="btn sec" onClick={() => setShowScreenModal(false)}>
                   Cancel
                 </button>
                 <button type="submit" className="btn pri">

@@ -142,7 +142,7 @@ export const LifeRoadmapView: React.FC = () => {
                     width: 24,
                     height: 24,
                     borderRadius: '50%',
-                    background: isCompleted ? '#22c55e' : isOverdue ? '#ef4444' : 'var(--ac)',
+                    background: isCompleted ? 'var(--badge-completed-text)' : isOverdue ? 'var(--badge-overdue-text)' : 'var(--ac)',
                     border: '3px solid var(--cd)',
                     display: 'flex',
                     alignItems: 'center',
@@ -194,7 +194,7 @@ export const LifeRoadmapView: React.FC = () => {
                         style={{
                           width: `${Math.min(100, Math.max(0, goal.progressPercentage))}%`,
                           height: '100%',
-                          background: isCompleted ? '#22c55e' : 'var(--ac)',
+                          background: isCompleted ? 'var(--badge-completed-text)' : 'var(--ac)',
                           borderRadius: 3
                         }}
                       />
@@ -215,8 +215,8 @@ export const LifeRoadmapView: React.FC = () => {
                               padding: '4px 10px',
                               borderRadius: 6,
                               fontSize: 12,
-                              background: m.isCompleted ? 'rgba(34, 197, 94, 0.12)' : 'var(--sf)',
-                              color: m.isCompleted ? '#15803d' : 'var(--ink)',
+                              background: m.isCompleted ? 'var(--badge-completed-bg)' : 'var(--sf)',
+                              color: m.isCompleted ? 'var(--badge-completed-text)' : 'var(--ink)',
                               display: 'inline-flex',
                               alignItems: 'center',
                               gap: 6

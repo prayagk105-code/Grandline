@@ -104,9 +104,9 @@ export const PersonalCheckInWidget: React.FC = () => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                borderRadius: 'var(--radius-sm)',
+                borderRadius: 'var(--radius-pill)',
                 border: mood === val ? '1.5px solid var(--ac)' : '1px solid var(--ln)',
-                background: mood === val ? 'var(--ac2)' : 'var(--sf)'
+                background: mood === val ? 'var(--ac2)' : 'var(--cd-sec)'
               }}
               title={`Mood level ${val}`}
               aria-label={`Mood level ${val}`}

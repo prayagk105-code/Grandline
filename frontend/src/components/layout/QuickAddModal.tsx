@@ -146,7 +146,7 @@ export const QuickAddModal: React.FC<QuickAddModalProps> = ({ isOpen, onClose })
         <div className="g2">
           <button
             type="button"
-            className="btn"
+            className="btn sec"
             style={{ flexDirection: 'column', padding: '16px 12px', gap: 8, borderRadius: 'var(--radius-lg)' }}
             onClick={() => setMode('habit')}
           >
@@ -157,7 +157,7 @@ export const QuickAddModal: React.FC<QuickAddModalProps> = ({ isOpen, onClose })
           </button>
           <button
             type="button"
-            className="btn"
+            className="btn sec"
             style={{ flexDirection: 'column', padding: '16px 12px', gap: 8, borderRadius: 'var(--radius-lg)' }}
             onClick={() => setMode('path')}
           >
@@ -168,7 +168,7 @@ export const QuickAddModal: React.FC<QuickAddModalProps> = ({ isOpen, onClose })
           </button>
           <button
             type="button"
-            className="btn"
+            className="btn sec"
             style={{ flexDirection: 'column', padding: '16px 12px', gap: 8, borderRadius: 'var(--radius-lg)' }}
             onClick={() => setMode('session')}
           >
@@ -179,7 +179,7 @@ export const QuickAddModal: React.FC<QuickAddModalProps> = ({ isOpen, onClose })
           </button>
           <button
             type="button"
-            className="btn"
+            className="btn sec"
             style={{ flexDirection: 'column', padding: '16px 12px', gap: 8, borderRadius: 'var(--radius-lg)' }}
             onClick={() => setMode('memory')}
           >
@@ -190,7 +190,7 @@ export const QuickAddModal: React.FC<QuickAddModalProps> = ({ isOpen, onClose })
           </button>
           <button
             type="button"
-            className="btn"
+            className="btn sec"
             style={{ flexDirection: 'column', padding: '16px 12px', gap: 8, borderRadius: 'var(--radius-lg)', gridColumn: 'span 2' }}
             onClick={() => setMode('reminder')}
           >

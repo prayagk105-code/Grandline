@@ -517,7 +517,7 @@ export const KnowledgeHub: React.FC<KnowledgeHubProps> = ({ initialTab = 'books'
                 <textarea className="inp" rows={2} value={bNotes} onChange={(e) => setBNotes(e.target.value)} />
               </div>
               <div className="row" style={{ justifyContent: 'flex-end', gap: 10, marginTop: 8 }}>
-                <button type="button" className="btn" onClick={() => setBookModal(false)}>Cancel</button>
+                <button type="button" className="btn sec" onClick={() => setBookModal(false)}>Cancel</button>
                 <button type="submit" className="btn pri">Save Book</button>
               </div>
             </form>
@@ -548,7 +548,7 @@ export const KnowledgeHub: React.FC<KnowledgeHubProps> = ({ initialTab = 'books'
                 <textarea className="inp" rows={5} value={nContent} onChange={(e) => setNContent(e.target.value)} required />
               </div>
               <div className="row" style={{ justifyContent: 'flex-end', gap: 10, marginTop: 8 }}>
-                <button type="button" className="btn" onClick={() => setNoteModal(false)}>Cancel</button>
+                <button type="button" className="btn sec" onClick={() => setNoteModal(false)}>Cancel</button>
                 <button type="submit" className="btn pri">Save Note</button>
               </div>
             </form>
@@ -585,7 +585,7 @@ export const KnowledgeHub: React.FC<KnowledgeHubProps> = ({ initialTab = 'books'
                 <textarea className="inp" rows={3} value={iDescription} onChange={(e) => setIDescription(e.target.value)} />
               </div>
               <div className="row" style={{ justifyContent: 'flex-end', gap: 10, marginTop: 8 }}>
-                <button type="button" className="btn" onClick={() => setIdeaModal(false)}>Cancel</button>
+                <button type="button" className="btn sec" onClick={() => setIdeaModal(false)}>Cancel</button>
                 <button type="submit" className="btn pri">Save Idea</button>
               </div>
             </form>
@@ -612,7 +612,7 @@ export const KnowledgeHub: React.FC<KnowledgeHubProps> = ({ initialTab = 'books'
                 <input type="text" className="inp" value={qTags} onChange={(e) => setQTags(e.target.value)} />
               </div>
               <div className="row" style={{ justifyContent: 'flex-end', gap: 10, marginTop: 8 }}>
-                <button type="button" className="btn" onClick={() => setQuoteModal(false)}>Cancel</button>
+                <button type="button" className="btn sec" onClick={() => setQuoteModal(false)}>Cancel</button>
                 <button type="submit" className="btn pri">Catalog Quote</button>
               </div>
             </form>

@@ -124,10 +124,10 @@ export const TodayPrioritiesWidget: React.FC = () => {
                   alignItems: 'center',
                   padding: '9px 12px',
                   borderRadius: 'var(--radius-md)',
-                  background: isOverdue ? 'var(--badge-overdue-bg)' : 'var(--sf)',
+                  background: isOverdue ? 'var(--badge-overdue-bg)' : 'var(--cd-sec)',
                   border: isOverdue
                     ? '1px solid var(--badge-overdue-border)'
-                    : '1px solid var(--ln-subtle)',
+                    : '1px solid var(--ln)',
                   transition: 'background-color 0.15s ease'
                 }}
               >

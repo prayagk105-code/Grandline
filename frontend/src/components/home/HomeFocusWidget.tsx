@@ -95,9 +95,10 @@ export const HomeFocusWidget: React.FC = () => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          padding: '10px 14px',
-          background: 'var(--sf)',
-          borderRadius: 'var(--radius-md)',
+          padding: '12px 14px',
+          background: 'var(--cd-sec)',
+          border: '1px solid var(--ln)',
+          borderRadius: 'var(--radius-lg)',
           gap: 12
         }}
       >
@@ -116,8 +117,6 @@ export const HomeFocusWidget: React.FC = () => {
             className="btn pri sm"
             onClick={toggle}
             style={{
-              background: 'var(--mod-focus)',
-              borderColor: 'var(--mod-focus)',
               padding: '6px 14px',
               fontSize: 12,
               fontWeight: 600

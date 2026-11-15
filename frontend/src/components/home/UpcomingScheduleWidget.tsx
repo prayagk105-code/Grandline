@@ -125,10 +125,10 @@ export const UpcomingScheduleWidget: React.FC = () => {
                 style={{
                   justifyContent: 'space-between',
                   alignItems: 'center',
-                  padding: '8px 10px',
-                  borderRadius: 'var(--radius-sm)',
-                  background: 'var(--sf)',
-                  border: item.isOverdue ? '1px solid var(--badge-overdue-border)' : '1px solid var(--ln-subtle)'
+                  padding: '9px 12px',
+                  borderRadius: 'var(--radius-md)',
+                  background: 'var(--cd-sec)',
+                  border: item.isOverdue ? '1px solid var(--badge-overdue-border)' : '1px solid var(--ln)'
                 }}
               >
                 <div className="row" style={{ gap: 8, alignItems: 'center', minWidth: 0, flex: 1 }}>

@@ -39,7 +39,8 @@ export const PwaInstallModal: React.FC<PwaInstallModalProps> = ({
             alignItems: 'center',
             gap: 14,
             padding: '14px',
-            background: 'var(--sf)',
+            background: 'var(--cd-sec)',
+            border: '1px solid var(--ln)',
             borderRadius: 'var(--radius-lg)',
             marginBottom: 16
           }}
@@ -48,9 +49,9 @@ export const PwaInstallModal: React.FC<PwaInstallModalProps> = ({
             style={{
               width: 52,
               height: 52,
-              borderRadius: 14,
-              background: 'var(--ac)',
-              color: '#ffffff',
+              borderRadius: 'var(--radius-lg)',
+              background: 'var(--btn-pri-bg)',
+              color: 'var(--btn-pri-text)',
               display: 'grid',
               placeItems: 'center',
               fontSize: 26,
