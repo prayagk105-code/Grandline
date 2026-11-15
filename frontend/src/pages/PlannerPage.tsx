@@ -6,9 +6,11 @@ import { PageHeader } from '../components/common/PageHeader';
 import { ErrorState, LoadingSkeleton } from '../components/common/StateBlocks';
 import { DigitalDetoxView } from '../components/planner/DigitalDetoxView';
 import { GoalsManager } from '../components/planner/GoalsManager';
+import { LifeRoadmapView } from '../components/planner/LifeRoadmapView';
 import { NinetyDayChallengeView } from '../components/planner/NinetyDayChallengeView';
 import { ReminderFormSheet, type ReminderFormValues } from '../components/planner/ReminderFormSheet';
 import { TasksManager } from '../components/planner/TasksManager';
+import { WeeklyReviewView } from '../components/planner/WeeklyReviewView';
 import { useToast } from '../contexts/ToastContext';
 import { parseApiError } from '../services/api/apiError';
 import { reminderService } from '../services/reminderService';
@@ -17,7 +19,7 @@ import { formatDisplayDate, formatDurationMinutes, toIsoDate } from '../utils/da
 
 const WEEKDAYS = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 
-type PlannerTab = 'tasks' | 'goals' | 'calendar' | 'challenge' | 'detox';
+type PlannerTab = 'tasks' | 'goals' | 'roadmap' | 'calendar' | 'weeklyreview' | 'challenge' | 'detox';
 
 export const PlannerPage: React.FC = () => {
   const [params, setParams] = useSearchParams();
@@ -178,10 +180,24 @@ export const PlannerPage: React.FC = () => {
         </button>
         <button
           type="button"
+          className={`chip ${activeTab === 'roadmap' ? 'on' : ''}`}
+          onClick={() => setTab('roadmap')}
+        >
+          Life Roadmap
+        </button>
+        <button
+          type="button"
           className={`chip ${activeTab === 'calendar' ? 'on' : ''}`}
           onClick={() => setTab('calendar')}
         >
           Calendar & Reminders
+        </button>
+        <button
+          type="button"
+          className={`chip ${activeTab === 'weeklyreview' ? 'on' : ''}`}
+          onClick={() => setTab('weeklyreview')}
+        >
+          Weekly Review
         </button>
         <button
           type="button"
@@ -201,6 +217,8 @@ export const PlannerPage: React.FC = () => {
 
       {activeTab === 'tasks' && <TasksManager />}
       {activeTab === 'goals' && <GoalsManager />}
+      {activeTab === 'roadmap' && <LifeRoadmapView />}
+      {activeTab === 'weeklyreview' && <WeeklyReviewView />}
       {activeTab === 'challenge' && <NinetyDayChallengeView />}
       {activeTab === 'detox' && <DigitalDetoxView />}
 

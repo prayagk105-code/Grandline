@@ -1,17 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { DayformIcon } from './DayformIcon';
+import { financeService } from '../../services/financeService';
 import { goalService } from '../../services/goalService';
 import { habitService } from '../../services/habitService';
+import { journalService } from '../../services/journalService';
 import { knowledgeService } from '../../services/knowledgeService';
 import { memoryService } from '../../services/memoryService';
 import { taskService } from '../../services/taskService';
-import type { BookDto, GoalDto, HabitDto, MemoryDto, PersonalNoteDto, TaskDto } from '../../types/api';
+import type {
+  BookDto,
+  FinancialTransactionDto,
+  GoalDto,
+  HabitDto,
+  JournalEntryDto,
+  MemoryDto,
+  PersonalNoteDto,
+  TaskDto
+} from '../../types/api';
 import { toIsoDate } from '../../utils/date';
 
 interface SearchResult {
   id: string;
-  type: 'Task' | 'Goal' | 'Habit' | 'Book' | 'Note' | 'Memory';
+  type: 'Task' | 'Goal' | 'Habit' | 'Book' | 'Note' | 'Memory' | 'Journal' | 'Transaction';
   title: string;
   subtitle?: string;
   route: string;
@@ -56,13 +67,15 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({ isOpen, on
       setIsSearching(true);
       try {
         const q = query.toLowerCase();
-        const [tasks, goals, habits, books, notes, memories] = await Promise.all([
-          taskService.getAll(),
-          goalService.getAll(),
-          habitService.getAll(undefined, false, toIsoDate()),
-          knowledgeService.getBooks(),
-          knowledgeService.getNotes(),
-          memoryService.getAll(undefined, 1, 50)
+        const [tasks, goals, habits, books, notes, memories, journals, transactions] = await Promise.all([
+          taskService.getAll().catch(() => [] as TaskDto[]),
+          goalService.getAll().catch(() => [] as GoalDto[]),
+          habitService.getAll(undefined, false, toIsoDate()).catch(() => [] as HabitDto[]),
+          knowledgeService.getBooks().catch(() => [] as BookDto[]),
+          knowledgeService.getNotes().catch(() => [] as PersonalNoteDto[]),
+          memoryService.getAll(undefined, 1, 50).catch(() => ({ items: [] as MemoryDto[], totalCount: 0 })),
+          journalService.getAll(1, 30).catch(() => ({ items: [] as JournalEntryDto[], totalCount: 0 })),
+          financeService.getTransactions().catch(() => [] as FinancialTransactionDto[])
         ]);
 
         const items: SearchResult[] = [];
@@ -80,18 +93,37 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({ isOpen, on
         });
 
         books.filter((b: BookDto) => b.title.toLowerCase().includes(q) || b.author?.toLowerCase().includes(q)).forEach((b: BookDto) => {
-          items.push({ id: b.id, type: 'Book', title: b.title, subtitle: b.author ? `by ${b.author}` : undefined, route: '/memories' });
+          items.push({ id: b.id, type: 'Book', title: b.title, subtitle: b.author ? `by ${b.author}` : undefined, route: '/study?tab=books' });
         });
 
         notes.filter((n: PersonalNoteDto) => n.title.toLowerCase().includes(q) || n.content.toLowerCase().includes(q)).forEach((n: PersonalNoteDto) => {
-          items.push({ id: n.id, type: 'Note', title: n.title, subtitle: n.category, route: '/memories' });
+          items.push({ id: n.id, type: 'Note', title: n.title, subtitle: n.category, route: '/study?tab=knowledge' });
         });
 
         memories.items.filter((m: MemoryDto) => m.title.toLowerCase().includes(q)).forEach((m: MemoryDto) => {
           items.push({ id: m.id, type: 'Memory', title: m.title, subtitle: m.category, route: '/memories' });
         });
 
-        setResults(items.slice(0, 15));
+        journals.items
+          .filter((j: JournalEntryDto) =>
+            (j.accomplishments && j.accomplishments.toLowerCase().includes(q)) ||
+            (j.improvements && j.improvements.toLowerCase().includes(q)) ||
+            (j.distractions && j.distractions.toLowerCase().includes(q))
+          )
+          .forEach((j: JournalEntryDto) => {
+            items.push({ id: j.id, type: 'Journal', title: `Journal (${j.entryDate})`, subtitle: j.accomplishments ? j.accomplishments.slice(0, 45) + '...' : 'Reflection', route: '/journal' });
+          });
+
+        transactions
+          .filter((tx: FinancialTransactionDto) =>
+            (tx.description && tx.description.toLowerCase().includes(q)) ||
+            (tx.category && tx.category.toLowerCase().includes(q))
+          )
+          .forEach((tx: FinancialTransactionDto) => {
+            items.push({ id: tx.id, type: 'Transaction', title: `${tx.type === 'Income' ? '+' : '-'}$${tx.amount.toFixed(2)}: ${tx.description || tx.category}`, subtitle: `${tx.transactionDate} · ${tx.category}`, route: '/balance' });
+          });
+
+        setResults(items.slice(0, 20));
       } catch {
         // ignore
       } finally {

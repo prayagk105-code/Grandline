@@ -9,6 +9,10 @@ export interface DashboardConfig {
   showRandomMemory: boolean;
   showHabits: boolean;
   showStudy: boolean;
+  showCheckIn: boolean;
+  showPriorities: boolean;
+  showGoals: boolean;
+  showDailySummary: boolean;
 }
 
 export const DEFAULT_DASHBOARD_CONFIG: DashboardConfig = {
@@ -18,7 +22,11 @@ export const DEFAULT_DASHBOARD_CONFIG: DashboardConfig = {
   showFocusTimer: true,
   showRandomMemory: true,
   showHabits: true,
-  showStudy: true
+  showStudy: true,
+  showCheckIn: true,
+  showPriorities: true,
+  showGoals: true,
+  showDailySummary: true
 };
 
 interface CustomDashboardModalProps {
@@ -40,9 +48,12 @@ export const CustomDashboardModal: React.FC<CustomDashboardModalProps> = ({
   };
 
   const WIDGETS: { key: keyof DashboardConfig; label: string; desc: string }[] = [
+    { key: 'showPriorities', label: 'Today’s Priorities', desc: 'Top 3 urgent actions & upcoming deadlines' },
+    { key: 'showCheckIn', label: 'Personal Check-in', desc: 'Daily mood, energy & stress tracking' },
+    { key: 'showGoals', label: 'Goal Trajectory', desc: 'Active long-term goal overview' },
+    { key: 'showDailySummary', label: 'Daily Accomplishments', desc: 'Summary of tasks, habits, and focus' },
     { key: 'showDisciplineScore', label: 'Discipline Score Card', desc: 'Mathematical consistency gauge (0-100)' },
     { key: 'showMissions', label: 'Daily Missions & Bounties', desc: 'Quick XP claim and daily goals' },
-    { key: 'showPinnedTasks', label: 'Pinned Tasks Widget', desc: 'High priority urgent to-dos' },
     { key: 'showFocusTimer', label: 'Focus Timer Card', desc: 'Pomodoro and deep work launcher' },
     { key: 'showRandomMemory', label: 'Memory Lane Card', desc: 'Past memories and reflections' },
     { key: 'showHabits', label: 'Habits Summary', desc: 'Daily habit check-in strip' },

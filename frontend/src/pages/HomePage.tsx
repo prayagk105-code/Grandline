@@ -9,8 +9,13 @@ import { EmptyState, ErrorState, LoadingSkeleton } from '../components/common/St
 import { HabitRow } from '../components/habits/HabitRow';
 import { CustomDashboardModal, DEFAULT_DASHBOARD_CONFIG, type DashboardConfig } from '../components/home/CustomDashboardModal';
 import { DailyMissionsWidget } from '../components/home/DailyMissionsWidget';
+import { DailySummaryWidget } from '../components/home/DailySummaryWidget';
 import { DisciplineScoreCard } from '../components/home/DisciplineScoreCard';
+import { GoalOverviewWidget } from '../components/home/GoalOverviewWidget';
+import { PersonalCheckInWidget } from '../components/home/PersonalCheckInWidget';
 import { PinnedTasksWidget } from '../components/home/PinnedTasksWidget';
+import { TodayPrioritiesWidget } from '../components/home/TodayPrioritiesWidget';
+import { QuickCaptureModal } from '../components/common/QuickCaptureModal';
 import { MemoryCard } from '../components/memories/MemoryCard';
 import { MemoryDetailSheet } from '../components/memories/MemoryDetailSheet';
 import { RandomMemoryCard } from '../components/memories/RandomMemoryCard';
@@ -37,6 +42,7 @@ export const HomePage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [busyHabitId, setBusyHabitId] = useState<string | null>(null);
   const [selectedMemory, setSelectedMemory] = useState<MemoryDto | null>(null);
+  const [quickCaptureOpen, setQuickCaptureOpen] = useState(false);
 
   // Dashboard configuration
   const [showConfigModal, setShowConfigModal] = useState(false);
@@ -132,21 +138,45 @@ export const HomePage: React.FC = () => {
         title={`Good ${getGreetingWord()}, ${firstName}`}
         subtitle={`Day ${summary.journeyDay ?? 1} of your ${summary.journeyTotalDays ?? 100}-day journey`}
         action={
-          <button
-            type="button"
-            className="ib"
-            onClick={() => setShowConfigModal(true)}
-            title="Customize Dashboard"
-            aria-label="Customize Dashboard"
-          >
-            <DayformIcon name="settings" size={16} />
-          </button>
+          <div className="row" style={{ gap: 8, alignItems: 'center' }}>
+            <button
+              type="button"
+              className="btn pri"
+              style={{ padding: '6px 12px', fontSize: 13, gap: 6 }}
+              onClick={() => setQuickCaptureOpen(true)}
+              title="Quick Capture (Tasks, Thoughts, Ideas, Expenses)"
+            >
+              <DayformIcon name="zap" size={14} />
+              <span>Quick Capture</span>
+            </button>
+            <button
+              type="button"
+              className="ib"
+              onClick={() => setShowConfigModal(true)}
+              title="Customize Dashboard"
+              aria-label="Customize Dashboard"
+            >
+              <DayformIcon name="settings" size={16} />
+            </button>
+          </div>
         }
       />
 
       <div className="df-grid-2">
         {/* Left Column */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+          {dashConfig.showDailySummary && (
+            <WidgetErrorBoundary>
+              <DailySummaryWidget />
+            </WidgetErrorBoundary>
+          )}
+
+          {dashConfig.showPriorities && (
+            <WidgetErrorBoundary>
+              <TodayPrioritiesWidget />
+            </WidgetErrorBoundary>
+          )}
+
           {dashConfig.showHabits && (
             <div className="cd rg">
               <ProgressRing
@@ -257,6 +287,18 @@ export const HomePage: React.FC = () => {
 
         {/* Right Column */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+          {dashConfig.showCheckIn && (
+            <WidgetErrorBoundary>
+              <PersonalCheckInWidget />
+            </WidgetErrorBoundary>
+          )}
+
+          {dashConfig.showGoals && (
+            <WidgetErrorBoundary>
+              <GoalOverviewWidget />
+            </WidgetErrorBoundary>
+          )}
+
           {dashConfig.showRandomMemory && (
             <WidgetErrorBoundary>
               <RandomMemoryCard />
@@ -336,6 +378,11 @@ export const HomePage: React.FC = () => {
           onClose={() => setShowConfigModal(false)}
         />
       )}
+
+      <QuickCaptureModal
+        isOpen={quickCaptureOpen}
+        onClose={() => setQuickCaptureOpen(false)}
+      />
     </>
   );
 };

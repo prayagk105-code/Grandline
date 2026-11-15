@@ -6,6 +6,7 @@ import { ErrorState, LoadingSkeleton } from '../components/common/StateBlocks';
 import { useToast } from '../contexts/ToastContext';
 import { parseApiError } from '../services/api/apiError';
 import { journalService } from '../services/journalService';
+import { personalDevelopmentService } from '../services/personalDevelopmentService';
 import type { JournalEntryDto } from '../types/api';
 import { formatDisplayDate, toIsoDate } from '../utils/date';
 
@@ -17,6 +18,10 @@ export const JournalPage: React.FC = () => {
   const [accomplishments, setAccomplishments] = useState('');
   const [distractions, setDistractions] = useState('');
   const [improvements, setImprovements] = useState('');
+  const [gratitude, setGratitude] = useState('');
+  const [lessonsLearned, setLessonsLearned] = useState('');
+  const [moodScore, setMoodScore] = useState(4);
+  const [energyScore, setEnergyScore] = useState(4);
 
   const [pastEntries, setPastEntries] = useState<JournalEntryDto[]>([]);
   const [viewingEntry, setViewingEntry] = useState<JournalEntryDto | null>(null);
@@ -28,14 +33,25 @@ export const JournalPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const [current, list] = await Promise.all([
+      const [current, list, moodLog] = await Promise.all([
         journalService.getByDate(activeDate),
-        journalService.getAll(1, 10)
+        journalService.getAll(1, 10),
+        personalDevelopmentService.getTodayMoodLog(activeDate).catch(() => null)
       ]);
       setAccomplishments(current?.accomplishments ?? '');
       setDistractions(current?.distractions ?? '');
       setImprovements(current?.improvements ?? '');
       setPastEntries(list.items);
+
+      if (moodLog) {
+        setGratitude(moodLog.gratitude ?? '');
+        setLessonsLearned(moodLog.lessonsLearned ?? '');
+        setMoodScore(moodLog.moodScore);
+        setEnergyScore(moodLog.energyScore);
+      } else {
+        setGratitude('');
+        setLessonsLearned('');
+      }
     } catch (err) {
       setError(parseApiError(err, 'Could not load journal entries.').message);
     } finally {
@@ -56,9 +72,22 @@ export const JournalPage: React.FC = () => {
         distractions,
         improvements
       });
+      if (gratitude.trim() || lessonsLearned.trim()) {
+        await personalDevelopmentService
+          .upsertMoodLog({
+            logDate: activeDate,
+            moodScore,
+            energyScore,
+            stressScore: 2,
+            gratitude: gratitude.trim() || undefined,
+            lessonsLearned: lessonsLearned.trim() || undefined
+          })
+          .catch(() => {});
+      }
       showToast('Reflection saved');
       const list = await journalService.getAll(1, 10);
       setPastEntries(list.items);
+      window.dispatchEvent(new CustomEvent('dayform:data-changed'));
     } catch (err) {
       showToast(parseApiError(err, 'Could not save reflection.').message, 'error');
     } finally {
@@ -140,6 +169,32 @@ export const JournalPage: React.FC = () => {
                 placeholder="One small change…"
                 value={improvements}
                 onChange={(e) => setImprovements(e.target.value)}
+              />
+            </div>
+
+            <div className="f">
+              <label htmlFor="j-grat" className="d" style={{ fontSize: 15, color: 'var(--ink)' }}>
+                Daily Gratitude
+              </label>
+              <textarea
+                id="j-grat"
+                rows={2}
+                placeholder="People, opportunities, or small moments you are thankful for…"
+                value={gratitude}
+                onChange={(e) => setGratitude(e.target.value)}
+              />
+            </div>
+
+            <div className="f">
+              <label htmlFor="j-les" className="d" style={{ fontSize: 15, color: 'var(--ink)' }}>
+                Key Lessons Learned & Wisdom
+              </label>
+              <textarea
+                id="j-les"
+                rows={2}
+                placeholder="Insights, principles, or hard-won realizations…"
+                value={lessonsLearned}
+                onChange={(e) => setLessonsLearned(e.target.value)}
               />
             </div>
 

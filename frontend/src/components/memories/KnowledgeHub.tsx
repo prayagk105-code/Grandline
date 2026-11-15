@@ -8,9 +8,13 @@ import type { BookDto, IdeaItemDto, PersonalNoteDto, SavedQuoteDto } from '../..
 
 type Tab = 'books' | 'notes' | 'ideas' | 'quotes';
 
-export const KnowledgeHub: React.FC = () => {
+interface KnowledgeHubProps {
+  initialTab?: Tab;
+}
+
+export const KnowledgeHub: React.FC<KnowledgeHubProps> = ({ initialTab = 'books' }) => {
   const { showToast } = useToast();
-  const [tab, setTab] = useState<Tab>('books');
+  const [tab, setTab] = useState<Tab>(initialTab);
   const [searchQuery, setSearchQuery] = useState('');
 
   // Data states

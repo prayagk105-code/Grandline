@@ -8,7 +8,9 @@ import { ForgotPasswordPage } from '../pages/auth/ForgotPasswordPage';
 import { LoginPage } from '../pages/auth/LoginPage';
 import { RegisterPage } from '../pages/auth/RegisterPage';
 import { ResetPasswordPage } from '../pages/auth/ResetPasswordPage';
+import { BalancePage } from '../pages/BalancePage';
 import { HabitsPage } from '../pages/HabitsPage';
+import { HealthPage } from '../pages/HealthPage';
 import { HomePage } from '../pages/HomePage';
 import { JournalPage } from '../pages/JournalPage';
 import { MemoriesPage } from '../pages/MemoriesPage';
@@ -78,9 +80,11 @@ export const AppRouter: React.FC = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/habits" element={<HabitsPage />} />
         <Route path="/study" element={<StudyPage />} />
-        <Route path="/memories" element={<MemoriesPage />} />
-        <Route path="/progress" element={<ProgressPage />} />
         <Route path="/planner" element={<PlannerPage />} />
+        <Route path="/memories" element={<MemoriesPage />} />
+        <Route path="/balance" element={<BalancePage />} />
+        <Route path="/progress" element={<ProgressPage />} />
+        <Route path="/health" element={<HealthPage />} />
         <Route path="/journal" element={<JournalPage />} />
         <Route path="/profile" element={<ProfilePage />} />
       </Route>

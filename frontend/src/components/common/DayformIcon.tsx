@@ -28,6 +28,7 @@ import {
   Sun,
   Trash2,
   User,
+  Wallet,
   Wind,
   X,
   Zap
@@ -74,6 +75,7 @@ export const DayformIcon: React.FC<DayformIconProps> = ({ name, size = 19, class
     case 'cup': return <Coffee {...props} />;
     case 'pin': return <MapPin {...props} />;
     case 'user': return <User {...props} />;
+    case 'wallet': return <Wallet {...props} />;
     case 'bell': return <Bell {...props} />;
     case 'star':
     default:

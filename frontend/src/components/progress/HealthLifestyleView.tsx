@@ -31,6 +31,10 @@ export const HealthLifestyleView: React.FC = () => {
   const [steps, setSteps] = useState(8000);
   const [distanceKm, setDistanceKm] = useState(5.5);
   const [weightKg, setWeightKg] = useState(70.0);
+  const [waistCm, setWaistCm] = useState(80);
+  const [chestCm, setChestCm] = useState(96);
+  const [hipsCm, setHipsCm] = useState(94);
+  const [showMeasurements, setShowMeasurements] = useState(false);
   const [savingDaily, setSavingDaily] = useState(false);
 
   // Workout modal
@@ -67,6 +71,17 @@ export const HealthLifestyleView: React.FC = () => {
         if (dailyData.stepsCount != null) setSteps(dailyData.stepsCount);
         if (dailyData.walkingDistanceKm != null) setDistanceKm(dailyData.walkingDistanceKm);
         if (dailyData.weightKg != null) setWeightKg(dailyData.weightKg);
+        if (dailyData.bodyMeasurementsJson) {
+          try {
+            const m = JSON.parse(dailyData.bodyMeasurementsJson);
+            if (m.waist) setWaistCm(m.waist);
+            if (m.chest) setChestCm(m.chest);
+            if (m.hips) setHipsCm(m.hips);
+            setShowMeasurements(true);
+          } catch {
+            // ignore
+          }
+        }
       }
     } catch (err) {
       setError(parseApiError(err, 'Failed to load health metrics.').message);
@@ -90,7 +105,8 @@ export const HealthLifestyleView: React.FC = () => {
         waterIntakeMl: waterGlasses * 250,
         stepsCount: steps,
         walkingDistanceKm: distanceKm,
-        weightKg
+        weightKg,
+        bodyMeasurementsJson: JSON.stringify({ waist: waistCm, chest: chestCm, hips: hipsCm })
       });
       showToast('Health metrics updated for ' + formatDisplayDate(selectedDate));
       load();
@@ -309,6 +325,59 @@ export const HealthLifestyleView: React.FC = () => {
                 value={weightKg}
                 onChange={(e) => setWeightKg(parseFloat(e.target.value) || 0)}
               />
+            </div>
+
+            {/* Body Measurements Toggle & Fields */}
+            <div style={{ gridColumn: '1 / -1' }}>
+              <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+                <span style={{ fontSize: 13, fontWeight: 600 }}>Body Measurements (optional)</span>
+                <button
+                  type="button"
+                  className="lk"
+                  style={{ fontSize: 12 }}
+                  onClick={() => setShowMeasurements(!showMeasurements)}
+                >
+                  {showMeasurements ? 'Hide Measurements' : '+ Track Waist, Chest & Hips'}
+                </button>
+              </div>
+
+              {showMeasurements && (
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 12 }}>
+                  <div>
+                    <label className="lbl">Waist (cm)</label>
+                    <input
+                      type="number"
+                      step="0.5"
+                      min="0"
+                      className="inp"
+                      value={waistCm}
+                      onChange={(e) => setWaistCm(parseFloat(e.target.value) || 0)}
+                    />
+                  </div>
+                  <div>
+                    <label className="lbl">Chest (cm)</label>
+                    <input
+                      type="number"
+                      step="0.5"
+                      min="0"
+                      className="inp"
+                      value={chestCm}
+                      onChange={(e) => setChestCm(parseFloat(e.target.value) || 0)}
+                    />
+                  </div>
+                  <div>
+                    <label className="lbl">Hips (cm)</label>
+                    <input
+                      type="number"
+                      step="0.5"
+                      min="0"
+                      className="inp"
+                      value={hipsCm}
+                      onChange={(e) => setHipsCm(parseFloat(e.target.value) || 0)}
+                    />
+                  </div>
+                </div>
+              )}
             </div>
 
             <div style={{ gridColumn: '1 / -1', display: 'flex', justifyContent: 'flex-end', marginTop: 10 }}>

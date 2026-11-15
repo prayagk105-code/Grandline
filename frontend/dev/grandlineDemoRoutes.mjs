@@ -257,6 +257,7 @@ export async function handleGrandlineRoutes(req, res, path, user, state) {
       weightKg: b.weightKg || null,
       steps: b.steps || 8000,
       walkingDistanceKm: b.walkingDistanceKm || null,
+      bodyMeasurementsJson: b.bodyMeasurementsJson || null,
       notes: b.notes || null,
       createdAtUtc: new Date().toISOString()
     };

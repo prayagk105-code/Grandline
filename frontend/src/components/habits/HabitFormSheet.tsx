@@ -79,8 +79,28 @@ export const HabitFormSheet: React.FC<HabitFormSheetProps> = ({ isOpen, editing,
         </div>
 
         <div className="f">
-          <label htmlFor="habit-target">Target</label>
-          <input id="habit-target" type="text" placeholder="e.g., 20–30 minutes" {...register('target')} />
+          <label htmlFor="habit-target">Target & Frequency</label>
+          <input id="habit-target" type="text" placeholder="e.g., Daily • 20 mins, 5x/wk • Rest: Sun" {...register('target')} />
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 6 }}>
+            {['Daily', '5x / week', '3x / week', 'Weekdays (Rest: Sat/Sun)', 'Difficulty: Easy', 'Difficulty: Medium', 'Difficulty: Hard'].map((preset) => (
+              <button
+                key={preset}
+                type="button"
+                className="chip"
+                style={{ fontSize: 11, padding: '3px 8px' }}
+                onClick={() => {
+                  const current = watch('target') || '';
+                  if (!current) {
+                    setValue('target', preset);
+                  } else if (!current.includes(preset)) {
+                    setValue('target', `${current} • ${preset}`);
+                  }
+                }}
+              >
+                + {preset}
+              </button>
+            ))}
+          </div>
           {errors.target ? <div className="field-err">{errors.target.message}</div> : null}
         </div>
 

@@ -10,14 +10,19 @@ const MOBILE_TABS = [
   { to: '/', label: 'Home', icon: 'home', end: true },
   { to: '/habits', label: 'Habits', icon: 'habit', end: false },
   { to: '/study', label: 'Study', icon: 'book', end: false },
-  { to: '/memories', label: 'Memories', icon: 'img', end: false },
+  { to: '/planner', label: 'Planner', icon: 'cal', end: false },
+  { to: '/balance', label: 'Balance', icon: 'wallet', end: false },
   { to: '/progress', label: 'Progress', icon: 'chart', end: false }
 ] as const;
 
 const DESKTOP_NAV = [
-  ...MOBILE_TABS,
+  { to: '/', label: 'Home', icon: 'home', end: true },
+  { to: '/habits', label: 'Habits', icon: 'habit', end: false },
+  { to: '/study', label: 'Study', icon: 'book', end: false },
   { to: '/planner', label: 'Planner', icon: 'cal', end: false },
-  { to: '/journal', label: 'Journal', icon: 'pen', end: false },
+  { to: '/memories', label: 'Memories', icon: 'img', end: false },
+  { to: '/balance', label: 'Balance', icon: 'wallet', end: false },
+  { to: '/progress', label: 'Progress', icon: 'chart', end: false },
   { to: '/profile', label: 'Profile', icon: 'user', end: false }
 ] as const;
 

@@ -8,6 +8,7 @@ import { EmptyState, ErrorState, LoadingSkeleton } from '../components/common/St
 import { FocusHistoryView } from '../components/study/FocusHistoryView';
 import { FocusProductivityCard } from '../components/study/FocusProductivityCard';
 import { FocusTimerCard } from '../components/study/FocusTimerCard';
+import { KnowledgeHub } from '../components/memories/KnowledgeHub';
 import { LearningPathFormSheet, type LearningPathFormValues } from '../components/study/LearningPathFormSheet';
 import { StudySessionFormSheet, type StudySessionFormValues } from '../components/study/StudySessionFormSheet';
 import { useFocusTimer } from '../contexts/FocusTimerContext';
@@ -17,7 +18,7 @@ import { studyService } from '../services/studyService';
 import type { LearningPathDto, StudySessionDto, StudySummaryDto } from '../types/api';
 import { formatDisplayDate, formatDurationMinutes, toIsoDate } from '../utils/date';
 
-type StudyTab = 'paths' | 'focus' | 'history';
+type StudyTab = 'paths' | 'reading' | 'knowledge' | 'focus' | 'history';
 
 export const StudyPage: React.FC = () => {
   const [params, setParams] = useSearchParams();
@@ -186,6 +187,20 @@ export const StudyPage: React.FC = () => {
         </button>
         <button
           type="button"
+          className={`chip ${activeTab === 'reading' ? 'on' : ''}`}
+          onClick={() => setTab('reading')}
+        >
+          Reading Tracker
+        </button>
+        <button
+          type="button"
+          className={`chip ${activeTab === 'knowledge' ? 'on' : ''}`}
+          onClick={() => setTab('knowledge')}
+        >
+          Knowledge Hub
+        </button>
+        <button
+          type="button"
           className={`chip ${activeTab === 'focus' ? 'on' : ''}`}
           onClick={() => setTab('focus')}
         >
@@ -199,6 +214,9 @@ export const StudyPage: React.FC = () => {
           Focus History & Screen Time
         </button>
       </div>
+
+      {activeTab === 'reading' && <KnowledgeHub initialTab="books" />}
+      {activeTab === 'knowledge' && <KnowledgeHub initialTab="notes" />}
 
       {activeTab === 'focus' && (
         <FocusProductivityCard

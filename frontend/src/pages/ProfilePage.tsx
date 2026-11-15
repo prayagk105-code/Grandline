@@ -144,6 +144,11 @@ export const ProfilePage: React.FC = () => {
     showToast('iCalendar (.ics) export downloaded');
   };
 
+  const handleExportPdf = () => {
+    window.print();
+    showToast('Print / Save to PDF dialog opened');
+  };
+
   const handleRestoreFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -361,6 +366,11 @@ export const ProfilePage: React.FC = () => {
               <button type="button" className="btn f" onClick={handleExportCsv}>
                 <DayformIcon name="habit" size={15} />
                 <span>Export Habit Records (CSV)</span>
+              </button>
+
+              <button type="button" className="btn f" onClick={handleExportPdf}>
+                <DayformIcon name="pen" size={15} />
+                <span>Print & Save Summary Report (PDF)</span>
               </button>
 
               <button type="button" className="btn f" onClick={handleExportCalendarIcs}>
