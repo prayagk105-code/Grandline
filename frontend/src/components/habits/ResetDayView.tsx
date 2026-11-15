@@ -56,7 +56,7 @@ export const ResetDayView: React.FC<ResetDayViewProps> = ({ habits = [] }) => {
               flex: 1,
               height: 4,
               borderRadius: 2,
-              background: step >= s.num ? 'var(--ac)' : 'var(--bd)',
+              background: step >= s.num ? 'var(--ac)' : 'var(--ln)',
               transition: 'background 0.3s ease'
             }}
           />

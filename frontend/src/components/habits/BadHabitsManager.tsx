@@ -134,7 +134,7 @@ export const BadHabitsManager: React.FC = () => {
           }
         />
       ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 16 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))', gap: 16 }}>
           {habits.map((h) => (
             <div key={h.id} className="cd" style={{ padding: 20, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
               <div>

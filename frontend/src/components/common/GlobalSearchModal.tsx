@@ -143,7 +143,7 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({ isOpen, on
         onClick={(e) => e.stopPropagation()}
         style={{ maxWidth: 540, width: '90%', borderRadius: 14, overflow: 'hidden' }}
       >
-        <div className="row" style={{ alignItems: 'center', gap: 10, padding: '12px 16px', borderBottom: '1px solid var(--bd)' }}>
+        <div className="row" style={{ alignItems: 'center', gap: 10, padding: '12px 16px', borderBottom: '1px solid var(--ln)' }}>
           <DayformIcon name="search" size={18} />
           <input
             type="text"

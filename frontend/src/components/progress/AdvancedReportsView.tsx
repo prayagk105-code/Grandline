@@ -106,7 +106,7 @@ Verdict: Maintain foundational morning habits; momentum is firmly compounding.`;
       </div>
 
       {/* KPI Cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 12 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 140px), 1fr))', gap: 10 }}>
         <StatCard
           icon="habit"
           label="Habit Consistency"

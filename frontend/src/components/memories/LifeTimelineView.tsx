@@ -148,7 +148,7 @@ export const LifeTimelineView: React.FC = () => {
           }
         />
       ) : (
-        <div style={{ position: 'relative', paddingLeft: 24, borderLeft: '2px solid var(--bd)', display: 'flex', flexDirection: 'column', gap: 28, marginLeft: 12 }}>
+        <div style={{ position: 'relative', paddingLeft: 24, borderLeft: '2px solid var(--ln)', display: 'flex', flexDirection: 'column', gap: 28, marginLeft: 12 }}>
           {filtered.map((item) => (
             <div key={item.id} style={{ position: 'relative' }}>
               {/* Dot marker */}

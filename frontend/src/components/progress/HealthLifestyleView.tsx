@@ -249,10 +249,10 @@ export const HealthLifestyleView: React.FC = () => {
 
       {/* OVERVIEW / DAILY VITALS VIEW */}
       {subView === 'overview' && (
-        <div className="cd" style={{ padding: 24 }}>
+        <div className="cd">
           <h3 style={{ margin: '0 0 16px', fontSize: 18 }}>Log Vitals for {formatDisplayDate(selectedDate)}</h3>
 
-          <form onSubmit={handleSaveDaily} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 18 }}>
+          <form onSubmit={handleSaveDaily} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 200px), 1fr))', gap: 14 }}>
             <div>
               <label className="lbl">Sleep Hours</label>
               <input

@@ -243,7 +243,7 @@ export const FocusProductivityCard: React.FC<FocusProductivityCardProps> = ({
           <div className="mut" style={{ fontSize: 11 }}>
             Daily Focus Target: {dailyCompletedMinutes}/{dailyTargetMinutes}m ({Math.round(targetProgressPercent)}%)
           </div>
-          <div style={{ width: '100%', height: 4, background: 'var(--bd)', borderRadius: 2, marginTop: 4 }}>
+          <div style={{ width: '100%', height: 4, background: 'var(--ln)', borderRadius: 2, marginTop: 4 }}>
             <div
               style={{
                 width: `${targetProgressPercent}%`,

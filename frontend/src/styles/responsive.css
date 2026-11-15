@@ -168,7 +168,7 @@
 /* Extra small mobile phones (<= 360px) */
 @media (max-width: 360px) {
   .df-main {
-    padding: 12px 10px 110px;
+    padding: 10px 8px calc(84px + env(safe-area-inset-bottom, 0px));
   }
 
   .home-daily-progress-grid {
@@ -249,6 +249,10 @@
 
 /* Mobile Devices (< 768px): Simplified Header & Compact Greeting */
 @media (max-width: 767px) {
+  .df-main {
+    padding: 14px 12px calc(88px + env(safe-area-inset-bottom, 0px));
+  }
+
   .df-header {
     padding: 8px 12px;
     min-height: 50px;
@@ -399,12 +403,58 @@
   }
 
   .ph {
-    margin-bottom: 14px;
+    margin-bottom: 12px;
   }
 
-  .cd {
+  .ph h1 {
+    font-size: 22px;
+    line-height: 1.2;
+  }
+
+  .ph p {
+    font-size: 12.5px;
+  }
+
+  .cd,
+  .card {
     padding: 14px;
     border-radius: var(--radius-lg);
+    margin-bottom: 12px;
+  }
+
+  .chips {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    flex-wrap: nowrap;
+    padding-bottom: 4px;
+    margin-bottom: 12px;
+  }
+
+  .chips::-webkit-scrollbar {
+    display: none;
+  }
+
+  .chip {
+    padding: 6px 12px;
+    font-size: 12px;
+    flex-shrink: 0;
+  }
+
+  .g4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .g3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .g3 > :last-child:nth-child(odd) {
+    grid-column: span 2;
   }
 }
 
@@ -442,6 +492,10 @@
     border-radius: var(--radius-sheet);
     max-height: 85dvh;
     border: 1px solid var(--ln);
+  }
+
+  .sb::before {
+    display: none;
   }
 
   .mg {

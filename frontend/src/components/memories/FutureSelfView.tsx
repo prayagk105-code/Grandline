@@ -115,7 +115,7 @@ export const FutureSelfView: React.FC = () => {
             No letters have arrived yet. When your scheduled delivery dates arrive, your sealed letters will unlock here.
           </p>
         ) : (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 14 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))', gap: 14 }}>
             {unlockedLetters.map((l) => (
               <div
                 key={l.id}
@@ -161,7 +161,7 @@ export const FutureSelfView: React.FC = () => {
             }
           />
         ) : (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 14 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))', gap: 14 }}>
             {sealedLetters.map((l) => {
               const delivery = new Date(`${l.unlockDate}T00:00:00`);
               const now = new Date(`${today}T00:00:00`);
@@ -174,7 +174,7 @@ export const FutureSelfView: React.FC = () => {
                   style={{
                     padding: 18,
                     background: 'var(--sf)',
-                    border: '1px dashed var(--bd)'
+                    border: '1px dashed var(--ln)'
                   }}
                 >
                   <div className="row" style={{ justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
@@ -184,7 +184,7 @@ export const FutureSelfView: React.FC = () => {
                     </div>
                   </div>
                   <h4 style={{ margin: '0 0 6px', fontSize: 16 }}>{l.title}</h4>
-                  <div style={{ background: 'var(--bd)', height: 28, borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '8px 0 12px' }}>
+                  <div style={{ background: 'var(--ln)', height: 28, borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '8px 0 12px' }}>
                     <span className="mut" style={{ fontSize: 11, fontStyle: 'italic' }}>
                       Contents encrypted until unlock date
                     </span>
@@ -286,7 +286,7 @@ export const FutureSelfView: React.FC = () => {
                 lineHeight: 1.7,
                 whiteSpace: 'pre-line',
                 margin: '12px 0 20px',
-                border: '1px solid var(--bd)'
+                border: '1px solid var(--ln)'
               }}
             >
               {readingLetter.content}

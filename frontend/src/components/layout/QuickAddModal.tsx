@@ -144,25 +144,60 @@ export const QuickAddModal: React.FC<QuickAddModalProps> = ({ isOpen, onClose })
     <>
       <SheetModal isOpen={isOpen && mode === 'menu'} title="Quick add" onClose={handleCloseAll}>
         <div className="g2">
-          <button type="button" className="btn" style={{ flexDirection: 'column', padding: '18px 10px' }} onClick={() => setMode('habit')}>
-            <DayformIcon name="habit" />
-            <span>Habit</span>
+          <button
+            type="button"
+            className="btn"
+            style={{ flexDirection: 'column', padding: '16px 12px', gap: 8, borderRadius: 'var(--radius-lg)' }}
+            onClick={() => setMode('habit')}
+          >
+            <span style={{ width: 36, height: 36, borderRadius: '50%', background: 'var(--mod-habits-soft)', color: 'var(--mod-habits)', display: 'grid', placeItems: 'center' }}>
+              <DayformIcon name="habit" size={18} />
+            </span>
+            <span style={{ fontSize: 13, fontWeight: 600 }}>Habit</span>
           </button>
-          <button type="button" className="btn" style={{ flexDirection: 'column', padding: '18px 10px' }} onClick={() => setMode('path')}>
-            <DayformIcon name="book" />
-            <span>Study path</span>
+          <button
+            type="button"
+            className="btn"
+            style={{ flexDirection: 'column', padding: '16px 12px', gap: 8, borderRadius: 'var(--radius-lg)' }}
+            onClick={() => setMode('path')}
+          >
+            <span style={{ width: 36, height: 36, borderRadius: '50%', background: 'var(--mod-study-soft)', color: 'var(--mod-study)', display: 'grid', placeItems: 'center' }}>
+              <DayformIcon name="book" size={18} />
+            </span>
+            <span style={{ fontSize: 13, fontWeight: 600 }}>Study Path</span>
           </button>
-          <button type="button" className="btn" style={{ flexDirection: 'column', padding: '18px 10px' }} onClick={() => setMode('session')}>
-            <DayformIcon name="clock" />
-            <span>Study time</span>
+          <button
+            type="button"
+            className="btn"
+            style={{ flexDirection: 'column', padding: '16px 12px', gap: 8, borderRadius: 'var(--radius-lg)' }}
+            onClick={() => setMode('session')}
+          >
+            <span style={{ width: 36, height: 36, borderRadius: '50%', background: 'var(--mod-focus-soft)', color: 'var(--mod-focus)', display: 'grid', placeItems: 'center' }}>
+              <DayformIcon name="clock" size={18} />
+            </span>
+            <span style={{ fontSize: 13, fontWeight: 600 }}>Study Time</span>
           </button>
-          <button type="button" className="btn" style={{ flexDirection: 'column', padding: '18px 10px' }} onClick={() => setMode('memory')}>
-            <DayformIcon name="img" />
-            <span>Memory</span>
+          <button
+            type="button"
+            className="btn"
+            style={{ flexDirection: 'column', padding: '16px 12px', gap: 8, borderRadius: 'var(--radius-lg)' }}
+            onClick={() => setMode('memory')}
+          >
+            <span style={{ width: 36, height: 36, borderRadius: '50%', background: 'var(--mod-memories-soft)', color: 'var(--mod-memories)', display: 'grid', placeItems: 'center' }}>
+              <DayformIcon name="img" size={18} />
+            </span>
+            <span style={{ fontSize: 13, fontWeight: 600 }}>Memory</span>
           </button>
-          <button type="button" className="btn" style={{ flexDirection: 'column', padding: '18px 10px', gridColumn: 'span 2' }} onClick={() => setMode('reminder')}>
-            <DayformIcon name="cal" />
-            <span>Reminder</span>
+          <button
+            type="button"
+            className="btn"
+            style={{ flexDirection: 'column', padding: '16px 12px', gap: 8, borderRadius: 'var(--radius-lg)', gridColumn: 'span 2' }}
+            onClick={() => setMode('reminder')}
+          >
+            <span style={{ width: 36, height: 36, borderRadius: '50%', background: 'var(--mod-planner-soft)', color: 'var(--mod-planner)', display: 'grid', placeItems: 'center' }}>
+              <DayformIcon name="cal" size={18} />
+            </span>
+            <span style={{ fontSize: 13, fontWeight: 600 }}>Reminder</span>
           </button>
         </div>
       </SheetModal>

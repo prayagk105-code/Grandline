@@ -100,7 +100,6 @@ export const GamificationView: React.FC = () => {
       <div
         className="cd"
         style={{
-          padding: 28,
           background: 'linear-gradient(135deg, var(--cd) 0%, var(--sf) 100%)',
           border: '1px solid var(--ln)'
         }}
@@ -210,8 +209,8 @@ export const GamificationView: React.FC = () => {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
-            gap: 12
+            gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 160px), 1fr))',
+            gap: 10
           }}
         >
           {status.achievements.map((b) => {
@@ -271,7 +270,7 @@ export const GamificationView: React.FC = () => {
             }
           />
         ) : (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 12 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 240px), 1fr))', gap: 12 }}>
             {status.availableRewards.map((r) => {
               const canAfford = status.xpInCurrentLevel >= r.xpCost;
               return (
@@ -281,7 +280,7 @@ export const GamificationView: React.FC = () => {
                     padding: 16,
                     borderRadius: 10,
                     background: 'var(--sf)',
-                    border: '1px solid var(--bd)',
+                    border: '1px solid var(--ln)',
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'space-between',

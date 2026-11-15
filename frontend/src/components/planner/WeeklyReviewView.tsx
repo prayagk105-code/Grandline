@@ -138,7 +138,7 @@ export const WeeklyReviewView: React.FC = () => {
                 <span>{g.title}</span>
                 <span>{g.progressPercentage}%</span>
               </div>
-              <div style={{ width: '100%', height: 4, borderRadius: 2, background: 'var(--bd)', marginTop: 6, overflow: 'hidden' }}>
+              <div style={{ width: '100%', height: 4, borderRadius: 2, background: 'var(--ln)', marginTop: 6, overflow: 'hidden' }}>
                 <div style={{ width: `${g.progressPercentage}%`, height: '100%', background: 'var(--ac)' }} />
               </div>
             </div>

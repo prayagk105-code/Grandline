@@ -280,7 +280,7 @@ export const KnowledgeHub: React.FC<KnowledgeHubProps> = ({ initialTab = 'books'
               }
             />
           ) : (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 16 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))', gap: 16 }}>
               {filteredBooks.map((b) => {
                 const pct = b.totalPages > 0 ? Math.min(100, Math.round((b.currentPage / b.totalPages) * 100)) : 0;
                 return (
@@ -294,7 +294,7 @@ export const KnowledgeHub: React.FC<KnowledgeHubProps> = ({ initialTab = 'books'
                       {b.author && <p className="mut" style={{ margin: '0 0 12px', fontSize: 12 }}>by {b.author}</p>}
 
                       {/* Progress Bar */}
-                      <div style={{ width: '100%', height: 6, background: 'var(--bd)', borderRadius: 3, overflow: 'hidden', margin: '10px 0 6px' }}>
+                      <div style={{ width: '100%', height: 6, background: 'var(--ln)', borderRadius: 3, overflow: 'hidden', margin: '10px 0 6px' }}>
                         <div style={{ width: `${pct}%`, height: '100%', background: 'var(--ac)' }} />
                       </div>
                       <div className="row mut" style={{ justifyContent: 'space-between', fontSize: 11 }}>
@@ -356,7 +356,7 @@ export const KnowledgeHub: React.FC<KnowledgeHubProps> = ({ initialTab = 'books'
               }
             />
           ) : (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 14 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))', gap: 14 }}>
               {filteredNotes.map((n) => (
                 <div key={n.id} className="cd" style={{ padding: 18 }}>
                   <div className="row" style={{ justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 6 }}>
@@ -406,7 +406,7 @@ export const KnowledgeHub: React.FC<KnowledgeHubProps> = ({ initialTab = 'books'
               }
             />
           ) : (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 14 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))', gap: 14 }}>
               {filteredIdeas.map((i) => (
                 <div key={i.id} className="cd" style={{ padding: 16 }}>
                   <div className="row" style={{ justifyContent: 'space-between', marginBottom: 6 }}>
@@ -447,7 +447,7 @@ export const KnowledgeHub: React.FC<KnowledgeHubProps> = ({ initialTab = 'books'
               }
             />
           ) : (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 14 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))', gap: 14 }}>
               {filteredQuotes.map((q) => (
                 <div key={q.id} className="cd" style={{ padding: 18, borderLeft: q.isFavorite ? '4px solid var(--ac)' : undefined }}>
                   <div className="row" style={{ justifyContent: 'space-between', marginBottom: 8 }}>

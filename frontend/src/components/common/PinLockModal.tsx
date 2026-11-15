@@ -84,7 +84,7 @@ export const PinLockModal: React.FC<PinLockModalProps> = ({ onUnlock }) => {
                 width: 16,
                 height: 16,
                 borderRadius: '50%',
-                background: i < pin.length ? 'var(--ac)' : 'var(--bd)',
+                background: i < pin.length ? 'var(--ac)' : 'var(--ln)',
                 transition: 'background 0.2s ease'
               }}
             />

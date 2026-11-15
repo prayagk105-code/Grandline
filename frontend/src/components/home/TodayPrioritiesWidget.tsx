@@ -194,19 +194,22 @@ export const TodayPrioritiesWidget: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="row" style={{ gap: 6, flexShrink: 0 }}>
+                <div className="row" style={{ gap: 4, flexShrink: 0 }}>
+                  {isOverdue && (
+                    <span className="badge badge-overdue badge-sm">
+                      Overdue
+                    </span>
+                  )}
                   <span
                     className={`badge ${
-                      isOverdue
-                        ? 'badge-overdue'
-                        : t.priority === 'High'
+                      t.priority === 'High'
                         ? 'badge-high'
                         : t.priority === 'Medium'
                         ? 'badge-med'
                         : 'badge-low'
                     } badge-sm`}
                   >
-                    {isOverdue ? 'Overdue' : t.priority}
+                    {t.priority}
                   </span>
                 </div>
               </div>

@@ -204,7 +204,7 @@ export const PersonalRulesManager: React.FC = () => {
                 className="cd"
                 style={{
                   padding: 18,
-                  borderLeft: isFollowedToday ? '4px solid var(--ac)' : '4px solid var(--bd)'
+                  borderLeft: isFollowedToday ? '4px solid var(--ac)' : '4px solid var(--ln)'
                 }}
               >
                 <div className="row" style={{ justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 12 }}>
@@ -216,7 +216,7 @@ export const PersonalRulesManager: React.FC = () => {
                         width: 28,
                         height: 28,
                         borderRadius: 8,
-                        border: isFollowedToday ? '2px solid var(--ac)' : '2px solid var(--bd)',
+                        border: isFollowedToday ? '2px solid var(--ac)' : '2px solid var(--ln)',
                         background: isFollowedToday ? 'var(--ac)' : 'transparent',
                         color: isFollowedToday ? '#ffffff' : 'transparent',
                         display: 'flex',

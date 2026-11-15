@@ -25,31 +25,41 @@ export const QuickActionsBar: React.FC<QuickActionsBarProps> = ({
       label: 'Quick Capture',
       icon: 'zap',
       onClick: onQuickCapture,
-      title: 'Capture thoughts, notes, and quick items'
+      title: 'Capture thoughts, notes, and quick items',
+      color: 'var(--hot)',
+      bg: 'var(--hot-soft)'
     },
     {
       label: 'Start Focus',
       icon: 'play',
       onClick: () => navigate('/study?tab=focus'),
-      title: 'Open Focus Timer and deep work session'
+      title: 'Open Focus Timer and deep work session',
+      color: 'var(--mod-focus)',
+      bg: 'var(--mod-focus-soft)'
     },
     {
       label: 'Plan Day',
       icon: 'cal',
       onClick: () => navigate('/planner?tab=calendar'),
-      title: 'View daily schedule and timeline'
+      title: 'View daily schedule and timeline',
+      color: 'var(--mod-planner)',
+      bg: 'var(--mod-planner-soft)'
     },
     {
       label: 'Daily Review',
       icon: 'pen',
       onClick: () => navigate('/journal'),
-      title: 'Open daily evening reflection journal'
+      title: 'Open daily evening reflection journal',
+      color: 'var(--mod-personal)',
+      bg: 'var(--mod-personal-soft)'
     },
     {
       label: 'New Goal',
       icon: 'star',
       onClick: () => navigate('/planner?tab=goals'),
-      title: 'Create or review active goals'
+      title: 'Create or review active goals',
+      color: 'var(--mod-progress)',
+      bg: 'var(--mod-progress-soft)'
     }
   ];
 
@@ -63,8 +73,11 @@ export const QuickActionsBar: React.FC<QuickActionsBarProps> = ({
           onClick={act.onClick}
           title={act.title}
         >
-          <span className="home-quick-icon">
-            <DayformIcon name={act.icon} size={15} />
+          <span
+            className="home-quick-icon"
+            style={!act.primary && act.color ? { color: act.color, background: act.bg } : undefined}
+          >
+            <DayformIcon name={act.icon} size={13} />
           </span>
           <span className="home-quick-label">{act.label}</span>
         </button>
@@ -72,4 +85,3 @@ export const QuickActionsBar: React.FC<QuickActionsBarProps> = ({
     </div>
   );
 };
-

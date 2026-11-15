@@ -158,7 +158,7 @@ export const NinetyDayChallengeView: React.FC = () => {
           </div>
 
           {/* Progress bar */}
-          <div style={{ width: '100%', height: 8, background: 'var(--bd)', borderRadius: 4, margin: '20px 0', overflow: 'hidden' }}>
+          <div style={{ width: '100%', height: 8, background: 'var(--ln)', borderRadius: 4, margin: '20px 0', overflow: 'hidden' }}>
             <div
               style={{
                 width: `${Math.min(100, activeChallenge.progressPercent)}%`,
@@ -208,7 +208,7 @@ export const NinetyDayChallengeView: React.FC = () => {
                       fontSize: 11,
                       fontWeight: 600,
                       cursor: 'pointer',
-                      border: isCurrentNext ? '2px solid var(--ac)' : '1px solid var(--bd)',
+                      border: isCurrentNext ? '2px solid var(--ac)' : '1px solid var(--ln)',
                       background: isCompleted ? 'var(--ac)' : 'var(--sf)',
                       color: isCompleted ? '#ffffff' : 'var(--ink)',
                       transition: 'all 0.15s ease'

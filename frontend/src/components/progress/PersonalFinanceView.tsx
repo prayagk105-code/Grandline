@@ -470,7 +470,7 @@ export const PersonalFinanceView: React.FC = () => {
             </button>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 14 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))', gap: 14 }}>
             {savingsGoals.map((sg) => (
               <div key={sg.id} className="cd" style={{ padding: 18, borderLeft: '3px solid var(--mod-balance)', marginBottom: 0 }}>
                 <h4 style={{ margin: '0 0 6px', fontSize: 15 }}>{sg.title}</h4>
@@ -503,7 +503,7 @@ export const PersonalFinanceView: React.FC = () => {
             </button>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 14 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))', gap: 14 }}>
             {debts.map((d) => (
               <div key={d.id} className="cd" style={{ padding: 18, borderLeft: '3px solid var(--badge-overdue-border)', marginBottom: 0 }}>
                 <h4 style={{ margin: '0 0 4px', fontSize: 15 }}>{d.creditorName}</h4>
@@ -526,7 +526,7 @@ export const PersonalFinanceView: React.FC = () => {
             </button>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 14 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 260px), 1fr))', gap: 14 }}>
             {subscriptions.map((s) => (
               <div key={s.id} className="cd" style={{ padding: 16, marginBottom: 0 }}>
                 <div className="row" style={{ justifyContent: 'space-between', alignItems: 'baseline' }}>

@@ -110,7 +110,7 @@ export const MyJourneyView: React.FC = () => {
           </p>
         </div>
       ) : (
-        <div style={{ position: 'relative', paddingLeft: 24, borderLeft: '2px solid var(--bd)', display: 'flex', flexDirection: 'column', gap: 24, marginLeft: 10 }}>
+        <div style={{ position: 'relative', paddingLeft: 24, borderLeft: '2px solid var(--ln)', display: 'flex', flexDirection: 'column', gap: 24, marginLeft: 10 }}>
           {items.map((item) => (
             <div key={item.id} style={{ position: 'relative' }}>
               {/* Dot */}

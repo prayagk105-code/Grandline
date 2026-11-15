@@ -200,7 +200,7 @@ export const TasksManager: React.FC = () => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       {/* Quick Add Bar */}
-      <form onSubmit={handleQuickAdd} className="card" style={{ display: 'flex', gap: 10, alignItems: 'center', padding: '12px 16px' }}>
+      <form onSubmit={handleQuickAdd} className="cd" style={{ display: 'flex', gap: 10, alignItems: 'center', padding: '10px 14px', marginBottom: 0 }}>
         <input
           type="text"
           placeholder="Quick add a new task for today..."

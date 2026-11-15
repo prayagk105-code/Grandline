@@ -84,7 +84,13 @@ export const MobileMoreSheet: React.FC<MobileMoreSheetProps> = ({
               onClick={onClose}
               className={({ isActive }) => `more-card ${isActive ? 'active' : ''}`}
             >
-              <div className="more-card-icon">
+              <div
+                className="more-card-icon"
+                style={{
+                  color: item.badgeVariant === 'info' ? 'var(--mut)' : `var(--mod-${item.badgeVariant})`,
+                  background: item.badgeVariant === 'info' ? 'var(--sf)' : `var(--mod-${item.badgeVariant}-soft)`
+                }}
+              >
                 <DayformIcon name={item.icon} size={20} />
               </div>
               <div className="more-card-info">

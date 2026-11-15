@@ -155,7 +155,7 @@ export const DigitalDetoxView: React.FC = () => {
                     key={idx}
                     style={{
                       background: 'var(--sf)',
-                      border: '1px solid var(--bd)',
+                      border: '1px solid var(--ln)',
                       padding: '4px 10px',
                       borderRadius: 16,
                       fontSize: 12
@@ -177,7 +177,7 @@ export const DigitalDetoxView: React.FC = () => {
             </div>
           </div>
 
-          <div className="row" style={{ marginTop: 20, paddingTop: 16, borderTop: '1px solid var(--bd)', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div className="row" style={{ marginTop: 20, paddingTop: 16, borderTop: '1px solid var(--ln)', justifyContent: 'space-between', alignItems: 'center' }}>
             <span style={{ fontSize: 13, fontWeight: 500 }}>
               Did you remain clean and adhere to your detox protocol today?
             </span>
