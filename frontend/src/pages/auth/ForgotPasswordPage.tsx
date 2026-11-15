@@ -43,29 +43,31 @@ export const ForgotPasswordPage: React.FC = () => {
 
   return (
     <AuthLayout>
-      <h1>Reset your password.</h1>
-      <p className="mut" style={{ margin: '0 0 18px' }}>
-        Enter your account email to request a single-use reset token.
-      </p>
+      <div className="auth-form-header">
+        <h1 className="auth-form-title">Reset password</h1>
+        <p className="auth-form-desc">
+          Enter your account email to receive a secure, single-use reset link.
+        </p>
+      </div>
 
       {apiError ? (
-        <div className="alert-err" role="alert">
+        <div className="alert-err" role="alert" style={{ marginBottom: 16 }}>
           {apiError}
         </div>
       ) : null}
 
       {resultMsg ? (
-        <div className="cd" style={{ background: 'var(--ac2)', borderColor: 'var(--ac)' }}>
-          <p style={{ margin: 0 }}>{resultMsg}</p>
+        <div className="alert-info" role="status" style={{ marginBottom: 16 }}>
+          <p style={{ margin: 0, fontWeight: 500 }}>{resultMsg}</p>
           {devToken ? (
-            <div style={{ marginTop: 10 }}>
-              <small className="mut">Development test token generated:</small>
-              <div>
+            <div style={{ marginTop: 8, fontSize: 12 }}>
+              <span className="mut">Development test token:</span>
+              <div style={{ marginTop: 4 }}>
                 <Link
                   to={`/reset-password?email=${encodeURIComponent(submittedEmail)}&token=${encodeURIComponent(devToken)}`}
-                  className="lk"
+                  className="auth-link-bold"
                 >
-                  Continue to Reset Password
+                  Continue to Reset Password →
                 </Link>
               </div>
             </div>
@@ -74,23 +76,33 @@ export const ForgotPasswordPage: React.FC = () => {
       ) : null}
 
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
-        <div className="f">
-          <label htmlFor="fp-email">Email</label>
-          <input id="fp-email" type="email" autoComplete="email" {...register('email')} />
-          {errors.email ? <div className="field-err">{errors.email.message}</div> : null}
+        <div className="auth-field">
+          <label htmlFor="fp-email" className="auth-label">
+            Email
+          </label>
+          <div className="auth-input-wrapper">
+            <input
+              id="fp-email"
+              type="email"
+              autoComplete="email"
+              placeholder="name@example.com"
+              className="auth-input"
+              {...register('email')}
+            />
+          </div>
+          {errors.email ? <div className="auth-field-error">{errors.email.message}</div> : null}
         </div>
 
-        <button type="submit" className="btn pri f" disabled={isSubmitting}>
-          {isSubmitting ? 'Sending…' : 'Send reset instructions'}
+        <button type="submit" className="auth-btn-primary" disabled={isSubmitting} style={{ marginTop: 8 }}>
+          {isSubmitting ? 'Sending instructions…' : 'Send Reset Instructions'}
         </button>
       </form>
 
-      <div style={{ textAlign: 'center', marginTop: 14 }}>
-        <Link to="/login" className="lk">
-          Back to sign in
+      <div className="auth-footer">
+        <Link to="/login" className="auth-link-bold">
+          ← Back to sign in
         </Link>
       </div>
     </AuthLayout>
   );
 };
-

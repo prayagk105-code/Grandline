@@ -3,6 +3,7 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Eye, EyeOff } from 'lucide-react';
 import { AuthLayout } from '../../layouts/AuthLayout';
 import { authService } from '../../services/authService';
 import { parseApiError } from '../../services/api/apiError';
@@ -25,6 +26,7 @@ export const ResetPasswordPage: React.FC = () => {
   const navigate = useNavigate();
   const { showToast } = useToast();
   const [apiError, setApiError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
 
   const {
     register,
@@ -43,7 +45,7 @@ export const ResetPasswordPage: React.FC = () => {
     setApiError(null);
     try {
       await authService.resetPassword(values);
-      showToast('Password updated. Please sign in.');
+      showToast('Password updated successfully. Please sign in.');
       navigate('/login', { replace: true });
     } catch (err) {
       setApiError(parseApiError(err).message);
@@ -52,47 +54,88 @@ export const ResetPasswordPage: React.FC = () => {
 
   return (
     <AuthLayout>
-      <h1>Choose a new password.</h1>
-      <p className="mut" style={{ margin: '0 0 18px' }}>
-        Your reset token can only be used once.
-      </p>
+      <div className="auth-form-header">
+        <h1 className="auth-form-title">Choose a new password</h1>
+        <p className="auth-form-desc">
+          Your reset token can only be used once. Choose a strong new password.
+        </p>
+      </div>
 
       {apiError ? (
-        <div className="alert-err" role="alert">
+        <div className="alert-err" role="alert" style={{ marginBottom: 16 }}>
           {apiError}
         </div>
       ) : null}
 
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
-        <div className="f">
-          <label htmlFor="rp-email">Email</label>
-          <input id="rp-email" type="email" {...register('email')} />
-          {errors.email ? <div className="field-err">{errors.email.message}</div> : null}
+        <div className="auth-field">
+          <label htmlFor="rp-email" className="auth-label">
+            Email
+          </label>
+          <div className="auth-input-wrapper">
+            <input
+              id="rp-email"
+              type="email"
+              autoComplete="email"
+              placeholder="name@example.com"
+              className="auth-input"
+              {...register('email')}
+            />
+          </div>
+          {errors.email ? <div className="auth-field-error">{errors.email.message}</div> : null}
         </div>
 
-        <div className="f">
-          <label htmlFor="rp-token">Reset token</label>
-          <input id="rp-token" type="text" {...register('token')} />
-          {errors.token ? <div className="field-err">{errors.token.message}</div> : null}
+        <div className="auth-field">
+          <label htmlFor="rp-token" className="auth-label">
+            Reset token
+          </label>
+          <div className="auth-input-wrapper">
+            <input
+              id="rp-token"
+              type="text"
+              placeholder="Paste your reset token"
+              className="auth-input"
+              {...register('token')}
+            />
+          </div>
+          {errors.token ? <div className="auth-field-error">{errors.token.message}</div> : null}
         </div>
 
-        <div className="f">
-          <label htmlFor="rp-password">New password</label>
-          <input id="rp-password" type="password" placeholder="8+ characters with a letter and number" {...register('newPassword')} />
-          {errors.newPassword ? <div className="field-err">{errors.newPassword.message}</div> : null}
+        <div className="auth-field">
+          <label htmlFor="rp-password" className="auth-label">
+            New password
+          </label>
+          <div className="auth-input-wrapper">
+            <input
+              id="rp-password"
+              type={showPassword ? 'text' : 'password'}
+              autoComplete="new-password"
+              placeholder="8+ characters with a letter and number"
+              className="auth-input has-toggle"
+              {...register('newPassword')}
+            />
+            <button
+              type="button"
+              className="auth-input-toggle"
+              onClick={() => setShowPassword((v) => !v)}
+              aria-label={showPassword ? 'Hide password' : 'Show password'}
+            >
+              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+            </button>
+          </div>
+          {errors.newPassword ? <div className="auth-field-error">{errors.newPassword.message}</div> : null}
         </div>
 
-        <button type="submit" className="btn pri f" disabled={isSubmitting}>
-          {isSubmitting ? 'Updating…' : 'Update password'}
+        <button type="submit" className="auth-btn-primary" disabled={isSubmitting} style={{ marginTop: 8 }}>
+          {isSubmitting ? 'Updating password…' : 'Update Password'}
         </button>
       </form>
 
-      <div style={{ textAlign: 'center', marginTop: 14 }}>
-        <Link to="/login" className="lk">
-          Back to sign in
+      <div className="auth-footer">
+        <Link to="/login" className="auth-link-bold">
+          ← Back to sign in
         </Link>
       </div>
     </AuthLayout>
   );
 };
-

@@ -566,6 +566,9 @@
   .ib,
   .chip,
   .auth-tab,
+  .auth-btn-primary,
+  .auth-btn-google,
+  .auth-input-toggle,
   .nv-btn {
     touch-action: manipulation;
   }

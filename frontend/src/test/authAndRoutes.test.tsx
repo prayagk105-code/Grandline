@@ -52,7 +52,7 @@ describe('Auth and Protected Routing', () => {
 
   it('redirects unauthenticated users to login page', async () => {
     renderApp('/');
-    expect(await screen.findByText('Build the days you want.')).toBeInTheDocument();
+    expect(await screen.findByText('Welcome back')).toBeInTheDocument();
   });
 
   it('validates login form fields before calling API', async () => {
@@ -171,6 +171,82 @@ describe('Auth and Protected Routing', () => {
       expect(screen.getByText('2 of 5 habits done')).toBeInTheDocument();
     });
     expect(screen.getByText('Next: Move your body')).toBeInTheDocument();
+  });
+
+  it('renders all required Grandline Login UI elements including branding, Google button, and password toggle', async () => {
+    const user = userEvent.setup();
+    renderApp('/login');
+
+    // Branding & headings
+    expect(await screen.findByRole('heading', { name: 'Welcome back' })).toBeInTheDocument();
+    expect(screen.getByText('Sign in to continue your journey.')).toBeInTheDocument();
+    expect(screen.getAllByText('GRANDLINE').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('Personal Life Management').length).toBeGreaterThan(0);
+
+    // Desktop left section branding
+    expect(screen.getByText('Manage Your Life, Simply.')).toBeInTheDocument();
+    expect(screen.getByText('Track habits, study, goals and more in one place.')).toBeInTheDocument();
+    expect(screen.getByText('Habits')).toBeInTheDocument();
+    expect(screen.getByText('Study')).toBeInTheDocument();
+    expect(screen.getByText('Planner')).toBeInTheDocument();
+    expect(screen.getByText('Progress')).toBeInTheDocument();
+
+    // Inputs & toggles
+    const emailInput = screen.getByLabelText('Email');
+    const passwordInput = screen.getByLabelText('Password');
+    expect(emailInput).toHaveAttribute('type', 'email');
+    expect(passwordInput).toHaveAttribute('type', 'password');
+
+    // Password show/hide toggle
+    const toggleBtn = screen.getByLabelText('Show password');
+    await user.click(toggleBtn);
+    expect(passwordInput).toHaveAttribute('type', 'text');
+    await user.click(screen.getByLabelText('Hide password'));
+    expect(passwordInput).toHaveAttribute('type', 'password');
+
+    // Remember me & Forgot password
+    expect(screen.getByLabelText('Remember me')).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Forgot password?' })).toBeInTheDocument();
+
+    // Buttons & dividers
+    expect(screen.getByRole('button', { name: 'Sign in' })).toBeInTheDocument();
+    expect(screen.getByText('OR')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /continue with google/i })).toBeInTheDocument();
+
+    // Footer link
+    expect(screen.getByRole('link', { name: 'Create account' })).toBeInTheDocument();
+  });
+
+  it('renders all required Grandline Sign Up UI elements including confirm password and terms checkbox', async () => {
+    const user = userEvent.setup();
+    renderApp('/register');
+
+    // Branding & headings
+    expect(await screen.findByRole('heading', { name: 'Create account' })).toBeInTheDocument();
+    expect(screen.getByText('Get started with Grandline.')).toBeInTheDocument();
+    expect(screen.getByText('Build Better Habits.')).toBeInTheDocument();
+    expect(screen.getByText('Stay focused, organized and make progress daily.')).toBeInTheDocument();
+
+    // Inputs
+    expect(screen.getByLabelText('Full Name')).toBeInTheDocument();
+    expect(screen.getByLabelText('Email')).toBeInTheDocument();
+    expect(screen.getByLabelText('Password')).toBeInTheDocument();
+    expect(screen.getByLabelText('Confirm Password')).toBeInTheDocument();
+    expect(screen.getByRole('checkbox', { name: /terms/i })).toBeInTheDocument();
+
+    // Validate password mismatch
+    await user.type(screen.getByLabelText('Full Name'), 'Alex Morgan');
+    await user.type(screen.getByLabelText('Email'), 'alex@example.com');
+    await user.type(screen.getByLabelText('Password'), 'Password123');
+    await user.type(screen.getByLabelText('Confirm Password'), 'DifferentPass123');
+    await user.click(screen.getByRole('button', { name: 'Create account' }));
+
+    expect(await screen.findByText('Passwords do not match')).toBeInTheDocument();
+    expect(authService.sendOtp).not.toHaveBeenCalled();
+
+    // Secondary button & Footer
+    expect(screen.getByRole('button', { name: /continue with google/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Sign in' })).toBeInTheDocument();
   });
 });
 
