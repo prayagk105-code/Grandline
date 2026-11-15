@@ -139,7 +139,7 @@ Verdict: Maintain foundational morning habits; momentum is firmly compounding.`;
           <div className="row" style={{ gap: 8, alignItems: 'center', marginBottom: 10 }}>
             <span style={{ fontSize: 18 }}>🧭</span>
             <h3 style={{ margin: 0, fontSize: 15, fontWeight: 600 }}>Automated Executive Debrief</h3>
-            <span className="chip on" style={{ fontSize: 10, padding: '1px 6px', marginLeft: 'auto' }}>Generated</span>
+            <span className="badge badge-goals badge-sm" style={{ marginLeft: 'auto' }}>Generated</span>
           </div>
           <p style={{ margin: 0, fontSize: 13, lineHeight: 1.6, whiteSpace: 'pre-line', color: 'var(--ink)' }}>
             {weeklyReport}
@@ -179,7 +179,7 @@ Verdict: Maintain foundational morning habits; momentum is firmly compounding.`;
                   flexDirection: 'column',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  border: '1px solid var(--bd)',
+                  border: '1px solid var(--ln)',
                   fontSize: 11
                 }}
                 title={`${d.date}: ${d.completedCount} completed`}
@@ -203,7 +203,7 @@ Verdict: Maintain foundational morning habits; momentum is firmly compounding.`;
               {bestHabits.map((h) => (
                 <div key={h.id} className="row" style={{ justifyContent: 'space-between', padding: '8px 12px', background: 'var(--sf)', borderRadius: 8 }}>
                   <span style={{ fontSize: 14 }}>{h.name}</span>
-                  <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--ac)' }}>
+                  <span className="badge badge-completed badge-sm">
                     Completed Today ✓
                   </span>
                 </div>
@@ -221,7 +221,7 @@ Verdict: Maintain foundational morning habits; momentum is firmly compounding.`;
               {strugglingHabits.map((h) => (
                 <div key={h.id} className="row" style={{ justifyContent: 'space-between', padding: '8px 12px', background: 'var(--sf)', borderRadius: 8 }}>
                   <span style={{ fontSize: 14 }}>{h.name}</span>
-                  <span style={{ fontSize: 12, fontWeight: 600 }} className="mut">
+                  <span className="badge badge-pending badge-sm">
                     Pending
                   </span>
                 </div>
@@ -240,14 +240,14 @@ Verdict: Maintain foundational morning habits; momentum is firmly compounding.`;
           </p>
 
           <div className="df-grid-2">
-            <div style={{ padding: 14, background: 'var(--sf)', borderRadius: 10, border: '1px solid var(--bd)' }}>
+            <div style={{ padding: 14, background: 'var(--sf)', borderRadius: 10, border: '1px solid var(--ln)' }}>
               <h4 style={{ margin: '0 0 6px', fontSize: 14 }}>🛌 Sleep vs Productivity</h4>
               <p className="mut" style={{ margin: 0, fontSize: 13, lineHeight: 1.5 }}>
                 Current 30-day sleep average is <b>{healthSummary.avgSleepHours.toFixed(1)} hours</b>. Aim for 7.5+ hours for optimal cognitive stamina.
               </p>
             </div>
 
-            <div style={{ padding: 14, background: 'var(--sf)', borderRadius: 10, border: '1px solid var(--bd)' }}>
+            <div style={{ padding: 14, background: 'var(--sf)', borderRadius: 10, border: '1px solid var(--ln)' }}>
               <h4 style={{ margin: '0 0 6px', fontSize: 14 }}>🧠 Deep Work vs Task Throughput</h4>
               <p className="mut" style={{ margin: 0, fontSize: 13, lineHeight: 1.5 }}>
                 Completing an early morning <b>90-minute Deep Work session</b> anchors momentum and doubles afternoon closure rate.

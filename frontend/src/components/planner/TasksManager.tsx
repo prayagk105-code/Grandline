@@ -251,7 +251,7 @@ export const TasksManager: React.FC = () => {
 
         <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
           {overdueCount > 0 && filterView !== 'archived' && (
-            <span style={{ fontSize: 12, color: 'var(--hot)', fontWeight: 600, background: 'rgba(217, 102, 59, 0.1)', padding: '4px 8px', borderRadius: 6 }}>
+            <span className="badge badge-overdue">
               ⚠️ {overdueCount} Overdue
             </span>
           )}
@@ -272,7 +272,7 @@ export const TasksManager: React.FC = () => {
       {loading ? (
         <div style={{ padding: 20, textAlign: 'center', color: 'var(--mut)' }}>Loading tasks...</div>
       ) : filteredTasks.length === 0 ? (
-        <div className="card" style={{ padding: 32, textAlign: 'center', color: 'var(--mut)' }}>
+        <div className="cd" style={{ padding: 32, textAlign: 'center', color: 'var(--mut)' }}>
           <div style={{ margin: '0 auto 8px', opacity: 0.5 }}>
             <DayformIcon name="cal" size={28} />
           </div>
@@ -284,17 +284,20 @@ export const TasksManager: React.FC = () => {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           {filteredTasks.map((t) => {
             const isOverdue = !t.isCompleted && t.dueDate && t.dueDate < today;
+            const priorityClass =
+              t.priority === 'High' ? 'badge-high' : t.priority === 'Medium' ? 'badge-med' : 'badge-low';
             return (
               <div
                 key={t.id}
-                className="card"
+                className="cd"
                 style={{
                   display: 'flex',
                   flexDirection: 'column',
                   gap: 8,
-                  padding: '12px 16px',
+                  padding: '14px 16px',
+                  marginBottom: 8,
                   borderLeft: `4px solid ${
-                    t.isCompleted ? 'var(--mut)' : t.priority === 'High' ? 'var(--hot)' : t.priority === 'Medium' ? '#eab308' : 'var(--ac)'
+                    t.isCompleted ? 'var(--mut)' : t.priority === 'High' ? 'var(--badge-high-text)' : t.priority === 'Medium' ? 'var(--badge-med-text)' : 'var(--ac)'
                   }`
                 }}
               >
@@ -321,7 +324,7 @@ export const TasksManager: React.FC = () => {
                   </button>
 
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
                       <span
                         style={{
                           fontSize: 15,
@@ -340,19 +343,31 @@ export const TasksManager: React.FC = () => {
                           🔄 {t.recurrence}
                         </span>
                       )}
+                      <span className={`badge ${priorityClass} badge-sm`}>
+                        {t.priority}
+                      </span>
+                      {isOverdue && (
+                        <span className="badge badge-overdue badge-sm">
+                          Overdue
+                        </span>
+                      )}
+                      {t.isCompleted && (
+                        <span className="badge badge-completed badge-sm">
+                          Done
+                        </span>
+                      )}
                     </div>
 
                     {t.description && (
                       <p style={{ margin: '4px 0 0', fontSize: 13, color: 'var(--mut)' }}>{t.description}</p>
                     )}
 
-                    <div style={{ display: 'flex', gap: 12, marginTop: 4, fontSize: 12, color: 'var(--mut)' }}>
+                    <div style={{ display: 'flex', gap: 12, marginTop: 4, fontSize: 12, color: 'var(--mut)', flexWrap: 'wrap' }}>
                       {t.dueDate && (
                         <span style={{ color: isOverdue ? 'var(--hot)' : 'inherit', fontWeight: isOverdue ? 600 : 400 }}>
                           📅 {formatDisplayDate(t.dueDate)} {t.dueTime ? `@ ${t.dueTime}` : ''}
                         </span>
                       )}
-                      <span>Priority: {t.priority}</span>
                       {t.subtasks.length > 0 && (
                         <span>
                           Checklist: {t.subtasks.filter((s) => s.isCompleted).length}/{t.subtasks.length}

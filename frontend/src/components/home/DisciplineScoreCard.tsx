@@ -45,14 +45,11 @@ export const DisciplineScoreCard: React.FC = () => {
 
   return (
     <>
-      <div className="cd" style={{ padding: 20, display: 'flex', flexDirection: 'column', gap: 14 }}>
-        <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center' }}>
-          <div className="row" style={{ gap: 8, alignItems: 'center' }}>
-            <span style={{ fontSize: 18 }}>🛡️</span>
-            <div>
-              <h3 style={{ margin: 0, fontSize: 15, fontWeight: 600 }}>Grandline Discipline Score</h3>
-              <span className="mut" style={{ fontSize: 11 }}>True mathematical consistency</span>
-            </div>
+      <div className="cd home-duo-card">
+        <div className="home-duo-header">
+          <div className="home-duo-title">
+            <span style={{ fontSize: 16 }}>🛡️</span>
+            <span>Discipline Score</span>
           </div>
           <button
             type="button"
@@ -60,32 +57,45 @@ export const DisciplineScoreCard: React.FC = () => {
             onClick={() => setShowExplainModal(true)}
             title="Explain Calculation"
             aria-label="Explain Calculation"
+            style={{ width: 24, height: 24, padding: 0 }}
           >
-            <span style={{ fontSize: 13, fontWeight: 700 }}>?</span>
+            <span style={{ fontSize: 12, fontWeight: 700 }}>?</span>
           </button>
         </div>
 
-        <div className="row" style={{ alignItems: 'center', gap: 20 }}>
-          <ProgressRing percent={score} size={84} strokeWidth={8} label={`${score}`} />
-          <div style={{ flex: 1 }}>
-            <div className="row" style={{ gap: 8, alignItems: 'center', marginBottom: 4 }}>
+        <div className="home-duo-center">
+          <ProgressRing percent={score} size={68} strokeWidth={7} label={`${score}`} />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6, justifyContent: 'center' }}>
               <span
                 style={{
-                  fontSize: 12,
+                  fontSize: 11,
                   fontWeight: 700,
                   color: tierColor,
                   background: 'var(--sf)',
                   padding: '2px 8px',
-                  borderRadius: 6
+                  borderRadius: 6,
+                  border: '1px solid var(--bd)'
                 }}
               >
                 {title}
               </span>
             </div>
-            <p className="mut" style={{ margin: 0, fontSize: 12, lineHeight: 1.4 }}>
+            <div className="home-duo-sub">
               Habit: {habitScore}% · Focus: {focusScore}% · Tasks: {taskScore}%
-            </p>
+            </div>
           </div>
+        </div>
+
+        <div className="home-duo-action">
+          <button
+            type="button"
+            className="btn sec"
+            style={{ width: '100%', justifyContent: 'center', padding: '6px 10px', fontSize: 12 }}
+            onClick={() => setShowExplainModal(true)}
+          >
+            View Formula
+          </button>
         </div>
       </div>
 

@@ -1,27 +1,118 @@
 :root {
-  --bg: #f3f0e8;
-  --cd: #fbfaf6;
-  --ink: #1c1d19;
-  --mut: #7b7a70;
-  --ln: #e3dfd2;
-  --ac: #2f5d46;
-  --ac2: #e2ebe3;
-  --hot: #d9663b;
-  --sf: #ece8dc;
+  /* Grandline Modern Color System - Light Mode */
+  --bg: #f8f6f0;
+  --cd: #ffffff;
+  --sf: #efebe1;
+  --ink: #191c19;
+  --mut: #6e776e;
+  --ln: #e5e1d5;
+  --ln-subtle: #eeece4;
+  
+  /* Primary & Accents: Forest Green, Soft Sage, Soft Orange */
+  --ac: #23533c;
+  --ac-hover: #1b4230;
+  --ac-active: #153426;
+  --ac2: #e3ede6;
+  --ac2-text: #1d4b35;
+  --hot: #d86538;
+  --hot-hover: #c4572c;
+  --hot-soft: rgba(216, 101, 56, 0.12);
   --on: #ffffff;
-  --h0: #e8e4d7;
-  --h1: #cadccf;
-  --h2: #93b8a0;
-  --h3: #5a8d70;
-  --h4: #2f5d46;
 
+  /* Heatmap Greens */
+  --h0: #e9e4d6;
+  --h1: #cadbc9;
+  --h2: #91baa0;
+  --h3: #569470;
+  --h4: #23533c;
+
+  /* Standard Labels & Badges - Light Mode */
+  --badge-streak-bg: #fef0ea;
+  --badge-streak-text: #c25324;
+  --badge-streak-border: #fbdcd0;
+
+  --badge-completed-bg: #eaf5ee;
+  --badge-completed-text: #1c7340;
+  --badge-completed-border: #cde9d7;
+
+  --badge-pending-bg: #fef7e7;
+  --badge-pending-text: #a16207;
+  --badge-pending-border: #fae9b8;
+
+  --badge-overdue-bg: #fdeeed;
+  --badge-overdue-text: #b91c1c;
+  --badge-overdue-border: #f9cfce;
+
+  --badge-high-bg: #fdeeed;
+  --badge-high-text: #b91c1c;
+  --badge-high-border: #f9cfce;
+
+  --badge-med-bg: #fef0ea;
+  --badge-med-text: #c25324;
+  --badge-med-border: #fbdcd0;
+
+  --badge-low-bg: #eef5ff;
+  --badge-low-text: #1d4ed8;
+  --badge-low-border: #d3e4fe;
+
+  --badge-active-bg: #eaf5ee;
+  --badge-active-text: #1c7340;
+  --badge-active-border: #cde9d7;
+
+  --badge-archived-bg: #f1efe9;
+  --badge-archived-text: #5f665e;
+  --badge-archived-border: #e0dcd4;
+
+  --badge-success-bg: #eaf5ee;
+  --badge-success-text: #1c7340;
+  --badge-success-border: #cde9d7;
+
+  --badge-warning-bg: #fef7e7;
+  --badge-warning-text: #a16207;
+  --badge-warning-border: #fae9b8;
+
+  --badge-error-bg: #fdeeed;
+  --badge-error-text: #b91c1c;
+  --badge-error-border: #f9cfce;
+
+  --badge-info-bg: #eef5ff;
+  --badge-info-text: #1d4ed8;
+  --badge-info-border: #d3e4fe;
+
+  --badge-goals-bg: #e6f2eb;
+  --badge-goals-text: #1c5035;
+  --badge-goals-border: #cbe3d4;
+
+  --badge-study-bg: #eff6ff;
+  --badge-study-text: #2563eb;
+  --badge-study-border: #dbeafe;
+
+  --badge-finance-bg: #e6f7f5;
+  --badge-finance-text: #0f766e;
+  --badge-finance-border: #c9ede8;
+
+  --badge-health-bg: #edf4ee;
+  --badge-health-text: #2c633d;
+  --badge-health-border: #d2e5d5;
+
+  --badge-focus-bg: #f3effd;
+  --badge-focus-text: #6d28d9;
+  --badge-focus-border: #e2d6fb;
+
+  --badge-personal-bg: #f5eff7;
+  --badge-personal-text: #7e22ce;
+  --badge-personal-border: #ebd9f0;
+
+  /* Typography */
   --font-display: 'Bricolage Grotesque', 'DM Sans', system-ui, -apple-system, sans-serif;
   --font-body: 'DM Sans', system-ui, -apple-system, sans-serif;
 
-  --radius-sm: 9px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 18px;
+  /* Dimensions & Radius */
+  --radius-xs: 6px;
+  --radius-sm: 8px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 16px;
   --radius-sheet: 22px;
   --radius-pill: 999px;
 
@@ -32,54 +123,244 @@
   --space-5: 20px;
   --space-6: 24px;
 
-  --shadow-soft: 0 2px 12px rgba(28, 29, 25, 0.04);
-  --shadow-sheet: 0 -8px 32px rgba(10, 14, 10, 0.16);
-  --focus-ring: 0 0 0 3px rgba(47, 93, 70, 0.28);
+  /* Shadows */
+  --shadow-xs: 0 1px 3px rgba(25, 28, 25, 0.04);
+  --shadow-soft: 0 2px 10px rgba(25, 28, 25, 0.05);
+  --shadow-md: 0 4px 16px rgba(25, 28, 25, 0.07);
+  --shadow-sheet: 0 -8px 32px rgba(15, 20, 16, 0.15);
+  --focus-ring: 0 0 0 3px rgba(35, 83, 60, 0.24);
+
+  /* Buttons & Inputs */
+  --btn-h: 38px;
+  --btn-h-sm: 30px;
+  --btn-h-lg: 44px;
 
   color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --bg: #141713;
-    --cd: #1d211b;
-    --ink: #eceee6;
-    --mut: #9a9f92;
-    --ln: #2d3229;
-    --ac: #7fbf9b;
-    --ac2: #243428;
-    --hot: #e8825a;
-    --sf: #262b23;
-    --on: #10170f;
-    --h0: #262b23;
-    --h1: #2f4a38;
-    --h2: #447a58;
-    --h3: #5fa57a;
-    --h4: #86d3a3;
-    --shadow-soft: 0 2px 12px rgba(0, 0, 0, 0.24);
-    --focus-ring: 0 0 0 3px rgba(127, 191, 155, 0.32);
+    /* Grandline Modern Color System - Dark Mode */
+    --bg: #121513;
+    --cd: #1a201c;
+    --sf: #222b25;
+    --ink: #f0f3ec;
+    --mut: #96a196;
+    --ln: #2b352d;
+    --ln-subtle: #242c26;
+
+    --ac: #52b788;
+    --ac-hover: #67c598;
+    --ac-active: #419c72;
+    --ac2: #1e3125;
+    --ac2-text: #86d3a3;
+    --hot: #ea7a4d;
+    --hot-hover: #f38a5f;
+    --hot-soft: rgba(234, 122, 77, 0.18);
+    --on: #0c130e;
+
+    /* Heatmap Greens - Dark */
+    --h0: #222b25;
+    --h1: #2a4333;
+    --h2: #3a684b;
+    --h3: #4b9268;
+    --h4: #67c598;
+
+    /* Standard Labels & Badges - Dark Mode */
+    --badge-streak-bg: #2d1a11;
+    --badge-streak-text: #f89e74;
+    --badge-streak-border: #4d2817;
+
+    --badge-completed-bg: #13261a;
+    --badge-completed-text: #6ee7b7;
+    --badge-completed-border: #1e472d;
+
+    --badge-pending-bg: #2a200b;
+    --badge-pending-text: #fcd34d;
+    --badge-pending-border: #4a3610;
+
+    --badge-overdue-bg: #2e1414;
+    --badge-overdue-text: #fca5a5;
+    --badge-overdue-border: #521c1c;
+
+    --badge-high-bg: #2e1414;
+    --badge-high-text: #fca5a5;
+    --badge-high-border: #521c1c;
+
+    --badge-med-bg: #2d1a11;
+    --badge-med-text: #f89e74;
+    --badge-med-border: #4d2817;
+
+    --badge-low-bg: #12243d;
+    --badge-low-text: #93c5fd;
+    --badge-low-border: #1d3b66;
+
+    --badge-active-bg: #13261a;
+    --badge-active-text: #6ee7b7;
+    --badge-active-border: #1e472d;
+
+    --badge-archived-bg: #212622;
+    --badge-archived-text: #9ca3af;
+    --badge-archived-border: #333a34;
+
+    --badge-success-bg: #13261a;
+    --badge-success-text: #6ee7b7;
+    --badge-success-border: #1e472d;
+
+    --badge-warning-bg: #2a200b;
+    --badge-warning-text: #fcd34d;
+    --badge-warning-border: #4a3610;
+
+    --badge-error-bg: #2e1414;
+    --badge-error-text: #fca5a5;
+    --badge-error-border: #521c1c;
+
+    --badge-info-bg: #12243d;
+    --badge-info-text: #93c5fd;
+    --badge-info-border: #1d3b66;
+
+    --badge-goals-bg: #16291e;
+    --badge-goals-text: #86d3a3;
+    --badge-goals-border: #224932;
+
+    --badge-study-bg: #12243d;
+    --badge-study-text: #93c5fd;
+    --badge-study-border: #1d3b66;
+
+    --badge-finance-bg: #0d2826;
+    --badge-finance-text: #5eead4;
+    --badge-finance-border: #154743;
+
+    --badge-health-bg: #172c1f;
+    --badge-health-text: #a7f3d0;
+    --badge-health-border: #234931;
+
+    --badge-focus-bg: #241838;
+    --badge-focus-text: #d8b4fe;
+    --badge-focus-border: #422668;
+
+    --badge-personal-bg: #271736;
+    --badge-personal-text: #e9d5ff;
+    --badge-personal-border: #482563;
+
+    --shadow-xs: 0 1px 3px rgba(0, 0, 0, 0.25);
+    --shadow-soft: 0 2px 10px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 18px rgba(0, 0, 0, 0.38);
+    --shadow-sheet: 0 -8px 32px rgba(0, 0, 0, 0.5);
+    --focus-ring: 0 0 0 3px rgba(82, 183, 136, 0.32);
+
     color-scheme: dark;
   }
 }
 
 :root[data-theme='dark'] {
-  --bg: #141713;
-  --cd: #1d211b;
-  --ink: #eceee6;
-  --mut: #9a9f92;
-  --ln: #2d3229;
-  --ac: #7fbf9b;
-  --ac2: #243428;
-  --hot: #e8825a;
-  --sf: #262b23;
-  --on: #10170f;
-  --h0: #262b23;
-  --h1: #2f4a38;
-  --h2: #447a58;
-  --h3: #5fa57a;
-  --h4: #86d3a3;
-  --shadow-soft: 0 2px 12px rgba(0, 0, 0, 0.24);
-  --focus-ring: 0 0 0 3px rgba(127, 191, 155, 0.32);
+  --bg: #121513;
+  --cd: #1a201c;
+  --sf: #222b25;
+  --ink: #f0f3ec;
+  --mut: #96a196;
+  --ln: #2b352d;
+  --ln-subtle: #242c26;
+
+  --ac: #52b788;
+  --ac-hover: #67c598;
+  --ac-active: #419c72;
+  --ac2: #1e3125;
+  --ac2-text: #86d3a3;
+  --hot: #ea7a4d;
+  --hot-hover: #f38a5f;
+  --hot-soft: rgba(234, 122, 77, 0.18);
+  --on: #0c130e;
+
+  /* Heatmap Greens - Dark */
+  --h0: #222b25;
+  --h1: #2a4333;
+  --h2: #3a684b;
+  --h3: #4b9268;
+  --h4: #67c598;
+
+  /* Standard Labels & Badges - Dark Mode */
+  --badge-streak-bg: #2d1a11;
+  --badge-streak-text: #f89e74;
+  --badge-streak-border: #4d2817;
+
+  --badge-completed-bg: #13261a;
+  --badge-completed-text: #6ee7b7;
+  --badge-completed-border: #1e472d;
+
+  --badge-pending-bg: #2a200b;
+  --badge-pending-text: #fcd34d;
+  --badge-pending-border: #4a3610;
+
+  --badge-overdue-bg: #2e1414;
+  --badge-overdue-text: #fca5a5;
+  --badge-overdue-border: #521c1c;
+
+  --badge-high-bg: #2e1414;
+  --badge-high-text: #fca5a5;
+  --badge-high-border: #521c1c;
+
+  --badge-med-bg: #2d1a11;
+  --badge-med-text: #f89e74;
+  --badge-med-border: #4d2817;
+
+  --badge-low-bg: #12243d;
+  --badge-low-text: #93c5fd;
+  --badge-low-border: #1d3b66;
+
+  --badge-active-bg: #13261a;
+  --badge-active-text: #6ee7b7;
+  --badge-active-border: #1e472d;
+
+  --badge-archived-bg: #212622;
+  --badge-archived-text: #9ca3af;
+  --badge-archived-border: #333a34;
+
+  --badge-success-bg: #13261a;
+  --badge-success-text: #6ee7b7;
+  --badge-success-border: #1e472d;
+
+  --badge-warning-bg: #2a200b;
+  --badge-warning-text: #fcd34d;
+  --badge-warning-border: #4a3610;
+
+  --badge-error-bg: #2e1414;
+  --badge-error-text: #fca5a5;
+  --badge-error-border: #521c1c;
+
+  --badge-info-bg: #12243d;
+  --badge-info-text: #93c5fd;
+  --badge-info-border: #1d3b66;
+
+  --badge-goals-bg: #16291e;
+  --badge-goals-text: #86d3a3;
+  --badge-goals-border: #224932;
+
+  --badge-study-bg: #12243d;
+  --badge-study-text: #93c5fd;
+  --badge-study-border: #1d3b66;
+
+  --badge-finance-bg: #0d2826;
+  --badge-finance-text: #5eead4;
+  --badge-finance-border: #154743;
+
+  --badge-health-bg: #172c1f;
+  --badge-health-text: #a7f3d0;
+  --badge-health-border: #234931;
+
+  --badge-focus-bg: #241838;
+  --badge-focus-text: #d8b4fe;
+  --badge-focus-border: #422668;
+
+  --badge-personal-bg: #271736;
+  --badge-personal-text: #e9d5ff;
+  --badge-personal-border: #482563;
+
+  --shadow-xs: 0 1px 3px rgba(0, 0, 0, 0.25);
+  --shadow-soft: 0 2px 10px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 18px rgba(0, 0, 0, 0.38);
+  --shadow-sheet: 0 -8px 32px rgba(0, 0, 0, 0.5);
+  --focus-ring: 0 0 0 3px rgba(82, 183, 136, 0.32);
+
   color-scheme: dark;
 }
-

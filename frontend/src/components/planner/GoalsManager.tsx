@@ -290,24 +290,27 @@ export const GoalsManager: React.FC = () => {
               <p style={{ margin: 0 }}>No goals defined yet. Set your first vision and milestones!</p>
             </div>
           ) : (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 14 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 14 }}>
               {filteredGoals.map((g) => (
-                <div key={g.id} className="card" style={{ display: 'flex', flexDirection: 'column', gap: 10, padding: 16 }}>
+                <div key={g.id} className="cd" style={{ display: 'flex', flexDirection: 'column', gap: 10, padding: 16 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                     <div>
-                      <div style={{ display: 'flex', gap: 6, marginBottom: 4 }}>
-                        <span style={{ fontSize: 11, background: 'var(--ac2)', color: 'var(--ac)', padding: '2px 8px', borderRadius: 4, fontWeight: 600 }}>
+                      <div style={{ display: 'flex', gap: 6, marginBottom: 4, flexWrap: 'wrap' }}>
+                        <span className="badge badge-goals badge-sm">
                           {g.category}
                         </span>
-                        <span style={{ fontSize: 11, background: 'var(--sf)', color: 'var(--mut)', padding: '2px 8px', borderRadius: 4 }}>
+                        <span className="badge badge-info badge-sm">
                           {g.timeframe}
+                        </span>
+                        <span className={`badge ${g.status === 'Completed' ? 'badge-completed' : 'badge-active'} badge-sm`}>
+                          {g.status}
                         </span>
                       </div>
                       <h4 style={{ margin: 0, fontSize: 16 }}>{g.title}</h4>
                     </div>
 
                     <div style={{ display: 'flex', gap: 4 }}>
-                      <button type="button" className="ib" onClick={() => setDeletingGoal(g)} aria-label="Delete goal">
+                      <button type="button" className="ib sm" onClick={() => setDeletingGoal(g)} aria-label="Delete goal">
                         <DayformIcon name="trash" size={13} />
                       </button>
                     </div>
@@ -321,8 +324,8 @@ export const GoalsManager: React.FC = () => {
                       <span style={{ color: 'var(--mut)' }}>Progress</span>
                       <span style={{ fontWeight: 600, color: 'var(--ac)' }}>{g.progressPercentage}%</span>
                     </div>
-                    <div style={{ height: 6, background: 'var(--sf)', borderRadius: 3, overflow: 'hidden' }}>
-                      <div style={{ width: `${g.progressPercentage}%`, height: '100%', background: 'var(--ac)', transition: 'width 0.3s' }} />
+                    <div className="bar">
+                      <i style={{ width: `${g.progressPercentage}%` }} />
                     </div>
                   </div>
 

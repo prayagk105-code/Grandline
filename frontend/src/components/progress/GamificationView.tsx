@@ -102,14 +102,14 @@ export const GamificationView: React.FC = () => {
         style={{
           padding: 28,
           background: 'linear-gradient(135deg, var(--cd) 0%, var(--sf) 100%)',
-          border: '1px solid var(--bd)'
+          border: '1px solid var(--ln)'
         }}
       >
         <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
           <div>
             <div className="row" style={{ gap: 10, alignItems: 'center', marginBottom: 6 }}>
               <span style={{ fontSize: 24 }}>👑</span>
-              <span className="chip on" style={{ fontSize: 12, padding: '3px 10px', textTransform: 'uppercase', letterSpacing: 0.5 }}>
+              <span className="badge badge-goals badge-sm" style={{ textTransform: 'uppercase', letterSpacing: 0.5 }}>
                 {status.tierTitle}
               </span>
             </div>
@@ -130,13 +130,11 @@ export const GamificationView: React.FC = () => {
         </div>
 
         {/* Level XP Bar */}
-        <div style={{ width: '100%', height: 10, background: 'var(--bd)', borderRadius: 5, marginTop: 18, overflow: 'hidden' }}>
-          <div
+        <div className="bar" style={{ height: 10, marginTop: 18 }}>
+          <i
             style={{
               width: `${Math.min(100, status.progressPercent)}%`,
-              height: '100%',
-              background: 'linear-gradient(90deg, var(--ac) 0%, #34d399 100%)',
-              transition: 'width 0.4s ease'
+              background: 'linear-gradient(90deg, var(--ac) 0%, #34d399 100%)'
             }}
           />
         </div>
@@ -151,7 +149,7 @@ export const GamificationView: React.FC = () => {
               Complete consistent actions to earn XP and level up your discipline.
             </p>
           </div>
-          <span className="chip" style={{ fontSize: 11 }}>Resets Daily</span>
+          <span className="badge badge-info badge-sm">Resets Daily</span>
         </div>
 
         <div style={{ display: 'grid', gap: 10 }}>
@@ -167,7 +165,7 @@ export const GamificationView: React.FC = () => {
                   padding: '12px 16px',
                   background: 'var(--sf)',
                   borderRadius: 10,
-                  border: m.isClaimed ? '1px solid var(--bd)' : isCompleted ? '1px solid var(--ac)' : '1px solid var(--bd)',
+                  border: m.isClaimed ? '1px solid var(--ln)' : isCompleted ? '1px solid var(--ac)' : '1px solid var(--ln)',
                   opacity: m.isClaimed ? 0.7 : 1
                 }}
               >
@@ -183,18 +181,17 @@ export const GamificationView: React.FC = () => {
 
                 <div>
                   {m.isClaimed ? (
-                    <span className="mut" style={{ fontSize: 12, fontWeight: 500 }}>Claimed ✓</span>
+                    <span className="badge badge-archived badge-sm">Claimed ✓</span>
                   ) : isCompleted ? (
                     <button
                       type="button"
-                      className="btn pri"
-                      style={{ fontSize: 12, padding: '5px 12px' }}
+                      className="btn pri sm"
                       onClick={() => handleClaimMission(m.id)}
                     >
                       Claim {m.xpReward} XP
                     </button>
                   ) : (
-                    <span className="mut" style={{ fontSize: 12 }}>In Progress</span>
+                    <span className="badge badge-pending badge-sm">In Progress</span>
                   )}
                 </div>
               </div>
@@ -236,7 +233,7 @@ export const GamificationView: React.FC = () => {
                 <div>
                   <h4 style={{ margin: '0 0 2px', fontSize: 14 }}>{b.title}</h4>
                   <p className="mut" style={{ margin: 0, fontSize: 11 }}>{b.description}</p>
-                  <span style={{ fontSize: 10, color: 'var(--ac)', fontWeight: 600 }}>Unlocked ✓</span>
+                  <span className="badge badge-completed badge-sm" style={{ marginTop: 4 }}>Unlocked ✓</span>
                 </div>
               </div>
             );

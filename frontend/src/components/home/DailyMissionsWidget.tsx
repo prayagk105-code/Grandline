@@ -38,7 +38,7 @@ export const DailyMissionsWidget: React.FC = () => {
   const activeMissions = Array.isArray(status.dailyMissions) ? status.dailyMissions.slice(0, 3) : [];
 
   return (
-    <div className="cd" style={{ padding: 20 }}>
+    <div className="cd">
       <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
         <div className="row" style={{ gap: 8, alignItems: 'center' }}>
           <span style={{ fontSize: 18 }}>⚡</span>
@@ -49,7 +49,7 @@ export const DailyMissionsWidget: React.FC = () => {
             </span>
           </div>
         </div>
-        <span className="chip on" style={{ fontSize: 10, padding: '1px 6px' }}>{status.tierTitle ?? 'Navigator'}</span>
+        <span className="badge badge-goals badge-sm">{status.tierTitle ?? 'Navigator'}</span>
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
@@ -64,6 +64,7 @@ export const DailyMissionsWidget: React.FC = () => {
                 alignItems: 'center',
                 padding: '8px 12px',
                 background: 'var(--sf)',
+                border: '1px solid var(--ln)',
                 borderRadius: 8,
                 opacity: m.isClaimed ? 0.6 : 1
               }}
@@ -77,18 +78,17 @@ export const DailyMissionsWidget: React.FC = () => {
 
               <div>
                 {m.isClaimed ? (
-                  <span className="mut" style={{ fontSize: 11 }}>Claimed ✓</span>
+                  <span className="badge badge-archived badge-sm">Claimed ✓</span>
                 ) : isDone ? (
                   <button
                     type="button"
-                    className="btn pri"
-                    style={{ fontSize: 11, padding: '3px 8px' }}
+                    className="btn pri sm"
                     onClick={() => handleClaim(m.id)}
                   >
                     Claim
                   </button>
                 ) : (
-                  <span className="mut" style={{ fontSize: 11 }}>Pending</span>
+                  <span className="badge badge-pending badge-sm">Pending</span>
                 )}
               </div>
             </div>

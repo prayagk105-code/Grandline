@@ -67,9 +67,14 @@ export const TodayPrioritiesWidget: React.FC = () => {
           <DayformIcon name="check" size={17} />
           <b className="d" style={{ fontSize: 16 }}>Today's Priorities</b>
         </div>
-        <Link to="/planner" className="lk" style={{ fontSize: 13 }}>
-          Manage <DayformIcon name="right" size={14} />
-        </Link>
+        <div className="row" style={{ gap: 12, alignItems: 'center' }}>
+          <Link to="/planner?tab=tasks" className="lk" style={{ fontSize: 13 }}>
+            + Add
+          </Link>
+          <Link to="/planner" className="lk" style={{ fontSize: 13, display: 'inline-flex', alignItems: 'center', gap: 3 }}>
+            Manage <DayformIcon name="right" size={13} />
+          </Link>
+        </div>
       </div>
 
       {topPriorities.length === 0 ? (
@@ -100,7 +105,7 @@ export const TodayPrioritiesWidget: React.FC = () => {
                       width: 20,
                       height: 20,
                       borderRadius: 6,
-                      border: '1.5px solid var(--bd)',
+                      border: '1.5px solid var(--ac)',
                       background: 'transparent',
                       cursor: 'pointer',
                       flexShrink: 0
@@ -122,7 +127,7 @@ export const TodayPrioritiesWidget: React.FC = () => {
                     </div>
                     <div className="row" style={{ gap: 8, fontSize: 11 }}>
                       {t.dueDate && (
-                        <span style={{ color: isOverdue ? '#dc2626' : 'var(--mut)' }}>
+                        <span style={{ color: isOverdue ? 'var(--badge-overdue-text)' : 'var(--mut)' }}>
                           {isOverdue ? 'Overdue: ' : 'Due: '}
                           {formatDisplayDate(t.dueDate)}
                         </span>
@@ -133,25 +138,14 @@ export const TodayPrioritiesWidget: React.FC = () => {
                 </div>
 
                 <span
-                  style={{
-                    fontSize: 10,
-                    padding: '2px 7px',
-                    borderRadius: 6,
-                    fontWeight: 600,
-                    flexShrink: 0,
-                    background:
-                      t.priority === 'High'
-                        ? 'rgba(239, 68, 68, 0.15)'
-                        : t.priority === 'Medium'
-                        ? 'rgba(234, 179, 8, 0.15)'
-                        : 'var(--sf)',
-                    color:
-                      t.priority === 'High'
-                        ? '#dc2626'
-                        : t.priority === 'Medium'
-                        ? '#ca8a04'
-                        : 'var(--ink)'
-                  }}
+                  className={`badge ${
+                    t.priority === 'High'
+                      ? 'badge-high'
+                      : t.priority === 'Medium'
+                      ? 'badge-med'
+                      : 'badge-low'
+                  } badge-sm`}
+                  style={{ flexShrink: 0 }}
                 >
                   {t.priority}
                 </span>

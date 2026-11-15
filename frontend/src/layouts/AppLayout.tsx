@@ -1,20 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { DayformIcon } from '../components/common/DayformIcon';
 import { GlobalSearchModal } from '../components/common/GlobalSearchModal';
+import { OfflineBanner } from '../components/common/OfflineBanner';
 import { PinLockModal } from '../components/common/PinLockModal';
+import { PwaInstallModal } from '../components/common/PwaInstallModal';
+import { QuickCaptureModal } from '../components/common/QuickCaptureModal';
+import { MobileMoreSheet } from '../components/layout/MobileMoreSheet';
 import { QuickAddModal } from '../components/layout/QuickAddModal';
 import { useAuth } from '../contexts/AuthContext';
+import { usePwa } from '../utils/usePwa';
 
-const MOBILE_TABS = [
+// Primary 5 Mobile Navigation Tabs
+const PRIMARY_MOBILE_TABS = [
   { to: '/', label: 'Home', icon: 'home', end: true },
   { to: '/habits', label: 'Habits', icon: 'habit', end: false },
   { to: '/study', label: 'Study', icon: 'book', end: false },
-  { to: '/planner', label: 'Planner', icon: 'cal', end: false },
-  { to: '/balance', label: 'Balance', icon: 'wallet', end: false },
-  { to: '/progress', label: 'Progress', icon: 'chart', end: false }
+  { to: '/planner', label: 'Planner', icon: 'cal', end: false }
 ] as const;
 
+// Desktop Navigation - Preserves all 8 sections
 const DESKTOP_NAV = [
   { to: '/', label: 'Home', icon: 'home', end: true },
   { to: '/habits', label: 'Habits', icon: 'habit', end: false },
@@ -26,11 +31,28 @@ const DESKTOP_NAV = [
   { to: '/profile', label: 'Profile', icon: 'user', end: false }
 ] as const;
 
+const MORE_ROUTES = ['/balance', '/progress', '/memories', '/journal', '/health', '/profile'];
+
 export const AppLayout: React.FC = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [quickAddOpen, setQuickAddOpen] = useState(false);
+  const [quickCaptureOpen, setQuickCaptureOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [moreSheetOpen, setMoreSheetOpen] = useState(false);
+  const [installModalOpen, setInstallModalOpen] = useState(false);
+
+  const {
+    canInstall,
+    hasNativePrompt,
+    isInstalled,
+    isOnline,
+    isIOS,
+    swUpdateAvailable,
+    triggerInstall,
+    reloadToUpdate
+  } = usePwa();
 
   // App Lock PIN check
   const [isPinLocked, setIsPinLocked] = useState(() => {
@@ -45,7 +67,8 @@ export const AppLayout: React.FC = () => {
     }
   }, [user?.hasAppPin]);
 
-  const initial = (user?.displayName?.trim()?.[0] || 'A').toUpperCase();
+  const initial = (user?.displayName?.trim()?.[0] || 'G').toUpperCase();
+  const isMoreRouteActive = MORE_ROUTES.some((r) => location.pathname.startsWith(r));
 
   if (isPinLocked) {
     return <PinLockModal onUnlock={() => setIsPinLocked(false)} />;
@@ -53,22 +76,59 @@ export const AppLayout: React.FC = () => {
 
   return (
     <div className="df-shell">
+      {/* Offline & Update Banner */}
+      <OfflineBanner
+        isOnline={isOnline}
+        onUpdateAvailable={swUpdateAvailable}
+        onReloadUpdate={reloadToUpdate}
+      />
+
       <header className="df-header">
         <NavLink to="/" className="df-logo" aria-label="Grandline Home">
-          <b className="df-logo-mark">G</b>
+          <b className="df-logo-mark">⚓</b>
           <span>GRANDLINE</span>
         </NavLink>
 
         <div className="df-header-actions" style={{ alignItems: 'center' }}>
           {/* Cloud Sync Status Indicator */}
           <div
-            className="row"
-            style={{ gap: 6, alignItems: 'center', padding: '4px 8px', borderRadius: 12, background: 'var(--sf)' }}
-            title="Cloud synchronised and up-to-date"
+            className="row sync-badge"
+            style={{
+              gap: 6,
+              alignItems: 'center',
+              padding: '4px 8px',
+              borderRadius: 12,
+              background: 'var(--sf)'
+            }}
+            title={isOnline ? 'Cloud synchronised and up-to-date' : 'Offline - local cache active'}
           >
-            <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#22c55e', display: 'inline-block' }} />
-            <span style={{ fontSize: 11, fontWeight: 500 }} className="mut">Synced</span>
+            <span
+              style={{
+                width: 7,
+                height: 7,
+                borderRadius: '50%',
+                background: isOnline ? '#22c55e' : '#f59e0b',
+                display: 'inline-block'
+              }}
+            />
+            <span style={{ fontSize: 11, fontWeight: 500 }} className="mut">
+              {isOnline ? 'Synced' : 'Offline'}
+            </span>
           </div>
+
+          {/* PWA Install Button when installable and not yet installed */}
+          {canInstall && !isInstalled && (
+            <button
+              type="button"
+              className="btn pri sm install-header-btn"
+              onClick={() => setInstallModalOpen(true)}
+              title="Install Grandline Web App"
+              style={{ padding: '5px 10px', fontSize: 12, gap: 5 }}
+            >
+              <DayformIcon name="download" size={14} />
+              <span className="install-text">Install App</span>
+            </button>
+          )}
 
           <button
             type="button"
@@ -79,16 +139,40 @@ export const AppLayout: React.FC = () => {
           >
             <DayformIcon name="search" />
           </button>
-          <button type="button" className="ib" onClick={() => navigate('/journal')} aria-label="Journal">
+          <button
+            type="button"
+            className="ib"
+            onClick={() => navigate('/journal')}
+            aria-label="Journal"
+            title="Daily Reflection Journal"
+          >
             <DayformIcon name="pen" />
           </button>
-          <button type="button" className="ib" onClick={() => navigate('/planner')} aria-label="Planner">
+          <button
+            type="button"
+            className="ib"
+            onClick={() => navigate('/planner')}
+            aria-label="Planner"
+            title="Calendar & Tasks Planner"
+          >
             <DayformIcon name="cal" />
           </button>
-          <button type="button" className="ib" onClick={() => setQuickAddOpen(true)} aria-label="Quick add">
+          <button
+            type="button"
+            className="ib"
+            onClick={() => setQuickAddOpen(true)}
+            aria-label="Quick add"
+            title="Quick Add Habit or Session"
+          >
             <DayformIcon name="plus" />
           </button>
-          <button type="button" className="av" onClick={() => navigate('/profile')} aria-label="Profile">
+          <button
+            type="button"
+            className="av"
+            onClick={() => navigate('/profile')}
+            aria-label="Profile"
+            title="Account & Settings"
+          >
             {initial}
           </button>
         </div>
@@ -116,6 +200,18 @@ export const AppLayout: React.FC = () => {
             <DayformIcon name="plus" size={16} />
             <span>Quick add</span>
           </button>
+
+          {canInstall && !isInstalled && (
+            <button
+              type="button"
+              className="btn sec f"
+              style={{ marginTop: 6 }}
+              onClick={() => setInstallModalOpen(true)}
+            >
+              <DayformIcon name="download" size={15} />
+              <span>Install PWA</span>
+            </button>
+          )}
         </aside>
 
         <main className="df-main">
@@ -123,9 +219,10 @@ export const AppLayout: React.FC = () => {
         </main>
       </div>
 
+      {/* Exactly 5 items in Mobile Bottom Navigation */}
       <nav className="nv" aria-label="Primary navigation">
         <div className="nv-grid">
-          {MOBILE_TABS.map((tab) => (
+          {PRIMARY_MOBILE_TABS.map((tab) => (
             <NavLink
               key={tab.to}
               to={tab.to}
@@ -138,11 +235,41 @@ export const AppLayout: React.FC = () => {
               {tab.label}
             </NavLink>
           ))}
+
+          {/* 5th Navigation Item: More */}
+          <button
+            type="button"
+            className={`nv-btn ${isMoreRouteActive || moreSheetOpen ? 'on' : ''}`}
+            onClick={() => setMoreSheetOpen(true)}
+            aria-label="More navigation and features"
+            aria-expanded={moreSheetOpen}
+          >
+            <span>
+              <DayformIcon name="more" size={19} />
+            </span>
+            More
+          </button>
         </div>
       </nav>
 
+      {/* Modals & Sheets */}
       <QuickAddModal isOpen={quickAddOpen} onClose={() => setQuickAddOpen(false)} />
+      <QuickCaptureModal isOpen={quickCaptureOpen} onClose={() => setQuickCaptureOpen(false)} />
       <GlobalSearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
+      <MobileMoreSheet
+        isOpen={moreSheetOpen}
+        onClose={() => setMoreSheetOpen(false)}
+        onOpenQuickCapture={() => setQuickCaptureOpen(true)}
+        onOpenInstallModal={() => setInstallModalOpen(true)}
+        canInstall={canInstall && !isInstalled}
+      />
+      <PwaInstallModal
+        isOpen={installModalOpen}
+        onClose={() => setInstallModalOpen(false)}
+        onInstall={triggerInstall}
+        hasNativePrompt={hasNativePrompt}
+        isIOS={isIOS}
+      />
     </div>
   );
 };

@@ -343,8 +343,8 @@ export const PersonalFinanceView: React.FC = () => {
                           ${sg.currentAmount.toLocaleString()} / ${sg.targetAmount.toLocaleString()} ({pct}%)
                         </span>
                       </div>
-                      <div style={{ width: '100%', height: 6, background: 'var(--bd)', borderRadius: 3, overflow: 'hidden' }}>
-                        <div style={{ width: `${pct}%`, height: '100%', background: 'var(--ac)' }} />
+                      <div className="bar">
+                        <i style={{ width: `${pct}%` }} />
                       </div>
                     </div>
                   );
@@ -382,16 +382,7 @@ export const PersonalFinanceView: React.FC = () => {
                   }}
                 >
                   <div className="row" style={{ gap: 12, alignItems: 'center' }}>
-                    <span
-                      style={{
-                        padding: '4px 8px',
-                        borderRadius: 6,
-                        fontSize: 11,
-                        fontWeight: 600,
-                        background: tx.type === 'Income' ? 'rgba(34, 197, 94, 0.15)' : 'rgba(239, 68, 68, 0.15)',
-                        color: tx.type === 'Income' ? '#16a34a' : '#dc2626'
-                      }}
-                    >
+                    <span className={`badge ${tx.type === 'Income' ? 'badge-success' : 'badge-error'} badge-sm`}>
                       {tx.type === 'Income' ? '+ IN' : '- OUT'}
                     </span>
                     <div>
@@ -406,20 +397,21 @@ export const PersonalFinanceView: React.FC = () => {
                       style={{
                         fontSize: 15,
                         fontWeight: 700,
-                        color: tx.type === 'Income' ? '#16a34a' : '#dc2626'
+                        color: tx.type === 'Income' ? 'var(--badge-success-text)' : 'var(--badge-error-text)'
                       }}
                     >
                       {tx.type === 'Income' ? '+' : '-'}${tx.amount.toFixed(2)}
                     </span>
                     <button
                       type="button"
-                      className="ib"
+                      className="ib sm"
                       onClick={async () => {
                         await financeService.removeTransaction(tx.id);
                         load();
                       }}
+                      aria-label="Delete transaction"
                     >
-                      <DayformIcon name="trash" size={12} />
+                      <DayformIcon name="trash" size={13} />
                     </button>
                   </div>
                 </div>
@@ -446,8 +438,8 @@ export const PersonalFinanceView: React.FC = () => {
                 <div style={{ fontSize: 22, fontWeight: 700, color: 'var(--ac)', margin: '4px 0 10px' }}>
                   ${sg.currentAmount.toLocaleString()} <span className="mut" style={{ fontSize: 13, fontWeight: 400 }}>of ${sg.targetAmount.toLocaleString()}</span>
                 </div>
-                <div style={{ width: '100%', height: 6, background: 'var(--bd)', borderRadius: 3, overflow: 'hidden' }}>
-                  <div style={{ width: `${Math.min(100, (sg.currentAmount / sg.targetAmount) * 100)}%`, height: '100%', background: 'var(--ac)' }} />
+                <div className="bar">
+                  <i style={{ width: `${Math.min(100, (sg.currentAmount / sg.targetAmount) * 100)}%` }} />
                 </div>
               </div>
             ))}

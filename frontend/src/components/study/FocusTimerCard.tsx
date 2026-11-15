@@ -31,27 +31,29 @@ export const FocusTimerCard: React.FC<FocusTimerCardProps> = ({ compact = false,
   const timeText = `${mm}:${ss}`;
   const pct = totalSeconds > 0 ? (remainingSeconds / totalSeconds) * 100 : 0;
 
-  const statusText =
-    status === 'running'
-      ? 'Focus in progress'
-      : status === 'completed'
-        ? 'Session complete'
-        : status === 'paused'
-          ? 'Paused — resume when ready'
-          : 'Ready when you are';
+  const statusBadge =
+    status === 'running' ? (
+      <span className="badge badge-focus badge-sm">Focus in progress</span>
+    ) : status === 'completed' ? (
+      <span className="badge badge-completed badge-sm">Session complete</span>
+    ) : status === 'paused' ? (
+      <span className="badge badge-pending badge-sm">Paused — resume when ready</span>
+    ) : (
+      <span className="badge badge-info badge-sm">Ready when you are</span>
+    );
 
   if (compact) {
     return (
       <div className="cd rg">
         <ProgressRing percent={pct} size={92} strokeWidth={9} label={timeText} />
         <div className="g">
-          <p className="mut" style={{ margin: '0 0 10px' }}>{statusText}</p>
+          <div style={{ margin: '0 0 10px' }}>{statusBadge}</div>
           <div className="row">
             <button type="button" className="btn pri" onClick={toggle}>
               <DayformIcon name={status === 'running' ? 'pause' : 'play'} size={15} />
               <span>{status === 'running' ? 'Pause' : 'Start'}</span>
             </button>
-            <button type="button" className="btn" onClick={reset} aria-label="Reset timer">
+            <button type="button" className="ib" onClick={reset} aria-label="Reset timer">
               <DayformIcon name="reset" size={16} />
             </button>
           </div>
@@ -80,7 +82,7 @@ export const FocusTimerCard: React.FC<FocusTimerCardProps> = ({ compact = false,
         <ProgressRing percent={pct} size={170} strokeWidth={10} label={timeText} />
       </div>
 
-      <p className="mut" style={{ margin: '10px 0 14px' }}>{statusText}</p>
+      <div style={{ margin: '12px 0 14px' }}>{statusBadge}</div>
 
       {learningPaths.length > 0 ? (
         <div className="g2" style={{ textAlign: 'left', marginBottom: 14 }}>

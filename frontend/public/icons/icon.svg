@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2a5f45" />
+      <stop offset="100%" stop-color="#1b4230" />
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bgGrad)" />
+  <!-- Anchor Ring -->
+  <circle cx="256" cy="148" r="44" fill="none" stroke="#f8f6f0" stroke-width="26" />
+  <!-- Central Shank -->
+  <line x1="256" y1="184" x2="256" y2="380" stroke="#f8f6f0" stroke-width="28" stroke-linecap="round" />
+  <!-- Crossbar -->
+  <line x1="168" y1="220" x2="344" y2="220" stroke="#f8f6f0" stroke-width="24" stroke-linecap="round" />
+  <circle cx="166" cy="220" r="14" fill="#d86538" />
+  <circle cx="346" cy="220" r="14" fill="#d86538" />
+  <!-- Anchor Crescent Curve -->
+  <path d="M 148 310 C 158 390 220 420 256 420 C 292 420 354 390 364 310" fill="none" stroke="#f8f6f0" stroke-width="28" stroke-linecap="round" />
+  <!-- Left & Right Flukes -->
+  <polygon points="148,290 128,335 168,335" fill="#d86538" />
+  <polygon points="364,290 344,335 384,335" fill="#d86538" />
+</svg>

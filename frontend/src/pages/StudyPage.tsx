@@ -242,7 +242,7 @@ export const StudyPage: React.FC = () => {
                   note="weekly study volume"
                 />
                 <StatCard
-                  icon="study"
+                  icon="book"
                   label="All-time"
                   value={formatDurationMinutes(summary.totalMinutesAllTime)}
                   note="total study logged"

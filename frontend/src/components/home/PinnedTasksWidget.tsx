@@ -42,13 +42,13 @@ export const PinnedTasksWidget: React.FC = () => {
   };
 
   return (
-    <div className="cd" style={{ padding: 20 }}>
+    <div className="cd">
       <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
         <div className="row" style={{ gap: 8, alignItems: 'center' }}>
           <span style={{ fontSize: 16 }}>📌</span>
           <h3 style={{ margin: 0, fontSize: 15, fontWeight: 600 }}>Pinned Critical Actions</h3>
         </div>
-        <span className="chip" style={{ fontSize: 10, padding: '1px 6px' }}>{tasks.length} active</span>
+        <span className="badge badge-active badge-sm">{tasks.length} active</span>
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
@@ -72,7 +72,7 @@ export const PinnedTasksWidget: React.FC = () => {
                   width: 20,
                   height: 20,
                   borderRadius: 6,
-                  border: '1.5px solid var(--bd)',
+                  border: '1.5px solid var(--ac)',
                   background: 'transparent',
                   cursor: 'pointer'
                 }}
@@ -88,14 +88,13 @@ export const PinnedTasksWidget: React.FC = () => {
             </div>
 
             <span
-              style={{
-                fontSize: 10,
-                padding: '2px 6px',
-                borderRadius: 4,
-                fontWeight: 600,
-                background: t.priority === 'High' ? 'rgba(239, 68, 68, 0.15)' : 'var(--sf)',
-                color: t.priority === 'High' ? '#dc2626' : 'var(--ink)'
-              }}
+              className={`badge ${
+                t.priority === 'High'
+                  ? 'badge-high'
+                  : t.priority === 'Medium'
+                  ? 'badge-med'
+                  : 'badge-low'
+              } badge-sm`}
             >
               {t.priority}
             </span>

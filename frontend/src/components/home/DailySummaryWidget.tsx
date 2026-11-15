@@ -50,12 +50,13 @@ export const DailySummaryWidget: React.FC = () => {
           <DayformIcon name="sun" size={17} />
           <b className="d" style={{ fontSize: 16 }}>Today's Accomplishments</b>
         </div>
-        <span className="chip on" style={{ fontSize: 11, padding: '2px 8px' }}>
+        <span className="badge badge-completed badge-sm">
           {completionPct}% overall
         </span>
       </div>
 
       <div
+        className="home-accomplishments-grid"
         style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(110px, 1fr))',
@@ -67,6 +68,7 @@ export const DailySummaryWidget: React.FC = () => {
             padding: '10px 12px',
             borderRadius: 10,
             background: 'var(--sf)',
+            border: '1px solid var(--ln)',
             textAlign: 'center'
           }}
         >
@@ -81,6 +83,7 @@ export const DailySummaryWidget: React.FC = () => {
             padding: '10px 12px',
             borderRadius: 10,
             background: 'var(--sf)',
+            border: '1px solid var(--ln)',
             textAlign: 'center'
           }}
         >
@@ -95,13 +98,29 @@ export const DailySummaryWidget: React.FC = () => {
             padding: '10px 12px',
             borderRadius: 10,
             background: 'var(--sf)',
+            border: '1px solid var(--ln)',
             textAlign: 'center'
           }}
         >
           <div style={{ fontSize: 18, fontWeight: 700, color: 'var(--ink)' }}>
             {formatDurationMinutes(todayFocusMinutes)}
           </div>
-          <div className="mut" style={{ fontSize: 11 }}>Focus Logged</div>
+          <div className="mut" style={{ fontSize: 11 }}>Focus Time</div>
+        </div>
+
+        <div
+          style={{
+            padding: '10px 12px',
+            borderRadius: 10,
+            background: 'var(--sf)',
+            border: '1px solid var(--ln)',
+            textAlign: 'center'
+          }}
+        >
+          <div style={{ fontSize: 18, fontWeight: 700, color: 'var(--ac)' }}>
+            {completionPct}%
+          </div>
+          <div className="mut" style={{ fontSize: 11 }}>Completion</div>
         </div>
       </div>
     </div>

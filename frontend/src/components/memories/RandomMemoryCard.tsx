@@ -35,8 +35,8 @@ export const RandomMemoryCard: React.FC = () => {
   }
 
   return (
-    <div className="cd" style={{ padding: 20, background: 'var(--sf)', border: '1px solid var(--bd)' }}>
-      <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+    <div className="cd" style={{ background: 'var(--sf)', border: '1px solid var(--bd)' }}>
+      <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
         <div className="row" style={{ gap: 8, alignItems: 'center' }}>
           <span style={{ fontSize: 16 }}>✨</span>
           <span style={{ fontSize: 12, fontWeight: 600, textTransform: 'uppercase', letterSpacing: 0.5 }}>
@@ -55,22 +55,22 @@ export const RandomMemoryCard: React.FC = () => {
       </div>
 
       {memory && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           <div className="row" style={{ justifyContent: 'space-between', alignItems: 'baseline' }}>
-            <h4 style={{ margin: 0, fontSize: 16 }}>{memory.title}</h4>
+            <h4 style={{ margin: 0, fontSize: 15 }}>{memory.title}</h4>
             <span className="mut" style={{ fontSize: 12 }}>
               {formatDisplayDate(memory.memoryDate)}
             </span>
           </div>
 
           {memory.note && (
-            <p style={{ margin: 0, fontSize: 13, color: 'var(--ink)', lineHeight: 1.5 }}>
+            <p style={{ margin: 0, fontSize: 13, color: 'var(--ink)', lineHeight: 1.4 }}>
               {memory.note}
             </p>
           )}
 
           {memory.image?.secureUrl && (
-            <div style={{ marginTop: 4, maxHeight: 180, overflow: 'hidden', borderRadius: 8 }}>
+            <div style={{ marginTop: 2, maxHeight: 130, overflow: 'hidden', borderRadius: 8 }}>
               <img
                 src={memory.image.secureUrl}
                 alt={memory.title}
@@ -79,8 +79,8 @@ export const RandomMemoryCard: React.FC = () => {
             </div>
           )}
 
-          <div className="row" style={{ gap: 8, marginTop: 4 }}>
-            <span className="chip" style={{ fontSize: 10, padding: '1px 6px' }}>{memory.category}</span>
+          <div className="row" style={{ gap: 6, marginTop: 2 }}>
+            <span className="badge badge-med badge-sm">{memory.category}</span>
           </div>
         </div>
       )}

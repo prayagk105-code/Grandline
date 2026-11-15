@@ -84,7 +84,7 @@ export const PersonalCheckInWidget: React.FC = () => {
             {mood === 5 && 'Radiant'}
           </span>
         </div>
-        <div className="row" style={{ gap: 8 }}>
+        <div className="row" style={{ gap: 6 }}>
           {[1, 2, 3, 4, 5].map((val) => (
             <button
               key={val}
@@ -94,8 +94,22 @@ export const PersonalCheckInWidget: React.FC = () => {
                 setMood(val);
                 setExpanded(true);
               }}
-              style={{ flex: 1, fontSize: 16, padding: '6px 0', textAlign: 'center' }}
+              style={{
+                flex: 1,
+                fontSize: 18,
+                padding: '8px 0',
+                textAlign: 'center',
+                minHeight: 40,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: 'var(--radius-md)',
+                border: mood === val ? '1.5px solid var(--ac)' : '1px solid var(--bd)',
+                background: mood === val ? 'var(--ac2)' : 'var(--sf)',
+                transition: 'all 0.15s ease'
+              }}
               title={`Mood level ${val}`}
+              aria-label={`Mood level ${val}`}
             >
               {moodEmojis[val - 1]}
             </button>

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { ConfirmDialog } from '../components/common/ConfirmDialog';
 import { DayformIcon } from '../components/common/DayformIcon';
 import { PageHeader } from '../components/common/PageHeader';
+import { PwaInstallModal } from '../components/common/PwaInstallModal';
 import { useAuth } from '../contexts/AuthContext';
 import { useToast } from '../contexts/ToastContext';
 import { parseApiError } from '../services/api/apiError';
@@ -11,6 +12,7 @@ import { profileService } from '../services/profileService';
 import type { ThemePreference } from '../types/api';
 import { toIsoDate } from '../utils/date';
 import { applyThemePreference } from '../utils/theme';
+import { usePwa } from '../utils/usePwa';
 
 const THEMES: ThemePreference[] = ['Auto', 'Light', 'Dark'];
 
@@ -18,6 +20,8 @@ export const ProfilePage: React.FC = () => {
   const { user, setUser, logout } = useAuth();
   const { showToast } = useToast();
   const navigate = useNavigate();
+  const { canInstall, hasNativePrompt, isInstalled, isIOS, triggerInstall } = usePwa();
+  const [pwaModalOpen, setPwaModalOpen] = useState(false);
 
   const [displayName, setDisplayName] = useState(user?.displayName ?? '');
   const [timeZoneId, setTimeZoneId] = useState(user?.timeZoneId ?? 'UTC');
@@ -348,6 +352,32 @@ export const ProfilePage: React.FC = () => {
             </div>
           </div>
 
+          {/* Progressive Web App (PWA) Section */}
+          <div className="cd">
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
+              <b className="d" style={{ fontSize: 16 }}>
+                📱 Mobile App & PWA
+              </b>
+              <span className={`badge ${isInstalled ? 'badge-completed' : 'badge-info'}`}>
+                {isInstalled ? 'App Installed' : 'Browser Mode'}
+              </span>
+            </div>
+            <p className="mut" style={{ margin: '0 0 14px', fontSize: 13 }}>
+              {isInstalled
+                ? 'Grandline is running in standalone mobile/desktop app mode with offline storage.'
+                : 'Install Grandline to your phone home screen or desktop for fast offline launch.'}
+            </p>
+
+            <button
+              type="button"
+              className={`btn ${isInstalled ? 'sec' : 'pri'} f`}
+              onClick={() => setPwaModalOpen(true)}
+            >
+              <DayformIcon name="download" size={15} />
+              <span>{isInstalled ? 'PWA Details & Guidance' : canInstall ? 'Install Grandline App' : 'Installation Guidance'}</span>
+            </button>
+          </div>
+
           {/* Data Export & Backup */}
           <div className="cd">
             <b className="d" style={{ display: 'block', marginBottom: 6, fontSize: 16 }}>
@@ -493,6 +523,15 @@ export const ProfilePage: React.FC = () => {
         isBusy={deleteAccountBusy}
         onConfirm={handleDeleteAccount}
         onCancel={() => setDeleteAccountOpen(false)}
+      />
+
+      {/* PWA Install Modal */}
+      <PwaInstallModal
+        isOpen={pwaModalOpen}
+        onClose={() => setPwaModalOpen(false)}
+        onInstall={triggerInstall}
+        hasNativePrompt={hasNativePrompt}
+        isIOS={isIOS}
       />
     </>
   );

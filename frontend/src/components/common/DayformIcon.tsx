@@ -1,5 +1,7 @@
 import React from 'react';
 import {
+  Activity,
+  Award,
   Bell,
   BookOpen,
   Calendar,
@@ -9,26 +11,37 @@ import {
   ChevronRight,
   Clock,
   Coffee,
+  Compass,
   Copy,
+  Download,
   Droplets,
   Flame,
   Heart,
   Home,
   Image as ImageIcon,
+  LayoutGrid,
   Leaf,
   LineChart,
   MapPin,
   Moon,
+  MoreHorizontal,
   Pause,
   PenLine,
   Play,
   Plus,
   RotateCcw,
+  Search,
+  Settings,
+  ShieldCheck,
+  Sparkles,
   Star,
   Sun,
+  Target,
   Trash2,
   User,
   Wallet,
+  Wifi,
+  WifiOff,
   Wind,
   X,
   Zap
@@ -77,9 +90,23 @@ export const DayformIcon: React.FC<DayformIconProps> = ({ name, size = 19, class
     case 'user': return <User {...props} />;
     case 'wallet': return <Wallet {...props} />;
     case 'bell': return <Bell {...props} />;
+    case 'search': return <Search {...props} />;
+    case 'settings': return <Settings {...props} />;
+    case 'more': return <MoreHorizontal {...props} />;
+    case 'grid': return <LayoutGrid {...props} />;
+    case 'download': return <Download {...props} />;
+    case 'install': return <Download {...props} />;
+    case 'wifi': return <Wifi {...props} />;
+    case 'wifioff':
+    case 'wifi-off': return <WifiOff {...props} />;
+    case 'shield': return <ShieldCheck {...props} />;
+    case 'sparkles': return <Sparkles {...props} />;
+    case 'target': return <Target {...props} />;
+    case 'award': return <Award {...props} />;
+    case 'activity': return <Activity {...props} />;
+    case 'compass': return <Compass {...props} />;
     case 'star':
     default:
       return <Star {...props} />;
   }
 };
-

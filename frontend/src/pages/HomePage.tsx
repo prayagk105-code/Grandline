@@ -177,36 +177,59 @@ export const HomePage: React.FC = () => {
             </WidgetErrorBoundary>
           )}
 
-          {dashConfig.showHabits && (
-            <div className="cd rg">
-              <ProgressRing
-                percent={summary.completionPercentToday ?? 0}
-                size={92}
-                strokeWidth={9}
-                label={`${summary.completionPercentToday ?? 0}%`}
-              />
-              <div className="g">
-                <b className="d" style={{ fontSize: 18, whiteSpace: 'normal' }}>
-                  {summary.completedHabitsToday ?? 0} of {summary.totalActiveHabits ?? 0} habits done
-                </b>
-                <p className="mut" style={{ margin: '4px 0 10px' }}>
-                  {(summary.totalActiveHabits ?? 0) === 0
-                    ? 'Add your first habit to begin tracking.'
-                    : summary.nextIncompleteHabitName
-                      ? `Next: ${summary.nextIncompleteHabitName}`
-                      : 'All done for today.'}
-                </p>
-                <Link to="/habits" className="btn pri">
-                  Check in <DayformIcon name="right" size={16} />
-                </Link>
-              </div>
-            </div>
-          )}
+          {(dashConfig.showHabits || dashConfig.showDisciplineScore) && (
+            <div className="home-habit-discipline-grid">
+              {dashConfig.showHabits && (
+                <div className="cd home-duo-card">
+                  <div className="home-duo-header">
+                    <div className="home-duo-title">
+                      <DayformIcon name="check" size={16} />
+                      <span>Habits Today</span>
+                    </div>
+                    <span className="badge badge-completed badge-sm">
+                      {summary.completionPercentToday ?? 0}%
+                    </span>
+                  </div>
 
-          {dashConfig.showDisciplineScore && (
-            <WidgetErrorBoundary>
-              <DisciplineScoreCard />
-            </WidgetErrorBoundary>
+                  <div className="home-duo-center">
+                    <ProgressRing
+                      percent={summary.completionPercentToday ?? 0}
+                      size={68}
+                      strokeWidth={7}
+                      label={`${summary.completionPercentToday ?? 0}%`}
+                    />
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                      <div className="home-duo-stat">
+                        {summary.completedHabitsToday ?? 0} of {summary.totalActiveHabits ?? 0} habits done
+                      </div>
+                      <div className="home-duo-sub">
+                        {(summary.totalActiveHabits ?? 0) === 0
+                          ? 'Add your first habit to begin tracking.'
+                          : summary.nextIncompleteHabitName
+                            ? `Next: ${summary.nextIncompleteHabitName}`
+                            : 'All done for today.'}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="home-duo-action">
+                    <Link
+                      to="/habits"
+                      className="btn pri"
+                      style={{ width: '100%', justifyContent: 'center', padding: '6px 10px', fontSize: 12 }}
+                    >
+                      Check in <DayformIcon name="right" size={14} />
+                    </Link>
+                  </div>
+                </div>
+              )}
+
+              {dashConfig.showDisciplineScore && (
+                <WidgetErrorBoundary>
+                  <DisciplineScoreCard />
+                </WidgetErrorBoundary>
+              )}
+            </div>
           )}
 
           {dashConfig.showMissions && (

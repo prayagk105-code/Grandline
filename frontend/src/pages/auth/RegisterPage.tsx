@@ -43,10 +43,10 @@ export const RegisterPage: React.FC = () => {
     formState: { errors }
   } = useForm<RegisterFormValues>({
     resolver: zodResolver(schema),
-    defaultValues: pendingValues || {
-      displayName: '',
-      email: '',
-      password: ''
+    defaultValues: {
+      displayName: pendingValues?.displayName ?? '',
+      email: pendingValues?.email ?? '',
+      password: pendingValues?.password ?? ''
     }
   });
 
