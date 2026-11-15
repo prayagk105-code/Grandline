@@ -37,8 +37,11 @@ export const TodayHabitsWidget: React.FC<TodayHabitsWidgetProps> = ({
           <div style={{ minWidth: 0, flex: 1 }}>
             <div className="row" style={{ alignItems: 'center', gap: 6 }}>
               <b className="d" style={{ fontSize: 15 }}>Today's Habits</b>
-              <span className="badge badge-habits badge-sm" style={{ fontWeight: 600 }}>
-                {completionPct}%
+              <span
+                className={`badge badge-sm ${completionPct === 100 ? 'badge-success' : 'badge-habits'}`}
+                style={{ fontWeight: 600 }}
+              >
+                {completionPct === 100 ? '100% Done' : `${completionPct}%`}
               </span>
             </div>
             <div className="mut" style={{ fontSize: 11, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
@@ -61,14 +64,15 @@ export const TodayHabitsWidget: React.FC<TodayHabitsWidgetProps> = ({
       </div>
 
       {/* Mini Progress Bar */}
-      <div style={{ height: 4, width: '100%', borderRadius: 999, background: 'var(--sf)', overflow: 'hidden', marginBottom: 10 }}>
+      <div style={{ height: 5, width: '100%', borderRadius: 'var(--radius-full)', background: 'var(--sf)', overflow: 'hidden', marginBottom: 12 }}>
         <div
           style={{
             height: '100%',
             width: `${Math.min(100, Math.max(0, completionPct))}%`,
-            background: 'var(--mod-habits)',
-            borderRadius: 999,
-            transition: 'width 0.3s ease'
+            background: 'var(--gradient-success, #287447)',
+            borderRadius: 'var(--radius-full)',
+            transition: 'width 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+            boxShadow: completionPct > 0 ? '0 0 8px rgba(40, 116, 71, 0.35)' : 'none'
           }}
         />
       </div>

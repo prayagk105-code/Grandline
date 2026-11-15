@@ -23,16 +23,18 @@ export const HabitRow: React.FC<HabitRowProps> = ({ habit, onToggle, onEdit, onD
     return 'badge-habits';
   };
 
+  const isDone = habit.completedToday;
+
   return (
     <div
       className={`li ${compact ? 'li-compact' : ''}`}
       style={{
         opacity: habit.isActive ? 1 : 0.65,
-        padding: compact ? '7px 9px' : '10px 0',
+        padding: compact ? '8px 10px' : '11px 4px',
         borderRadius: compact ? 'var(--radius-md)' : undefined,
-        background: compact ? 'var(--sf)' : undefined,
-        border: compact ? '1px solid var(--ln)' : undefined,
-        transition: 'background-color 0.15s ease',
+        background: compact ? (isDone ? 'var(--color-success-bg, #EAF5EE)' : 'var(--cd-sec)') : undefined,
+        border: compact ? (isDone ? '1px solid var(--color-success-border, #C6E7D2)' : '1px solid var(--ln)') : undefined,
+        transition: 'all 0.18s cubic-bezier(0.16, 1, 0.3, 1)',
         alignItems: 'center'
       }}
     >
@@ -42,10 +44,10 @@ export const HabitRow: React.FC<HabitRowProps> = ({ habit, onToggle, onEdit, onD
           width: compact ? 30 : 36,
           height: compact ? 30 : 36,
           borderRadius: compact ? 'var(--radius-xs)' : 'var(--radius-sm)',
-          background: habit.completedToday ? 'var(--badge-completed-bg)' : 'var(--cd)',
-          color: habit.completedToday ? 'var(--badge-completed-text)' : 'var(--mod-habits)',
-          border: compact ? '1px solid var(--ln)' : undefined,
-          transition: 'all 0.15s ease',
+          background: isDone ? 'var(--color-success-bg, #EAF5EE)' : 'var(--cd-sec)',
+          color: isDone ? 'var(--color-success, #287447)' : 'var(--mod-habits)',
+          border: isDone ? '1px solid var(--color-success-border, #C6E7D2)' : '1px solid var(--ln)',
+          transition: 'all 0.18s ease',
           flexShrink: 0
         }}
       >
@@ -58,8 +60,8 @@ export const HabitRow: React.FC<HabitRowProps> = ({ habit, onToggle, onEdit, onD
             style={{
               fontSize: compact ? 13 : 13.5,
               fontWeight: 600,
-              textDecoration: habit.completedToday ? 'line-through' : 'none',
-              color: habit.completedToday ? 'var(--mut)' : 'var(--ink)',
+              textDecoration: isDone ? 'line-through' : 'none',
+              color: isDone ? 'var(--mut)' : 'var(--ink)',
               transition: 'color 0.15s ease',
               whiteSpace: compact ? 'nowrap' : 'normal',
               overflow: compact ? 'hidden' : 'visible',
@@ -71,7 +73,19 @@ export const HabitRow: React.FC<HabitRowProps> = ({ habit, onToggle, onEdit, onD
           <span className={`badge ${getCategoryBadgeClass(habit.category)} badge-sm`} style={{ flexShrink: 0 }}>
             {habit.category}
           </span>
-          {!habit.isActive && <span className="badge badge-archived badge-sm" style={{ flexShrink: 0 }}>Archived</span>}
+          {isDone ? (
+            <span className="badge badge-completed badge-sm" style={{ flexShrink: 0 }}>
+              Done ✓
+            </span>
+          ) : habit.isActive ? (
+            <span className="badge badge-pending badge-sm" style={{ flexShrink: 0 }}>
+              To Do
+            </span>
+          ) : (
+            <span className="badge badge-archived badge-sm" style={{ flexShrink: 0 }}>
+              Archived
+            </span>
+          )}
         </div>
         {habit.target ? (
           <small
@@ -114,13 +128,13 @@ export const HabitRow: React.FC<HabitRowProps> = ({ habit, onToggle, onEdit, onD
 
         <button
           type="button"
-          className={`ck ${habit.completedToday ? 'on' : ''}`}
+          className={`ck ${isDone ? 'on' : ''}`}
           style={compact ? { width: 30, height: 30 } : undefined}
           onClick={() => onToggle(habit)}
           disabled={busy || !habit.isActive}
-          aria-label={`${habit.completedToday ? 'Uncheck' : 'Complete'} ${habit.name}`}
-          aria-pressed={habit.completedToday}
-          title={habit.completedToday ? 'Mark Incomplete' : 'Check In Today'}
+          aria-label={`${isDone ? 'Uncheck' : 'Complete'} ${habit.name}`}
+          aria-pressed={isDone}
+          title={isDone ? 'Mark Incomplete' : 'Check In Today'}
         >
           <DayformIcon name="check" size={compact ? 14 : 16} />
         </button>

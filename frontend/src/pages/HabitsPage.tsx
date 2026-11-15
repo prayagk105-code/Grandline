@@ -40,6 +40,7 @@ export const HabitsPage: React.FC = () => {
   const [summary, setSummary] = useState<HabitSummaryDto | null>(null);
   const [heatmap, setHeatmap] = useState<HabitHeatmapDayDto[]>([]);
   const [category, setCategory] = useState('All');
+  const [searchQuery, setSearchQuery] = useState('');
   const [showArchived, setShowArchived] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -83,10 +84,21 @@ export const HabitsPage: React.FC = () => {
     return Array.from(dynamic);
   }, [habits]);
 
-  const filtered = useMemo(
-    () => habits.filter((h) => category === 'All' || h.category.toLowerCase() === category.toLowerCase()),
-    [habits, category]
-  );
+  const categoryCounts = useMemo(() => {
+    const counts: Record<string, number> = { All: habits.length };
+    habits.forEach((h) => {
+      counts[h.category] = (counts[h.category] || 0) + 1;
+    });
+    return counts;
+  }, [habits]);
+
+  const filtered = useMemo(() => {
+    return habits.filter((h) => {
+      const matchesCategory = category === 'All' || h.category.toLowerCase() === category.toLowerCase();
+      const matchesSearch = !searchQuery.trim() || h.name.toLowerCase().includes(searchQuery.trim().toLowerCase());
+      return matchesCategory && matchesSearch;
+    });
+  }, [habits, category, searchQuery]);
 
   const handleToggle = async (habit: HabitDto) => {
     setBusyId(habit.id);
@@ -142,6 +154,11 @@ export const HabitsPage: React.FC = () => {
       setDeleteBusy(false);
     }
   };
+
+  const doneCount = useMemo(() => habits.filter((h) => h.completedToday).length, [habits]);
+  const totalActive = summary?.activeCount ?? habits.length;
+  const completionRate = totalActive > 0 ? Math.round((doneCount / totalActive) * 100) : 0;
+  const remainingCount = Math.max(0, totalActive - doneCount);
 
   return (
     <>
@@ -210,86 +227,165 @@ export const HabitsPage: React.FC = () => {
 
           {summary ? (
             <>
-              {/* Stat Cards with Module-aware Accents */}
+              {/* Stat Cards with 4-Color Semantic System */}
               <div className="g4">
                 <StatCard
                   icon="habit"
                   label="Active Habits"
                   value={summary.activeCount ?? 0}
-                  note={`${habits.filter((h) => h.completedToday).length} done today`}
-                  accent="green"
+                  note={`${doneCount} done today`}
+                  accent="blue"
                 />
                 <StatCard
                   icon="chart"
                   label="Today Done"
-                  value={`${summary.activeCount > 0 ? Math.round((habits.filter((h) => h.completedToday).length / summary.activeCount) * 100) : 0}%`}
-                  note="completion rate"
-                  accent="forest"
+                  value={`${completionRate}%`}
+                  note={`${doneCount} of ${totalActive} done`}
+                  accent="green"
                 />
                 <StatCard
                   icon="flame"
                   label="Current Streak"
                   value={`${summary.currentStreakDays ?? 0}d`}
                   note={`Best: ${summary.bestStreakDays ?? 0}d`}
-                  accent="orange"
+                  accent="amber"
                 />
                 <StatCard
                   icon="clock"
-                  label="7-Day Avg"
-                  value={`${Math.round(summary.weeklyAveragePercent ?? 0)}%`}
-                  note="consistency"
-                  accent="blue"
+                  label="Remaining Today"
+                  value={remainingCount}
+                  note={remainingCount === 0 ? 'All finished today!' : `${remainingCount} left to complete`}
+                  accent={remainingCount === 0 ? 'green' : 'red'}
                 />
               </div>
 
-              {/* Filters & Category Pills */}
-              <div className="row" style={{ justifyContent: 'space-between', marginBottom: 12, flexWrap: 'wrap', gap: 10 }}>
-                <div className="chips" style={{ marginBottom: 0 }}>
-                  {categories.map((cat) => (
-                    <button
-                      key={cat}
-                      type="button"
-                      className={`chip ${category === cat ? 'on' : ''}`}
-                      onClick={() => setCategory(cat)}
+              {/* Live Search & Filter Bar */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 16 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+                  <div style={{ position: 'relative', width: '100%', maxWidth: 300, minWidth: 200 }}>
+                    <span
+                      style={{
+                        position: 'absolute',
+                        left: 10,
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        color: 'var(--tx-muted)',
+                        pointerEvents: 'none',
+                        display: 'flex',
+                        alignItems: 'center'
+                      }}
                     >
-                      {cat}
-                    </button>
-                  ))}
+                      <DayformIcon name="search" size={14} />
+                    </span>
+                    <input
+                      type="text"
+                      placeholder="Search habits..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="inp sm"
+                      style={{ paddingLeft: 32, paddingRight: searchQuery ? 28 : 12, borderRadius: 'var(--radius-md)', width: '100%' }}
+                    />
+                    {searchQuery ? (
+                      <button
+                        type="button"
+                        onClick={() => setSearchQuery('')}
+                        style={{
+                          position: 'absolute',
+                          right: 8,
+                          top: '50%',
+                          transform: 'translateY(-50%)',
+                          background: 'transparent',
+                          border: 'none',
+                          color: 'var(--tx-muted)',
+                          cursor: 'pointer',
+                          padding: 4,
+                          display: 'flex',
+                          alignItems: 'center'
+                        }}
+                        aria-label="Clear search"
+                      >
+                        <DayformIcon name="x" size={12} />
+                      </button>
+                    ) : null}
+                  </div>
+
+                  <label className="mut" style={{ display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer', fontSize: 12, userSelect: 'none' }}>
+                    <input
+                      type="checkbox"
+                      checked={showArchived}
+                      onChange={(e) => setShowArchived(e.target.checked)}
+                      style={{ accentColor: 'var(--color-calm, #2563EB)' }}
+                    />
+                    <span>Show archived habits</span>
+                  </label>
                 </div>
 
-                <label className="mut" style={{ display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer', fontSize: 12 }}>
-                  <input
-                    type="checkbox"
-                    checked={showArchived}
-                    onChange={(e) => setShowArchived(e.target.checked)}
-                    style={{ accentColor: 'var(--ac)' }}
-                  />
-                  <span>Show archived habits</span>
-                </label>
+                {/* Category Filter Pills with Badges */}
+                <div className="chips" style={{ marginBottom: 0, gap: 6, overflowX: 'auto', paddingBottom: 4 }}>
+                  {categories.map((cat) => {
+                    const count = categoryCounts[cat] ?? 0;
+                    const isSelected = category === cat;
+                    return (
+                      <button
+                        key={cat}
+                        type="button"
+                        className={`chip ${isSelected ? 'on' : ''}`}
+                        onClick={() => setCategory(cat)}
+                        style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
+                      >
+                        <span>{cat}</span>
+                        <span
+                          style={{
+                            fontSize: 10,
+                            padding: '1px 6px',
+                            borderRadius: 'var(--radius-full)',
+                            background: isSelected ? 'rgba(255,255,255,0.22)' : 'var(--border-subtle)',
+                            color: isSelected ? '#ffffff' : 'var(--tx-muted)',
+                            fontWeight: 600
+                          }}
+                        >
+                          {count}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
 
               {/* Habits List Container */}
               {filtered.length > 0 ? (
-                <div className="cd" style={{ marginBottom: 20 }}>
-                  {filtered.map((h) => (
-                    <HabitRow
-                      key={h.id}
-                      habit={h}
-                      busy={busyId === h.id}
-                      onToggle={handleToggle}
-                      onEdit={(item) => {
-                        setEditingHabit(item);
-                        setFormOpen(true);
-                      }}
-                      onDelete={setDeletingHabit}
-                    />
-                  ))}
+                <div style={{ marginBottom: 20 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8, padding: '0 4px' }}>
+                    <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--tx-muted)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                      {category} Habits ({filtered.length})
+                    </span>
+                    <span style={{ fontSize: 12, color: 'var(--tx-muted)' }}>
+                      {filtered.filter((h) => h.completedToday).length} of {filtered.length} completed
+                    </span>
+                  </div>
+                  <div className="cd" style={{ marginBottom: 0 }}>
+                    {filtered.map((h) => (
+                      <HabitRow
+                        key={h.id}
+                        habit={h}
+                        busy={busyId === h.id}
+                        onToggle={handleToggle}
+                        onEdit={(item) => {
+                          setEditingHabit(item);
+                          setFormOpen(true);
+                        }}
+                        onDelete={setDeletingHabit}
+                      />
+                    ))}
+                  </div>
                 </div>
               ) : (
                 <EmptyState
                   title="No habits here"
                   description={
-                    category === 'All'
+                    searchQuery
+                      ? `No habits matching "${searchQuery}".`
+                      : category === 'All'
                       ? 'Add a daily habit you want to build and stay consistent with.'
                       : `No habits found under category "${category}".`
                   }
