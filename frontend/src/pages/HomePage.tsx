@@ -209,6 +209,43 @@ export const HomePage: React.FC = () => {
             />
           </div>
         </div>
+
+        {/* Compact Split Overview Snapshot Row (Side-by-Side) */}
+        <div className="home-mobile-overview-stats">
+          <div className="home-mobile-stat-pill">
+            <div className="home-mobile-stat-top">
+              <span className="home-mobile-stat-lbl">
+                <DayformIcon name="habit" size={12} /> Habits
+              </span>
+              <span className="home-mobile-stat-pct">
+                {summary.completionPercentToday ?? 0}%
+              </span>
+            </div>
+            <div className="home-mobile-stat-val">
+              {summary.completedHabitsToday ?? 0}
+              <span style={{ fontSize: 11, fontWeight: 500, color: 'var(--mut)' }}>
+                / {summary.totalActiveHabits ?? 0} done
+              </span>
+            </div>
+          </div>
+
+          <div className="home-mobile-stat-pill">
+            <div className="home-mobile-stat-top">
+              <span className="home-mobile-stat-lbl">
+                <DayformIcon name="flame" size={12} /> Streak
+              </span>
+              <span style={{ fontSize: 11, fontWeight: 500, color: 'var(--mut)' }}>
+                Best: {summary.bestStreakDays ?? 0}d
+              </span>
+            </div>
+            <div className="home-mobile-stat-val">
+              {summary.currentStreakDays ?? 0}
+              <span style={{ fontSize: 11, fontWeight: 500, color: 'var(--mut)' }}>
+                days
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Desktop Greeting & Journey Banner (>= 768px) */}

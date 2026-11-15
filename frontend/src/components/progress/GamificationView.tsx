@@ -207,6 +207,7 @@ export const GamificationView: React.FC = () => {
         </p>
 
         <div
+          className="gamification-badges-grid"
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 160px), 1fr))',

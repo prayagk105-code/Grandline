@@ -274,7 +274,7 @@ export const ProfilePage: React.FC = () => {
             <input id="prof-email" type="email" value={user?.email ?? ''} disabled />
           </div>
 
-          <div className="g2 g2-stack-mobile">
+          <div className="g2 profile-journey-tz-grid">
             <div className="f">
               <label htmlFor="prof-journey">Journey start date</label>
               <input
@@ -388,25 +388,27 @@ export const ProfilePage: React.FC = () => {
             </p>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              <button type="button" className="btn sec f" onClick={handleExportJson} disabled={exporting}>
-                <DayformIcon name="copy" size={15} />
-                <span>{exporting ? 'Preparing export…' : 'Export Full Backup (JSON)'}</span>
-              </button>
+              <div className="profile-exports-grid">
+                <button type="button" className="btn sec f" onClick={handleExportJson} disabled={exporting}>
+                  <DayformIcon name="copy" size={15} />
+                  <span>{exporting ? 'Preparing export…' : 'Export Full Backup (JSON)'}</span>
+                </button>
 
-              <button type="button" className="btn sec f" onClick={handleExportCsv}>
-                <DayformIcon name="habit" size={15} />
-                <span>Export Habit Records (CSV)</span>
-              </button>
+                <button type="button" className="btn sec f" onClick={handleExportCsv}>
+                  <DayformIcon name="habit" size={15} />
+                  <span>Export Habit Records (CSV)</span>
+                </button>
 
-              <button type="button" className="btn sec f" onClick={handleExportPdf}>
-                <DayformIcon name="pen" size={15} />
-                <span>Print & Save Summary Report (PDF)</span>
-              </button>
+                <button type="button" className="btn sec f" onClick={handleExportPdf}>
+                  <DayformIcon name="pen" size={15} />
+                  <span>Print & Save Summary Report (PDF)</span>
+                </button>
 
-              <button type="button" className="btn sec f" onClick={handleExportCalendarIcs}>
-                <DayformIcon name="cal" size={15} />
-                <span>Export Calendar Schedule (.ICS)</span>
-              </button>
+                <button type="button" className="btn sec f" onClick={handleExportCalendarIcs}>
+                  <DayformIcon name="cal" size={15} />
+                  <span>Export Calendar Schedule (.ICS)</span>
+                </button>
+              </div>
 
               <input
                 type="file"

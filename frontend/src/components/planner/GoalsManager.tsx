@@ -253,7 +253,7 @@ export const GoalsManager: React.FC = () => {
       {activeTab === 'goals' ? (
         <>
           {/* Filters Bar */}
-          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+          <div className="goals-filter-grid" style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
             <select
               value={categoryFilter}
               onChange={(e) => setCategoryFilter(e.target.value)}

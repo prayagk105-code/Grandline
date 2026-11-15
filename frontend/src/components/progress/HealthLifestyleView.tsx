@@ -252,7 +252,7 @@ export const HealthLifestyleView: React.FC = () => {
         <div className="cd">
           <h3 style={{ margin: '0 0 16px', fontSize: 18 }}>Log Vitals for {formatDisplayDate(selectedDate)}</h3>
 
-          <form onSubmit={handleSaveDaily} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 200px), 1fr))', gap: 14 }}>
+          <form onSubmit={handleSaveDaily} className="health-vitals-grid">
             <div>
               <label className="lbl">Sleep Hours</label>
               <input
@@ -345,7 +345,7 @@ export const HealthLifestyleView: React.FC = () => {
               </div>
 
               {showMeasurements && (
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 12 }}>
+                <div className="health-measurements-grid">
                   <div>
                     <label className="lbl">Waist (cm)</label>
                     <input

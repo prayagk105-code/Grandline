@@ -168,7 +168,33 @@
 /* Extra small mobile phones (<= 360px) */
 @media (max-width: 360px) {
   .df-main {
-    padding: 10px 8px calc(84px + env(safe-area-inset-bottom, 0px));
+    padding: 8px 6px calc(84px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .home-mobile-greeting {
+    padding: 11px 12px;
+  }
+
+  .home-mobile-title {
+    font-size: 16.5px;
+  }
+
+  .home-mobile-overview-stats {
+    gap: 6px;
+    margin-top: 8px;
+    padding-top: 8px;
+  }
+
+  .home-mobile-stat-pill {
+    padding: 6px 8px;
+  }
+
+  .home-mobile-stat-lbl {
+    font-size: 10px;
+  }
+
+  .home-mobile-stat-val {
+    font-size: 12px;
   }
 
   .home-daily-progress-grid {
@@ -176,16 +202,59 @@
   }
 
   .home-stat-box {
-    padding: 8px 10px;
+    padding: 8px 8px;
   }
 
   .home-stat-val {
-    font-size: 15px;
+    font-size: 14px;
+  }
+
+  .home-quick-actions-bar {
+    gap: 6px !important;
   }
 
   .home-quick-btn {
-    padding: 6px 10px;
-    font-size: 11.5px;
+    padding: 7px 7px !important;
+    gap: 5px !important;
+    font-size: 11px !important;
+  }
+
+  .home-quick-label {
+    font-size: 11px !important;
+  }
+
+  .health-measurements-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .profile-journey-tz-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .profile-exports-grid {
+    gap: 6px !important;
+  }
+
+  .profile-exports-grid .btn {
+    font-size: 10.5px !important;
+    padding: 7px 4px !important;
+  }
+
+  .st {
+    padding: 9px 8px;
+  }
+
+  .st .v {
+    font-size: 18px;
+  }
+
+  .st .l span:last-child {
+    font-size: 10px;
+  }
+
+  .badge {
+    font-size: 9.5px;
+    padding: 1px 5px;
   }
 
   .df-header {
@@ -228,10 +297,6 @@
 
   .g3 > :last-child:nth-child(odd) {
     grid-column: span 2;
-  }
-
-  .st .v {
-    font-size: 20px;
   }
 
   .ph h1 {
@@ -394,6 +459,267 @@
     border-radius: 999px;
     transition: width 0.4s ease;
   }
+
+  /* Top Card Overview Snapshot (Requirement 2) */
+  .home-mobile-overview-stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--ln-subtle);
+  }
+
+  .home-mobile-stat-pill {
+    background: var(--cd-sec);
+    border: 1px solid var(--ln);
+    border-radius: var(--radius-md);
+    padding: 8px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+  }
+
+  .home-mobile-stat-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px;
+  }
+
+  .home-mobile-stat-lbl {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--mut);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .home-mobile-stat-val {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.2;
+    display: flex;
+    align-items: baseline;
+    gap: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .home-mobile-stat-pct {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--ac);
+  }
+
+  /* Quick Actions Bar - Two-Column Mobile Grid (Requirement 3) */
+  .home-quick-actions-bar {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+    padding: 0 0 14px !important;
+    overflow-x: visible !important;
+  }
+
+  .home-quick-btn {
+    width: 100% !important;
+    min-width: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    padding: 9px 11px !important;
+    border-radius: var(--radius-md) !important;
+    box-sizing: border-box !important;
+  }
+
+  .home-quick-icon {
+    width: 24px !important;
+    height: 24px !important;
+    flex-shrink: 0 !important;
+    display: inline-grid !important;
+    place-items: center !important;
+    border-radius: var(--radius-xs) !important;
+  }
+
+  .home-quick-label {
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+  }
+
+  /* Stat Cards & Grid Split Arrangements (< 768px) */
+  .g4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+    margin-bottom: 12px !important;
+  }
+
+  .g3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+    margin-bottom: 12px !important;
+  }
+
+  .g3 > :last-child:nth-child(odd) {
+    grid-column: span 2 !important;
+  }
+
+  .g2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+    align-items: stretch !important;
+  }
+
+  .st {
+    padding: 11px 10px;
+    min-width: 0;
+  }
+
+  .st .l {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .st .l span:last-child {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 11px;
+  }
+
+  .st .v {
+    font-size: 21px;
+    margin-top: 4px;
+    line-height: 1.15;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .st small {
+    font-size: 10.5px;
+    margin-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Module-Specific Split Grids (< 768px) */
+  .health-vitals-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+  }
+
+  .health-measurements-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+  }
+
+  .profile-journey-tz-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+  }
+
+  .profile-exports-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+  }
+
+  .profile-exports-grid .btn {
+    width: 100% !important;
+    min-width: 0 !important;
+    padding: 8px 8px !important;
+    font-size: 11.5px !important;
+    justify-content: center !important;
+    text-align: center !important;
+    box-sizing: border-box !important;
+  }
+
+  .profile-exports-grid .btn span {
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .task-quick-add-form {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+  }
+
+  .task-quick-add-controls {
+    display: flex !important;
+    gap: 8px !important;
+    align-items: center !important;
+    width: 100% !important;
+  }
+
+  .task-quick-add-controls select {
+    flex: 1 !important;
+    min-width: 0 !important;
+  }
+
+  .goals-filter-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+    width: 100% !important;
+  }
+
+  .goals-filter-grid select {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .gamification-badges-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+  }
+
+  .reports-kpi-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+  }
+
+  /* Labels, Badges & Status System - Compact Split Arrangement */
+  .badge {
+    font-size: 10.5px;
+    padding: 2px 7px;
+    white-space: nowrap;
+  }
+
+  .badge-sm {
+    font-size: 10px;
+    padding: 1.5px 6px;
+  }
+
+  .badge-group,
+  .labels-row {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    flex-wrap: wrap;
+  }
 }
 
 /* Mobile & Small Handhelds (<= 479px) */
@@ -479,8 +805,74 @@
 
 @media (min-width: 768px) {
   .home-quick-actions-bar {
-    flex-wrap: wrap;
-    overflow-x: visible;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    overflow-x: visible !important;
+    gap: 8px !important;
+    padding: 4px 2px 14px !important;
+  }
+
+  .home-quick-btn {
+    width: auto !important;
+    border-radius: var(--radius-pill) !important;
+    padding: 8px 14px !important;
+  }
+
+  .home-quick-label {
+    white-space: nowrap !important;
+    overflow: visible !important;
+    font-size: 12.5px !important;
+  }
+
+  .health-vitals-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 14px !important;
+  }
+
+  .health-measurements-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(140px, 1fr)) !important;
+    gap: 12px !important;
+  }
+
+  .profile-journey-tz-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+  }
+
+  .profile-exports-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+  }
+
+  .profile-exports-grid .btn {
+    width: 100% !important;
+    padding: 8px 14px !important;
+    font-size: 13px !important;
+    justify-content: flex-start !important;
+  }
+
+  .task-quick-add-form {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 10px !important;
+    align-items: center !important;
+  }
+
+  .task-quick-add-controls {
+    display: flex !important;
+    gap: 8px !important;
+    align-items: center !important;
+    width: auto !important;
+  }
+
+  .goals-filter-grid {
+    display: flex !important;
+    gap: 10px !important;
+    width: auto !important;
   }
 
   .sh {

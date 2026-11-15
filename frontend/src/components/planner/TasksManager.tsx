@@ -200,29 +200,32 @@ export const TasksManager: React.FC = () => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       {/* Quick Add Bar */}
-      <form onSubmit={handleQuickAdd} className="cd" style={{ display: 'flex', gap: 10, alignItems: 'center', padding: '10px 14px', marginBottom: 0 }}>
+      <form onSubmit={handleQuickAdd} className="cd task-quick-add-form" style={{ padding: '10px 14px', marginBottom: 0 }}>
         <input
           type="text"
           placeholder="Quick add a new task for today..."
           value={quickTitle}
           onChange={(e) => setQuickTitle(e.target.value)}
+          className="task-quick-add-input"
           style={{ flex: 1, border: 'none', background: 'transparent', outline: 'none', fontSize: 14 }}
         />
-        <select
-          value={quickPriority}
-          onChange={(e) => setQuickPriority(e.target.value)}
-          style={{ border: '1px solid var(--ln)', background: 'var(--sf)', padding: '4px 8px', borderRadius: 8, fontSize: 12 }}
-        >
-          <option value="High">🔴 High</option>
-          <option value="Medium">🟡 Medium</option>
-          <option value="Low">🟢 Low</option>
-        </select>
-        <button type="submit" className="btn pri" style={{ padding: '6px 14px', fontSize: 13 }}>
-          Add
-        </button>
-        <button type="button" className="btn sec" onClick={openCreateModal} style={{ padding: '6px 12px', fontSize: 13 }}>
-          Details
-        </button>
+        <div className="task-quick-add-controls">
+          <select
+            value={quickPriority}
+            onChange={(e) => setQuickPriority(e.target.value)}
+            style={{ border: '1px solid var(--ln)', background: 'var(--sf)', padding: '5px 8px', borderRadius: 8, fontSize: 12 }}
+          >
+            <option value="High">🔴 High</option>
+            <option value="Medium">🟡 Medium</option>
+            <option value="Low">🟢 Low</option>
+          </select>
+          <button type="submit" className="btn pri" style={{ padding: '6px 14px', fontSize: 13 }}>
+            Add
+          </button>
+          <button type="button" className="btn sec" onClick={openCreateModal} style={{ padding: '6px 12px', fontSize: 13 }}>
+            Details
+          </button>
+        </div>
       </form>
 
       {/* Filter Tabs & Overdue Banner */}
