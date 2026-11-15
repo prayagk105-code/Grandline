@@ -20,6 +20,7 @@ export const UpcomingScheduleWidget: React.FC = () => {
   const today = toIsoDate();
   const [items, setItems] = useState<ScheduleItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [expanded, setExpanded] = useState(false);
 
   const load = useCallback(async () => {
     try {
@@ -65,7 +66,7 @@ export const UpcomingScheduleWidget: React.FC = () => {
         return (a.time || '23:59').localeCompare(b.time || '23:59');
       });
 
-      setItems(schedule.slice(0, 4));
+      setItems(schedule);
     } catch {
       setItems([]);
     } finally {
@@ -81,6 +82,10 @@ export const UpcomingScheduleWidget: React.FC = () => {
   }, [load]);
 
   if (loading) return null;
+
+  const initialLimit = 2;
+  const visibleItems = expanded ? items : items.slice(0, initialLimit);
+  const hasMore = items.length > initialLimit;
 
   return (
     <div className="cd home-card-schedule">
@@ -110,7 +115,7 @@ export const UpcomingScheduleWidget: React.FC = () => {
         </div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-          {items.map((item) => {
+          {visibleItems.map((item) => {
             const isToday = item.date === today;
             const dateLabel = isToday
               ? 'Today'
@@ -125,10 +130,11 @@ export const UpcomingScheduleWidget: React.FC = () => {
                 style={{
                   justifyContent: 'space-between',
                   alignItems: 'center',
-                  padding: '9px 12px',
+                  padding: '7px 11px',
                   borderRadius: 'var(--radius-md)',
                   background: 'var(--cd-sec)',
-                  border: item.isOverdue ? '1px solid var(--badge-overdue-border)' : '1px solid var(--ln)'
+                  border: item.isOverdue ? '1px solid var(--badge-overdue-border)' : '1px solid var(--ln)',
+                  transition: 'background-color 0.15s ease'
                 }}
               >
                 <div className="row" style={{ gap: 8, alignItems: 'center', minWidth: 0, flex: 1 }}>
@@ -148,7 +154,7 @@ export const UpcomingScheduleWidget: React.FC = () => {
                   <div style={{ minWidth: 0, flex: 1 }}>
                     <div
                       style={{
-                        fontSize: 13,
+                        fontSize: 12.5,
                         fontWeight: 500,
                         whiteSpace: 'nowrap',
                         overflow: 'hidden',
@@ -180,9 +186,29 @@ export const UpcomingScheduleWidget: React.FC = () => {
               </div>
             );
           })}
+
+          {hasMore && (
+            <button
+              type="button"
+              className="home-view-toggle-btn"
+              onClick={() => setExpanded(!expanded)}
+              aria-expanded={expanded}
+            >
+              {expanded ? (
+                <>
+                  <span>View Less</span>
+                  <DayformIcon name="up" size={12} />
+                </>
+              ) : (
+                <>
+                  <span>View More ({items.length - initialLimit} remaining)</span>
+                  <DayformIcon name="down" size={12} />
+                </>
+              )}
+            </button>
+          )}
         </div>
       )}
     </div>
   );
 };
-

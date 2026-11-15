@@ -240,10 +240,116 @@ h4 {
 .home-card-focus,
 .home-card-discipline,
 .home-card-goals,
+.home-card-habits,
+.home-card-missions,
 .home-card-schedule,
 .home-card-checkin,
 .home-card-memory-lane {
   margin-bottom: 16px;
+}
+
+/* Discipline Score Inner Cards (Requirement 5) */
+.home-discipline-pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.home-discipline-pillar-card {
+  background: var(--sf);
+  border: 1px solid var(--ln);
+  border-radius: var(--radius-md);
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  box-sizing: border-box;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.home-discipline-pillar-header {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+}
+
+.home-discipline-pillar-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.home-discipline-pillar-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--mut);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+  min-width: 0;
+}
+
+.home-discipline-pillar-weight {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--mut);
+  flex-shrink: 0;
+}
+
+.home-discipline-pillar-val {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.2;
+  font-family: var(--font-display);
+}
+
+.home-discipline-pillar-bar {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--cd);
+  border: 1px solid var(--ln-subtle);
+  overflow: hidden;
+  margin-top: 2px;
+}
+
+.home-discipline-pillar-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.35s ease;
+}
+
+/* Consistent View More / View Less Toggle Button (Requirement 7) */
+.home-view-toggle-btn {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 6px 12px;
+  margin-top: 6px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--ln);
+  background: var(--sf);
+  color: var(--ink);
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.08s ease;
+}
+
+.home-view-toggle-btn:hover {
+  background: var(--cd-sec);
+  border-color: var(--ac);
+  color: var(--ac);
+}
+
+.home-view-toggle-btn:active {
+  transform: scale(0.99);
 }
 
 /* ==========================================================================

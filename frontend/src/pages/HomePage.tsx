@@ -4,7 +4,7 @@ import { DayformIcon } from '../components/common/DayformIcon';
 import { WidgetErrorBoundary } from '../components/common/ErrorBoundary';
 import { PageHeader } from '../components/common/PageHeader';
 import { ErrorState, LoadingSkeleton } from '../components/common/StateBlocks';
-import { HabitRow } from '../components/habits/HabitRow';
+import { TodayHabitsWidget } from '../components/home/TodayHabitsWidget';
 import { CustomDashboardModal, DEFAULT_DASHBOARD_CONFIG, type DashboardConfig } from '../components/home/CustomDashboardModal';
 import { DailyMissionsWidget } from '../components/home/DailyMissionsWidget';
 import { DailySummaryWidget } from '../components/home/DailySummaryWidget';
@@ -323,62 +323,13 @@ export const HomePage: React.FC = () => {
 
           {/* Section 5: Today's Habits */}
           {dashConfig.showHabits && (
-            <div className="cd home-card-habits" style={{ borderLeft: '3px solid var(--mod-habits)', marginBottom: 16 }}>
-              <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-                <div className="row" style={{ gap: 8, alignItems: 'center' }}>
-                  <span className="mod-icon mod-icon-habits">
-                    <DayformIcon name="check" size={16} />
-                  </span>
-                  <div>
-                    <b className="d" style={{ fontSize: 15 }}>Today's Habits</b>
-                    <div className="mut" style={{ fontSize: 11 }}>
-                      <span>{summary.completedHabitsToday ?? 0} of {summary.totalActiveHabits ?? 0} habits done</span>
-                      {summary.nextIncompleteHabitName ? (
-                        <> · <span>Next: {summary.nextIncompleteHabitName}</span></>
-                      ) : null}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="row" style={{ gap: 8 }}>
-                  <Link to="/habits" className="btn sm" style={{ padding: '3px 8px', fontSize: 11 }}>
-                    + New
-                  </Link>
-                  <Link to="/habits" className="lk" style={{ fontSize: 12 }}>
-                    View All <DayformIcon name="right" size={13} />
-                  </Link>
-                </div>
-              </div>
-
-              {(summary.todayHabits ?? []).length > 0 ? (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                  {summary.todayHabits.slice(0, 5).map((h) => (
-                    <HabitRow
-                      key={h.id}
-                      habit={h}
-                      busy={busyHabitId === h.id}
-                      onToggle={handleToggleHabit}
-                    />
-                  ))}
-                  {(summary.todayHabits ?? []).length > 5 && (
-                    <div style={{ textAlign: 'center', marginTop: 4 }}>
-                      <Link to="/habits" className="mut" style={{ fontSize: 12 }}>
-                        +{(summary.todayHabits?.length ?? 0) - 5} more habits in Habits tab
-                      </Link>
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <div style={{ padding: '14px 0', textAlign: 'center' }}>
-                  <p className="mut" style={{ margin: 0, fontSize: 13 }}>
-                    No habits active for today.
-                  </p>
-                  <Link to="/habits" className="lk" style={{ fontSize: 12, marginTop: 4 }}>
-                    Create your first habit
-                  </Link>
-                </div>
-              )}
-            </div>
+            <WidgetErrorBoundary>
+              <TodayHabitsWidget
+                summary={summary}
+                busyHabitId={busyHabitId}
+                onToggleHabit={handleToggleHabit}
+              />
+            </WidgetErrorBoundary>
           )}
 
           {/* Section 6: Active Goals */}

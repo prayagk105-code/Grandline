@@ -77,7 +77,7 @@ export const QuickActionsBar: React.FC<QuickActionsBarProps> = ({
             className="home-quick-icon"
             style={!act.primary && act.color ? { color: act.color, background: act.bg } : undefined}
           >
-            <DayformIcon name={act.icon} size={13} />
+            <DayformIcon name={act.icon} size={15} />
           </span>
           <span className="home-quick-label">{act.label}</span>
         </button>

@@ -9,6 +9,8 @@ import {
   CheckCircle2,
   ChevronLeft,
   ChevronRight,
+  ChevronDown,
+  ChevronUp,
   Clock,
   Coffee,
   Compass,
@@ -78,6 +80,8 @@ export const DayformIcon: React.FC<DayformIconProps> = ({ name, size = 19, class
     case 'copy': return <Copy {...props} />;
     case 'left': return <ChevronLeft {...props} />;
     case 'right': return <ChevronRight {...props} />;
+    case 'down': return <ChevronDown {...props} />;
+    case 'up': return <ChevronUp {...props} />;
     case 'sun': return <Sun {...props} />;
     case 'leaf': return <Leaf {...props} />;
     case 'zap': return <Zap {...props} />;
