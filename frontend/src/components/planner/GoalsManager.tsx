@@ -204,36 +204,22 @@ export const GoalsManager: React.FC = () => {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       {/* Sub tabs: Goals vs Vision Board */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 10 }}>
-        <div style={{ display: 'flex', gap: 6, background: 'var(--sf)', padding: 4, borderRadius: 'var(--radius-pill)' }}>
+        <div className="seg" role="tablist">
           <button
             type="button"
+            className={activeTab === 'goals' ? 'on' : ''}
             onClick={() => setActiveTab('goals')}
-            style={{
-              padding: '6px 16px',
-              borderRadius: 'var(--radius-pill)',
-              border: 'none',
-              background: activeTab === 'goals' ? 'var(--cd)' : 'transparent',
-              color: activeTab === 'goals' ? 'var(--ink)' : 'var(--mut)',
-              fontWeight: activeTab === 'goals' ? 600 : 400,
-              fontSize: 13,
-              cursor: 'pointer'
-            }}
+            role="tab"
+            aria-selected={activeTab === 'goals'}
           >
             🎯 Goals & Milestones
           </button>
           <button
             type="button"
+            className={activeTab === 'vision' ? 'on' : ''}
             onClick={() => setActiveTab('vision')}
-            style={{
-              padding: '6px 16px',
-              borderRadius: 'var(--radius-pill)',
-              border: 'none',
-              background: activeTab === 'vision' ? 'var(--cd)' : 'transparent',
-              color: activeTab === 'vision' ? 'var(--ink)' : 'var(--mut)',
-              fontWeight: activeTab === 'vision' ? 600 : 400,
-              fontSize: 13,
-              cursor: 'pointer'
-            }}
+            role="tab"
+            aria-selected={activeTab === 'vision'}
           >
             🖼️ Vision Board
           </button>
@@ -257,7 +243,8 @@ export const GoalsManager: React.FC = () => {
             <select
               value={categoryFilter}
               onChange={(e) => setCategoryFilter(e.target.value)}
-              style={{ border: '1px solid var(--ln)', background: 'var(--sf)', padding: '6px 10px', borderRadius: 8, fontSize: 12 }}
+              className="inp"
+              style={{ width: 'auto', padding: '6px 12px', fontSize: 12.5 }}
             >
               <option value="All">All Categories</option>
               <option value="Personal">Personal</option>
@@ -270,7 +257,8 @@ export const GoalsManager: React.FC = () => {
             <select
               value={timeframeFilter}
               onChange={(e) => setTimeframeFilter(e.target.value)}
-              style={{ border: '1px solid var(--ln)', background: 'var(--sf)', padding: '6px 10px', borderRadius: 8, fontSize: 12 }}
+              className="inp"
+              style={{ width: 'auto', padding: '6px 12px', fontSize: 12.5 }}
             >
               <option value="All">All Timeframes</option>
               <option value="Weekly">Weekly</option>

@@ -342,10 +342,10 @@ export const PlannerPage: React.FC = () => {
                             className="row"
                             style={{
                               justifyContent: 'space-between',
-                              padding: '8px 12px',
-                              background: 'var(--sf)',
-                              borderRadius: 'var(--radius-sm)',
-                              border: '1px solid var(--ln-subtle)'
+                              padding: '10px 14px',
+                              background: 'var(--cd-sec)',
+                              borderRadius: 'var(--radius-md)',
+                              border: '1px solid var(--ln)'
                             }}
                           >
                             <div>

@@ -74,8 +74,9 @@ export const ResetDayView: React.FC<ResetDayViewProps> = ({ habits = [] }) => {
           <div
             style={{
               textAlign: 'left',
-              background: 'var(--sf)',
-              borderRadius: 12,
+              background: 'var(--cd-sec)',
+              borderRadius: 'var(--radius-lg)',
+              border: '1px solid var(--ln)',
               padding: 18,
               marginBottom: 20
             }}

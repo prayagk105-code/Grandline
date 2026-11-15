@@ -162,8 +162,8 @@ export const GamificationView: React.FC = () => {
                   justifyContent: 'space-between',
                   alignItems: 'center',
                   padding: '12px 16px',
-                  background: 'var(--sf)',
-                  borderRadius: 10,
+                  background: 'var(--cd-sec)',
+                  borderRadius: 'var(--radius-md)',
                   border: m.isClaimed ? '1px solid var(--ln)' : isCompleted ? '1px solid var(--ac)' : '1px solid var(--ln)',
                   opacity: m.isClaimed ? 0.7 : 1
                 }}

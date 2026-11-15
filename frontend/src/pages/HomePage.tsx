@@ -310,122 +310,116 @@ export const HomePage: React.FC = () => {
         onQuickCapture={() => setQuickCaptureOpen(true)}
       />
 
-      {/* Balanced Dashboard Multi-Column Layout */}
+      {/* Balanced Dashboard Multi-Column Layout (Section 8: Prioritized Pairs) */}
       <div className="df-grid-2">
-        {/* Left Column: Action & Execution Core */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
-          {/* Section 4: Today's Priorities (Highest Visual Priority) */}
-          {dashConfig.showPriorities && (
-            <WidgetErrorBoundary>
-              <TodayPrioritiesWidget />
-            </WidgetErrorBoundary>
-          )}
+        {/* 4. Today's Priorities */}
+        {dashConfig.showPriorities && (
+          <WidgetErrorBoundary>
+            <TodayPrioritiesWidget />
+          </WidgetErrorBoundary>
+        )}
 
-          {/* Section 5: Today's Habits */}
-          {dashConfig.showHabits && (
-            <WidgetErrorBoundary>
-              <TodayHabitsWidget
-                summary={summary}
-                busyHabitId={busyHabitId}
-                onToggleHabit={handleToggleHabit}
-              />
-            </WidgetErrorBoundary>
-          )}
+        {/* 5. Daily Progress */}
+        {dashConfig.showDailySummary && (
+          <WidgetErrorBoundary>
+            <DailySummaryWidget />
+          </WidgetErrorBoundary>
+        )}
 
-          {/* Section 6: Active Goals */}
-          {dashConfig.showGoals && (
-            <WidgetErrorBoundary>
-              <GoalOverviewWidget />
-            </WidgetErrorBoundary>
-          )}
+        {/* 6. Today's Habits */}
+        {dashConfig.showHabits && (
+          <WidgetErrorBoundary>
+            <TodayHabitsWidget
+              summary={summary}
+              busyHabitId={busyHabitId}
+              onToggleHabit={handleToggleHabit}
+            />
+          </WidgetErrorBoundary>
+        )}
 
-          {/* Section 7: Upcoming Schedule */}
-          {dashConfig.showSchedule && (
-            <WidgetErrorBoundary>
-              <UpcomingScheduleWidget />
-            </WidgetErrorBoundary>
-          )}
+        {/* 7. Focus */}
+        {dashConfig.showFocusTimer && (
+          <WidgetErrorBoundary>
+            <HomeFocusWidget />
+          </WidgetErrorBoundary>
+        )}
 
-          {/* Missions (if enabled) */}
-          {dashConfig.showMissions && (
-            <WidgetErrorBoundary>
-              <DailyMissionsWidget />
-            </WidgetErrorBoundary>
-          )}
-        </div>
+        {/* 8. Active Goals */}
+        {dashConfig.showGoals && (
+          <WidgetErrorBoundary>
+            <GoalOverviewWidget />
+          </WidgetErrorBoundary>
+        )}
 
-        {/* Right Column: Progress, Focus, Discipline & Reflection */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
-          {/* Section 4 Pair: Daily Progress */}
-          {dashConfig.showDailySummary && (
-            <WidgetErrorBoundary>
-              <DailySummaryWidget />
-            </WidgetErrorBoundary>
-          )}
+        {/* 9. Discipline Score */}
+        {dashConfig.showDisciplineScore && (
+          <WidgetErrorBoundary>
+            <DisciplineScoreCard />
+          </WidgetErrorBoundary>
+        )}
 
-          {/* Section 5 Pair: Focus Session */}
-          {dashConfig.showFocusTimer && (
-            <WidgetErrorBoundary>
-              <HomeFocusWidget />
-            </WidgetErrorBoundary>
-          )}
+        {/* 10. Upcoming Schedule */}
+        {dashConfig.showSchedule && (
+          <WidgetErrorBoundary>
+            <UpcomingScheduleWidget />
+          </WidgetErrorBoundary>
+        )}
 
-          {/* Section 6 Pair: Discipline Score */}
-          {dashConfig.showDisciplineScore && (
-            <WidgetErrorBoundary>
-              <DisciplineScoreCard />
-            </WidgetErrorBoundary>
-          )}
+        {/* 11. Personal Check-in */}
+        {dashConfig.showCheckIn && (
+          <WidgetErrorBoundary>
+            <PersonalCheckInWidget />
+          </WidgetErrorBoundary>
+        )}
 
-          {/* Section 7 Pair: Personal Check-in */}
-          {dashConfig.showCheckIn && (
-            <WidgetErrorBoundary>
-              <PersonalCheckInWidget />
-            </WidgetErrorBoundary>
-          )}
+        {/* Missions (if enabled) */}
+        {dashConfig.showMissions && (
+          <WidgetErrorBoundary>
+            <DailyMissionsWidget />
+          </WidgetErrorBoundary>
+        )}
 
-          {/* Pinned Tasks Widget (if enabled) */}
-          {dashConfig.showPinnedTasks && (
-            <WidgetErrorBoundary>
-              <PinnedTasksWidget />
-            </WidgetErrorBoundary>
-          )}
+        {/* Pinned Tasks Widget (if enabled) */}
+        {dashConfig.showPinnedTasks && (
+          <WidgetErrorBoundary>
+            <PinnedTasksWidget />
+          </WidgetErrorBoundary>
+        )}
 
-          {/* 7-Day Consistency Micro-Chart */}
-          <div className="cd" style={{ marginBottom: 16 }}>
-            <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-              <div className="row" style={{ gap: 6, alignItems: 'center' }}>
-                <span className="mod-icon mod-icon-home" style={{ width: 26, height: 26 }}>
-                  <DayformIcon name="flame" size={14} />
-                </span>
-                <span style={{ fontSize: 13, fontWeight: 600 }}>Last 7 Days Consistency</span>
-              </div>
-              <Link to="/progress" className="lk" style={{ fontSize: 11.5 }}>
-                Analytics <DayformIcon name="right" size={12} />
-              </Link>
+        {/* 7-Day Consistency Micro-Chart */}
+        <div className="cd home-card-consistency" style={{ marginBottom: 0 }}>
+          <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+            <div className="row" style={{ gap: 6, alignItems: 'center' }}>
+              <span className="mod-icon mod-icon-home" style={{ width: 26, height: 26 }}>
+                <DayformIcon name="flame" size={14} />
+              </span>
+              <span style={{ fontSize: 13, fontWeight: 600 }}>Last 7 Days Consistency</span>
             </div>
-            <div className="wk">
-              {(summary.last7Days ?? []).map((day) => {
-                const isToday = day.date === summary.todayDate;
-                const dayNum = new Date(`${day.date}T12:00:00`).getDate();
-                const pct = Math.min(100, Math.max(0, day.completionPercent ?? 0));
-                return (
-                  <button
-                    key={day.date}
-                    type="button"
-                    className={isToday ? 'tdy' : ''}
-                    onClick={() => navigate(`/planner?date=${day.date}`)}
-                    aria-label={`${day.date}: ${Math.round(pct)}% habits`}
-                  >
-                    <span>{day.weekdayShort}</span>
-                    <div className="tr">
-                      <i style={{ height: `${pct}%` }} />
-                    </div>
-                    <b>{dayNum}</b>
-                  </button>
-                );
-              })}
-            </div>
+            <Link to="/progress" className="lk" style={{ fontSize: 11.5 }}>
+              Analytics <DayformIcon name="right" size={12} />
+            </Link>
+          </div>
+          <div className="wk">
+            {(summary.last7Days ?? []).map((day) => {
+              const isToday = day.date === summary.todayDate;
+              const dayNum = new Date(`${day.date}T12:00:00`).getDate();
+              const pct = Math.min(100, Math.max(0, day.completionPercent ?? 0));
+              return (
+                <button
+                  key={day.date}
+                  type="button"
+                  className={isToday ? 'tdy' : ''}
+                  onClick={() => navigate(`/planner?date=${day.date}`)}
+                  aria-label={`${day.date}: ${Math.round(pct)}% habits`}
+                >
+                  <span>{day.weekdayShort}</span>
+                  <div className="tr">
+                    <i style={{ height: `${pct}%` }} />
+                  </div>
+                  <b>{dayNum}</b>
+                </button>
+              );
+            })}
           </div>
         </div>
       </div>

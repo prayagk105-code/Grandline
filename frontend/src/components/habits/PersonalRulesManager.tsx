@@ -174,9 +174,10 @@ export const PersonalRulesManager: React.FC = () => {
                   style={{
                     justifyContent: 'space-between',
                     alignItems: 'center',
-                    padding: '8px 12px',
-                    borderRadius: 8,
-                    background: 'var(--sf)'
+                    padding: '10px 14px',
+                    borderRadius: 'var(--radius-md)',
+                    border: '1px solid var(--ln)',
+                    background: 'var(--cd-sec)'
                   }}
                 >
                   <span style={{ fontSize: 13 }}>"{sug.ruleText}"</span>

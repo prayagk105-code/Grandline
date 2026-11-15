@@ -154,13 +154,13 @@ export const BadHabitsManager: React.FC = () => {
                 </div>
 
                 {h.trigger && (
-                  <div style={{ marginBottom: 8, fontSize: 12, background: 'var(--sf)', padding: '6px 10px', borderRadius: 6 }}>
+                  <div style={{ marginBottom: 8, fontSize: 12, background: 'var(--cd-sec)', padding: '8px 12px', borderRadius: 'var(--radius-md)', border: '1px solid var(--ln)' }}>
                     <b style={{ color: 'var(--ink)' }}>Trigger:</b> <span className="mut">{h.trigger}</span>
                   </div>
                 )}
 
                 {h.replacementHabit && (
-                  <div style={{ marginBottom: 12, fontSize: 12, background: 'var(--sf)', padding: '6px 10px', borderRadius: 6 }}>
+                  <div style={{ marginBottom: 12, fontSize: 12, background: 'var(--cd-sec)', padding: '8px 12px', borderRadius: 'var(--radius-md)', border: '1px solid var(--ln)' }}>
                     <b style={{ color: 'var(--ac)' }}>Replacement:</b> <span style={{ fontWeight: 500 }}>{h.replacementHabit}</span>
                   </div>
                 )}

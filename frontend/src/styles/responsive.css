@@ -46,6 +46,11 @@
   align-items: start;
 }
 
+.df-grid-2 > .cd,
+.df-grid-2 > [class*="home-card-"] {
+  margin-bottom: 0 !important;
+}
+
 /* Home Duo Grid: Habit Completion + Discipline Score */
 .home-habit-discipline-grid {
   display: grid;
@@ -989,8 +994,8 @@
     background: var(--cd);
     border: 1px solid var(--ln);
     border-radius: var(--radius-xl);
-    padding: 14px;
-    box-shadow: var(--shadow-soft);
+    padding: 16px;
+    box-shadow: var(--shadow-card);
   }
 
   .df-side-link {
@@ -1002,7 +1007,7 @@
     font-size: 13.5px;
     font-weight: 500;
     color: var(--mut);
-    transition: background-color 0.15s ease, color 0.15s ease, transform 0.08s ease;
+    transition: background-color 0.15s ease, color 0.15s ease, transform 0.12s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.15s ease;
   }
 
   .df-side-link:hover {
@@ -1015,6 +1020,7 @@
     background: var(--ac2);
     color: var(--ac);
     font-weight: 700;
+    box-shadow: 0 1px 4px rgba(119, 117, 199, 0.12);
   }
 
   .df-main {

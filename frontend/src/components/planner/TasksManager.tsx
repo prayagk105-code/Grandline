@@ -230,22 +230,13 @@ export const TasksManager: React.FC = () => {
 
       {/* Filter Tabs & Overdue Banner */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 10 }}>
-        <div style={{ display: 'flex', gap: 6 }}>
+        <div className="chips" style={{ marginBottom: 0 }}>
           {(['today', 'upcoming', 'all', 'archived'] as const).map((v) => (
             <button
               key={v}
               type="button"
               onClick={() => setFilterView(v)}
-              className="btn"
-              style={{
-                background: filterView === v ? 'var(--ac)' : 'var(--sf)',
-                color: filterView === v ? '#fff' : 'var(--ink)',
-                border: 'none',
-                borderRadius: 'var(--radius-pill)',
-                padding: '6px 14px',
-                fontSize: 13,
-                fontWeight: filterView === v ? 600 : 400
-              }}
+              className={`chip ${filterView === v ? 'on' : ''}`}
             >
               {v === 'today' ? "Today's Tasks" : v === 'upcoming' ? 'Upcoming' : v === 'all' ? 'All Active' : 'Completed Archive'}
             </button>
@@ -261,7 +252,7 @@ export const TasksManager: React.FC = () => {
           <select
             value={filterPriority}
             onChange={(e) => setFilterPriority(e.target.value)}
-            style={{ border: '1px solid var(--ln)', background: 'var(--sf)', padding: '6px 10px', borderRadius: 8, fontSize: 12 }}
+            style={{ border: '1px solid var(--ln)', background: 'var(--cd)', padding: '6px 12px', borderRadius: 'var(--radius-sm)', fontSize: 12.5 }}
           >
             <option value="All">All Priorities</option>
             <option value="High">High Priority</option>
@@ -299,8 +290,15 @@ export const TasksManager: React.FC = () => {
                   gap: 8,
                   padding: '14px 16px',
                   marginBottom: 8,
-                  borderLeft: `4px solid ${
-                    t.isCompleted ? 'var(--mut)' : t.priority === 'High' ? 'var(--badge-high-text)' : t.priority === 'Medium' ? 'var(--badge-med-text)' : 'var(--ac)'
+                  borderRadius: 'var(--radius-lg)',
+                  borderLeft: `3px solid ${
+                    t.isCompleted
+                      ? 'var(--mut)'
+                      : t.priority === 'High'
+                      ? 'var(--hot)'
+                      : t.priority === 'Medium'
+                      ? 'var(--badge-med-text)'
+                      : 'var(--ac)'
                   }`
                 }}
               >
@@ -312,15 +310,15 @@ export const TasksManager: React.FC = () => {
                     style={{
                       width: 22,
                       height: 22,
-                      borderRadius: 6,
-                      border: '2px solid var(--ac)',
-                      background: t.isCompleted ? 'var(--ac)' : 'transparent',
+                      borderRadius: 'var(--radius-xs)',
+                      border: t.isCompleted ? '1.5px solid #287447' : '1.5px solid var(--ln)',
+                      background: t.isCompleted ? '#287447' : 'var(--cd)',
                       color: '#fff',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
+                      display: 'grid',
+                      placeItems: 'center',
                       cursor: 'pointer',
-                      flexShrink: 0
+                      flexShrink: 0,
+                      transition: 'all 0.15s ease'
                     }}
                   >
                     {t.isCompleted && <span style={{ fontSize: 13, lineHeight: 1 }}>✓</span>}
