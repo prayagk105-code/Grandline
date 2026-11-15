@@ -193,7 +193,7 @@ export const PersonalFinanceView: React.FC = () => {
   if (error && !summary) return <ErrorState message={error} onRetry={load} />;
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
       {/* Sub Tabs */}
       <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
         <div className="chips" style={{ marginBottom: 0 }}>
@@ -243,9 +243,9 @@ export const PersonalFinanceView: React.FC = () => {
 
         <button
           type="button"
-          className="btn pri"
+          className="btn pri sm"
           onClick={() => setTxModal(true)}
-          style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
+          style={{ gap: 6 }}
         >
           <DayformIcon name="plus" size={14} />
           <span>Log Transaction</span>
@@ -260,18 +260,21 @@ export const PersonalFinanceView: React.FC = () => {
             label="Total Income"
             value={`$${summary.totalIncomeThisMonth.toFixed(2)}`}
             note="this month"
+            accent="green"
           />
           <StatCard
             icon="habit"
             label="Total Expenses"
             value={`$${summary.totalExpensesThisMonth.toFixed(2)}`}
             note="this month"
+            accent="orange"
           />
           <StatCard
             icon="flame"
             label="Net Savings"
             value={`$${summary.netSavingsThisMonth.toFixed(2)}`}
             note={`${Math.round(summary.savingsRatePercent)}% savings rate`}
+            accent="teal"
           />
         </div>
       )}
@@ -280,16 +283,28 @@ export const PersonalFinanceView: React.FC = () => {
       {tab === 'overview' && (
         <div className="df-grid-2">
           {/* Monthly Budget vs Actual */}
-          <div className="cd" style={{ padding: 20 }}>
+          <div className="cd" style={{ borderLeft: '3px solid var(--mod-balance)' }}>
             <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
-              <h3 style={{ margin: 0, fontSize: 16 }}>Budget vs Spent</h3>
-              <button type="button" className="btn" style={{ fontSize: 11, padding: '3px 8px' }} onClick={() => setBModal(true)}>
+              <div className="row" style={{ gap: 8, alignItems: 'center' }}>
+                <span className="mod-icon mod-icon-balance" style={{ width: 28, height: 28 }}>
+                  <DayformIcon name="wallet" size={15} />
+                </span>
+                <b className="d" style={{ fontSize: 16 }}>Budget vs Spent</b>
+              </div>
+              <button
+                type="button"
+                className="btn sm"
+                style={{ fontSize: 11, padding: '3px 8px' }}
+                onClick={() => setBModal(true)}
+              >
                 + Set Budget
               </button>
             </div>
 
             {budgets.length === 0 ? (
-              <p className="mut" style={{ fontSize: 13 }}>No category budgets set for this month.</p>
+              <p className="mut" style={{ fontSize: 13, margin: '8px 0' }}>
+                No category budgets set for this month.
+              </p>
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                 {budgets.map((b) => {
@@ -300,16 +315,18 @@ export const PersonalFinanceView: React.FC = () => {
                     <div key={b.id}>
                       <div className="row" style={{ justifyContent: 'space-between', fontSize: 13, marginBottom: 4 }}>
                         <span style={{ fontWeight: 500 }}>{b.category}</span>
-                        <span style={{ color: isOver ? '#dc2626' : 'var(--ink)' }}>
+                        <span style={{ color: isOver ? 'var(--badge-overdue-text)' : 'var(--ink)', fontWeight: isOver ? 600 : 400 }}>
                           ${b.actualSpent.toFixed(0)} / ${b.budgetAmount.toFixed(0)} ({pct}%)
                         </span>
                       </div>
-                      <div style={{ width: '100%', height: 6, background: 'var(--bd)', borderRadius: 3, overflow: 'hidden' }}>
+                      <div style={{ width: '100%', height: 6, background: 'var(--sf)', borderRadius: 3, overflow: 'hidden' }}>
                         <div
                           style={{
                             width: `${pct}%`,
                             height: '100%',
-                            background: isOver ? '#dc2626' : 'var(--ac)'
+                            background: isOver ? 'var(--badge-overdue-text)' : 'var(--mod-balance)',
+                            borderRadius: 3,
+                            transition: 'width 0.3s ease'
                           }}
                         />
                       </div>
@@ -321,16 +338,28 @@ export const PersonalFinanceView: React.FC = () => {
           </div>
 
           {/* Active Savings Goals */}
-          <div className="cd" style={{ padding: 20 }}>
+          <div className="cd" style={{ borderLeft: '3px solid var(--mod-balance)' }}>
             <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
-              <h3 style={{ margin: 0, fontSize: 16 }}>Savings Targets</h3>
-              <button type="button" className="btn" style={{ fontSize: 11, padding: '3px 8px' }} onClick={() => setSgModal(true)}>
+              <div className="row" style={{ gap: 8, alignItems: 'center' }}>
+                <span className="mod-icon mod-icon-balance" style={{ width: 28, height: 28 }}>
+                  <DayformIcon name="star" size={15} />
+                </span>
+                <b className="d" style={{ fontSize: 16 }}>Savings Targets</b>
+              </div>
+              <button
+                type="button"
+                className="btn sm"
+                style={{ fontSize: 11, padding: '3px 8px' }}
+                onClick={() => setSgModal(true)}
+              >
                 + New Goal
               </button>
             </div>
 
             {savingsGoals.length === 0 ? (
-              <p className="mut" style={{ fontSize: 13 }}>No savings goals created.</p>
+              <p className="mut" style={{ fontSize: 13, margin: '8px 0' }}>
+                No active savings goals configured.
+              </p>
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
                 {savingsGoals.map((sg) => {
@@ -339,12 +368,20 @@ export const PersonalFinanceView: React.FC = () => {
                     <div key={sg.id}>
                       <div className="row" style={{ justifyContent: 'space-between', fontSize: 13, marginBottom: 4 }}>
                         <span style={{ fontWeight: 500 }}>{sg.title}</span>
-                        <span style={{ color: 'var(--ac)', fontWeight: 600 }}>
+                        <span style={{ color: 'var(--mod-balance)', fontWeight: 600 }}>
                           ${sg.currentAmount.toLocaleString()} / ${sg.targetAmount.toLocaleString()} ({pct}%)
                         </span>
                       </div>
-                      <div className="bar">
-                        <i style={{ width: `${pct}%` }} />
+                      <div style={{ height: 6, borderRadius: 3, background: 'var(--sf)', overflow: 'hidden' }}>
+                        <div
+                          style={{
+                            width: `${pct}%`,
+                            height: '100%',
+                            background: 'var(--mod-balance)',
+                            borderRadius: 3,
+                            transition: 'width 0.3s ease'
+                          }}
+                        />
                       </div>
                     </div>
                   );
@@ -378,16 +415,17 @@ export const PersonalFinanceView: React.FC = () => {
                     padding: '12px 18px',
                     display: 'flex',
                     justifyContent: 'space-between',
-                    alignItems: 'center'
+                    alignItems: 'center',
+                    marginBottom: 0
                   }}
                 >
                   <div className="row" style={{ gap: 12, alignItems: 'center' }}>
-                    <span className={`badge ${tx.type === 'Income' ? 'badge-success' : 'badge-error'} badge-sm`}>
+                    <span className={`badge ${tx.type === 'Income' ? 'badge-completed' : 'badge-overdue'} badge-sm`}>
                       {tx.type === 'Income' ? '+ IN' : '- OUT'}
                     </span>
                     <div>
-                      <div style={{ fontSize: 14, fontWeight: 500 }}>{tx.category}</div>
-                      {tx.description && <span className="mut" style={{ fontSize: 12 }}>{tx.description}</span>}
+                      <div style={{ fontSize: 13.5, fontWeight: 600 }}>{tx.category}</div>
+                      {tx.description && <span className="mut" style={{ fontSize: 11.5 }}>{tx.description}</span>}
                     </div>
                   </div>
 
@@ -397,7 +435,7 @@ export const PersonalFinanceView: React.FC = () => {
                       style={{
                         fontSize: 15,
                         fontWeight: 700,
-                        color: tx.type === 'Income' ? 'var(--badge-success-text)' : 'var(--badge-error-text)'
+                        color: tx.type === 'Income' ? 'var(--badge-completed-text)' : 'var(--badge-overdue-text)'
                       }}
                     >
                       {tx.type === 'Income' ? '+' : '-'}${tx.amount.toFixed(2)}
@@ -410,6 +448,7 @@ export const PersonalFinanceView: React.FC = () => {
                         load();
                       }}
                       aria-label="Delete transaction"
+                      title="Delete Transaction"
                     >
                       <DayformIcon name="trash" size={13} />
                     </button>
@@ -426,20 +465,27 @@ export const PersonalFinanceView: React.FC = () => {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
           <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center' }}>
             <h3 style={{ margin: 0, fontSize: 18 }}>Savings Vaults</h3>
-            <button type="button" className="btn pri" onClick={() => setSgModal(true)}>
+            <button type="button" className="btn pri sm" onClick={() => setSgModal(true)}>
               + New Savings Goal
             </button>
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 14 }}>
             {savingsGoals.map((sg) => (
-              <div key={sg.id} className="cd" style={{ padding: 18 }}>
-                <h4 style={{ margin: '0 0 6px', fontSize: 16 }}>{sg.title}</h4>
-                <div style={{ fontSize: 22, fontWeight: 700, color: 'var(--ac)', margin: '4px 0 10px' }}>
-                  ${sg.currentAmount.toLocaleString()} <span className="mut" style={{ fontSize: 13, fontWeight: 400 }}>of ${sg.targetAmount.toLocaleString()}</span>
+              <div key={sg.id} className="cd" style={{ padding: 18, borderLeft: '3px solid var(--mod-balance)', marginBottom: 0 }}>
+                <h4 style={{ margin: '0 0 6px', fontSize: 15 }}>{sg.title}</h4>
+                <div style={{ fontSize: 20, fontWeight: 700, color: 'var(--mod-balance)', margin: '4px 0 10px' }}>
+                  ${sg.currentAmount.toLocaleString()} <span className="mut" style={{ fontSize: 12, fontWeight: 400 }}>of ${sg.targetAmount.toLocaleString()}</span>
                 </div>
-                <div className="bar">
-                  <i style={{ width: `${Math.min(100, (sg.currentAmount / sg.targetAmount) * 100)}%` }} />
+                <div style={{ height: 6, borderRadius: 3, background: 'var(--sf)', overflow: 'hidden' }}>
+                  <div
+                    style={{
+                      height: '100%',
+                      width: `${Math.min(100, (sg.currentAmount / sg.targetAmount) * 100)}%`,
+                      background: 'var(--mod-balance)',
+                      borderRadius: 3
+                    }}
+                  />
                 </div>
               </div>
             ))}
@@ -452,16 +498,16 @@ export const PersonalFinanceView: React.FC = () => {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
           <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center' }}>
             <h3 style={{ margin: 0, fontSize: 18 }}>Debt Elimination Tracker</h3>
-            <button type="button" className="btn pri" onClick={() => setDebtModal(true)}>
+            <button type="button" className="btn pri sm" onClick={() => setDebtModal(true)}>
               + Add Debt
             </button>
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 14 }}>
             {debts.map((d) => (
-              <div key={d.id} className="cd" style={{ padding: 18 }}>
-                <h4 style={{ margin: '0 0 4px', fontSize: 16 }}>{d.creditorName}</h4>
-                <div style={{ fontSize: 20, fontWeight: 700, color: '#dc2626', margin: '4px 0 8px' }}>
+              <div key={d.id} className="cd" style={{ padding: 18, borderLeft: '3px solid var(--badge-overdue-border)', marginBottom: 0 }}>
+                <h4 style={{ margin: '0 0 4px', fontSize: 15 }}>{d.creditorName}</h4>
+                <div style={{ fontSize: 20, fontWeight: 700, color: 'var(--badge-overdue-text)', margin: '4px 0 8px' }}>
                   ${d.remainingAmount.toLocaleString()} <span className="mut" style={{ fontSize: 12, fontWeight: 400 }}>remaining (orig. ${d.totalAmount.toLocaleString()})</span>
                 </div>
               </div>
@@ -475,19 +521,19 @@ export const PersonalFinanceView: React.FC = () => {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
           <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center' }}>
             <h3 style={{ margin: 0, fontSize: 18 }}>Recurring Subscriptions</h3>
-            <button type="button" className="btn pri" onClick={() => setSubModal(true)}>
+            <button type="button" className="btn pri sm" onClick={() => setSubModal(true)}>
               + Add Subscription
             </button>
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 14 }}>
             {subscriptions.map((s) => (
-              <div key={s.id} className="cd" style={{ padding: 16 }}>
+              <div key={s.id} className="cd" style={{ padding: 16, marginBottom: 0 }}>
                 <div className="row" style={{ justifyContent: 'space-between', alignItems: 'baseline' }}>
-                  <h4 style={{ margin: 0, fontSize: 15 }}>{s.name}</h4>
-                  <span style={{ fontSize: 15, fontWeight: 700, color: 'var(--ac)' }}>${s.cost.toFixed(2)}</span>
+                  <h4 style={{ margin: 0, fontSize: 14.5 }}>{s.name}</h4>
+                  <span style={{ fontSize: 15, fontWeight: 700, color: 'var(--mod-balance)' }}>${s.cost.toFixed(2)}</span>
                 </div>
-                <span className="mut" style={{ fontSize: 12 }}>Billed {s.billingCycle}</span>
+                <span className="mut" style={{ fontSize: 12, marginTop: 4, display: 'block' }}>Billed {s.billingCycle}</span>
               </div>
             ))}
           </div>

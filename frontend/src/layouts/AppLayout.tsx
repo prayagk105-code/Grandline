@@ -93,16 +93,10 @@ export const AppLayout: React.FC = () => {
           {/* Cloud Sync Status Indicator */}
           <div
             className="row sync-badge"
-            style={{
-              gap: 6,
-              alignItems: 'center',
-              padding: '4px 8px',
-              borderRadius: 12,
-              background: 'var(--sf)'
-            }}
             title={isOnline ? 'Cloud synchronised and up-to-date' : 'Offline - local cache active'}
           >
             <span
+              className="sync-dot"
               style={{
                 width: 7,
                 height: 7,
@@ -111,16 +105,16 @@ export const AppLayout: React.FC = () => {
                 display: 'inline-block'
               }}
             />
-            <span style={{ fontSize: 11, fontWeight: 500 }} className="mut">
+            <span style={{ fontSize: 11, fontWeight: 500 }} className="mut sync-text">
               {isOnline ? 'Synced' : 'Offline'}
             </span>
           </div>
 
-          {/* PWA Install Button when installable and not yet installed */}
+          {/* PWA Install Button when installable and not yet installed - Desktop only */}
           {canInstall && !isInstalled && (
             <button
               type="button"
-              className="btn pri sm install-header-btn"
+              className="btn pri sm install-header-btn desktop-only"
               onClick={() => setInstallModalOpen(true)}
               title="Install Grandline Web App"
               style={{ padding: '5px 10px', fontSize: 12, gap: 5 }}
@@ -130,45 +124,52 @@ export const AppLayout: React.FC = () => {
             </button>
           )}
 
+          {/* Search Icon Button */}
           <button
             type="button"
-            className="ib"
+            className="ib header-btn"
             onClick={() => setSearchOpen(true)}
             aria-label="Global Search (Ctrl+K)"
             title="Global Search (Ctrl+K)"
           >
-            <DayformIcon name="search" />
+            <DayformIcon name="search" size={17} />
           </button>
+
+          {/* Desktop-only Quick Access to Journal & Planner (mobile accesses Planner via bottom nav and Journal via More sheet) */}
           <button
             type="button"
-            className="ib"
+            className="ib header-btn desktop-only"
             onClick={() => navigate('/journal')}
             aria-label="Journal"
             title="Daily Reflection Journal"
           >
-            <DayformIcon name="pen" />
+            <DayformIcon name="pen" size={17} />
           </button>
           <button
             type="button"
-            className="ib"
+            className="ib header-btn desktop-only"
             onClick={() => navigate('/planner')}
             aria-label="Planner"
             title="Calendar & Tasks Planner"
           >
-            <DayformIcon name="cal" />
+            <DayformIcon name="cal" size={17} />
           </button>
+
+          {/* Quick Add Icon Button */}
           <button
             type="button"
-            className="ib"
+            className="ib header-btn"
             onClick={() => setQuickAddOpen(true)}
             aria-label="Quick add"
             title="Quick Add Habit or Session"
           >
-            <DayformIcon name="plus" />
+            <DayformIcon name="plus" size={17} />
           </button>
+
+          {/* Profile Avatar Button */}
           <button
             type="button"
-            className="av"
+            className="av header-av"
             onClick={() => navigate('/profile')}
             aria-label="Profile"
             title="Account & Settings"

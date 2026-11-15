@@ -3,23 +3,24 @@ import { Link, useNavigate } from 'react-router-dom';
 import { DayformIcon } from '../components/common/DayformIcon';
 import { WidgetErrorBoundary } from '../components/common/ErrorBoundary';
 import { PageHeader } from '../components/common/PageHeader';
-import { ProgressRing } from '../components/common/ProgressRing';
-import { StatCard } from '../components/common/StatCard';
-import { EmptyState, ErrorState, LoadingSkeleton } from '../components/common/StateBlocks';
+import { ErrorState, LoadingSkeleton } from '../components/common/StateBlocks';
 import { HabitRow } from '../components/habits/HabitRow';
 import { CustomDashboardModal, DEFAULT_DASHBOARD_CONFIG, type DashboardConfig } from '../components/home/CustomDashboardModal';
 import { DailyMissionsWidget } from '../components/home/DailyMissionsWidget';
 import { DailySummaryWidget } from '../components/home/DailySummaryWidget';
 import { DisciplineScoreCard } from '../components/home/DisciplineScoreCard';
 import { GoalOverviewWidget } from '../components/home/GoalOverviewWidget';
+import { HomeFocusWidget } from '../components/home/HomeFocusWidget';
 import { PersonalCheckInWidget } from '../components/home/PersonalCheckInWidget';
 import { PinnedTasksWidget } from '../components/home/PinnedTasksWidget';
+import { QuickActionsBar } from '../components/home/QuickActionsBar';
 import { TodayPrioritiesWidget } from '../components/home/TodayPrioritiesWidget';
+import { UpcomingScheduleWidget } from '../components/home/UpcomingScheduleWidget';
+import { QuickAddModal } from '../components/layout/QuickAddModal';
 import { QuickCaptureModal } from '../components/common/QuickCaptureModal';
 import { MemoryCard } from '../components/memories/MemoryCard';
 import { MemoryDetailSheet } from '../components/memories/MemoryDetailSheet';
 import { RandomMemoryCard } from '../components/memories/RandomMemoryCard';
-import { FocusTimerCard } from '../components/study/FocusTimerCard';
 import { useAuth } from '../contexts/AuthContext';
 import { useFocusTimer } from '../contexts/FocusTimerContext';
 import { useToast } from '../contexts/ToastContext';
@@ -27,7 +28,7 @@ import { parseApiError } from '../services/api/apiError';
 import { dashboardService } from '../services/dashboardService';
 import { habitService } from '../services/habitService';
 import type { DashboardSummaryDto, HabitDto, MemoryDto } from '../types/api';
-import { formatDurationMinutes, getGreetingWord, toIsoDate } from '../utils/date';
+import { getGreetingWord, toIsoDate } from '../utils/date';
 
 const DASHBOARD_CONFIG_KEY = 'grandline_dashboard_config';
 
@@ -43,6 +44,7 @@ export const HomePage: React.FC = () => {
   const [busyHabitId, setBusyHabitId] = useState<string | null>(null);
   const [selectedMemory, setSelectedMemory] = useState<MemoryDto | null>(null);
   const [quickCaptureOpen, setQuickCaptureOpen] = useState(false);
+  const [quickAddOpen, setQuickAddOpen] = useState(false);
 
   // Dashboard configuration
   const [showConfigModal, setShowConfigModal] = useState(false);
@@ -96,7 +98,7 @@ export const HomePage: React.FC = () => {
     }
   };
 
-  const firstName = user?.displayName?.split(' ')[0] || 'there';
+  const firstName = user?.displayName?.split(' ')[0] || 'Voyager';
   const todayLabel = new Date().toLocaleDateString(undefined, {
     weekday: 'long',
     day: 'numeric',
@@ -106,7 +108,14 @@ export const HomePage: React.FC = () => {
   if (loading && !summary) {
     return (
       <>
-        <PageHeader eyebrow={todayLabel} title={`Good ${getGreetingWord()}, ${firstName}`} />
+        <div className="desktop-only">
+          <PageHeader eyebrow={todayLabel} title={`Good ${getGreetingWord()}, ${firstName}`} />
+        </div>
+        <div className="mobile-only" style={{ marginBottom: 12 }}>
+          <div className="home-mobile-greeting">
+            <LoadingSkeleton lines={2} />
+          </div>
+        </div>
         <LoadingSkeleton lines={4} />
         <LoadingSkeleton lines={3} />
       </>
@@ -116,7 +125,14 @@ export const HomePage: React.FC = () => {
   if (error && !summary) {
     return (
       <>
-        <PageHeader eyebrow={todayLabel} title={`Good ${getGreetingWord()}, ${firstName}`} />
+        <div className="desktop-only">
+          <PageHeader eyebrow={todayLabel} title={`Good ${getGreetingWord()}, ${firstName}`} />
+        </div>
+        <div className="mobile-only" style={{ marginBottom: 12 }}>
+          <div className="home-mobile-greeting">
+            <p style={{ margin: 0, fontSize: 14, fontWeight: 600 }}>Good {getGreetingWord()}, {firstName}</p>
+          </div>
+        </div>
         <ErrorState message={error} onRetry={() => load()} />
       </>
     );
@@ -125,168 +141,297 @@ export const HomePage: React.FC = () => {
   if (!summary) {
     return (
       <>
-        <PageHeader eyebrow={todayLabel} title={`Good ${getGreetingWord()}, ${firstName}`} />
+        <div className="desktop-only">
+          <PageHeader eyebrow={todayLabel} title={`Good ${getGreetingWord()}, ${firstName}`} />
+        </div>
+        <div className="mobile-only" style={{ marginBottom: 12 }}>
+          <div className="home-mobile-greeting">
+            <LoadingSkeleton lines={2} />
+          </div>
+        </div>
         <LoadingSkeleton lines={4} />
       </>
     );
   }
 
+  const journeyDay = summary.journeyDay ?? 1;
+  const journeyTotalDays = summary.journeyTotalDays ?? 180;
+  const journeyProgressPct = Math.min(100, Math.round((journeyDay / Math.max(1, journeyTotalDays)) * 100));
+
   return (
     <>
-      <PageHeader
-        eyebrow={todayLabel}
-        title={`Good ${getGreetingWord()}, ${firstName}`}
-        subtitle={`Day ${summary.journeyDay ?? 1} of your ${summary.journeyTotalDays ?? 100}-day journey`}
-        action={
-          <div className="row" style={{ gap: 8, alignItems: 'center' }}>
+      {/* Mobile Compact Greeting & Journey Section (< 768px) */}
+      <div className="home-mobile-greeting mobile-only">
+        <div className="home-mobile-greeting-header">
+          <div style={{ minWidth: 0, flex: 1 }}>
+            <span className="home-mobile-date">{todayLabel}</span>
+            <h1 className="home-mobile-title">
+              Good {getGreetingWord()}, {firstName}
+            </h1>
+            <p className="home-mobile-subtitle">Stay consistent, make progress today.</p>
+          </div>
+          <div className="home-mobile-actions">
             <button
               type="button"
-              className="btn pri"
-              style={{ padding: '6px 12px', fontSize: 13, gap: 6 }}
+              className="ib sm"
               onClick={() => setQuickCaptureOpen(true)}
-              title="Quick Capture (Tasks, Thoughts, Ideas, Expenses)"
+              title="Quick Capture"
+              aria-label="Quick Capture"
             >
               <DayformIcon name="zap" size={14} />
-              <span>Quick Capture</span>
             </button>
             <button
               type="button"
-              className="ib"
+              className="ib sm"
               onClick={() => setShowConfigModal(true)}
-              title="Customize Dashboard"
-              aria-label="Customize Dashboard"
+              title="Customize Dashboard Layout"
+              aria-label="Customize Dashboard Layout"
             >
-              <DayformIcon name="settings" size={16} />
+              <DayformIcon name="settings" size={14} />
             </button>
           </div>
-        }
+        </div>
+
+        {/* Compact Voyage Progress Bar */}
+        <div className="home-mobile-voyage">
+          <div className="home-mobile-voyage-info">
+            <span className="home-mobile-voyage-label">
+              ⚓ Day {journeyDay} of {journeyTotalDays}
+            </span>
+            <span className="home-mobile-voyage-pct">
+              {journeyProgressPct}% voyage
+            </span>
+          </div>
+          <div className="home-mobile-voyage-bar">
+            <div
+              className="home-mobile-voyage-fill"
+              style={{ width: `${journeyProgressPct}%` }}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Desktop Greeting & Journey Banner (>= 768px) */}
+      <div className="desktop-only">
+        <PageHeader
+          eyebrow={todayLabel}
+          title={`Good ${getGreetingWord()}, ${firstName}`}
+          subtitle="Stay consistent, make progress today."
+          action={
+            <div className="row" style={{ gap: 8, alignItems: 'center' }}>
+              <button
+                type="button"
+                className="btn pri sm"
+                onClick={() => setQuickCaptureOpen(true)}
+                title="Quick Capture thoughts & tasks"
+              >
+                <DayformIcon name="zap" size={13} />
+                <span>Capture</span>
+              </button>
+              <button
+                type="button"
+                className="ib sm"
+                onClick={() => setShowConfigModal(true)}
+                title="Customize Dashboard Layout"
+                aria-label="Customize Dashboard Layout"
+              >
+                <DayformIcon name="settings" size={15} />
+              </button>
+            </div>
+          }
+        />
+
+        <div className="home-journey-banner">
+          <div className="home-journey-top">
+            <div className="row" style={{ gap: 8, alignItems: 'center' }}>
+              <span style={{ fontSize: 16 }}>⚓</span>
+              <span style={{ font: '600 13px var(--font-display)', color: 'var(--ink)' }}>
+                Grandline Voyage
+              </span>
+            </div>
+            <span className="badge badge-home badge-sm">
+              Day {journeyDay} of {journeyTotalDays} ({journeyProgressPct}%)
+            </span>
+          </div>
+          <div style={{ height: 6, width: '100%', borderRadius: 999, background: 'var(--sf)', overflow: 'hidden' }}>
+            <div
+              style={{
+                height: '100%',
+                width: `${journeyProgressPct}%`,
+                background: 'var(--ac)',
+                borderRadius: 999,
+                transition: 'width 0.4s ease'
+              }}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* 3. Quick Actions */}
+      <QuickActionsBar
+        onQuickAdd={() => setQuickAddOpen(true)}
+        onQuickCapture={() => setQuickCaptureOpen(true)}
       />
 
+      {/* Balanced Dashboard Multi-Column Layout */}
       <div className="df-grid-2">
-        {/* Left Column */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
-          {dashConfig.showDailySummary && (
-            <WidgetErrorBoundary>
-              <DailySummaryWidget />
-            </WidgetErrorBoundary>
-          )}
-
+        {/* Left Column: Action & Execution Core */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+          {/* Section 4: Today's Priorities (Highest Visual Priority) */}
           {dashConfig.showPriorities && (
             <WidgetErrorBoundary>
               <TodayPrioritiesWidget />
             </WidgetErrorBoundary>
           )}
 
-          {(dashConfig.showHabits || dashConfig.showDisciplineScore) && (
-            <div className="home-habit-discipline-grid">
-              {dashConfig.showHabits && (
-                <div className="cd home-duo-card">
-                  <div className="home-duo-header">
-                    <div className="home-duo-title">
-                      <DayformIcon name="check" size={16} />
-                      <span>Habits Today</span>
+          {/* Section 5: Today's Habits */}
+          {dashConfig.showHabits && (
+            <div className="cd home-card-habits" style={{ borderLeft: '3px solid var(--mod-habits)', marginBottom: 16 }}>
+              <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+                <div className="row" style={{ gap: 8, alignItems: 'center' }}>
+                  <span className="mod-icon mod-icon-habits">
+                    <DayformIcon name="check" size={16} />
+                  </span>
+                  <div>
+                    <b className="d" style={{ fontSize: 15 }}>Today's Habits</b>
+                    <div className="mut" style={{ fontSize: 11 }}>
+                      <span>{summary.completedHabitsToday ?? 0} of {summary.totalActiveHabits ?? 0} habits done</span>
+                      {summary.nextIncompleteHabitName ? (
+                        <> · <span>Next: {summary.nextIncompleteHabitName}</span></>
+                      ) : null}
                     </div>
-                    <span className="badge badge-completed badge-sm">
-                      {summary.completionPercentToday ?? 0}%
-                    </span>
-                  </div>
-
-                  <div className="home-duo-center">
-                    <ProgressRing
-                      percent={summary.completionPercentToday ?? 0}
-                      size={68}
-                      strokeWidth={7}
-                      label={`${summary.completionPercentToday ?? 0}%`}
-                    />
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-                      <div className="home-duo-stat">
-                        {summary.completedHabitsToday ?? 0} of {summary.totalActiveHabits ?? 0} habits done
-                      </div>
-                      <div className="home-duo-sub">
-                        {(summary.totalActiveHabits ?? 0) === 0
-                          ? 'Add your first habit to begin tracking.'
-                          : summary.nextIncompleteHabitName
-                            ? `Next: ${summary.nextIncompleteHabitName}`
-                            : 'All done for today.'}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="home-duo-action">
-                    <Link
-                      to="/habits"
-                      className="btn pri"
-                      style={{ width: '100%', justifyContent: 'center', padding: '6px 10px', fontSize: 12 }}
-                    >
-                      Check in <DayformIcon name="right" size={14} />
-                    </Link>
                   </div>
                 </div>
-              )}
 
-              {dashConfig.showDisciplineScore && (
-                <WidgetErrorBoundary>
-                  <DisciplineScoreCard />
-                </WidgetErrorBoundary>
+                <div className="row" style={{ gap: 8 }}>
+                  <Link to="/habits" className="btn sm" style={{ padding: '3px 8px', fontSize: 11 }}>
+                    + New
+                  </Link>
+                  <Link to="/habits" className="lk" style={{ fontSize: 12 }}>
+                    View All <DayformIcon name="right" size={13} />
+                  </Link>
+                </div>
+              </div>
+
+              {(summary.todayHabits ?? []).length > 0 ? (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                  {summary.todayHabits.slice(0, 5).map((h) => (
+                    <HabitRow
+                      key={h.id}
+                      habit={h}
+                      busy={busyHabitId === h.id}
+                      onToggle={handleToggleHabit}
+                    />
+                  ))}
+                  {(summary.todayHabits ?? []).length > 5 && (
+                    <div style={{ textAlign: 'center', marginTop: 4 }}>
+                      <Link to="/habits" className="mut" style={{ fontSize: 12 }}>
+                        +{(summary.todayHabits?.length ?? 0) - 5} more habits in Habits tab
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div style={{ padding: '14px 0', textAlign: 'center' }}>
+                  <p className="mut" style={{ margin: 0, fontSize: 13 }}>
+                    No habits active for today.
+                  </p>
+                  <Link to="/habits" className="lk" style={{ fontSize: 12, marginTop: 4 }}>
+                    Create your first habit
+                  </Link>
+                </div>
               )}
             </div>
           )}
 
+          {/* Section 6: Active Goals */}
+          {dashConfig.showGoals && (
+            <WidgetErrorBoundary>
+              <GoalOverviewWidget />
+            </WidgetErrorBoundary>
+          )}
+
+          {/* Section 7: Upcoming Schedule */}
+          {dashConfig.showSchedule && (
+            <WidgetErrorBoundary>
+              <UpcomingScheduleWidget />
+            </WidgetErrorBoundary>
+          )}
+
+          {/* Missions (if enabled) */}
           {dashConfig.showMissions && (
             <WidgetErrorBoundary>
               <DailyMissionsWidget />
             </WidgetErrorBoundary>
           )}
+        </div>
 
+        {/* Right Column: Progress, Focus, Discipline & Reflection */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+          {/* Section 4 Pair: Daily Progress */}
+          {dashConfig.showDailySummary && (
+            <WidgetErrorBoundary>
+              <DailySummaryWidget />
+            </WidgetErrorBoundary>
+          )}
+
+          {/* Section 5 Pair: Focus Session */}
+          {dashConfig.showFocusTimer && (
+            <WidgetErrorBoundary>
+              <HomeFocusWidget />
+            </WidgetErrorBoundary>
+          )}
+
+          {/* Section 6 Pair: Discipline Score */}
+          {dashConfig.showDisciplineScore && (
+            <WidgetErrorBoundary>
+              <DisciplineScoreCard />
+            </WidgetErrorBoundary>
+          )}
+
+          {/* Section 7 Pair: Personal Check-in */}
+          {dashConfig.showCheckIn && (
+            <WidgetErrorBoundary>
+              <PersonalCheckInWidget />
+            </WidgetErrorBoundary>
+          )}
+
+          {/* Pinned Tasks Widget (if enabled) */}
           {dashConfig.showPinnedTasks && (
             <WidgetErrorBoundary>
               <PinnedTasksWidget />
             </WidgetErrorBoundary>
           )}
 
-          <div className="g3">
-            <StatCard
-              icon="flame"
-              label="Streak"
-              value={`${summary.currentStreakDays ?? 0}d`}
-              note={`Best ${summary.bestStreakDays ?? 0}d`}
-            />
-            <StatCard
-              icon="clock"
-              label="Focus 7d"
-              value={formatDurationMinutes(summary.focusMinutesLast7Days ?? 0)}
-              note="logged"
-            />
-            <StatCard
-              icon="chart"
-              label="Habits 7d"
-              value={`${Math.round(summary.habitAverageLast7Days ?? 0)}%`}
-              note="average"
-            />
-          </div>
-
-          <div className="sec">
-            <h2>Last 7 days</h2>
-            <Link to="/progress" className="lk">
-              Trends <DayformIcon name="right" size={15} />
-            </Link>
-          </div>
-          <div className="cd">
+          {/* 7-Day Consistency Micro-Chart */}
+          <div className="cd" style={{ marginBottom: 16 }}>
+            <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+              <div className="row" style={{ gap: 6, alignItems: 'center' }}>
+                <span className="mod-icon mod-icon-home" style={{ width: 26, height: 26 }}>
+                  <DayformIcon name="flame" size={14} />
+                </span>
+                <span style={{ fontSize: 13, fontWeight: 600 }}>Last 7 Days Consistency</span>
+              </div>
+              <Link to="/progress" className="lk" style={{ fontSize: 11.5 }}>
+                Analytics <DayformIcon name="right" size={12} />
+              </Link>
+            </div>
             <div className="wk">
               {(summary.last7Days ?? []).map((day) => {
                 const isToday = day.date === summary.todayDate;
                 const dayNum = new Date(`${day.date}T12:00:00`).getDate();
+                const pct = Math.min(100, Math.max(0, day.completionPercent ?? 0));
                 return (
                   <button
                     key={day.date}
                     type="button"
                     className={isToday ? 'tdy' : ''}
                     onClick={() => navigate(`/planner?date=${day.date}`)}
-                    aria-label={`${day.date}: ${Math.round(day.completionPercent ?? 0)}% habits`}
+                    aria-label={`${day.date}: ${Math.round(pct)}% habits`}
                   >
                     <span>{day.weekdayShort}</span>
                     <div className="tr">
-                      <i style={{ height: `${Math.min(100, Math.max(0, day.completionPercent ?? 0))}%` }} />
+                      <i style={{ height: `${pct}%` }} />
                     </div>
                     <b>{dayNum}</b>
                   </button>
@@ -294,93 +439,54 @@ export const HomePage: React.FC = () => {
               })}
             </div>
           </div>
-
-          {dashConfig.showFocusTimer && (
-            <>
-              <div className="sec">
-                <h2>Focus timer</h2>
-                <Link to="/study" className="lk">
-                  Study <DayformIcon name="right" size={15} />
-                </Link>
-              </div>
-              <FocusTimerCard compact />
-            </>
-          )}
         </div>
+      </div>
 
-        {/* Right Column */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
-          {dashConfig.showCheckIn && (
-            <WidgetErrorBoundary>
-              <PersonalCheckInWidget />
-            </WidgetErrorBoundary>
-          )}
-
-          {dashConfig.showGoals && (
-            <WidgetErrorBoundary>
-              <GoalOverviewWidget />
-            </WidgetErrorBoundary>
-          )}
-
-          {dashConfig.showRandomMemory && (
-            <WidgetErrorBoundary>
-              <RandomMemoryCard />
-            </WidgetErrorBoundary>
-          )}
-
-          {dashConfig.showHabits && (
-            <div>
-              <div className="sec">
-                <h2>Today’s habits</h2>
-                <Link to="/habits" className="lk">
-                  All <DayformIcon name="right" size={15} />
-                </Link>
-              </div>
-              <div className="cd">
-                {(summary.todayHabits ?? []).length > 0 ? (
-                  summary.todayHabits.map((h) => (
-                    <HabitRow
-                      key={h.id}
-                      habit={h}
-                      busy={busyHabitId === h.id}
-                      onToggle={handleToggleHabit}
-                    />
-                  ))
-                ) : (
-                  <p className="mut" style={{ margin: 0 }}>
-                    No habits yet. <Link to="/habits" className="lk">Create one</Link>
-                  </p>
-                )}
-              </div>
+      {/* Section 8: Memory Lane & Recent Memories */}
+      {(dashConfig.showRandomMemory || (summary.recentMemories ?? []).length > 0) && (
+        <div style={{ marginTop: 8 }}>
+          <div className="sec">
+            <div className="row" style={{ gap: 8, alignItems: 'center' }}>
+              <span className="mod-icon mod-icon-memories">
+                <DayformIcon name="img" size={15} />
+              </span>
+              <h2>Memory Lane & Reflections</h2>
             </div>
-          )}
-        </div>
-      </div>
-
-      <div className="sec" style={{ marginTop: 24 }}>
-        <h2>Recent memories</h2>
-        <Link to="/memories" className="lk">
-          All <DayformIcon name="right" size={15} />
-        </Link>
-      </div>
-      {(summary.recentMemories ?? []).length > 0 ? (
-        <div className="hs">
-          {summary.recentMemories.map((m) => (
-            <MemoryCard key={m.id} memory={m} onSelect={setSelectedMemory} />
-          ))}
-        </div>
-      ) : (
-        <EmptyState
-          title="No memories yet"
-          description="Keep snapshots, milestones, and quiet moments here."
-          action={
-            <Link to="/memories" className="btn">
-              Add memory
+            <Link to="/memories" className="lk">
+              All Memories <DayformIcon name="right" size={14} />
             </Link>
-          }
-        />
+          </div>
+
+          <div className="df-grid-2">
+            {dashConfig.showRandomMemory && (
+              <WidgetErrorBoundary>
+                <RandomMemoryCard />
+              </WidgetErrorBoundary>
+            )}
+
+            <div>
+              {(summary.recentMemories ?? []).length > 0 ? (
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: 10 }}>
+                  {summary.recentMemories.slice(0, 4).map((m) => (
+                    <MemoryCard key={m.id} memory={m} onSelect={setSelectedMemory} />
+                  ))}
+                </div>
+              ) : (
+                <div className="cd" style={{ textAlign: 'center', padding: '24px 16px' }}>
+                  <p className="mut" style={{ margin: '0 0 10px', fontSize: 13 }}>
+                    Keep snapshots, milestones, and quiet moments here.
+                  </p>
+                  <Link to="/memories" className="btn sm">
+                    Add Memory
+                  </Link>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
       )}
 
+      {/* Sheets & Modals */}
       <MemoryDetailSheet
         memory={selectedMemory}
         onClose={() => setSelectedMemory(null)}
@@ -405,6 +511,11 @@ export const HomePage: React.FC = () => {
       <QuickCaptureModal
         isOpen={quickCaptureOpen}
         onClose={() => setQuickCaptureOpen(false)}
+      />
+
+      <QuickAddModal
+        isOpen={quickAddOpen}
+        onClose={() => setQuickAddOpen(false)}
       />
     </>
   );

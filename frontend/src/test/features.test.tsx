@@ -66,6 +66,13 @@ vi.mock('../services/journalService', () => ({
   }
 }));
 
+vi.mock('../services/personalDevelopmentService', () => ({
+  personalDevelopmentService: {
+    getTodayMoodLog: vi.fn().mockResolvedValue(null),
+    upsertMoodLog: vi.fn().mockResolvedValue(null)
+  }
+}));
+
 vi.mock('../services/memoryService', () => ({
   memoryService: {
     getAll: vi.fn(),

@@ -156,27 +156,28 @@ export const MemoriesPage: React.FC = () => {
         subtitle={
           activeTab === 'memories'
             ? `${totalCount} moments captured across your journey.`
-            : 'Photos, reading notes, letters to future self, and timeline milestones.'
+            : 'Photos, notes, future letters, and life timeline.'
         }
         action={
           activeTab === 'memories' ? (
             <button
               type="button"
-              className="ib"
+              className="btn pri sm"
               onClick={() => {
                 setEditing(null);
                 setFormOpen(true);
               }}
-              aria-label="Add memory"
+              style={{ gap: 6 }}
             >
-              <DayformIcon name="plus" />
+              <DayformIcon name="plus" size={14} />
+              <span>Add memory</span>
             </button>
           ) : undefined
         }
       />
 
       {/* Main Tabs */}
-      <div className="chips" style={{ marginBottom: 20 }}>
+      <div className="chips" style={{ marginBottom: 18 }}>
         <button
           type="button"
           className={`chip ${activeTab === 'memories' ? 'on' : ''}`}
@@ -196,7 +197,7 @@ export const MemoriesPage: React.FC = () => {
           className={`chip ${activeTab === 'futureself' ? 'on' : ''}`}
           onClick={() => setTab('futureself')}
         >
-          Future Self
+          Future Self Letters
         </button>
         <button
           type="button"
@@ -213,7 +214,7 @@ export const MemoriesPage: React.FC = () => {
 
       {activeTab === 'memories' && (
         <>
-          <div className="chips">
+          <div className="chips" style={{ marginBottom: 14 }}>
             {FILTERS.map((f) => (
               <button
                 key={f.value}
@@ -231,8 +232,8 @@ export const MemoriesPage: React.FC = () => {
 
           {!loading && !error && memories.length === 0 ? (
             <EmptyState
-              title="No memories here yet"
-              description="Save a note, milestone, or photo worth remembering."
+              title="No memories recorded yet"
+              description="Save a snapshot, milestone, or quiet moment worth keeping."
               action={
                 <button
                   type="button"
@@ -242,7 +243,7 @@ export const MemoriesPage: React.FC = () => {
                     setFormOpen(true);
                   }}
                 >
-                  Add memory
+                  Capture first memory
                 </button>
               }
             />
@@ -254,10 +255,15 @@ export const MemoriesPage: React.FC = () => {
               year: 'numeric'
             });
             return (
-              <section key={monthKey}>
+              <section key={monthKey} style={{ marginBottom: 24 }}>
                 <div className="sec">
-                  <h2>{label}</h2>
-                  <span className="eyebrow">{list.length}</span>
+                  <div className="row" style={{ gap: 8, alignItems: 'center' }}>
+                    <span className="mod-icon mod-icon-memories">
+                      <DayformIcon name="img" size={15} />
+                    </span>
+                    <h2>{label}</h2>
+                  </div>
+                  <span className="badge badge-memories badge-sm">{list.length} moments</span>
                 </div>
                 <div className="mg">
                   {list.map((m) => (

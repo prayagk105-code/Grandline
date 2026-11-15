@@ -148,32 +148,33 @@ export const HabitsPage: React.FC = () => {
       <PageHeader
         eyebrow="Show up for yourself"
         title="Habits & Principles"
-        subtitle="Consistency, not perfection."
+        subtitle="Consistency, not perfection. Build identity through daily ritual."
         action={
           mainTab === 'habits' ? (
             <button
               type="button"
-              className="ib"
+              className="btn pri sm"
               onClick={() => {
                 setEditingHabit(null);
                 setFormOpen(true);
               }}
-              aria-label="Add habit"
+              style={{ gap: 6 }}
             >
-              <DayformIcon name="plus" />
+              <DayformIcon name="plus" size={14} />
+              <span>Add habit</span>
             </button>
           ) : undefined
         }
       />
 
       {/* Main Subtabs */}
-      <div className="chips" style={{ marginBottom: 20 }}>
+      <div className="chips" style={{ marginBottom: 18 }}>
         <button
           type="button"
           className={`chip ${mainTab === 'habits' ? 'on' : ''}`}
           onClick={() => setTab('habits')}
         >
-          My Habits
+          Daily Habits
         </button>
         <button
           type="button"
@@ -204,17 +205,44 @@ export const HabitsPage: React.FC = () => {
 
       {mainTab === 'habits' && (
         <>
-          {loading && !summary ? <LoadingSkeleton lines={3} /> : null}
+          {loading && !summary ? <LoadingSkeleton lines={4} /> : null}
           {error && !summary ? <ErrorState message={error} onRetry={() => load()} /> : null}
 
           {summary ? (
             <>
-              <div className="g3">
-                <StatCard icon="habit" label="7 days" value={`${Math.round(summary.weeklyAveragePercent)}%`} note="completion" />
-                <StatCard icon="flame" label="Streak" value={`${summary.currentStreakDays}d`} note="current" />
-                <StatCard icon="star" label="Best" value={`${summary.bestStreakDays}d`} note="longest" />
+              {/* Stat Cards with Module-aware Accents */}
+              <div className="g4">
+                <StatCard
+                  icon="habit"
+                  label="Active Habits"
+                  value={summary.activeCount ?? 0}
+                  note={`${habits.filter((h) => h.completedToday).length} done today`}
+                  accent="green"
+                />
+                <StatCard
+                  icon="chart"
+                  label="Today Done"
+                  value={`${summary.activeCount > 0 ? Math.round((habits.filter((h) => h.completedToday).length / summary.activeCount) * 100) : 0}%`}
+                  note="completion rate"
+                  accent="forest"
+                />
+                <StatCard
+                  icon="flame"
+                  label="Current Streak"
+                  value={`${summary.currentStreakDays ?? 0}d`}
+                  note={`Best: ${summary.bestStreakDays ?? 0}d`}
+                  accent="orange"
+                />
+                <StatCard
+                  icon="clock"
+                  label="7-Day Avg"
+                  value={`${Math.round(summary.weeklyAveragePercent ?? 0)}%`}
+                  note="consistency"
+                  accent="blue"
+                />
               </div>
 
+              {/* Filters & Category Pills */}
               <div className="row" style={{ justifyContent: 'space-between', marginBottom: 12, flexWrap: 'wrap', gap: 10 }}>
                 <div className="chips" style={{ marginBottom: 0 }}>
                   {categories.map((cat) => (
@@ -228,18 +256,21 @@ export const HabitsPage: React.FC = () => {
                     </button>
                   ))}
                 </div>
-                <label className="mut" style={{ display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer' }}>
+
+                <label className="mut" style={{ display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer', fontSize: 12 }}>
                   <input
                     type="checkbox"
                     checked={showArchived}
                     onChange={(e) => setShowArchived(e.target.checked)}
+                    style={{ accentColor: 'var(--ac)' }}
                   />
-                  <span>Show archived</span>
+                  <span>Show archived habits</span>
                 </label>
               </div>
 
+              {/* Habits List Container */}
               {filtered.length > 0 ? (
-                <div className="cd">
+                <div className="cd" style={{ marginBottom: 20 }}>
                   {filtered.map((h) => (
                     <HabitRow
                       key={h.id}
@@ -259,8 +290,8 @@ export const HabitsPage: React.FC = () => {
                   title="No habits here"
                   description={
                     category === 'All'
-                      ? 'Add a daily habit you want to build.'
-                      : `No habits in ${category} yet.`
+                      ? 'Add a daily habit you want to build and stay consistent with.'
+                      : `No habits found under category "${category}".`
                   }
                   action={
                     <button
@@ -277,8 +308,14 @@ export const HabitsPage: React.FC = () => {
                 />
               )}
 
+              {/* 21-Week Habit Consistency Heatmap */}
               <div className="sec">
-                <h2>Activity</h2>
+                <div className="row" style={{ gap: 8, alignItems: 'center' }}>
+                  <span className="mod-icon mod-icon-habits">
+                    <DayformIcon name="flame" size={16} />
+                  </span>
+                  <h2>Consistency Heatmap</h2>
+                </div>
                 <span className="eyebrow">Last 21 weeks</span>
               </div>
               <div className="cd">

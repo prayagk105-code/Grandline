@@ -19,6 +19,28 @@
   --hot-soft: rgba(216, 101, 56, 0.12);
   --on: #ffffff;
 
+  /* Module Color Identities - Light Mode */
+  --mod-home: #23533c;
+  --mod-home-soft: #eaf2ed;
+  --mod-habits: #16a34a;
+  --mod-habits-soft: #eaf5ee;
+  --mod-study: #2563eb;
+  --mod-study-soft: #eff6ff;
+  --mod-planner: #4f46e5;
+  --mod-planner-soft: #eef2ff;
+  --mod-memories: #e11d48;
+  --mod-memories-soft: #fff1f2;
+  --mod-balance: #0d9488;
+  --mod-balance-soft: #f0fdfa;
+  --mod-progress: #d97706;
+  --mod-progress-soft: #fffbeb;
+  --mod-focus: #7c3aed;
+  --mod-focus-soft: #f5f3ff;
+  --mod-health: #059669;
+  --mod-health-soft: #ecfdf5;
+  --mod-personal: #9333ea;
+  --mod-personal-soft: #faf5ff;
+
   /* Heatmap Greens */
   --h0: #e9e4d6;
   --h1: #cadbc9;
@@ -83,9 +105,33 @@
   --badge-goals-text: #1c5035;
   --badge-goals-border: #cbe3d4;
 
+  --badge-home-bg: #eaf2ed;
+  --badge-home-text: #1d4b35;
+  --badge-home-border: #cde0d5;
+
+  --badge-habits-bg: #eaf5ee;
+  --badge-habits-text: #15803d;
+  --badge-habits-border: #cde9d7;
+
   --badge-study-bg: #eff6ff;
   --badge-study-text: #2563eb;
   --badge-study-border: #dbeafe;
+
+  --badge-planner-bg: #eef2ff;
+  --badge-planner-text: #4338ca;
+  --badge-planner-border: #e0e7ff;
+
+  --badge-memories-bg: #fff1f2;
+  --badge-memories-text: #be123c;
+  --badge-memories-border: #ffe4e6;
+
+  --badge-balance-bg: #e6f7f5;
+  --badge-balance-text: #0f766e;
+  --badge-balance-border: #c9ede8;
+
+  --badge-progress-bg: #fef3c7;
+  --badge-progress-text: #b45309;
+  --badge-progress-border: #fde68a;
 
   --badge-finance-bg: #e6f7f5;
   --badge-finance-text: #0f766e;
@@ -159,6 +205,28 @@
     --hot-soft: rgba(234, 122, 77, 0.18);
     --on: #0c130e;
 
+    /* Module Color Identities - Dark Mode */
+    --mod-home: #52b788;
+    --mod-home-soft: #172c1f;
+    --mod-habits: #4ade80;
+    --mod-habits-soft: #132b1a;
+    --mod-study: #60a5fa;
+    --mod-study-soft: #12243d;
+    --mod-planner: #818cf8;
+    --mod-planner-soft: #1c1d3b;
+    --mod-memories: #fb7185;
+    --mod-memories-soft: #38141d;
+    --mod-balance: #2dd4bf;
+    --mod-balance-soft: #0d2826;
+    --mod-progress: #fbbf24;
+    --mod-progress-soft: #2e230b;
+    --mod-focus: #a78bfa;
+    --mod-focus-soft: #241838;
+    --mod-health: #34d399;
+    --mod-health-soft: #132b20;
+    --mod-personal: #c084fc;
+    --mod-personal-soft: #271736;
+
     /* Heatmap Greens - Dark */
     --h0: #222b25;
     --h1: #2a4333;
@@ -223,9 +291,33 @@
     --badge-goals-text: #86d3a3;
     --badge-goals-border: #224932;
 
+    --badge-home-bg: #172c1f;
+    --badge-home-text: #86d3a3;
+    --badge-home-border: #234931;
+
+    --badge-habits-bg: #132b1a;
+    --badge-habits-text: #6ee7b7;
+    --badge-habits-border: #1e472d;
+
     --badge-study-bg: #12243d;
     --badge-study-text: #93c5fd;
     --badge-study-border: #1d3b66;
+
+    --badge-planner-bg: #1c1d3b;
+    --badge-planner-text: #a5b4fc;
+    --badge-planner-border: #2e2f5b;
+
+    --badge-memories-bg: #38141d;
+    --badge-memories-text: #fda4af;
+    --badge-memories-border: #5c1d2c;
+
+    --badge-balance-bg: #0d2826;
+    --badge-balance-text: #5eead4;
+    --badge-balance-border: #154743;
+
+    --badge-progress-bg: #2e230b;
+    --badge-progress-text: #fde68a;
+    --badge-progress-border: #4a3610;
 
     --badge-finance-bg: #0d2826;
     --badge-finance-text: #5eead4;
@@ -271,6 +363,28 @@
   --hot-hover: #f38a5f;
   --hot-soft: rgba(234, 122, 77, 0.18);
   --on: #0c130e;
+
+  /* Module Color Identities - Dark Mode */
+  --mod-home: #52b788;
+  --mod-home-soft: #172c1f;
+  --mod-habits: #4ade80;
+  --mod-habits-soft: #132b1a;
+  --mod-study: #60a5fa;
+  --mod-study-soft: #12243d;
+  --mod-planner: #818cf8;
+  --mod-planner-soft: #1c1d3b;
+  --mod-memories: #fb7185;
+  --mod-memories-soft: #38141d;
+  --mod-balance: #2dd4bf;
+  --mod-balance-soft: #0d2826;
+  --mod-progress: #fbbf24;
+  --mod-progress-soft: #2e230b;
+  --mod-focus: #a78bfa;
+  --mod-focus-soft: #241838;
+  --mod-health: #34d399;
+  --mod-health-soft: #132b20;
+  --mod-personal: #c084fc;
+  --mod-personal-soft: #271736;
 
   /* Heatmap Greens - Dark */
   --h0: #222b25;
@@ -336,9 +450,33 @@
   --badge-goals-text: #86d3a3;
   --badge-goals-border: #224932;
 
+  --badge-home-bg: #172c1f;
+  --badge-home-text: #86d3a3;
+  --badge-home-border: #234931;
+
+  --badge-habits-bg: #132b1a;
+  --badge-habits-text: #6ee7b7;
+  --badge-habits-border: #1e472d;
+
   --badge-study-bg: #12243d;
   --badge-study-text: #93c5fd;
   --badge-study-border: #1d3b66;
+
+  --badge-planner-bg: #1c1d3b;
+  --badge-planner-text: #a5b4fc;
+  --badge-planner-border: #2e2f5b;
+
+  --badge-memories-bg: #38141d;
+  --badge-memories-text: #fda4af;
+  --badge-memories-border: #5c1d2c;
+
+  --badge-balance-bg: #0d2826;
+  --badge-balance-text: #5eead4;
+  --badge-balance-border: #154743;
+
+  --badge-progress-bg: #2e230b;
+  --badge-progress-text: #fde68a;
+  --badge-progress-border: #4a3610;
 
   --badge-finance-bg: #0d2826;
   --badge-finance-text: #5eead4;

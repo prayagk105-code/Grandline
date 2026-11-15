@@ -228,18 +228,21 @@ export const HealthLifestyleView: React.FC = () => {
             label="Avg Sleep"
             value={`${summary.avgSleepHours.toFixed(1)}h`}
             note="last 30 days"
+            accent="sage"
           />
           <StatCard
             icon="study"
             label="Avg Daily Steps"
             value={Math.round(summary.avgSteps).toLocaleString()}
             note="movement consistency"
+            accent="sage"
           />
           <StatCard
             icon="flame"
             label="Workouts This Week"
             value={String(summary.workoutsThisWeek)}
             note="exercise sessions"
+            accent="sage"
           />
         </div>
       )}

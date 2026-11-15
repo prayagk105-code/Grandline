@@ -6,7 +6,7 @@ export interface StatCardProps {
   label: string;
   value: string | number;
   note?: string;
-  accent?: 'orange' | 'green' | 'blue' | 'teal' | 'purple' | 'forest' | 'amber';
+  accent?: 'orange' | 'green' | 'blue' | 'teal' | 'purple' | 'forest' | 'amber' | 'indigo' | 'rose' | 'sage';
   onClick?: () => void;
   className?: string;
 }

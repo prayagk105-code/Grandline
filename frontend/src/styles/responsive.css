@@ -3,6 +3,19 @@
    Covers: Small mobile (<=375px), Standard mobile, Tablets, Laptops & Desktops
    ========================================================================== */
 
+/* Responsive visibility utilities */
+@media (max-width: 767px) {
+  .desktop-only {
+    display: none !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .mobile-only {
+    display: none !important;
+  }
+}
+
 .df-shell {
   min-height: 100dvh;
   display: flex;
@@ -158,18 +171,54 @@
     padding: 12px 10px 110px;
   }
 
+  .home-daily-progress-grid {
+    gap: 6px;
+  }
+
+  .home-stat-box {
+    padding: 8px 10px;
+  }
+
+  .home-stat-val {
+    font-size: 15px;
+  }
+
+  .home-quick-btn {
+    padding: 6px 10px;
+    font-size: 11.5px;
+  }
+
   .df-header {
-    padding: 10px 12px;
+    padding: 7px 10px;
   }
 
   .df-logo span {
-    font-size: 15px;
+    font-size: 13.5px;
   }
 
   .df-logo-mark {
-    width: 28px;
-    height: 28px;
-    font-size: 15px;
+    width: 26px;
+    height: 26px;
+    font-size: 13px;
+  }
+
+  .sync-badge .sync-text {
+    display: none;
+  }
+
+  .sync-badge {
+    padding: 4px 6px !important;
+  }
+
+  .header-btn {
+    width: 32px;
+    height: 32px;
+  }
+
+  .header-av {
+    width: 32px;
+    height: 32px;
+    font-size: 12px;
   }
 
   .g3 {
@@ -198,22 +247,155 @@
   }
 }
 
+/* Mobile Devices (< 768px): Simplified Header & Compact Greeting */
+@media (max-width: 767px) {
+  .df-header {
+    padding: 8px 12px;
+    min-height: 50px;
+  }
+
+  .df-logo {
+    gap: 8px;
+    font-size: 15px;
+    letter-spacing: 0.03em;
+  }
+
+  .df-logo-mark {
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
+    border-radius: var(--radius-xs);
+  }
+
+  .df-header-actions {
+    gap: 6px;
+    align-items: center;
+  }
+
+  .sync-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 8px;
+    border-radius: 999px;
+    background: var(--sf);
+    border: 1px solid var(--ln-subtle);
+  }
+
+  .sync-badge .sync-text {
+    font-size: 11px;
+    font-weight: 500;
+  }
+
+  .header-btn {
+    width: 35px;
+    height: 35px;
+    border-radius: var(--radius-sm);
+  }
+
+  .header-av {
+    width: 34px;
+    height: 34px;
+    font-size: 13px;
+  }
+
+  /* Mobile Greeting Section */
+  .home-mobile-greeting {
+    background: var(--cd);
+    border: 1px solid var(--ln);
+    border-radius: var(--radius-lg);
+    padding: 13px 14px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow-xs);
+  }
+
+  .home-mobile-greeting-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .home-mobile-date {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--mut);
+    margin-bottom: 2px;
+  }
+
+  .home-mobile-title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.25;
+  }
+
+  .home-mobile-subtitle {
+    margin: 3px 0 0;
+    font-size: 12px;
+    color: var(--mut);
+    line-height: 1.35;
+  }
+
+  .home-mobile-actions {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .home-mobile-voyage {
+    margin-top: 10px;
+    padding-top: 9px;
+    border-top: 1px solid var(--ln-subtle);
+  }
+
+  .home-mobile-voyage-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+
+  .home-mobile-voyage-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .home-mobile-voyage-pct {
+    font-size: 11px;
+    color: var(--mut);
+    font-weight: 500;
+  }
+
+  .home-mobile-voyage-bar {
+    height: 5px;
+    width: 100%;
+    border-radius: 999px;
+    background: var(--sf);
+    overflow: hidden;
+  }
+
+  .home-mobile-voyage-fill {
+    height: 100%;
+    background: var(--ac);
+    border-radius: 999px;
+    transition: width 0.4s ease;
+  }
+}
+
 /* Mobile & Small Handhelds (<= 479px) */
 @media (max-width: 479px) {
   .g2-stack-mobile {
     grid-template-columns: 1fr;
-  }
-
-  .install-header-btn .install-text {
-    display: none;
-  }
-
-  .sync-badge span:last-child {
-    display: none;
-  }
-
-  .sync-badge {
-    padding: 6px !important;
   }
 
   .ph {
@@ -246,6 +428,11 @@
 }
 
 @media (min-width: 768px) {
+  .home-quick-actions-bar {
+    flex-wrap: wrap;
+    overflow-x: visible;
+  }
+
   .sh {
     align-items: center;
     padding: 24px;

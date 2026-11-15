@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { DayformIcon } from '../common/DayformIcon';
-import { ProgressRing } from '../common/ProgressRing';
 import { specialGrandlineService } from '../../services/specialGrandlineService';
 import type { DisciplineScoreDto } from '../../types/api';
 
@@ -27,7 +26,7 @@ export const DisciplineScoreCard: React.FC = () => {
 
   if (loading || !scoreData) {
     return (
-      <div className="cd" style={{ padding: 20 }}>
+      <div className="cd" style={{ padding: 18 }}>
         <span className="mut" style={{ fontSize: 13 }}>Calculating discipline score...</span>
       </div>
     );
@@ -36,7 +35,7 @@ export const DisciplineScoreCard: React.FC = () => {
   const rawScore = Number(scoreData?.overallScore ?? 0);
   const score = isNaN(rawScore) ? 0 : Math.round(rawScore);
   const tierColor =
-    score >= 80 ? 'var(--ac)' : score >= 60 ? '#3b82f6' : score >= 40 ? '#f59e0b' : '#ef4444';
+    score >= 80 ? 'var(--ac)' : score >= 60 ? 'var(--mod-study)' : score >= 40 ? 'var(--mod-progress)' : 'var(--badge-overdue-text)';
 
   const habitScore = Math.round(Number(scoreData?.habitScore ?? 0) || 0);
   const focusScore = Math.round(Number(scoreData?.focusScore ?? 0) || 0);
@@ -45,56 +44,108 @@ export const DisciplineScoreCard: React.FC = () => {
 
   return (
     <>
-      <div className="cd home-duo-card">
-        <div className="home-duo-header">
-          <div className="home-duo-title">
-            <span style={{ fontSize: 16 }}>🛡️</span>
-            <span>Discipline Score</span>
+      <div className="cd home-card-discipline">
+        <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+          <div className="row" style={{ gap: 8, alignItems: 'center' }}>
+            <span className="mod-icon mod-icon-home">
+              <span style={{ fontSize: 15 }}>🛡️</span>
+            </span>
+            <div>
+              <b className="d" style={{ fontSize: 15 }}>Discipline Score</b>
+              <div className="mut" style={{ fontSize: 11 }}>30-day verified consistency</div>
+            </div>
           </div>
+
           <button
             type="button"
-            className="ib"
+            className="ib sm"
             onClick={() => setShowExplainModal(true)}
-            title="Explain Calculation"
-            aria-label="Explain Calculation"
-            style={{ width: 24, height: 24, padding: 0 }}
+            title="Formula & Factor Breakdown"
+            aria-label="Formula & Factor Breakdown"
           >
             <span style={{ fontSize: 12, fontWeight: 700 }}>?</span>
           </button>
         </div>
 
-        <div className="home-duo-center">
-          <ProgressRing percent={score} size={68} strokeWidth={7} label={`${score}`} />
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6, justifyContent: 'center' }}>
-              <span
-                style={{
-                  fontSize: 11,
-                  fontWeight: 700,
-                  color: tierColor,
-                  background: 'var(--sf)',
-                  padding: '2px 8px',
-                  borderRadius: 6,
-                  border: '1px solid var(--bd)'
-                }}
-              >
-                {title}
-              </span>
+        {/* Score Header */}
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            padding: '10px 14px',
+            background: 'var(--sf)',
+            borderRadius: 'var(--radius-md)',
+            marginBottom: 12
+          }}
+        >
+          <div>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
+              <span style={{ font: '700 26px var(--font-display)', color: 'var(--ink)' }}>{score}</span>
+              <span className="mut" style={{ fontSize: 13 }}>/ 100</span>
             </div>
-            <div className="home-duo-sub">
-              Habit: {habitScore}% · Focus: {focusScore}% · Tasks: {taskScore}%
+            <div className="mut" style={{ fontSize: 11 }}>Deterministic score</div>
+          </div>
+
+          <span
+            style={{
+              fontSize: 11,
+              fontWeight: 700,
+              color: tierColor,
+              background: 'var(--cd)',
+              padding: '4px 10px',
+              borderRadius: 'var(--radius-pill)',
+              border: '1px solid var(--ln)'
+            }}
+          >
+            {title}
+          </span>
+        </div>
+
+        {/* 3 Consistency Pillars */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          {/* Habit Pillar */}
+          <div>
+            <div className="row" style={{ justifyContent: 'space-between', fontSize: 11.5, marginBottom: 3 }}>
+              <span className="mut">Habit Consistency (40%)</span>
+              <span style={{ fontWeight: 600, color: 'var(--ink)' }}>{habitScore}%</span>
+            </div>
+            <div style={{ height: 5, borderRadius: 999, background: 'var(--sf)', overflow: 'hidden' }}>
+              <div style={{ height: '100%', width: `${habitScore}%`, background: 'var(--mod-habits)', borderRadius: 999 }} />
+            </div>
+          </div>
+
+          {/* Focus Pillar */}
+          <div>
+            <div className="row" style={{ justifyContent: 'space-between', fontSize: 11.5, marginBottom: 3 }}>
+              <span className="mut">Focus Adherence (30%)</span>
+              <span style={{ fontWeight: 600, color: 'var(--ink)' }}>{focusScore}%</span>
+            </div>
+            <div style={{ height: 5, borderRadius: 999, background: 'var(--sf)', overflow: 'hidden' }}>
+              <div style={{ height: '100%', width: `${focusScore}%`, background: 'var(--mod-focus)', borderRadius: 999 }} />
+            </div>
+          </div>
+
+          {/* Task Pillar */}
+          <div>
+            <div className="row" style={{ justifyContent: 'space-between', fontSize: 11.5, marginBottom: 3 }}>
+              <span className="mut">Task Execution (30%)</span>
+              <span style={{ fontWeight: 600, color: 'var(--ink)' }}>{taskScore}%</span>
+            </div>
+            <div style={{ height: 5, borderRadius: 999, background: 'var(--sf)', overflow: 'hidden' }}>
+              <div style={{ height: '100%', width: `${taskScore}%`, background: 'var(--mod-planner)', borderRadius: 999 }} />
             </div>
           </div>
         </div>
 
-        <div className="home-duo-action">
+        <div style={{ marginTop: 12, textAlign: 'center' }}>
           <button
             type="button"
-            className="btn sec"
-            style={{ width: '100%', justifyContent: 'center', padding: '6px 10px', fontSize: 12 }}
+            className="lk"
+            style={{ fontSize: 11.5 }}
             onClick={() => setShowExplainModal(true)}
           >
-            View Formula
+            View Mathematical Formula →
           </button>
         </div>
       </div>
@@ -138,7 +189,7 @@ export const DisciplineScoreCard: React.FC = () => {
                   <div style={{ padding: '8px 12px', background: 'var(--sf)', borderRadius: 8 }}>
                     <div className="row" style={{ justifyContent: 'space-between', fontSize: 13, fontWeight: 600 }}>
                       <span>3. Task Execution & Deadlines</span>
-                      <span style={{ color: 'var(--ac)' }}>20% Weight</span>
+                      <span style={{ color: 'var(--ac)' }}>30% Weight</span>
                     </div>
                   </div>
                 </>

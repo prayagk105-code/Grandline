@@ -94,11 +94,6 @@ export const PlannerPage: React.FC = () => {
 
   const selectedDayData = dayMap.get(selectedDate);
 
-  const upcomingReminders = useMemo(
-    () => reminders.filter((r) => r.reminderDate >= today || r.repeatFrequency !== 'Never'),
-    [reminders, today]
-  );
-
   const handleSaveReminder = async (vals: ReminderFormValues) => {
     try {
       const payload = {
@@ -142,28 +137,29 @@ export const PlannerPage: React.FC = () => {
   return (
     <>
       <PageHeader
-        eyebrow="Design your days and conquer the Grandline"
+        eyebrow="Design your days & master execution"
         title="Planner & Execution"
-        subtitle="Tasks, long-term goals, transformation challenges, and scheduling."
+        subtitle="Tasks, long-term goals, transformation challenges, and schedule."
         action={
           activeTab === 'calendar' ? (
             <button
               type="button"
-              className="ib"
+              className="btn pri sm"
               onClick={() => {
                 setEditing(null);
                 setFormOpen(true);
               }}
-              aria-label="New reminder"
+              style={{ gap: 6 }}
             >
-              <DayformIcon name="plus" />
+              <DayformIcon name="plus" size={14} />
+              <span>New Reminder</span>
             </button>
           ) : undefined
         }
       />
 
       {/* Navigation Sub-Tabs */}
-      <div className="chips" style={{ marginBottom: 20 }}>
+      <div className="chips" style={{ marginBottom: 18 }}>
         <button
           type="button"
           className={`chip ${activeTab === 'tasks' ? 'on' : ''}`}
@@ -230,25 +226,27 @@ export const PlannerPage: React.FC = () => {
           {calendar ? (
             <div className="df-grid-2">
               <div className="cd">
-                <div className="row" style={{ justifyContent: 'space-between', marginBottom: 12 }}>
+                <div className="row" style={{ justifyContent: 'space-between', marginBottom: 14 }}>
                   <button
                     type="button"
-                    className="ib"
+                    className="ib sm"
                     onClick={() => setMonthCursor(new Date(monthRange.y, monthRange.m - 1, 1))}
                     aria-label="Previous month"
+                    title="Previous Month"
                   >
-                    <DayformIcon name="left" />
+                    <DayformIcon name="left" size={14} />
                   </button>
-                  <b className="d" style={{ fontSize: 17 }}>
+                  <b className="d" style={{ fontSize: 16 }}>
                     {monthCursor.toLocaleDateString(undefined, { month: 'long', year: 'numeric' })}
                   </b>
                   <button
                     type="button"
-                    className="ib"
+                    className="ib sm"
                     onClick={() => setMonthCursor(new Date(monthRange.y, monthRange.m + 1, 1))}
                     aria-label="Next month"
+                    title="Next Month"
                   >
-                    <DayformIcon name="right" />
+                    <DayformIcon name="right" size={14} />
                   </button>
                 </div>
 
@@ -289,33 +287,38 @@ export const PlannerPage: React.FC = () => {
               </div>
 
               <div className="g">
-                <div className="cd">
+                <div className="cd" style={{ borderLeft: '3px solid var(--mod-planner)' }}>
                   <div className="row" style={{ justifyContent: 'space-between', marginBottom: 8 }}>
-                    <b className="d" style={{ fontSize: 16 }}>
-                      {formatDisplayDate(selectedDate)}
-                    </b>
+                    <div className="row" style={{ gap: 8, alignItems: 'center' }}>
+                      <span className="mod-icon mod-icon-planner" style={{ width: 28, height: 28 }}>
+                        <DayformIcon name="cal" size={14} />
+                      </span>
+                      <b className="d" style={{ fontSize: 16 }}>
+                        {formatDisplayDate(selectedDate)}
+                      </b>
+                    </div>
                     {selectedDate === today && (
-                      <span className="chip on" style={{ fontSize: 11 }}>
+                      <span className="badge badge-completed badge-sm">
                         Today
                       </span>
                     )}
                   </div>
 
-                  <p className="mut" style={{ margin: '0 0 12px', fontSize: 13 }}>
+                  <p className="mut" style={{ margin: '0 0 14px', fontSize: 13 }}>
                     Habits completed: {selectedDayData?.habitCompletionPercent ? `${Math.round(selectedDayData.habitCompletionPercent)}%` : '0%'}
                     {selectedDayData?.studyMinutes
-                      ? ` · Study: ${formatDurationMinutes(selectedDayData.studyMinutes)}`
+                      ? ` · Study logged: ${formatDurationMinutes(selectedDayData.studyMinutes)}`
                       : ''}
                   </p>
 
-                  <div className="row" style={{ justifyContent: 'space-between', marginBottom: 8 }}>
-                    <span className="lbl" style={{ margin: 0 }}>
+                  <div className="row" style={{ justifyContent: 'space-between', marginBottom: 10 }}>
+                    <span style={{ fontSize: 13, fontWeight: 600 }}>
                       Reminders for this day
                     </span>
                     <button
                       type="button"
-                      className="btn"
-                      style={{ fontSize: 12, padding: '3px 8px' }}
+                      className="btn sm"
+                      style={{ fontSize: 11, padding: '3px 8px' }}
                       onClick={() => {
                         setEditing(null);
                         setFormOpen(true);
@@ -327,7 +330,7 @@ export const PlannerPage: React.FC = () => {
 
                   {(selectedDayData?.reminders.length ?? 0) === 0 ? (
                     <p className="mut" style={{ fontSize: 13, margin: '8px 0' }}>
-                      No reminders scheduled.
+                      No reminders scheduled for this date.
                     </p>
                   ) : (
                     <div style={{ display: 'grid', gap: 6 }}>
@@ -339,9 +342,10 @@ export const PlannerPage: React.FC = () => {
                             className="row"
                             style={{
                               justifyContent: 'space-between',
-                              padding: '6px 10px',
+                              padding: '8px 12px',
                               background: 'var(--sf)',
-                              borderRadius: 6
+                              borderRadius: 'var(--radius-sm)',
+                              border: '1px solid var(--ln-subtle)'
                             }}
                           >
                             <div>
@@ -352,60 +356,32 @@ export const PlannerPage: React.FC = () => {
                                 </span>
                               )}
                             </div>
-                            <div className="row" style={{ gap: 4 }}>
-                              {original && (
+                            {original && (
+                              <div className="row" style={{ gap: 4 }}>
                                 <button
                                   type="button"
-                                  className="ib"
+                                  className="ib sm"
                                   onClick={() => {
                                     setEditing(original);
                                     setFormOpen(true);
                                   }}
-                                  aria-label="Edit"
+                                  aria-label="Edit reminder"
                                 >
-                                  <DayformIcon name="edit" size={13} />
+                                  <DayformIcon name="pen" size={13} />
                                 </button>
-                              )}
-                              {original && (
                                 <button
                                   type="button"
-                                  className="ib"
+                                  className="ib sm"
                                   onClick={() => setDeleting(original)}
-                                  aria-label="Delete"
+                                  aria-label="Delete reminder"
                                 >
                                   <DayformIcon name="trash" size={13} />
                                 </button>
-                              )}
-                            </div>
+                              </div>
+                            )}
                           </div>
                         );
                       })}
-                    </div>
-                  )}
-                </div>
-
-                <div className="cd">
-                  <span className="lbl" style={{ marginBottom: 8, display: 'block' }}>
-                    Upcoming & Active Reminders
-                  </span>
-                  {upcomingReminders.length === 0 ? (
-                    <p className="mut" style={{ fontSize: 13, margin: 0 }}>
-                      No upcoming reminders.
-                    </p>
-                  ) : (
-                    <div style={{ display: 'grid', gap: 6 }}>
-                      {upcomingReminders.slice(0, 5).map((r) => (
-                        <div
-                          key={r.id}
-                          className="row"
-                          style={{ justifyContent: 'space-between', fontSize: 13 }}
-                        >
-                          <span>{r.title}</span>
-                          <span className="mut" style={{ fontSize: 11 }}>
-                            {formatDisplayDate(r.reminderDate)}
-                          </span>
-                        </div>
-                      ))}
                     </div>
                   )}
                 </div>
@@ -425,10 +401,9 @@ export const PlannerPage: React.FC = () => {
           />
 
           <ConfirmDialog
-            isOpen={deleting !== null}
-            title="Delete Reminder"
-            message={`Are you sure you want to remove "${deleting?.title}"?`}
-            confirmLabel="Delete"
+            isOpen={Boolean(deleting)}
+            title="Delete reminder"
+            message={`Delete "${deleting?.title}"?`}
             isBusy={deleteBusy}
             onConfirm={handleConfirmDelete}
             onCancel={() => setDeleting(null)}

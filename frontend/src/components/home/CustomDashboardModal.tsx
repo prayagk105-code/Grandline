@@ -13,6 +13,7 @@ export interface DashboardConfig {
   showPriorities: boolean;
   showGoals: boolean;
   showDailySummary: boolean;
+  showSchedule: boolean;
 }
 
 export const DEFAULT_DASHBOARD_CONFIG: DashboardConfig = {
@@ -26,7 +27,8 @@ export const DEFAULT_DASHBOARD_CONFIG: DashboardConfig = {
   showCheckIn: true,
   showPriorities: true,
   showGoals: true,
-  showDailySummary: true
+  showDailySummary: true,
+  showSchedule: true
 };
 
 interface CustomDashboardModalProps {
@@ -49,15 +51,15 @@ export const CustomDashboardModal: React.FC<CustomDashboardModalProps> = ({
 
   const WIDGETS: { key: keyof DashboardConfig; label: string; desc: string }[] = [
     { key: 'showPriorities', label: 'Today’s Priorities', desc: 'Top 3 urgent actions & upcoming deadlines' },
-    { key: 'showCheckIn', label: 'Personal Check-in', desc: 'Daily mood, energy & stress tracking' },
+    { key: 'showDailySummary', label: 'Daily Progress & Accomplishments', desc: 'Summary of tasks, habits, and focus' },
+    { key: 'showHabits', label: 'Today’s Habits', desc: 'Daily habit check-in strip & streak' },
+    { key: 'showFocusTimer', label: 'Focus Session', desc: 'Pomodoro timer & focus hours' },
     { key: 'showGoals', label: 'Goal Trajectory', desc: 'Active long-term goal overview' },
-    { key: 'showDailySummary', label: 'Daily Accomplishments', desc: 'Summary of tasks, habits, and focus' },
     { key: 'showDisciplineScore', label: 'Discipline Score Card', desc: 'Mathematical consistency gauge (0-100)' },
+    { key: 'showSchedule', label: 'Upcoming Schedule', desc: 'Next deadlines, reminders & calendar agenda' },
+    { key: 'showCheckIn', label: 'Personal Check-in', desc: 'Daily mood, energy & stress tracking' },
     { key: 'showMissions', label: 'Daily Missions & Bounties', desc: 'Quick XP claim and daily goals' },
-    { key: 'showFocusTimer', label: 'Focus Timer Card', desc: 'Pomodoro and deep work launcher' },
-    { key: 'showRandomMemory', label: 'Memory Lane Card', desc: 'Past memories and reflections' },
-    { key: 'showHabits', label: 'Habits Summary', desc: 'Daily habit check-in strip' },
-    { key: 'showStudy', label: 'Active Study Path', desc: 'Learning journey progress' }
+    { key: 'showRandomMemory', label: 'Memory Lane Card', desc: 'Past memories and reflections' }
   ];
 
   return (

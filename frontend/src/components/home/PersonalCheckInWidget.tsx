@@ -55,28 +55,30 @@ export const PersonalCheckInWidget: React.FC = () => {
   const moodEmojis = ['😞', '😕', '😐', '🙂', '✨'];
 
   return (
-    <div className="cd" style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-      <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center' }}>
+    <div className="cd home-card-checkin">
+      <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
         <div className="row" style={{ gap: 8, alignItems: 'center' }}>
-          <DayformIcon name="heart" size={17} />
-          <b className="d" style={{ fontSize: 16 }}>Personal Check-in</b>
+          <span className="mod-icon mod-icon-personal">
+            <DayformIcon name="heart" size={16} />
+          </span>
+          <div>
+            <b className="d" style={{ fontSize: 15 }}>Personal Check-in</b>
+            <div className="mut" style={{ fontSize: 11 }}>Vibe, state & gratitude</div>
+          </div>
         </div>
+
         {hasLoggedToday ? (
-          <span className="chip on" style={{ fontSize: 11, padding: '2px 8px' }}>
-            Logged today ✓
-          </span>
+          <span className="badge badge-completed badge-sm">Logged ✓</span>
         ) : (
-          <span className="chip" style={{ fontSize: 11, padding: '2px 8px' }}>
-            Pending
-          </span>
+          <span className="badge badge-pending badge-sm">Pending</span>
         )}
       </div>
 
       {/* Mood Selector */}
-      <div>
+      <div style={{ marginBottom: 12 }}>
         <div className="row" style={{ justifyContent: 'space-between', marginBottom: 6 }}>
-          <span style={{ fontSize: 13, fontWeight: 500 }}>Mood</span>
-          <span className="mut" style={{ fontSize: 12 }}>
+          <span style={{ fontSize: 12, fontWeight: 500 }}>Mood</span>
+          <span className="mut" style={{ fontSize: 11 }}>
             {mood === 1 && 'Low'}
             {mood === 2 && 'Subdued'}
             {mood === 3 && 'Balanced'}
@@ -96,17 +98,15 @@ export const PersonalCheckInWidget: React.FC = () => {
               }}
               style={{
                 flex: 1,
-                fontSize: 18,
-                padding: '8px 0',
-                textAlign: 'center',
-                minHeight: 40,
+                fontSize: 16,
+                padding: '6px 0',
+                minHeight: 34,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                borderRadius: 'var(--radius-md)',
-                border: mood === val ? '1.5px solid var(--ac)' : '1px solid var(--bd)',
-                background: mood === val ? 'var(--ac2)' : 'var(--sf)',
-                transition: 'all 0.15s ease'
+                borderRadius: 'var(--radius-sm)',
+                border: mood === val ? '1.5px solid var(--ac)' : '1px solid var(--ln)',
+                background: mood === val ? 'var(--ac2)' : 'var(--sf)'
               }}
               title={`Mood level ${val}`}
               aria-label={`Mood level ${val}`}
@@ -118,7 +118,7 @@ export const PersonalCheckInWidget: React.FC = () => {
       </div>
 
       {/* Energy & Stress */}
-      <div className="row" style={{ gap: 16 }}>
+      <div className="row" style={{ gap: 14, marginBottom: 12 }}>
         <div style={{ flex: 1 }}>
           <div className="row" style={{ justifyContent: 'space-between', marginBottom: 4 }}>
             <span style={{ fontSize: 12, fontWeight: 500 }}>Energy</span>
@@ -153,19 +153,28 @@ export const PersonalCheckInWidget: React.FC = () => {
               setStress(parseInt(e.target.value));
               setExpanded(true);
             }}
-            style={{ width: '100%', accentColor: 'var(--ac)' }}
+            style={{ width: '100%', accentColor: 'var(--hot)' }}
           />
         </div>
       </div>
 
-      {/* Gratitude input (expandable) */}
+      {/* Gratitude input (expandable or default visible if already logged) */}
       {(expanded || gratitude) && (
-        <div className="f" style={{ marginTop: 2 }}>
-          <label style={{ fontSize: 12 }}>One thing you are grateful for today</label>
+        <div style={{ marginBottom: 12 }}>
+          <label style={{ fontSize: 11.5, display: 'block', marginBottom: 4 }} className="mut">
+            One thing you are grateful for today
+          </label>
           <input
             type="text"
             className="inp"
-            style={{ fontSize: 13 }}
+            style={{
+              width: '100%',
+              fontSize: 12.5,
+              padding: '7px 10px',
+              borderRadius: 'var(--radius-sm)',
+              border: '1px solid var(--ln)',
+              background: 'var(--cd)'
+            }}
             placeholder="e.g., Morning sunlight and quiet focus"
             value={gratitude}
             onChange={(e) => setGratitude(e.target.value)}
@@ -173,22 +182,24 @@ export const PersonalCheckInWidget: React.FC = () => {
         </div>
       )}
 
-      <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', marginTop: 4 }}>
+      <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center' }}>
         {!expanded && !hasLoggedToday ? (
           <button
             type="button"
             className="lk"
-            style={{ fontSize: 12 }}
+            style={{ fontSize: 11.5 }}
             onClick={() => setExpanded(true)}
           >
             + Add gratitude note
           </button>
-        ) : <div />}
+        ) : (
+          <span />
+        )}
 
         <button
           type="button"
-          className="btn pri"
-          style={{ padding: '6px 14px', fontSize: 13 }}
+          className="btn pri sm"
+          style={{ padding: '6px 14px', fontSize: 12 }}
           onClick={handleSave}
           disabled={saving}
         >
@@ -198,4 +209,3 @@ export const PersonalCheckInWidget: React.FC = () => {
     </div>
   );
 };
-

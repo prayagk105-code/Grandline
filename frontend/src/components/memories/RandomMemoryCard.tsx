@@ -1,4 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { DayformIcon } from '../common/DayformIcon';
 import { memoryService } from '../../services/memoryService';
 import type { MemoryDto } from '../../types/api';
 import { formatDisplayDate } from '../../utils/date';
@@ -35,53 +37,74 @@ export const RandomMemoryCard: React.FC = () => {
   }
 
   return (
-    <div className="cd" style={{ background: 'var(--sf)', border: '1px solid var(--bd)' }}>
+    <div className="cd home-card-memory-lane" style={{ borderLeft: '3px solid var(--mod-memories)' }}>
       <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
         <div className="row" style={{ gap: 8, alignItems: 'center' }}>
-          <span style={{ fontSize: 16 }}>✨</span>
-          <span style={{ fontSize: 12, fontWeight: 600, textTransform: 'uppercase', letterSpacing: 0.5 }}>
-            Memory Lane · Revisit
+          <span className="mod-icon mod-icon-memories">
+            <DayformIcon name="img" size={15} />
           </span>
+          <div>
+            <b className="d" style={{ fontSize: 15 }}>Memory Lane</b>
+            <div className="mut" style={{ fontSize: 11 }}>A reflection from the past</div>
+          </div>
         </div>
-        <button
-          type="button"
-          className="btn"
-          style={{ fontSize: 11, padding: '3px 8px' }}
-          onClick={fetchRandom}
-          disabled={loading}
-        >
-          {loading ? 'Finding...' : '↻ Another Memory'}
-        </button>
+
+        <div className="row" style={{ gap: 8 }}>
+          <button
+            type="button"
+            className="btn sm"
+            style={{ fontSize: 11, padding: '3px 8px' }}
+            onClick={fetchRandom}
+            disabled={loading}
+          >
+            {loading ? 'Finding...' : '↻ Another'}
+          </button>
+          <Link to="/memories" className="lk" style={{ fontSize: 12 }}>
+            All <DayformIcon name="right" size={13} />
+          </Link>
+        </div>
       </div>
 
-      {memory && (
+      {memory ? (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           <div className="row" style={{ justifyContent: 'space-between', alignItems: 'baseline' }}>
-            <h4 style={{ margin: 0, fontSize: 15 }}>{memory.title}</h4>
-            <span className="mut" style={{ fontSize: 12 }}>
+            <h4 style={{ margin: 0, fontSize: 14, fontWeight: 600 }}>{memory.title}</h4>
+            <span className="mut" style={{ fontSize: 11.5 }}>
               {formatDisplayDate(memory.memoryDate)}
             </span>
           </div>
 
           {memory.note && (
-            <p style={{ margin: 0, fontSize: 13, color: 'var(--ink)', lineHeight: 1.4 }}>
+            <p style={{ margin: 0, fontSize: 12.5, color: 'var(--ink)', lineHeight: 1.45 }}>
               {memory.note}
             </p>
           )}
 
           {memory.image?.secureUrl && (
-            <div style={{ marginTop: 2, maxHeight: 130, overflow: 'hidden', borderRadius: 8 }}>
+            <div
+              style={{
+                marginTop: 4,
+                maxHeight: 160,
+                overflow: 'hidden',
+                borderRadius: 'var(--radius-md)',
+                border: '1px solid var(--ln)'
+              }}
+            >
               <img
                 src={memory.image.secureUrl}
                 alt={memory.title}
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
               />
             </div>
           )}
 
           <div className="row" style={{ gap: 6, marginTop: 2 }}>
-            <span className="badge badge-med badge-sm">{memory.category}</span>
+            <span className="badge badge-memories badge-sm">{memory.category}</span>
           </div>
+        </div>
+      ) : (
+        <div style={{ padding: '12px 0', textAlign: 'center' }}>
+          <span className="mut" style={{ fontSize: 12 }}>Loading a memory...</span>
         </div>
       )}
     </div>

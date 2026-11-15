@@ -5,7 +5,7 @@ export const AuthLayout: React.FC<{ children: React.ReactNode }> = ({ children }
     <div className="auth-wrap">
       <div className="cd auth-card">
         <div className="df-logo">
-          <b className="df-logo-mark">G</b>
+          <b className="df-logo-mark">⚓</b>
           <span>GRANDLINE</span>
         </div>
         {children}

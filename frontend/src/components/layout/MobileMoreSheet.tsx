@@ -17,42 +17,48 @@ const MORE_SECTIONS = [
     title: 'Balance',
     desc: 'Financial command center, budgets & expenses',
     icon: 'wallet',
-    badge: 'Finance'
+    badge: 'Balance',
+    badgeVariant: 'balance'
   },
   {
     to: '/progress',
     title: 'Progress',
     desc: 'Analytics, gamification & milestone journey',
     icon: 'chart',
-    badge: 'Stats'
+    badge: 'Progress',
+    badgeVariant: 'progress'
   },
   {
     to: '/memories',
     title: 'Memories',
     desc: 'Milestones, photos & life timeline archive',
     icon: 'img',
-    badge: 'Timeline'
+    badge: 'Memories',
+    badgeVariant: 'memories'
   },
   {
     to: '/journal',
     title: 'Journal',
     desc: 'Daily 3-prompt structured evening reflection',
     icon: 'pen',
-    badge: 'Daily'
+    badge: 'Journal',
+    badgeVariant: 'personal'
   },
   {
     to: '/health',
     title: 'Health & Lifestyle',
     desc: 'Sleep, hydration, workout & vitality tracker',
     icon: 'heart',
-    badge: 'Vitality'
+    badge: 'Health',
+    badgeVariant: 'health'
   },
   {
     to: '/profile',
     title: 'Profile & Settings',
     desc: 'Preferences, themes, PIN lock & cloud backups',
     icon: 'user',
-    badge: 'System'
+    badge: 'System',
+    badgeVariant: 'info'
   }
 ] as const;
 
@@ -84,7 +90,7 @@ export const MobileMoreSheet: React.FC<MobileMoreSheetProps> = ({
               <div className="more-card-info">
                 <div className="more-card-header">
                   <b>{item.title}</b>
-                  <span className="badge badge-info">{item.badge}</span>
+                  <span className={`badge badge-${item.badgeVariant} badge-sm`}>{item.badge}</span>
                 </div>
                 <small>{item.desc}</small>
               </div>

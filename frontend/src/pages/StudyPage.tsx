@@ -157,27 +157,28 @@ export const StudyPage: React.FC = () => {
       <PageHeader
         eyebrow="Feed your mind"
         title="Study & Deep Work"
-        subtitle="Focused sessions, Pomodoro, and disciplined learning paths."
+        subtitle="Focused learning paths, deep work blocks, and deliberate practice."
         action={
           activeTab === 'paths' ? (
             <button
               type="button"
-              className="ib"
+              className="btn pri sm"
               onClick={() => {
                 setEditingSession(null);
                 setDefaultPathId(null);
                 setSessionSheetOpen(true);
               }}
-              aria-label="Log study time"
+              style={{ gap: 6 }}
             >
-              <DayformIcon name="plus" />
+              <DayformIcon name="plus" size={14} />
+              <span>Log Session</span>
             </button>
           ) : undefined
         }
       />
 
       {/* Tabs */}
-      <div className="chips" style={{ marginBottom: 20 }}>
+      <div className="chips" style={{ marginBottom: 18 }}>
         <button
           type="button"
           className={`chip ${activeTab === 'paths' ? 'on' : ''}`}
@@ -234,31 +235,39 @@ export const StudyPage: React.FC = () => {
 
           {summary ? (
             <>
-              <div className="g3">
+              <div className="g3" style={{ marginBottom: 18 }}>
                 <StatCard
                   icon="clock"
-                  label="This week"
+                  label="This Week"
                   value={formatDurationMinutes(summary.minutesThisWeek)}
-                  note="weekly study volume"
+                  note="study volume"
+                  accent="blue"
                 />
                 <StatCard
                   icon="book"
-                  label="All-time"
+                  label="All-Time Study"
                   value={formatDurationMinutes(summary.totalMinutesAllTime)}
-                  note="total study logged"
+                  note="total time logged"
+                  accent="indigo"
                 />
                 <StatCard
                   icon="flame"
-                  label="Sessions"
+                  label="Completed Sessions"
                   value={`${summary.totalSessionsAllTime}`}
-                  note="sessions completed"
+                  note="sessions logged"
+                  accent="forest"
                 />
               </div>
 
               <div className="df-grid-2">
                 <div>
-                  <div className="sec">
-                    <h2>Learning paths</h2>
+                  <div className="sec" style={{ marginTop: 0 }}>
+                    <div className="row" style={{ gap: 8, alignItems: 'center' }}>
+                      <span className="mod-icon mod-icon-study">
+                        <DayformIcon name="book" size={16} />
+                      </span>
+                      <h2>Learning Paths</h2>
+                    </div>
                     <button
                       type="button"
                       className="lk"
@@ -267,19 +276,19 @@ export const StudyPage: React.FC = () => {
                         setPathSheetOpen(true);
                       }}
                     >
-                      <DayformIcon name="plus" size={14} /> New
+                      <DayformIcon name="plus" size={14} /> New Path
                     </button>
                   </div>
 
                   {paths.length > 0 ? (
                     paths.map((p) => (
-                      <div key={p.id} className="cd">
+                      <div key={p.id} className="cd" style={{ borderLeft: '3px solid var(--mod-study)' }}>
                         <div className="row">
-                          <span className="ic">
-                            <DayformIcon name={p.icon || 'book'} />
+                          <span className="mod-icon mod-icon-study" style={{ width: 36, height: 36 }}>
+                            <DayformIcon name={p.icon || 'book'} size={18} />
                           </span>
-                          <div className="g">
-                            <b>{p.name}</b>
+                          <div className="g" style={{ minWidth: 0 }}>
+                            <b style={{ fontSize: 14 }}>{p.name}</b>
                             <small>{p.description || 'Personal study track'}</small>
                           </div>
                           <button
@@ -290,34 +299,36 @@ export const StudyPage: React.FC = () => {
                               setPathSheetOpen(true);
                             }}
                             aria-label={`Edit ${p.name}`}
+                            title="Edit Path"
                           >
-                            <DayformIcon name="pen" size={15} />
+                            <DayformIcon name="pen" size={14} />
                           </button>
                         </div>
 
-                        <div className="row" style={{ justifyContent: 'space-between', marginTop: 12 }}>
-                          <small className="mut">Progress</small>
-                          <b>{p.progress}%</b>
+                        <div className="row" style={{ justifyContent: 'space-between', marginTop: 12, fontSize: 12 }}>
+                          <span className="mut">Progress</span>
+                          <b style={{ color: 'var(--mod-study)' }}>{p.progress}%</b>
                         </div>
-                        <div className="bar">
-                          <i style={{ width: `${p.progress}%` }} />
+                        <div className="bar" style={{ marginTop: 4 }}>
+                          <i style={{ width: `${p.progress}%`, background: 'var(--mod-study)' }} />
                         </div>
 
                         <div className="row" style={{ justifyContent: 'space-between', marginTop: 10 }}>
-                          <small className="mut">
+                          <small className="mut" style={{ fontSize: 11.5 }}>
                             {formatDurationMinutes(p.totalMinutesLogged)} ·{' '}
-                            {p.lastSessionDate ? `last ${formatDisplayDate(p.lastSessionDate)}` : 'no sessions'}
+                            {p.lastSessionDate ? `last ${formatDisplayDate(p.lastSessionDate)}` : 'no sessions yet'}
                           </small>
                           <button
                             type="button"
                             className="lk"
+                            style={{ fontSize: 12 }}
                             onClick={() => {
                               setEditingSession(null);
                               setDefaultPathId(p.id);
                               setSessionSheetOpen(true);
                             }}
                           >
-                            <DayformIcon name="plus" size={14} /> Log
+                            <DayformIcon name="plus" size={13} /> Log Session
                           </button>
                         </div>
                       </div>
@@ -325,7 +336,7 @@ export const StudyPage: React.FC = () => {
                   ) : (
                     <EmptyState
                       title="No learning paths yet"
-                      description="Organize your study subjects and track progress."
+                      description="Organize your study subjects and tracks to systematically build mastery."
                       action={
                         <button
                           type="button"
@@ -335,7 +346,7 @@ export const StudyPage: React.FC = () => {
                             setPathSheetOpen(true);
                           }}
                         >
-                          Create path
+                          Create learning path
                         </button>
                       }
                     />
@@ -343,13 +354,23 @@ export const StudyPage: React.FC = () => {
                 </div>
 
                 <div>
-                  <div className="sec">
-                    <h2>Focus timer</h2>
+                  <div className="sec" style={{ marginTop: 0 }}>
+                    <div className="row" style={{ gap: 8, alignItems: 'center' }}>
+                      <span className="mod-icon mod-icon-focus">
+                        <DayformIcon name="clock" size={16} />
+                      </span>
+                      <h2>Quick Focus Timer</h2>
+                    </div>
                   </div>
                   <FocusTimerCard learningPaths={paths} />
 
-                  <div className="sec">
-                    <h2>Recent sessions</h2>
+                  <div className="sec" style={{ marginTop: 20 }}>
+                    <div className="row" style={{ gap: 8, alignItems: 'center' }}>
+                      <span className="mod-icon mod-icon-study">
+                        <DayformIcon name="check" size={16} />
+                      </span>
+                      <h2>Recent Study Sessions</h2>
+                    </div>
                     <button
                       type="button"
                       className="lk"
@@ -359,7 +380,7 @@ export const StudyPage: React.FC = () => {
                         setSessionSheetOpen(true);
                       }}
                     >
-                      <DayformIcon name="plus" size={14} /> Log time
+                      <DayformIcon name="plus" size={14} /> Log Time
                     </button>
                   </div>
 
@@ -372,6 +393,7 @@ export const StudyPage: React.FC = () => {
                         id="session-filter"
                         value={filterPathId}
                         onChange={(e) => setFilterPathId(e.target.value)}
+                        style={{ fontSize: 13, borderRadius: 'var(--radius-sm)' }}
                       >
                         <option value="">All learning paths</option>
                         {paths.map((p) => (
@@ -386,17 +408,17 @@ export const StudyPage: React.FC = () => {
                   <div className="cd">
                     {sessions.length > 0 ? (
                       sessions.map((s) => (
-                        <div key={s.id} className="li">
-                          <span className="ic">
-                            <DayformIcon name="clock" />
+                        <div key={s.id} className="li" style={{ padding: '9px 0' }}>
+                          <span className="mod-icon mod-icon-study" style={{ width: 32, height: 32 }}>
+                            <DayformIcon name="clock" size={14} />
                           </span>
-                          <div className="g">
-                            <b>{s.topic}</b>
+                          <div className="g" style={{ minWidth: 0 }}>
+                            <b style={{ fontSize: 13 }}>{s.topic}</b>
                             <small>
                               {s.learningPathName} · {formatDisplayDate(s.sessionDate)}
                             </small>
                           </div>
-                          <b style={{ fontSize: 12 }}>{s.minutes}m</b>
+                          <b style={{ fontSize: 12, color: 'var(--mod-study)' }}>{s.minutes}m</b>
                           <button
                             type="button"
                             className="ib sm"
@@ -405,21 +427,25 @@ export const StudyPage: React.FC = () => {
                               setSessionSheetOpen(true);
                             }}
                             aria-label={`Edit ${s.topic}`}
+                            title="Edit Session"
                           >
-                            <DayformIcon name="pen" size={14} />
+                            <DayformIcon name="pen" size={13} />
                           </button>
                           <button
                             type="button"
                             className="ib sm"
                             onClick={() => setDeletingSession(s)}
                             aria-label={`Delete ${s.topic}`}
+                            title="Delete Session"
                           >
-                            <DayformIcon name="trash" size={14} />
+                            <DayformIcon name="trash" size={13} />
                           </button>
                         </div>
                       ))
                     ) : (
-                      <p className="mut" style={{ margin: 0 }}>No study sessions logged yet.</p>
+                      <p className="mut" style={{ margin: 0, padding: '8px 0', fontSize: 13 }}>
+                        No study sessions logged yet.
+                      </p>
                     )}
                   </div>
                 </div>
