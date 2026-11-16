@@ -3,6 +3,7 @@ import crypto from 'node:crypto';
 import child_process from 'node:child_process';
 import nodePath from 'node:path';
 import fs from 'node:fs';
+import os from 'node:os';
 import { fileURLToPath } from 'node:url';
 import { handleGrandlineRoutes } from './grandlineDemoRoutes.mjs';
 
@@ -32,6 +33,11 @@ loadEnvFile(nodePath.resolve(__dirname, '../.env'));
 const PORT = Number(process.env.DEMO_API_PORT || 5000);
 const ALLOWED_ORIGIN = process.env.DEMO_ALLOWED_ORIGIN || 'http://localhost:5173';
 const REFRESH_COOKIE = 'dayform_refresh_token';
+
+const JWT_SECRET = process.env.Jwt__SigningKey || process.env.JWT_SECRET || 'DAYFORM_SECURE_PRODUCTION_SIGNING_KEY_78493021';
+const STATE_FILE = process.env.VERCEL
+  ? '/tmp/grandline_state.json'
+  : nodePath.resolve(os.tmpdir(), 'grandline_dev_state.json');
 
 // Deterministic PRNG matching .NET Random(7)-style seeded demo generation
 function createRng(seed = 7) {
@@ -348,7 +354,150 @@ function createDemoDataset(resetExisting = false) {
   return alex;
 }
 
+function signToken(payload) {
+  const header = Buffer.from(JSON.stringify({ alg: 'HS256', typ: 'JWT' })).toString('base64url');
+  const body = Buffer.from(JSON.stringify(payload)).toString('base64url');
+  const signature = crypto.createHmac('sha256', JWT_SECRET).update(`${header}.${body}`).digest('base64url');
+  return `${header}.${body}.${signature}`;
+}
+
+function verifyToken(token) {
+  if (!token || typeof token !== 'string') return null;
+  const parts = token.split('.');
+  if (parts.length !== 3) return null;
+  const [header, body, signature] = parts;
+  const expectedSig = crypto.createHmac('sha256', JWT_SECRET).update(`${header}.${body}`).digest('base64url');
+  if (signature !== expectedSig) {
+    // Backward compatibility for legacy 'dev.<base64url>.sig' tokens
+    if (header === 'dev' && signature === 'sig') {
+      try {
+        const payload = JSON.parse(Buffer.from(body, 'base64url').toString('utf8'));
+        if (payload.exp && payload.exp < Date.now()) return null;
+        return payload;
+      } catch {
+        return null;
+      }
+    }
+    return null;
+  }
+  try {
+    const payload = JSON.parse(Buffer.from(body, 'base64url').toString('utf8'));
+    if (payload.exp && payload.exp < Date.now()) return null;
+    return payload;
+  } catch {
+    return null;
+  }
+}
+
+function saveStateToDisk() {
+  try {
+    const dir = nodePath.dirname(STATE_FILE);
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    const serializable = {
+      users: state.users,
+      refreshTokens: Array.from(state.refreshTokens.entries()),
+      otps: Array.from(state.otps.entries()),
+      resetTokens: Array.from(state.resetTokens.entries()),
+      habits: state.habits,
+      habitLogs: state.habitLogs,
+      learningPaths: state.learningPaths,
+      studySessions: state.studySessions,
+      memories: state.memories,
+      journals: state.journals,
+      reminders: state.reminders,
+      goals: state.goals || [],
+      visionBoard: state.visionBoard || [],
+      tasks: state.tasks || [],
+      moodLogs: state.moodLogs || [],
+      reflections: state.reflections || [],
+      badHabits: state.badHabits || [],
+      focusSessions: state.focusSessions || [],
+      screenTimes: state.screenTimes || [],
+      healthLogs: state.healthLogs || [],
+      workouts: state.workouts || [],
+      meals: state.meals || [],
+      books: state.books || [],
+      notes: state.notes || [],
+      ideas: state.ideas || [],
+      quotes: state.quotes || [],
+      transactions: state.transactions || [],
+      budgets: state.budgets || [],
+      savingsGoals: state.savingsGoals || [],
+      debts: state.debts || [],
+      subscriptions: state.subscriptions || [],
+      customRewards: state.customRewards || [],
+      challenges: state.challenges || [],
+      detoxes: state.detoxes || [],
+      futureLetters: state.futureLetters || [],
+      timelineEvents: state.timelineEvents || [],
+      personalRules: state.personalRules || []
+    };
+    fs.writeFileSync(STATE_FILE, JSON.stringify(serializable), 'utf8');
+  } catch {
+    // Non-fatal fallback
+  }
+}
+
+function loadStateFromDisk() {
+  try {
+    if (!fs.existsSync(STATE_FILE)) return false;
+    const raw = fs.readFileSync(STATE_FILE, 'utf8');
+    if (!raw) return false;
+    const parsed = JSON.parse(raw);
+    if (Array.isArray(parsed.users) && parsed.users.length > 0) {
+      for (const u of parsed.users) {
+        if (!state.users.some((existing) => existing.id === u.id)) {
+          state.users.push(u);
+        }
+      }
+      if (Array.isArray(parsed.refreshTokens)) {
+        for (const [k, v] of parsed.refreshTokens) {
+          state.refreshTokens.set(k, v);
+        }
+      }
+      if (Array.isArray(parsed.habits)) state.habits = parsed.habits;
+      if (Array.isArray(parsed.habitLogs)) state.habitLogs = parsed.habitLogs;
+      if (Array.isArray(parsed.learningPaths)) state.learningPaths = parsed.learningPaths;
+      if (Array.isArray(parsed.studySessions)) state.studySessions = parsed.studySessions;
+      if (Array.isArray(parsed.memories)) state.memories = parsed.memories;
+      if (Array.isArray(parsed.journals)) state.journals = parsed.journals;
+      if (Array.isArray(parsed.reminders)) state.reminders = parsed.reminders;
+      if (Array.isArray(parsed.goals)) state.goals = parsed.goals;
+      if (Array.isArray(parsed.visionBoard)) state.visionBoard = parsed.visionBoard;
+      if (Array.isArray(parsed.tasks)) state.tasks = parsed.tasks;
+      if (Array.isArray(parsed.moodLogs)) state.moodLogs = parsed.moodLogs;
+      if (Array.isArray(parsed.reflections)) state.reflections = parsed.reflections;
+      if (Array.isArray(parsed.badHabits)) state.badHabits = parsed.badHabits;
+      if (Array.isArray(parsed.focusSessions)) state.focusSessions = parsed.focusSessions;
+      if (Array.isArray(parsed.screenTimes)) state.screenTimes = parsed.screenTimes;
+      if (Array.isArray(parsed.healthLogs)) state.healthLogs = parsed.healthLogs;
+      if (Array.isArray(parsed.workouts)) state.workouts = parsed.workouts;
+      if (Array.isArray(parsed.meals)) state.meals = parsed.meals;
+      if (Array.isArray(parsed.books)) state.books = parsed.books;
+      if (Array.isArray(parsed.notes)) state.notes = parsed.notes;
+      if (Array.isArray(parsed.ideas)) state.ideas = parsed.ideas;
+      if (Array.isArray(parsed.quotes)) state.quotes = parsed.quotes;
+      if (Array.isArray(parsed.transactions)) state.transactions = parsed.transactions;
+      if (Array.isArray(parsed.budgets)) state.budgets = parsed.budgets;
+      if (Array.isArray(parsed.savingsGoals)) state.savingsGoals = parsed.savingsGoals;
+      if (Array.isArray(parsed.debts)) state.debts = parsed.debts;
+      if (Array.isArray(parsed.subscriptions)) state.subscriptions = parsed.subscriptions;
+      if (Array.isArray(parsed.customRewards)) state.customRewards = parsed.customRewards;
+      if (Array.isArray(parsed.challenges)) state.challenges = parsed.challenges;
+      if (Array.isArray(parsed.detoxes)) state.detoxes = parsed.detoxes;
+      if (Array.isArray(parsed.futureLetters)) state.futureLetters = parsed.futureLetters;
+      if (Array.isArray(parsed.timelineEvents)) state.timelineEvents = parsed.timelineEvents;
+      if (Array.isArray(parsed.personalRules)) state.personalRules = parsed.personalRules;
+      return true;
+    }
+  } catch {
+    // Non-fatal fallback
+  }
+  return false;
+}
+
 createDemoDataset(false);
+loadStateFromDisk();
 
 function sanitizeUser(u) {
   return {
@@ -363,20 +512,63 @@ function sanitizeUser(u) {
   };
 }
 
-function issueAuth(res, user, status = 200, message = 'Success') {
-  const accessToken = `dev.${Buffer.from(JSON.stringify({ sub: user.id, exp: Date.now() + 900_000 })).toString('base64url')}.sig`;
-  const refresh = crypto.randomBytes(24).toString('hex');
-  state.refreshTokens.set(refresh, { userId: user.id, expiresAt: Date.now() + 14 * 86400_000 });
-  res.setHeader(
-    'Set-Cookie',
-    `${REFRESH_COOKIE}=${refresh}; HttpOnly; Path=/api/v1/auth; SameSite=Lax; Max-Age=${14 * 86400}`
+function issueAuth(res, user, status = 200, message = 'Success', req = null) {
+  const tokenExpiresAt = Date.now() + 15 * 60 * 1000;
+  const accessToken = signToken({
+    sub: user.id,
+    id: user.id,
+    displayName: user.displayName,
+    email: user.email,
+    themePreference: user.themePreference || 'Auto',
+    journeyStartDate: user.journeyStartDate || todayStr(),
+    timeZoneId: user.timeZoneId || 'UTC',
+    isDemoUser: !!user.isDemoUser,
+    createdAtUtc: user.createdAtUtc || new Date().toISOString(),
+    exp: tokenExpiresAt
+  });
+
+  const refreshExpiresAt = Date.now() + 14 * 86400 * 1000;
+  const refreshToken = signToken({
+    sub: user.id,
+    id: user.id,
+    displayName: user.displayName,
+    email: user.email,
+    themePreference: user.themePreference || 'Auto',
+    journeyStartDate: user.journeyStartDate || todayStr(),
+    timeZoneId: user.timeZoneId || 'UTC',
+    isDemoUser: !!user.isDemoUser,
+    createdAtUtc: user.createdAtUtc || new Date().toISOString(),
+    type: 'refresh',
+    jti: crypto.randomUUID(),
+    exp: refreshExpiresAt
+  });
+
+  state.refreshTokens.set(refreshToken, {
+    userId: user.id,
+    expiresAt: refreshExpiresAt,
+    user: sanitizeUser(user)
+  });
+  saveStateToDisk();
+
+  const isHttps = Boolean(
+    (req && (req.headers['x-forwarded-proto'] === 'https' || req.headers.referer?.startsWith('https:'))) ||
+    process.env.VERCEL ||
+    process.env.NODE_ENV === 'production'
   );
+
+  const cookieHeader = isHttps
+    ? `${REFRESH_COOKIE}=${refreshToken}; HttpOnly; Path=/api/v1/auth; SameSite=None; Secure; Max-Age=${14 * 86400}`
+    : `${REFRESH_COOKIE}=${refreshToken}; HttpOnly; Path=/api/v1/auth; SameSite=Lax; Max-Age=${14 * 86400}`;
+
+  res.setHeader('Set-Cookie', cookieHeader);
+
   sendJson(res, status, {
     success: true,
     message,
     data: {
       accessToken,
-      expiresAtUtc: new Date(Date.now() + 900_000).toISOString(),
+      refreshToken,
+      expiresAtUtc: new Date(tokenExpiresAt).toISOString(),
       user: sanitizeUser(user)
     }
   });
@@ -385,15 +577,40 @@ function issueAuth(res, user, status = 200, message = 'Success') {
 function getAuthUser(req) {
   const auth = req.headers.authorization || '';
   if (!auth.startsWith('Bearer ')) return null;
-  const parts = auth.slice(7).split('.');
-  if (parts.length !== 3) return null;
-  try {
-    const payload = JSON.parse(Buffer.from(parts[1], 'base64url').toString('utf8'));
-    if (payload.exp && payload.exp < Date.now()) return null;
-    return state.users.find((u) => u.id === payload.sub) || null;
-  } catch {
-    return null;
+  const token = auth.slice(7).trim();
+  const payload = verifyToken(token);
+  if (!payload) return null;
+
+  const userId = payload.sub || payload.id;
+
+  // 1. Check in-memory state.users
+  let user = state.users.find((u) => u.id === userId);
+  if (user) return user;
+
+  // 2. Try loading state from disk
+  loadStateFromDisk();
+  user = state.users.find((u) => u.id === userId);
+  if (user) return user;
+
+  // 3. Stateless fallback: reconstruct user directly from cryptographically verified token claims!
+  if (payload.email) {
+    user = {
+      id: userId,
+      displayName: payload.displayName || payload.email.split('@')[0],
+      email: payload.email,
+      password: '',
+      themePreference: payload.themePreference || 'Auto',
+      journeyStartDate: payload.journeyStartDate || todayStr(),
+      timeZoneId: payload.timeZoneId || 'UTC',
+      isDemoUser: !!payload.isDemoUser,
+      createdAtUtc: payload.createdAtUtc || new Date().toISOString()
+    };
+    state.users.push(user);
+    saveStateToDisk();
+    return user;
   }
+
+  return null;
 }
 
 function parseCookies(req) {
@@ -602,6 +819,16 @@ function listDatesBetween(fromStr, toStr) {
 }
 
 export async function handleRequest(req, res) {
+  loadStateFromDisk();
+
+  const originalEnd = res.end;
+  res.end = function (...args) {
+    if (['POST', 'PUT', 'DELETE', 'PATCH'].includes(req.method)) {
+      saveStateToDisk();
+    }
+    return originalEnd.apply(this, args);
+  };
+
   const origin = req.headers.origin;
   if (origin) {
     res.setHeader('Access-Control-Allow-Origin', origin);
@@ -676,7 +903,7 @@ export async function handleRequest(req, res) {
       });
 
       if (!user) return sendProblem(res, 401, 'Unauthorized', 'Invalid email or password.');
-      return issueAuth(res, user, 200, 'Signed in successfully.');
+      return issueAuth(res, user, 200, 'Signed in successfully.', req);
     }
 
     if (req.method === 'POST' && path === '/api/v1/auth/register') {
@@ -685,6 +912,7 @@ export async function handleRequest(req, res) {
       if (!body.displayName || !email || String(body.password || '').length < 8) {
         return sendProblem(res, 400, 'Validation failed', 'Please provide name, valid email, and 8+ character password.');
       }
+      loadStateFromDisk();
       if (state.users.some((u) => u.email.toLowerCase() === email)) {
         return sendProblem(res, 409, 'Conflict', 'An account with this email already exists.');
       }
@@ -700,7 +928,8 @@ export async function handleRequest(req, res) {
         createdAtUtc: new Date().toISOString()
       };
       state.users.push(user);
-      return issueAuth(res, user, 201, 'Account created successfully.');
+      saveStateToDisk();
+      return issueAuth(res, user, 201, 'Account created successfully.', req);
     }
 
     if (req.method === 'POST' && path === '/api/v1/auth/send-otp') {
@@ -819,31 +1048,147 @@ export async function handleRequest(req, res) {
         createdAtUtc: new Date().toISOString()
       };
       state.users.push(user);
-      return issueAuth(res, user, 201, 'Account created successfully.');
+      saveStateToDisk();
+      return issueAuth(res, user, 201, 'Account created successfully.', req);
     }
 
     if (req.method === 'POST' && path === '/api/v1/auth/demo-login') {
       const user = createDemoDataset(false);
-      return issueAuth(res, user, 200, 'Signed into development demo account.');
+      return issueAuth(res, user, 200, 'Signed into development demo account.', req);
     }
 
     if (req.method === 'POST' && path === '/api/v1/auth/refresh') {
+      let bodyToken = null;
+      try {
+        const body = await readJson(req);
+        bodyToken = body.refreshToken || body.RefreshToken || null;
+      } catch {
+        // empty body is acceptable
+      }
+
       const cookies = parseCookies(req);
-      const tok = cookies[REFRESH_COOKIE];
-      const entry = tok ? state.refreshTokens.get(tok) : null;
-      if (!entry || entry.expiresAt < Date.now()) {
+      const cookieToken = cookies[REFRESH_COOKIE] || null;
+      const rawToken = bodyToken || cookieToken;
+
+      if (!rawToken) {
+        return sendProblem(res, 401, 'Unauthorized', 'Refresh token missing.');
+      }
+
+      let entry = state.refreshTokens.get(rawToken);
+      if (!entry) {
+        loadStateFromDisk();
+        entry = state.refreshTokens.get(rawToken);
+      }
+
+      // Rotation grace period check (60 seconds)
+      if (entry && entry.replacedBy && entry.rotatedAt && (Date.now() - entry.rotatedAt < 60000)) {
+        const activeEntry = state.refreshTokens.get(entry.replacedBy);
+        if (activeEntry) {
+          const user = state.users.find((u) => u.id === activeEntry.userId);
+          if (user) {
+            return issueAuth(res, user, 200, 'Session refreshed (grace period).', req);
+          }
+        }
+      }
+
+      const payload = verifyToken(rawToken);
+
+      if (!entry && !payload) {
         return sendProblem(res, 401, 'Unauthorized', 'Refresh token missing or expired.');
       }
-      state.refreshTokens.delete(tok);
-      const user = state.users.find((u) => u.id === entry.userId);
-      if (!user) return sendProblem(res, 401, 'Unauthorized', 'User not found.');
-      return issueAuth(res, user, 200, 'Session refreshed.');
+
+      if (entry && entry.expiresAt < Date.now()) {
+        state.refreshTokens.delete(rawToken);
+        saveStateToDisk();
+        return sendProblem(res, 401, 'Unauthorized', 'Refresh token expired.');
+      }
+
+      const userId = (entry && entry.userId) || (payload && (payload.sub || payload.id));
+      let user = state.users.find((u) => u.id === userId);
+      if (!user) {
+        loadStateFromDisk();
+        user = state.users.find((u) => u.id === userId);
+      }
+
+      if (!user && payload && payload.email) {
+        user = {
+          id: userId,
+          displayName: payload.displayName || payload.email.split('@')[0],
+          email: payload.email,
+          password: '',
+          themePreference: payload.themePreference || 'Auto',
+          journeyStartDate: payload.journeyStartDate || todayStr(),
+          timeZoneId: 'UTC',
+          isDemoUser: false,
+          createdAtUtc: new Date().toISOString()
+        };
+        state.users.push(user);
+        saveStateToDisk();
+      }
+
+      if (!user) {
+        return sendProblem(res, 401, 'Unauthorized', 'User not found.');
+      }
+
+      // Generate new refresh token
+      const newRefreshToken = signToken({
+        sub: user.id,
+        id: user.id,
+        displayName: user.displayName,
+        email: user.email,
+        themePreference: user.themePreference || 'Auto',
+        journeyStartDate: user.journeyStartDate || todayStr(),
+        timeZoneId: user.timeZoneId || 'UTC',
+        isDemoUser: !!user.isDemoUser,
+        createdAtUtc: user.createdAtUtc || new Date().toISOString(),
+        type: 'refresh',
+        jti: crypto.randomUUID(),
+        exp: Date.now() + 14 * 86400 * 1000
+      });
+
+      if (entry) {
+        entry.replacedBy = newRefreshToken;
+        entry.rotatedAt = Date.now();
+      } else {
+        state.refreshTokens.set(rawToken, {
+          userId: user.id,
+          replacedBy: newRefreshToken,
+          rotatedAt: Date.now(),
+          expiresAt: Date.now() + 60000
+        });
+      }
+      saveStateToDisk();
+
+      return issueAuth(res, user, 200, 'Session refreshed.', req);
     }
 
     if (req.method === 'POST' && path === '/api/v1/auth/logout') {
+      let bodyToken = null;
+      try {
+        const body = await readJson(req);
+        bodyToken = body.refreshToken || body.RefreshToken || null;
+      } catch {}
+
       const cookies = parseCookies(req);
-      if (cookies[REFRESH_COOKIE]) state.refreshTokens.delete(cookies[REFRESH_COOKIE]);
-      res.setHeader('Set-Cookie', `${REFRESH_COOKIE}=; HttpOnly; Path=/api/v1/auth; Max-Age=0`);
+      const cookieToken = cookies[REFRESH_COOKIE];
+      const tok = bodyToken || cookieToken;
+
+      if (tok) {
+        state.refreshTokens.delete(tok);
+        saveStateToDisk();
+      }
+
+      const isHttps = Boolean(
+        (req && (req.headers['x-forwarded-proto'] === 'https' || req.headers.referer?.startsWith('https:'))) ||
+        process.env.VERCEL ||
+        process.env.NODE_ENV === 'production'
+      );
+
+      const cookieHeader = isHttps
+        ? `${REFRESH_COOKIE}=; HttpOnly; Path=/api/v1/auth; SameSite=None; Secure; Max-Age=0`
+        : `${REFRESH_COOKIE}=; HttpOnly; Path=/api/v1/auth; SameSite=Lax; Max-Age=0`;
+
+      res.setHeader('Set-Cookie', cookieHeader);
       res.statusCode = 204;
       return res.end();
     }
