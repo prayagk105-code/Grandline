@@ -241,16 +241,43 @@ export const ProfilePage: React.FC = () => {
     <>
       <PageHeader eyebrow="Your space" title="Profile & Preferences" subtitle="Account, security PIN, backups, and data ownership." />
 
-      <div className="cd" style={{ textAlign: 'center', marginBottom: 20 }}>
+      <div
+        className="cd"
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 16,
+          padding: '14px 18px',
+          marginBottom: 16
+        }}
+      >
         <div
           className="av"
-          style={{ width: 64, height: 64, margin: '0 auto 10px', fontSize: 22 }}
+          style={{ width: 48, height: 48, fontSize: 18, flexShrink: 0 }}
           aria-hidden="true"
         >
           {initial}
         </div>
-        <b className="d" style={{ fontSize: 18 }}>{user?.displayName}</b>
-        <div className="mut">{user?.email}</div>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+            <b className="d" style={{ fontSize: 17 }}>{user?.displayName}</b>
+            {user?.isDemoUser && (
+              <span className="badge badge-personal badge-sm">Demo Mode</span>
+            )}
+            <span className="badge badge-active badge-sm">{user?.themePreference || 'Auto'} Theme</span>
+          </div>
+          <div className="mut" style={{ fontSize: 12.5 }}>{user?.email}</div>
+        </div>
+
+        <button
+          type="button"
+          className="btn sec sm"
+          onClick={handleSignOut}
+          style={{ gap: 6, flexShrink: 0 }}
+        >
+          <DayformIcon name="signout" size={14} />
+          <span>Sign Out</span>
+        </button>
       </div>
 
       <div className="df-grid-2">

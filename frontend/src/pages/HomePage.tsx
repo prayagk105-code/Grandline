@@ -16,6 +16,8 @@ import { PinnedTasksWidget } from '../components/home/PinnedTasksWidget';
 import { QuickActionsBar } from '../components/home/QuickActionsBar';
 import { TodayPrioritiesWidget } from '../components/home/TodayPrioritiesWidget';
 import { UpcomingScheduleWidget } from '../components/home/UpcomingScheduleWidget';
+import { HomeStudyWidget } from '../components/home/HomeStudyWidget';
+import { HomeBalanceSnapshotWidget } from '../components/home/HomeBalanceSnapshotWidget';
 import { QuickAddModal } from '../components/layout/QuickAddModal';
 import { QuickCaptureModal } from '../components/common/QuickCaptureModal';
 import { MemoryCard } from '../components/memories/MemoryCard';
@@ -310,23 +312,15 @@ export const HomePage: React.FC = () => {
         onQuickCapture={() => setQuickCaptureOpen(true)}
       />
 
-      {/* Balanced Dashboard Multi-Column Layout (Section 8: Prioritized Pairs) */}
+      {/* Balanced Dashboard Multi-Column Layout (Prioritized Pairs) */}
       <div className="df-grid-2">
-        {/* 4. Today's Priorities */}
+        {/* Pair 1: Today's Priorities & Today's Habits */}
         {dashConfig.showPriorities && (
           <WidgetErrorBoundary>
             <TodayPrioritiesWidget />
           </WidgetErrorBoundary>
         )}
 
-        {/* 5. Daily Progress */}
-        {dashConfig.showDailySummary && (
-          <WidgetErrorBoundary>
-            <DailySummaryWidget />
-          </WidgetErrorBoundary>
-        )}
-
-        {/* 6. Today's Habits */}
         {dashConfig.showHabits && (
           <WidgetErrorBoundary>
             <TodayHabitsWidget
@@ -337,52 +331,62 @@ export const HomePage: React.FC = () => {
           </WidgetErrorBoundary>
         )}
 
-        {/* 7. Focus */}
-        {dashConfig.showFocusTimer && (
+        {/* Pair 2: Study & Mastery and Upcoming Schedule */}
+        {dashConfig.showStudy && (
           <WidgetErrorBoundary>
-            <HomeFocusWidget />
+            <HomeStudyWidget />
           </WidgetErrorBoundary>
         )}
 
-        {/* 8. Active Goals */}
-        {dashConfig.showGoals && (
-          <WidgetErrorBoundary>
-            <GoalOverviewWidget />
-          </WidgetErrorBoundary>
-        )}
-
-        {/* 9. Discipline Score */}
-        {dashConfig.showDisciplineScore && (
-          <WidgetErrorBoundary>
-            <DisciplineScoreCard />
-          </WidgetErrorBoundary>
-        )}
-
-        {/* 10. Upcoming Schedule */}
         {dashConfig.showSchedule && (
           <WidgetErrorBoundary>
             <UpcomingScheduleWidget />
           </WidgetErrorBoundary>
         )}
 
-        {/* 11. Personal Check-in */}
-        {dashConfig.showCheckIn && (
+        {/* Pair 3: Daily Velocity & Focus Session */}
+        {dashConfig.showDailySummary && (
           <WidgetErrorBoundary>
-            <PersonalCheckInWidget />
+            <DailySummaryWidget />
           </WidgetErrorBoundary>
         )}
 
-        {/* Missions (if enabled) */}
+        {dashConfig.showFocusTimer && (
+          <WidgetErrorBoundary>
+            <HomeFocusWidget />
+          </WidgetErrorBoundary>
+        )}
+
+        {/* Pair 4: Active Goals & Daily Missions */}
+        {dashConfig.showGoals && (
+          <WidgetErrorBoundary>
+            <GoalOverviewWidget />
+          </WidgetErrorBoundary>
+        )}
+
         {dashConfig.showMissions && (
           <WidgetErrorBoundary>
             <DailyMissionsWidget />
           </WidgetErrorBoundary>
         )}
 
-        {/* Pinned Tasks Widget (if enabled) */}
-        {dashConfig.showPinnedTasks && (
+        {/* Pair 5: Discipline Score & Health/Balance Snapshot */}
+        {dashConfig.showDisciplineScore && (
           <WidgetErrorBoundary>
-            <PinnedTasksWidget />
+            <DisciplineScoreCard />
+          </WidgetErrorBoundary>
+        )}
+
+        {dashConfig.showBalanceSnapshot && (
+          <WidgetErrorBoundary>
+            <HomeBalanceSnapshotWidget />
+          </WidgetErrorBoundary>
+        )}
+
+        {/* Pair 6: Personal Check-In & 7-Day Consistency Micro-Chart */}
+        {dashConfig.showCheckIn && (
+          <WidgetErrorBoundary>
+            <PersonalCheckInWidget />
           </WidgetErrorBoundary>
         )}
 
@@ -422,6 +426,13 @@ export const HomePage: React.FC = () => {
             })}
           </div>
         </div>
+
+        {/* Pinned Tasks Widget (if enabled) */}
+        {dashConfig.showPinnedTasks && (
+          <WidgetErrorBoundary>
+            <PinnedTasksWidget />
+          </WidgetErrorBoundary>
+        )}
       </div>
 
       {/* Section 8: Memory Lane & Recent Memories */}

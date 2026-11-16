@@ -814,9 +814,9 @@
 
   .cd,
   .card {
-    padding: 14px;
-    border-radius: var(--radius-lg);
-    margin-bottom: 12px;
+    padding: 12px 13px;
+    border-radius: var(--radius-md);
+    margin-bottom: 10px;
   }
 
   .chips {
@@ -1042,6 +1042,16 @@
 
   .df-grid-2 > .cd {
     margin-bottom: 0;
+  }
+
+  .df-metric-strip {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .df-split-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
   }
 
   .g4 {

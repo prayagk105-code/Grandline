@@ -136,50 +136,50 @@ export const BadHabitsManager: React.FC = () => {
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))', gap: 16 }}>
           {habits.map((h) => (
-            <div key={h.id} className="cd" style={{ padding: 20, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+            <div key={h.id} className="cd" style={{ padding: '14px 16px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 10 }}>
               <div>
-                <div className="row" style={{ justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
+                <div className="row" style={{ justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
                   <div>
-                    <h3 style={{ margin: '0 0 4px', fontSize: 18 }}>{h.name}</h3>
+                    <h3 style={{ margin: '0 0 2px', fontSize: 16 }}>{h.name}</h3>
                     <span className="mut" style={{ fontSize: 11 }}>
                       Began clean streak: {formatDisplayDate(h.cleanDaysStartDate)}
                     </span>
                   </div>
                   <div style={{ textAlign: 'right' }}>
-                    <div style={{ fontSize: 26, fontWeight: 700, color: 'var(--ac)' }}>
+                    <div style={{ fontSize: 20, fontWeight: 700, color: 'var(--ac)' }}>
                       {h.cleanStreakDays}d
                     </div>
-                    <span className="mut" style={{ fontSize: 11 }}>Clean Streak 🔥</span>
+                    <span className="mut" style={{ fontSize: 10.5 }}>Clean Streak 🔥</span>
                   </div>
                 </div>
 
                 {h.trigger && (
-                  <div style={{ marginBottom: 8, fontSize: 12, background: 'var(--cd-sec)', padding: '8px 12px', borderRadius: 'var(--radius-md)', border: '1px solid var(--ln)' }}>
+                  <div style={{ marginBottom: 6, fontSize: 11.5, background: 'var(--cd-sec)', padding: '6px 10px', borderRadius: 'var(--radius-md)', border: '1px solid var(--ln)' }}>
                     <b style={{ color: 'var(--ink)' }}>Trigger:</b> <span className="mut">{h.trigger}</span>
                   </div>
                 )}
 
                 {h.replacementHabit && (
-                  <div style={{ marginBottom: 12, fontSize: 12, background: 'var(--cd-sec)', padding: '8px 12px', borderRadius: 'var(--radius-md)', border: '1px solid var(--ln)' }}>
+                  <div style={{ marginBottom: 8, fontSize: 11.5, background: 'var(--cd-sec)', padding: '6px 10px', borderRadius: 'var(--radius-md)', border: '1px solid var(--ln)' }}>
                     <b style={{ color: 'var(--ac)' }}>Replacement:</b> <span style={{ fontWeight: 500 }}>{h.replacementHabit}</span>
                   </div>
                 )}
               </div>
 
               <div>
-                <div className="row" style={{ gap: 8, marginTop: 12 }}>
+                <div className="row" style={{ gap: 6, marginTop: 8 }}>
                   <button
                     type="button"
-                    className="btn pri"
-                    style={{ flex: 1, fontSize: 13 }}
+                    className="btn pri sm"
+                    style={{ flex: 1, fontSize: 12 }}
                     onClick={() => showToast(`Clean day confirmed for "${h.name}"! Stay strong.`)}
                   >
                     Clean Today ✓
                   </button>
                   <button
                     type="button"
-                    className="btn sec"
-                    style={{ fontSize: 13, color: 'var(--badge-overdue-text)' }}
+                    className="btn sec sm"
+                    style={{ fontSize: 12, color: 'var(--badge-overdue-text)' }}
                     onClick={() => {
                       setRelapseHabit(h);
                       setRelapseTrigger('');
@@ -189,11 +189,11 @@ export const BadHabitsManager: React.FC = () => {
                   </button>
                   <button
                     type="button"
-                    className="ib"
+                    className="ib sm"
                     onClick={() => handleDelete(h.id)}
                     aria-label="Delete"
                   >
-                    <DayformIcon name="trash" size={14} />
+                    <DayformIcon name="trash" size={13} />
                   </button>
                 </div>
               </div>

@@ -96,10 +96,10 @@ export const NinetyDayChallengeView: React.FC = () => {
   if (error) return <ErrorState message={error} onRetry={load} />;
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
-          <h2 style={{ margin: '0 0 4px', fontSize: 20 }}>90-Day Personal Transformation</h2>
+          <h2 style={{ margin: '0 0 4px', fontSize: 18 }}>90-Day Personal Transformation</h2>
           <p className="mut" style={{ margin: 0, fontSize: 13 }}>
             90 consecutive days of focused action to rewire identity and reach true mastery.
           </p>
@@ -126,7 +126,7 @@ export const NinetyDayChallengeView: React.FC = () => {
           }
         />
       ) : (
-        <div className="cd" style={{ padding: 24 }}>
+        <div className="cd" style={{ padding: '16px 18px' }}>
           <div className="row" style={{ justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 12 }}>
             <div>
               <div className="row" style={{ gap: 8, alignItems: 'center', marginBottom: 6 }}>
@@ -137,9 +137,9 @@ export const NinetyDayChallengeView: React.FC = () => {
                   {formatDisplayDate(activeChallenge.startDate)} → {formatDisplayDate(activeChallenge.endDate)}
                 </span>
               </div>
-              <h3 style={{ margin: '0 0 6px', fontSize: 22 }}>{activeChallenge.title}</h3>
+              <h3 style={{ margin: '0 0 6px', fontSize: 20 }}>{activeChallenge.title}</h3>
               {activeChallenge.description && (
-                <p className="mut" style={{ margin: '0 0 10px', fontSize: 14 }}>{activeChallenge.description}</p>
+                <p className="mut" style={{ margin: '0 0 10px', fontSize: 13.5 }}>{activeChallenge.description}</p>
               )}
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'var(--sf)', padding: '6px 12px', borderRadius: 8 }}>
                 <DayformIcon name="flame" size={16} />
@@ -148,7 +148,7 @@ export const NinetyDayChallengeView: React.FC = () => {
             </div>
 
             <div style={{ textAlign: 'right' }}>
-              <div style={{ fontSize: 36, fontWeight: 700, color: 'var(--ac)' }}>
+              <div style={{ fontSize: 32, fontWeight: 700, color: 'var(--ac)' }}>
                 {Math.round(activeChallenge.progressPercent)}%
               </div>
               <div className="mut" style={{ fontSize: 12 }}>
@@ -158,7 +158,7 @@ export const NinetyDayChallengeView: React.FC = () => {
           </div>
 
           {/* Progress bar */}
-          <div style={{ width: '100%', height: 8, background: 'var(--ln)', borderRadius: 4, margin: '20px 0', overflow: 'hidden' }}>
+          <div style={{ width: '100%', height: 6, background: 'var(--ln)', borderRadius: 3, margin: '14px 0', overflow: 'hidden' }}>
             <div
               style={{
                 width: `${Math.min(100, activeChallenge.progressPercent)}%`,

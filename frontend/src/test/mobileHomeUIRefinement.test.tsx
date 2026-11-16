@@ -225,7 +225,7 @@ describe('Mobile Home UI Refinement', () => {
 
       // Overdue item comes first
       expect(screen.getByText('Overdue Bugfix')).toBeInTheDocument();
-      expect(screen.getByText('Overdue')).toBeInTheDocument();
+      expect(screen.getAllByText('Overdue')[0]).toBeInTheDocument();
 
       // In collapsed view, only top 2 items are shown
       expect(screen.getByText('Review Project Specs')).toBeInTheDocument();

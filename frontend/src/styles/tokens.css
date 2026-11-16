@@ -242,9 +242,15 @@
   --focus-ring: 0 0 0 3px rgba(119, 117, 199, 0.28);
 
   /* Button Heights */
-  --btn-h: 40px;
-  --btn-h-sm: 32px;
-  --btn-h-lg: 46px;
+  --btn-h: 36px;
+  --btn-h-sm: 28px;
+  --btn-h-lg: 44px;
+
+  /* Compact Card Standard Spacing */
+  --cd-pad: 14px 16px;
+  --cd-pad-compact: 10px 12px;
+  --cd-pad-mobile: 12px 14px;
+  --cd-gap: 12px;
 
   color-scheme: light;
 }

@@ -107,10 +107,10 @@ export const DigitalDetoxView: React.FC = () => {
   if (error) return <ErrorState message={error} onRetry={load} />;
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
-          <h2 style={{ margin: '0 0 4px', fontSize: 20 }}>Digital Detox Sanctuary</h2>
+          <h2 style={{ margin: '0 0 4px', fontSize: 18 }}>Digital Detox Sanctuary</h2>
           <p className="mut" style={{ margin: 0, fontSize: 13 }}>
             Reclaim attention, quiet mental noise, and detox from dopaminergic digital loops.
           </p>
@@ -137,7 +137,7 @@ export const DigitalDetoxView: React.FC = () => {
           }
         />
       ) : (
-        <div className="cd" style={{ padding: 24 }}>
+        <div className="cd" style={{ padding: '16px 18px' }}>
           <div className="row" style={{ justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 16 }}>
             <div>
               <div className="row" style={{ gap: 8, alignItems: 'center', marginBottom: 6 }}>
@@ -148,17 +148,17 @@ export const DigitalDetoxView: React.FC = () => {
                   {formatDisplayDate(activeDetox.startDate)} → {formatDisplayDate(activeDetox.endDate)}
                 </span>
               </div>
-              <h3 style={{ margin: '0 0 8px', fontSize: 22 }}>{activeDetox.title}</h3>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 14 }}>
+              <h3 style={{ margin: '0 0 8px', fontSize: 20 }}>{activeDetox.title}</h3>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 12 }}>
                 {activeDetox.distractingApps.split(',').map((app, idx) => (
                   <span
                     key={idx}
                     style={{
                       background: 'var(--sf)',
                       border: '1px solid var(--ln)',
-                      padding: '4px 10px',
-                      borderRadius: 16,
-                      fontSize: 12
+                      padding: '3px 8px',
+                      borderRadius: 14,
+                      fontSize: 11.5
                     }}
                   >
                     🚫 {app.trim()}
@@ -168,7 +168,7 @@ export const DigitalDetoxView: React.FC = () => {
             </div>
 
             <div style={{ textAlign: 'right' }}>
-              <div style={{ fontSize: 40, fontWeight: 700, color: 'var(--ac)' }}>
+              <div style={{ fontSize: 32, fontWeight: 700, color: 'var(--ac)' }}>
                 {activeDetox.cleanDaysCount}
               </div>
               <div className="mut" style={{ fontSize: 12 }}>
@@ -177,7 +177,7 @@ export const DigitalDetoxView: React.FC = () => {
             </div>
           </div>
 
-          <div className="row" style={{ marginTop: 20, paddingTop: 16, borderTop: '1px solid var(--ln)', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div className="row" style={{ marginTop: 14, paddingTop: 12, borderTop: '1px solid var(--ln)', justifyContent: 'space-between', alignItems: 'center' }}>
             <span style={{ fontSize: 13, fontWeight: 500 }}>
               Did you remain clean and adhere to your detox protocol today?
             </span>

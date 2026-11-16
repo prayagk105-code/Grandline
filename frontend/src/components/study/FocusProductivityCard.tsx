@@ -196,9 +196,9 @@ export const FocusProductivityCard: React.FC<FocusProductivityCardProps> = ({
   const targetProgressPercent = Math.min(100, (dailyCompletedMinutes / dailyTargetMinutes) * 100);
 
   return (
-    <div className="cd" style={{ padding: 24 }}>
+    <div className="cd" style={{ padding: '16px 18px' }}>
       {/* Mode Selection Tabs */}
-      <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 18, flexWrap: 'wrap', gap: 10 }}>
+      <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 14, flexWrap: 'wrap', gap: 10 }}>
         <div className="chips" style={{ marginBottom: 0 }}>
           <button
             type="button"

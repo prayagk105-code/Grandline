@@ -73,9 +73,9 @@ export const WeeklyReviewView: React.FC = () => {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <div>
-        <h2 style={{ margin: '0 0 4px', fontSize: 20 }}>Weekly Review & Alignment</h2>
+        <h2 style={{ margin: '0 0 4px', fontSize: 18 }}>Weekly Review & Alignment</h2>
         <p className="mut" style={{ margin: 0, fontSize: 13 }}>
           Audit what you shipped, identify leaks in consistency, and prime next week's non-negotiables.
         </p>
@@ -160,36 +160,38 @@ export const WeeklyReviewView: React.FC = () => {
       </div>
 
       {/* Written Reflection & Intentions */}
-      <form onSubmit={handleSaveReview} className="cd" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-        <b className="d" style={{ fontSize: 16 }}>Weekly Synthesis & Next Week's Blueprint</b>
+      <form onSubmit={handleSaveReview} className="cd" style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+        <b className="d" style={{ fontSize: 15 }}>Weekly Synthesis & Next Week's Blueprint</b>
 
-        <div className="f">
-          <label>1. What went exceptionally well this week? (Victories & Progress)</label>
-          <textarea
-            className="inp"
-            rows={3}
-            placeholder="e.g., Kept morning workout streak without fail; shipped core client presentation."
-            value={wins}
-            onChange={(e) => setWins(e.target.value)}
-          />
+        <div className="df-grid-2">
+          <div className="f" style={{ marginBottom: 0 }}>
+            <label style={{ fontSize: 13, fontWeight: 600 }}>1. Victories & What Went Well</label>
+            <textarea
+              className="inp"
+              rows={3}
+              placeholder="e.g., Kept morning workout streak without fail; shipped core client presentation."
+              value={wins}
+              onChange={(e) => setWins(e.target.value)}
+            />
+          </div>
+
+          <div className="f" style={{ marginBottom: 0 }}>
+            <label style={{ fontSize: 13, fontWeight: 600 }}>2. Friction & Missed Targets</label>
+            <textarea
+              className="inp"
+              rows={3}
+              placeholder="e.g., Slacked on late afternoon study sessions; got distracted by social feeds on Wednesday."
+              value={friction}
+              onChange={(e) => setFriction(e.target.value)}
+            />
+          </div>
         </div>
 
         <div className="f">
-          <label>2. Where was the friction? (Areas for improvement / Missed targets)</label>
+          <label style={{ fontSize: 13, fontWeight: 600 }}>3. Next Week's 3 Non-Negotiable Priorities</label>
           <textarea
             className="inp"
-            rows={3}
-            placeholder="e.g., Slacked on late afternoon study sessions; got distracted by social feeds on Wednesday."
-            value={friction}
-            onChange={(e) => setFriction(e.target.value)}
-          />
-        </div>
-
-        <div className="f">
-          <label>3. Next Week's 3 Non-Negotiable Priorities</label>
-          <textarea
-            className="inp"
-            rows={3}
+            rows={2}
             placeholder="1. Finish Chapter 4 in Algorithms&#10;2. Stick to 10 PM wind-down routine&#10;3. Submit quarterly tax filings"
             value={nextWeekPriorities}
             onChange={(e) => setNextWeekPriorities(e.target.value)}

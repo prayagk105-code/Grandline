@@ -135,80 +135,131 @@ export const JournalPage: React.FC = () => {
 
       {!loading && !error ? (
         <div className="df-grid-2">
-          <form className="cd" onSubmit={handleSave} style={{ borderLeft: '3px solid var(--mod-personal)' }}>
-            <div className="row" style={{ gap: 8, alignItems: 'center', marginBottom: 14 }}>
+          <form className="cd" onSubmit={handleSave} style={{ borderLeft: '3px solid var(--mod-personal)', padding: '16px 18px' }}>
+            <div className="row" style={{ gap: 8, alignItems: 'center', marginBottom: 12 }}>
               <span className="mod-icon mod-icon-personal">
                 <DayformIcon name="pen" size={16} />
               </span>
               <b className="d" style={{ fontSize: 16 }}>Evening Reflection</b>
             </div>
 
-            <div className="f">
-              <label htmlFor="j-acc" style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink)' }}>
-                What did I accomplish today?
-              </label>
-              <textarea
-                id="j-acc"
-                rows={3}
-                placeholder="Something you did well, however small…"
-                value={accomplishments}
-                onChange={(e) => setAccomplishments(e.target.value)}
-              />
+            {/* Daily Mood & Energy State */}
+            <div className="df-grid-2" style={{ marginBottom: 12 }}>
+              <div style={{ background: 'var(--sf)', padding: '8px 10px', borderRadius: 'var(--radius-sm)' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
+                  <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--mut)' }}>Mood</span>
+                  <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--ac)' }}>
+                    {['😞 Low', '😕 Flat', '😐 Steady', '🙂 Good', '😄 Peak'][moodScore - 1] || `${moodScore}/5`}
+                  </span>
+                </div>
+                <div style={{ display: 'flex', gap: 4 }}>
+                  {[1, 2, 3, 4, 5].map((num) => (
+                    <button
+                      key={num}
+                      type="button"
+                      className={`chip ${moodScore === num ? 'on' : ''}`}
+                      onClick={() => setMoodScore(num)}
+                      style={{ flex: 1, padding: '3px 0', fontSize: 11.5, textAlign: 'center', justifyContent: 'center' }}
+                    >
+                      {num}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div style={{ background: 'var(--sf)', padding: '8px 10px', borderRadius: 'var(--radius-sm)' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
+                  <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--mut)' }}>Energy</span>
+                  <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--ac)' }}>⚡ {energyScore}/5</span>
+                </div>
+                <div style={{ display: 'flex', gap: 4 }}>
+                  {[1, 2, 3, 4, 5].map((num) => (
+                    <button
+                      key={num}
+                      type="button"
+                      className={`chip ${energyScore === num ? 'on' : ''}`}
+                      onClick={() => setEnergyScore(num)}
+                      style={{ flex: 1, padding: '3px 0', fontSize: 11.5, textAlign: 'center', justifyContent: 'center' }}
+                    >
+                      {num}
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
 
-            <div className="f">
-              <label htmlFor="j-dis" style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink)' }}>
-                What distracted me today?
-              </label>
-              <textarea
-                id="j-dis"
-                rows={3}
-                placeholder="Notice it without judgement…"
-                value={distractions}
-                onChange={(e) => setDistractions(e.target.value)}
-              />
+            {/* Split Accomplishments & Distractions */}
+            <div className="df-grid-2">
+              <div className="f" style={{ marginBottom: 0 }}>
+                <label htmlFor="j-acc" style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink)' }}>
+                  What did I accomplish today?
+                </label>
+                <textarea
+                  id="j-acc"
+                  rows={2}
+                  placeholder="Something you did well today…"
+                  value={accomplishments}
+                  onChange={(e) => setAccomplishments(e.target.value)}
+                />
+              </div>
+
+              <div className="f" style={{ marginBottom: 0 }}>
+                <label htmlFor="j-dis" style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink)' }}>
+                  What distracted me today?
+                </label>
+                <textarea
+                  id="j-dis"
+                  rows={2}
+                  placeholder="Notice it without judgement…"
+                  value={distractions}
+                  onChange={(e) => setDistractions(e.target.value)}
+                />
+              </div>
             </div>
 
-            <div className="f">
-              <label htmlFor="j-imp" style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink)' }}>
+            <div className="f" style={{ marginTop: 10 }}>
+              <label htmlFor="j-imp" style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink)' }}>
                 What can I improve tomorrow?
               </label>
               <textarea
                 id="j-imp"
-                rows={3}
-                placeholder="One small change…"
+                rows={2}
+                placeholder="One small adjustment or non-negotiable…"
                 value={improvements}
                 onChange={(e) => setImprovements(e.target.value)}
               />
             </div>
 
-            <div className="f">
-              <label htmlFor="j-grat" style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink)' }}>
-                Daily Gratitude
-              </label>
-              <textarea
-                id="j-grat"
-                rows={2}
-                placeholder="People, opportunities, or small moments you are thankful for…"
-                value={gratitude}
-                onChange={(e) => setGratitude(e.target.value)}
-              />
+            {/* Split Gratitude & Lessons */}
+            <div className="df-grid-2">
+              <div className="f" style={{ marginBottom: 0 }}>
+                <label htmlFor="j-grat" style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink)' }}>
+                  Daily Gratitude
+                </label>
+                <textarea
+                  id="j-grat"
+                  rows={2}
+                  placeholder="Small moments, people, or opportunities…"
+                  value={gratitude}
+                  onChange={(e) => setGratitude(e.target.value)}
+                />
+              </div>
+
+              <div className="f" style={{ marginBottom: 0 }}>
+                <label htmlFor="j-les" style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink)' }}>
+                  Key Lessons Learned
+                </label>
+                <textarea
+                  id="j-les"
+                  rows={2}
+                  placeholder="Insights, principles, or realizations…"
+                  value={lessonsLearned}
+                  onChange={(e) => setLessonsLearned(e.target.value)}
+                />
+              </div>
             </div>
 
-            <div className="f">
-              <label htmlFor="j-les" style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink)' }}>
-                Key Lessons Learned & Wisdom
-              </label>
-              <textarea
-                id="j-les"
-                rows={2}
-                placeholder="Insights, principles, or hard-won realizations…"
-                value={lessonsLearned}
-                onChange={(e) => setLessonsLearned(e.target.value)}
-              />
-            </div>
-
-            <button type="submit" className="btn pri f" disabled={saving}>
+            <button type="submit" className="btn pri f" style={{ marginTop: 12 }} disabled={saving}>
               {saving ? 'Saving…' : 'Save reflection'}
             </button>
           </form>

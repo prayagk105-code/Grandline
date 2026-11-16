@@ -228,7 +228,7 @@ export const HabitsPage: React.FC = () => {
           {summary ? (
             <>
               {/* Stat Cards with 4-Color Semantic System */}
-              <div className="g4">
+              <div className="g4 df-metric-strip">
                 <StatCard
                   icon="habit"
                   label="Active Habits"

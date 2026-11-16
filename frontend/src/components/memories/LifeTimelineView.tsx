@@ -95,10 +95,10 @@ export const LifeTimelineView: React.FC = () => {
   if (error) return <ErrorState message={error} onRetry={load} />;
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
-          <h2 style={{ margin: '0 0 4px', fontSize: 20 }}>Life Timeline & Grand Milestones</h2>
+          <h2 style={{ margin: '0 0 4px', fontSize: 18 }}>Life Timeline & Grand Milestones</h2>
           <p className="mut" style={{ margin: 0, fontSize: 13 }}>
             Chronological chronicle of your defining triumphs, pivots, and chapters.
           </p>
@@ -148,24 +148,24 @@ export const LifeTimelineView: React.FC = () => {
           }
         />
       ) : (
-        <div style={{ position: 'relative', paddingLeft: 24, borderLeft: '2px solid var(--ln)', display: 'flex', flexDirection: 'column', gap: 28, marginLeft: 12 }}>
+        <div style={{ position: 'relative', paddingLeft: 22, borderLeft: '2px solid var(--ln)', display: 'flex', flexDirection: 'column', gap: 14, marginLeft: 12 }}>
           {filtered.map((item) => (
             <div key={item.id} style={{ position: 'relative' }}>
               {/* Dot marker */}
               <div
                 style={{
                   position: 'absolute',
-                  left: -31,
-                  top: 4,
-                  width: 14,
-                  height: 14,
+                  left: -29,
+                  top: 6,
+                  width: 12,
+                  height: 12,
                   borderRadius: '50%',
                   background: 'var(--ac)',
-                  border: '3px solid var(--bg)'
+                  border: '2px solid var(--bg)'
                 }}
               />
 
-              <div className="cd" style={{ padding: 20 }}>
+              <div className="cd" style={{ padding: '14px 16px', marginBottom: 0 }}>
                 <div className="row" style={{ justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 10, marginBottom: 8 }}>
                   <div className="row" style={{ gap: 8, alignItems: 'center' }}>
                     <span className="chip on" style={{ fontSize: 10, padding: '1px 6px' }}>{item.category}</span>

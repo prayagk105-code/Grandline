@@ -202,10 +202,11 @@ export const PersonalRulesManager: React.FC = () => {
             return (
               <div
                 key={rule.id}
-                className="cd"
+                className="cd cd-compact"
                 style={{
-                  padding: 18,
-                  borderLeft: isFollowedToday ? '4px solid var(--ac)' : '4px solid var(--ln)'
+                  padding: '11px 13px',
+                  marginBottom: 8,
+                  borderLeft: isFollowedToday ? '3px solid var(--badge-completed-text)' : '3px solid var(--ln)'
                 }}
               >
                 <div className="row" style={{ justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 12 }}>

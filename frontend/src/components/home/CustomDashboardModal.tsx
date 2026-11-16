@@ -14,6 +14,7 @@ export interface DashboardConfig {
   showGoals: boolean;
   showDailySummary: boolean;
   showSchedule: boolean;
+  showBalanceSnapshot: boolean;
 }
 
 export const DEFAULT_DASHBOARD_CONFIG: DashboardConfig = {
@@ -28,7 +29,8 @@ export const DEFAULT_DASHBOARD_CONFIG: DashboardConfig = {
   showPriorities: true,
   showGoals: true,
   showDailySummary: true,
-  showSchedule: true
+  showSchedule: true,
+  showBalanceSnapshot: true
 };
 
 interface CustomDashboardModalProps {
@@ -50,15 +52,18 @@ export const CustomDashboardModal: React.FC<CustomDashboardModalProps> = ({
   };
 
   const WIDGETS: { key: keyof DashboardConfig; label: string; desc: string }[] = [
-    { key: 'showPriorities', label: 'Today’s Priorities', desc: 'Top 3 urgent actions & upcoming deadlines' },
-    { key: 'showDailySummary', label: 'Daily Progress & Accomplishments', desc: 'Summary of tasks, habits, and focus' },
+    { key: 'showPriorities', label: 'Today’s Priorities', desc: 'Top urgent actions & overdue deadlines' },
     { key: 'showHabits', label: 'Today’s Habits', desc: 'Daily habit check-in strip & streak' },
-    { key: 'showFocusTimer', label: 'Focus Session', desc: 'Pomodoro timer & focus hours' },
+    { key: 'showDailySummary', label: 'Daily Progress & Accomplishments', desc: 'Summary of tasks, habits, and focus' },
+    { key: 'showStudy', label: 'Study & Mastery', desc: 'Active learning paths & study hours' },
+    { key: 'showFocusTimer', label: 'Focus Session', desc: 'Pomodoro timer & deep work hours' },
+    { key: 'showSchedule', label: 'Upcoming Schedule', desc: 'Next deadlines, reminders & agenda' },
     { key: 'showGoals', label: 'Goal Trajectory', desc: 'Active long-term goal overview' },
-    { key: 'showDisciplineScore', label: 'Discipline Score Card', desc: 'Mathematical consistency gauge (0-100)' },
-    { key: 'showSchedule', label: 'Upcoming Schedule', desc: 'Next deadlines, reminders & calendar agenda' },
-    { key: 'showCheckIn', label: 'Personal Check-in', desc: 'Daily mood, energy & stress tracking' },
     { key: 'showMissions', label: 'Daily Missions & Bounties', desc: 'Quick XP claim and daily goals' },
+    { key: 'showDisciplineScore', label: 'Discipline Score Card', desc: 'Mathematical consistency gauge (0-100)' },
+    { key: 'showBalanceSnapshot', label: 'Health & Balance Snapshot', desc: 'Sleep, hydration, steps & monthly cashflow' },
+    { key: 'showCheckIn', label: 'Personal Check-in', desc: 'Daily mood, energy & stress tracking' },
+    { key: 'showPinnedTasks', label: 'Pinned Tasks', desc: 'Pinned critical actions' },
     { key: 'showRandomMemory', label: 'Memory Lane Card', desc: 'Past memories and reflections' }
   ];
 

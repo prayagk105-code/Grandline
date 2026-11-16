@@ -86,10 +86,10 @@ export const FutureSelfView: React.FC = () => {
   const sealedLetters = letters.filter((l) => !l.isUnlocked && l.unlockDate > today);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
-          <h2 style={{ margin: '0 0 4px', fontSize: 20 }}>Letters to Your Future Self</h2>
+          <h2 style={{ margin: '0 0 4px', fontSize: 18 }}>Letters to Your Future Self</h2>
           <p className="mut" style={{ margin: 0, fontSize: 13 }}>
             Send messages across time. Unlocked automatically only when the target date arrives.
           </p>
@@ -105,99 +105,105 @@ export const FutureSelfView: React.FC = () => {
         </button>
       </div>
 
-      {/* Unlocked / Arrived Letters */}
-      <div>
-        <h3 style={{ fontSize: 16, marginBottom: 12 }}>
-          Delivered & Ready to Read ({unlockedLetters.length})
-        </h3>
-        {unlockedLetters.length === 0 ? (
-          <p className="mut" style={{ fontSize: 13 }}>
-            No letters have arrived yet. When your scheduled delivery dates arrive, your sealed letters will unlock here.
-          </p>
-        ) : (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))', gap: 14 }}>
-            {unlockedLetters.map((l) => (
-              <div
-                key={l.id}
-                className="cd"
-                style={{
-                  padding: 18,
-                  borderLeft: '4px solid var(--ac)',
-                  cursor: 'pointer'
-                }}
-                onClick={() => handleOpenLetter(l)}
-              >
-                <div className="row" style={{ justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
-                  <span className="chip on" style={{ fontSize: 10, padding: '1px 6px' }}>
-                    Unlocked ✉️
-                  </span>
-                  <span className="mut" style={{ fontSize: 11 }}>
-                    Delivered {formatDisplayDate(l.unlockDate)}
-                  </span>
-                </div>
-                <h4 style={{ margin: '0 0 6px', fontSize: 16 }}>{l.title}</h4>
-                <p className="mut" style={{ margin: 0, fontSize: 13, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                  {l.content}
-                </p>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* Sealed Letters in Transit */}
-      <div style={{ marginTop: 8 }}>
-        <h3 style={{ fontSize: 16, marginBottom: 12 }}>
-          Sealed in Time Capsule ({sealedLetters.length})
-        </h3>
-        {sealedLetters.length === 0 ? (
-          <EmptyState
-            title="No Sealed Letters"
-            description="Write a letter describing your current struggles, dreams, and standards to be read in the future."
-            action={
-              <button type="button" className="btn pri" onClick={() => setShowModal(true)}>
-                Write Letter
-              </button>
-            }
-          />
-        ) : (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))', gap: 14 }}>
-            {sealedLetters.map((l) => {
-              const delivery = new Date(`${l.unlockDate}T00:00:00`);
-              const now = new Date(`${today}T00:00:00`);
-              const daysRemaining = Math.max(1, Math.ceil((delivery.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)));
-
-              return (
+      <div className="df-grid-2">
+        {/* Unlocked / Arrived Letters */}
+        <div>
+          <h3 style={{ fontSize: 15, marginBottom: 10 }}>
+            Delivered & Ready to Read ({unlockedLetters.length})
+          </h3>
+          {unlockedLetters.length === 0 ? (
+            <div className="cd" style={{ padding: '16px 18px', textAlign: 'center' }}>
+              <p className="mut" style={{ fontSize: 13, margin: 0 }}>
+                No letters have arrived yet. When your scheduled delivery dates arrive, your sealed letters will unlock here.
+              </p>
+            </div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {unlockedLetters.map((l) => (
                 <div
                   key={l.id}
                   className="cd"
                   style={{
-                    padding: 18,
-                    background: 'var(--sf)',
-                    border: '1px dashed var(--ln)'
+                    padding: '14px 16px',
+                    borderLeft: '4px solid var(--ac)',
+                    cursor: 'pointer',
+                    marginBottom: 0
                   }}
+                  onClick={() => handleOpenLetter(l)}
                 >
-                  <div className="row" style={{ justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
-                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-                      <span style={{ fontSize: 16 }}>🔒</span>
-                      <span style={{ fontSize: 12, fontWeight: 600 }}>Sealed</span>
-                    </div>
-                  </div>
-                  <h4 style={{ margin: '0 0 6px', fontSize: 16 }}>{l.title}</h4>
-                  <div style={{ background: 'var(--ln)', height: 28, borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '8px 0 12px' }}>
-                    <span className="mut" style={{ fontSize: 11, fontStyle: 'italic' }}>
-                      Contents encrypted until unlock date
+                  <div className="row" style={{ justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 6 }}>
+                    <span className="chip on" style={{ fontSize: 10, padding: '1px 6px' }}>
+                      Unlocked ✉️
+                    </span>
+                    <span className="mut" style={{ fontSize: 11 }}>
+                      Delivered {formatDisplayDate(l.unlockDate)}
                     </span>
                   </div>
-                  <div className="row" style={{ justifyContent: 'space-between', fontSize: 12 }}>
-                    <span className="mut">Unlocks {formatDisplayDate(l.unlockDate)}</span>
-                    <span style={{ fontWeight: 600, color: 'var(--ac)' }}>in {daysRemaining} days</span>
-                  </div>
+                  <h4 style={{ margin: '0 0 4px', fontSize: 15 }}>{l.title}</h4>
+                  <p className="mut" style={{ margin: 0, fontSize: 13, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    {l.content}
+                  </p>
                 </div>
-              );
-            })}
-          </div>
-        )}
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Sealed Letters in Transit */}
+        <div>
+          <h3 style={{ fontSize: 15, marginBottom: 10 }}>
+            Sealed in Time Capsule ({sealedLetters.length})
+          </h3>
+          {sealedLetters.length === 0 ? (
+            <EmptyState
+              title="No Sealed Letters"
+              description="Write a letter describing your current struggles, dreams, and standards to be read in the future."
+              action={
+                <button type="button" className="btn pri" onClick={() => setShowModal(true)}>
+                  Write Letter
+                </button>
+              }
+            />
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {sealedLetters.map((l) => {
+                const delivery = new Date(`${l.unlockDate}T00:00:00`);
+                const now = new Date(`${today}T00:00:00`);
+                const daysRemaining = Math.max(1, Math.ceil((delivery.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)));
+
+                return (
+                  <div
+                    key={l.id}
+                    className="cd"
+                    style={{
+                      padding: '14px 16px',
+                      background: 'var(--sf)',
+                      border: '1px dashed var(--ln)',
+                      marginBottom: 0
+                    }}
+                  >
+                    <div className="row" style={{ justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
+                      <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                        <span style={{ fontSize: 14 }}>🔒</span>
+                        <span style={{ fontSize: 11.5, fontWeight: 600 }}>Sealed</span>
+                      </div>
+                    </div>
+                    <h4 style={{ margin: '0 0 4px', fontSize: 15 }}>{l.title}</h4>
+                    <div style={{ background: 'var(--ln)', height: 26, borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '6px 0 10px' }}>
+                      <span className="mut" style={{ fontSize: 11, fontStyle: 'italic' }}>
+                        Contents encrypted until unlock date
+                      </span>
+                    </div>
+                    <div className="row" style={{ justifyContent: 'space-between', fontSize: 12 }}>
+                      <span className="mut">Unlocks {formatDisplayDate(l.unlockDate)}</span>
+                      <span style={{ fontWeight: 600, color: 'var(--ac)' }}>in {daysRemaining} days</span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Write Modal */}

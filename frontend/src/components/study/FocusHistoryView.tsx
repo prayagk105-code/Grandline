@@ -73,7 +73,7 @@ export const FocusHistoryView: React.FC = () => {
   const totalScreenMinutes = screenTimes.reduce((acc, curr) => acc + curr.durationMinutes, 0);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       {/* Stats Overview */}
       {summary && (
         <div className="g3">
@@ -99,7 +99,7 @@ export const FocusHistoryView: React.FC = () => {
       )}
 
       {/* Screen Time Section */}
-      <div className="cd" style={{ padding: 20 }}>
+      <div className="cd" style={{ padding: '14px 16px' }}>
         <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
           <div>
             <h3 style={{ margin: '0 0 2px', fontSize: 16 }}>Manual Screen-Time Log</h3>
