@@ -5,7 +5,6 @@ import {
   clearAuthSession,
   getAccessToken,
   getCachedUser,
-  getRefreshToken,
   setCachedUser,
   setOnAuthExpired
 } from '../services/api/apiClient';

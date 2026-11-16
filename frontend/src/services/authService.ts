@@ -47,6 +47,27 @@ export const authService = {
     return res.data.data;
   },
 
+  async sendOtp(payload: SendOtpPayload): Promise<SendOtpResponse> {
+    const res = await apiClient.post<ApiResponse<SendOtpResponse>>('/auth/send-otp', payload);
+    return res.data.data;
+  },
+
+  async verifyOtpAndRegister(payload: VerifyOtpAndRegisterPayload): Promise<AuthResponse> {
+    const res = await apiClient.post<ApiResponse<AuthResponse>>('/auth/verify-otp-and-register', payload);
+    const data = res.data.data;
+    setAccessToken(data.accessToken);
+    if (data.refreshToken) {
+      setRefreshToken(data.refreshToken);
+    }
+    if (data.expiresAtUtc) {
+      setTokenExpiresAt(data.expiresAtUtc);
+    }
+    if (data.user) {
+      setCachedUser(data.user);
+    }
+    return data;
+  },
+
   async login(payload: LoginPayload): Promise<AuthResponse> {
     const res = await apiClient.post<ApiResponse<AuthResponse>>('/auth/login', payload);
     const data = res.data.data;
@@ -77,6 +98,10 @@ export const authService = {
       setCachedUser(data.user);
     }
     return data;
+  },
+
+  async resetDemoData(): Promise<void> {
+    await apiClient.post('/auth/demo-reset', {});
   },
 
   async refresh(): Promise<AuthResponse | null> {
