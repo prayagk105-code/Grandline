@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
@@ -263,11 +263,11 @@ public class MultiUserFullApplicationTests : IClassFixture<DayformWebApplication
         // Verify User A still only sees User A's records
         var habitsA = await clientA.GetFromJsonAsync<ApiResponse<List<HabitDto>>>("/api/v1/habits", JsonOptions);
         Assert.Single(habitsA!.Data!);
-        Assert.Equal("Morning Exercise", habitsA.Data[0].Name);
+        Assert.Equal("Morning Exercise", habitsA.Data![0].Name);
 
         // Verify User B only sees User B's records
         var habitsBUpdated = await clientB.GetFromJsonAsync<ApiResponse<List<HabitDto>>>("/api/v1/habits", JsonOptions);
         Assert.Single(habitsBUpdated!.Data!);
-        Assert.Equal("Read Tech Documentation", habitsBUpdated.Data[0].Name);
+        Assert.Equal("Read Tech Documentation", habitsBUpdated.Data![0].Name);
     }
 }

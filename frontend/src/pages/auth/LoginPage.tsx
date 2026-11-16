@@ -4,17 +4,20 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeOff } from 'lucide-react';
-import { AuthDivider, AuthLayout, GoogleIcon } from '../../layouts/AuthLayout';
+import { AuthLayout } from '../../layouts/AuthLayout';
 import { useAuth } from '../../contexts/AuthContext';
-import { useToast } from '../../contexts/ToastContext';
 import { parseApiError } from '../../services/api/apiError';
 
-const schema = z.object({
-  email: z.string().trim().email('Enter a valid email address'),
+const loginSchema = z.object({
+  email: z
+    .string()
+    .trim()
+    .min(1, 'Email address is required')
+    .email('Please enter a valid email address'),
   password: z.string().min(1, 'Password is required')
 });
 
-type LoginFormValues = z.infer<typeof schema>;
+type LoginFormValues = z.infer<typeof loginSchema>;
 
 const loginFeatures = [
   { icon: 'habit', label: 'Habits', desc: 'Build daily consistency & streaks' },
@@ -24,20 +27,19 @@ const loginFeatures = [
 ];
 
 export const LoginPage: React.FC = () => {
-  const { login, demoLogin } = useAuth();
-  const { showToast } = useToast();
+  const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
   const [showPassword, setShowPassword] = useState(false);
   const [apiError, setApiError] = useState<string | null>(null);
-  const [demoBusy, setDemoBusy] = useState(false);
 
   const [rememberMe, setRememberMe] = useState(() => {
     return localStorage.getItem('grandline_remember_me') === 'true';
   });
 
-  const fromPath = (location.state as { from?: { pathname?: string } } | null)?.from?.pathname || '/';
+  const locationState = location.state as { from?: { pathname?: string }; registeredEmail?: string } | null;
+  const fromPath = locationState?.from?.pathname || '/';
 
   const {
     register,
@@ -45,23 +47,23 @@ export const LoginPage: React.FC = () => {
     setValue,
     formState: { errors, isSubmitting }
   } = useForm<LoginFormValues>({
-    resolver: zodResolver(schema)
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: locationState?.registeredEmail || '',
+      password: ''
+    }
   });
 
   useEffect(() => {
-    if (rememberMe) {
+    if (locationState?.registeredEmail) {
+      setValue('email', locationState.registeredEmail, { shouldValidate: true });
+    } else if (rememberMe) {
       const savedEmail = localStorage.getItem('grandline_remember_email');
       if (savedEmail) {
         setValue('email', savedEmail, { shouldValidate: true });
       }
     }
-  }, [rememberMe, setValue]);
-
-  const fillCredentials = (email: string, pass: string) => {
-    setValue('email', email, { shouldValidate: true });
-    setValue('password', pass, { shouldValidate: true });
-    setApiError(null);
-  };
+  }, [locationState?.registeredEmail, rememberMe, setValue]);
 
   const onSubmit = async (values: LoginFormValues) => {
     setApiError(null);
@@ -73,27 +75,16 @@ export const LoginPage: React.FC = () => {
         localStorage.removeItem('grandline_remember_me');
         localStorage.removeItem('grandline_remember_email');
       }
-      await login(values);
+
+      await login({
+        email: values.email.trim(),
+        password: values.password
+      });
+
       navigate(fromPath, { replace: true });
-    } catch (err) {
-      setApiError(parseApiError(err, 'Invalid email or password.').message);
-    }
-  };
-
-  const handleGoogleLogin = () => {
-    showToast('Google Sign-In is not configured for this environment. Please sign in with email or use Demo Login.');
-  };
-
-  const handleDemoLogin = async () => {
-    setApiError(null);
-    setDemoBusy(true);
-    try {
-      await demoLogin();
-      navigate('/', { replace: true });
-    } catch (err) {
-      setApiError(parseApiError(err, 'Demo login is unavailable.').message);
-    } finally {
-      setDemoBusy(false);
+    } catch (err: unknown) {
+      const parsed = parseApiError(err, 'Invalid email or password.');
+      setApiError(parsed.message || 'Invalid email or password. Please verify your credentials.');
     }
   };
 
@@ -105,7 +96,7 @@ export const LoginPage: React.FC = () => {
     >
       <div className="auth-form-header">
         <h1 className="auth-form-title">Welcome back</h1>
-        <p className="auth-form-desc">Sign in to continue your journey.</p>
+        <p className="auth-form-desc">Sign in with your email and password.</p>
       </div>
 
       {apiError ? (
@@ -115,10 +106,10 @@ export const LoginPage: React.FC = () => {
       ) : null}
 
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
-        {/* Email input */}
+        {/* Email Address Field */}
         <div className="auth-field">
           <label htmlFor="login-email" className="auth-label">
-            Email
+            Email Address
           </label>
           <div className="auth-input-wrapper">
             <input
@@ -133,7 +124,7 @@ export const LoginPage: React.FC = () => {
           {errors.email ? <div className="auth-field-error">{errors.email.message}</div> : null}
         </div>
 
-        {/* Password input with show/hide control */}
+        {/* Password Field */}
         <div className="auth-field">
           <label htmlFor="login-password" className="auth-label">
             Password
@@ -179,71 +170,20 @@ export const LoginPage: React.FC = () => {
         <button
           type="submit"
           className="auth-btn-primary"
-          disabled={isSubmitting || demoBusy}
+          disabled={isSubmitting}
           aria-label="Sign in"
+          style={{ marginTop: 8 }}
         >
           {isSubmitting ? 'Signing in…' : 'Sign In'}
         </button>
       </form>
 
-      {/* Simple OR divider */}
-      <AuthDivider text="OR" />
-
-      {/* Continue with Google Secondary Button */}
-      <button
-        type="button"
-        className="auth-btn-google"
-        onClick={handleGoogleLogin}
-        disabled={isSubmitting || demoBusy}
-      >
-        <GoogleIcon size={18} />
-        <span>Continue with Google</span>
-      </button>
-
       {/* Footer: New to Grandline? Create account */}
-      <div className="auth-footer">
+      <div className="auth-footer" style={{ marginTop: 24 }}>
         <span>New to Grandline?</span>
         <Link to="/register" className="auth-link-bold">
           Create account
         </Link>
-      </div>
-
-      {/* Developer Demo & Instant Access Section */}
-      <div className="auth-demo-box">
-        <p className="auth-demo-title">Quick autofill demo accounts:</p>
-        <div className="auth-demo-grid">
-          <button
-            type="button"
-            className="auth-demo-btn"
-            onClick={() => fillCredentials('tracker@grandline.com', 'Tracker@123')}
-          >
-            👤 tracker@grandline.com
-          </button>
-          <button
-            type="button"
-            className="auth-demo-btn"
-            onClick={() => fillCredentials('user@grandline.com', 'Password@123')}
-          >
-            👤 user@grandline.com
-          </button>
-        </div>
-        <button
-          type="button"
-          className="auth-demo-btn"
-          style={{ width: '100%' }}
-          onClick={() => fillCredentials('Prayagk@gmail.com', 'Prayagk@123')}
-        >
-          👤 Prayagk@gmail.com
-        </button>
-
-        <button
-          type="button"
-          className="auth-instant-demo-btn"
-          onClick={handleDemoLogin}
-          disabled={isSubmitting || demoBusy}
-        >
-          {demoBusy ? 'Loading demo account…' : '⚡ 1-Click Instant Demo Login'}
-        </button>
       </div>
     </AuthLayout>
   );

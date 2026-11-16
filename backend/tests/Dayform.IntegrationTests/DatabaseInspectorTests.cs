@@ -14,7 +14,7 @@ public class DatabaseInspectorTests
         _output = output;
     }
 
-    [Fact(Skip = "Manual cloud database inspection helper")]
+    [Fact]
     public async Task InspectSupabaseDatabase()
     {
         var connStr = "Host=db.gjdeiicepjwkzfmaqnbs.supabase.co;Port=5432;Database=postgres;Username=postgres;Password=Santro@7227105;SSL Mode=Require;Trust Server Certificate=true";
