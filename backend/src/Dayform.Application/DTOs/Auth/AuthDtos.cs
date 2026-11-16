@@ -43,8 +43,19 @@ public class UserDto
 public class AuthResponse
 {
     public string AccessToken { get; set; } = string.Empty;
+    public string? RefreshToken { get; set; }
     public DateTime ExpiresAtUtc { get; set; }
     public UserDto User { get; set; } = null!;
+}
+
+public class RefreshRequest
+{
+    public string? RefreshToken { get; set; }
+}
+
+public class LogoutRequest
+{
+    public string? RefreshToken { get; set; }
 }
 
 public class ForgotPasswordResponse

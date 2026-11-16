@@ -32,6 +32,7 @@ export interface UserDto {
 
 export interface AuthResponse {
   accessToken: string;
+  refreshToken?: string;
   expiresAtUtc: string;
   user: UserDto;
 }

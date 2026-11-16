@@ -4,16 +4,13 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeOff } from 'lucide-react';
-import { AuthLayout } from '../../layouts/AuthLayout';
+import { AuthDivider, AuthLayout, GoogleIcon } from '../../layouts/AuthLayout';
 import { useAuth } from '../../contexts/AuthContext';
+import { useToast } from '../../contexts/ToastContext';
 import { parseApiError } from '../../services/api/apiError';
 
 const loginSchema = z.object({
-  email: z
-    .string()
-    .trim()
-    .min(1, 'Email address is required')
-    .email('Please enter a valid email address'),
+  email: z.string().trim().email('Enter a valid email address'),
   password: z.string().min(1, 'Password is required')
 });
 
@@ -28,6 +25,7 @@ const loginFeatures = [
 
 export const LoginPage: React.FC = () => {
   const { login } = useAuth();
+  const { showToast } = useToast();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -88,6 +86,10 @@ export const LoginPage: React.FC = () => {
     }
   };
 
+  const handleGoogleLogin = () => {
+    showToast('Google Sign-In is not configured for this environment. Please sign in with email.');
+  };
+
   return (
     <AuthLayout
       heroHeading="Manage Your Life, Simply."
@@ -96,7 +98,7 @@ export const LoginPage: React.FC = () => {
     >
       <div className="auth-form-header">
         <h1 className="auth-form-title">Welcome back</h1>
-        <p className="auth-form-desc">Sign in with your email and password.</p>
+        <p className="auth-form-desc">Sign in to continue your journey.</p>
       </div>
 
       {apiError ? (
@@ -106,10 +108,10 @@ export const LoginPage: React.FC = () => {
       ) : null}
 
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
-        {/* Email Address Field */}
+        {/* Email Field */}
         <div className="auth-field">
           <label htmlFor="login-email" className="auth-label">
-            Email Address
+            Email
           </label>
           <div className="auth-input-wrapper">
             <input
@@ -174,9 +176,23 @@ export const LoginPage: React.FC = () => {
           aria-label="Sign in"
           style={{ marginTop: 8 }}
         >
-          {isSubmitting ? 'Signing in…' : 'Sign In'}
+          {isSubmitting ? 'Signing in…' : 'Sign in'}
         </button>
       </form>
+
+      {/* Simple OR divider */}
+      <AuthDivider text="OR" />
+
+      {/* Continue with Google Secondary Button */}
+      <button
+        type="button"
+        className="auth-btn-google"
+        onClick={handleGoogleLogin}
+        disabled={isSubmitting}
+      >
+        <GoogleIcon size={18} />
+        <span>Continue with Google</span>
+      </button>
 
       {/* Footer: New to Grandline? Create account */}
       <div className="auth-footer" style={{ marginTop: 24 }}>

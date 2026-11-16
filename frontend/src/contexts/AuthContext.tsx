@@ -1,6 +1,14 @@
 import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import type { AxiosError } from 'axios';
 import { authService, type LoginPayload, type RegisterPayload } from '../services/authService';
-import { getAccessToken, setAccessToken, setOnAuthExpired } from '../services/api/apiClient';
+import {
+  clearAuthSession,
+  getAccessToken,
+  getCachedUser,
+  getRefreshToken,
+  setCachedUser,
+  setOnAuthExpired
+} from '../services/api/apiClient';
 import type { UserDto } from '../types/api';
 import { applyThemePreference, getCachedTheme } from '../utils/theme';
 
@@ -18,15 +26,27 @@ interface AuthContextValue {
 const AuthContext = createContext<AuthContextValue | null>(null);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<UserDto | null>(null);
+  const [user, setUserState] = useState<UserDto | null>(() => getCachedUser());
   const [isLoading, setIsLoading] = useState(true);
+
+  const setUser = useCallback<React.Dispatch<React.SetStateAction<UserDto | null>>>((action) => {
+    setUserState((prev) => {
+      const next = typeof action === 'function' ? action(prev) : action;
+      if (next) {
+        setCachedUser(next);
+      } else {
+        clearAuthSession();
+      }
+      return next;
+    });
+  }, []);
 
   useEffect(() => {
     applyThemePreference(getCachedTheme());
 
     setOnAuthExpired(() => {
-      setAccessToken(null);
-      setUser(null);
+      clearAuthSession();
+      setUserState(null);
     });
 
     let active = true;
@@ -34,33 +54,70 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const initAuth = async () => {
       try {
         const token = getAccessToken();
+        const cachedUser = getCachedUser();
+
+        // 1. Restore cached user right away to prevent flash of login or unwanted redirect
+        if (cachedUser && active) {
+          setUserState(cachedUser);
+          applyThemePreference(cachedUser.themePreference);
+        }
+
+        // 2. If access token exists, verify and fetch current user profile
         if (token) {
           try {
             const meUser = await authService.me();
             if (active && meUser) {
-              setUser(meUser);
+              setUserState(meUser);
+              setCachedUser(meUser);
               applyThemePreference(meUser.themePreference);
               return;
             }
-          } catch {
-            // Token may need refreshing
+          } catch (err: unknown) {
+            const axiosErr = err as AxiosError;
+            const isNetworkError = !axiosErr.response || axiosErr.code === 'ERR_NETWORK';
+
+            // A failed profile request due to a network glitch must not destroy a valid authentication session
+            if (isNetworkError && cachedUser) {
+              return;
+            }
+            // If it's a 401 or other error, access token may be expired; fall through to refresh
           }
         }
 
-        const res = await authService.refresh();
-        if (active) {
-          if (res?.user) {
-            setUser(res.user);
-            applyThemePreference(res.user.themePreference);
-          } else {
-            setUser(null);
-            setAccessToken(null);
+        // 3. Attempt token refresh (using stored refresh token or HttpOnly cookie)
+        try {
+          const res = await authService.refresh();
+          if (active) {
+            if (res?.user) {
+              setUserState(res.user);
+              setCachedUser(res.user);
+              applyThemePreference(res.user.themePreference);
+              return;
+            }
+            // If refresh returned null and no cached user, clear session
+            if (!cachedUser) {
+              setUserState(null);
+              clearAuthSession();
+            }
+          }
+        } catch (refreshErr: unknown) {
+          const axiosErr = refreshErr as AxiosError;
+          const isNetworkError = !axiosErr.response || axiosErr.code === 'ERR_NETWORK';
+
+          // Never log out a valid user with cached state on temporary network failure
+          if (isNetworkError && cachedUser) {
+            return;
+          }
+
+          if (active) {
+            setUserState(null);
+            clearAuthSession();
           }
         }
       } catch {
-        if (active) {
-          setUser(null);
-          setAccessToken(null);
+        if (active && !getCachedUser()) {
+          setUserState(null);
+          clearAuthSession();
         }
       } finally {
         if (active) {
@@ -79,7 +136,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const login = useCallback(async (payload: LoginPayload) => {
     const res = await authService.login(payload);
-    setUser(res.user);
+    setUserState(res.user);
+    setCachedUser(res.user);
     applyThemePreference(res.user.themePreference);
   }, []);
 
@@ -89,13 +147,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const demoLogin = useCallback(async () => {
     const res = await authService.demoLogin();
-    setUser(res.user);
+    setUserState(res.user);
+    setCachedUser(res.user);
     applyThemePreference(res.user.themePreference);
   }, []);
 
   const logout = useCallback(async () => {
     await authService.logout();
-    setUser(null);
+    clearAuthSession();
+    setUserState(null);
   }, []);
 
   return (
@@ -121,4 +181,3 @@ export function useAuth(): AuthContextValue {
   if (!ctx) throw new Error('useAuth must be used within AuthProvider');
   return ctx;
 }
-

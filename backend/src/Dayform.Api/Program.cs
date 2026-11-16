@@ -96,7 +96,19 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("FrontendPolicy", policy =>
     {
-        policy.WithOrigins(allowedOrigins)
+        policy.SetIsOriginAllowed(origin =>
+            {
+                if (string.IsNullOrEmpty(origin)) return false;
+                if (allowedOrigins.Contains(origin, StringComparer.OrdinalIgnoreCase)) return true;
+                if (builder.Environment.IsDevelopment() || builder.Environment.IsEnvironment("Testing"))
+                {
+                    if (Uri.TryCreate(origin, UriKind.Absolute, out var uri))
+                    {
+                        return uri.Host is "localhost" or "127.0.0.1" or "[::1]";
+                    }
+                }
+                return false;
+            })
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials();

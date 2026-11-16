@@ -211,4 +211,66 @@ public class AuthAndIsolationTests : IClassFixture<DayformWebApplicationFactory>
         });
         Assert.Equal(HttpStatusCode.Conflict, duplicateOtpRes.StatusCode);
     }
+
+    [Fact]
+    public async Task RefreshToken_InBody_WorksWithoutCookies_AndSupportsRotationGracePeriod()
+    {
+        // Client without cookie handling to simulate cross-origin / third-party cookie blocking
+        using var client = _factory.CreateClient(new Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactoryClientOptions
+        {
+            HandleCookies = false
+        });
+
+        var testEmail = $"body_refresh_{Guid.NewGuid():N}@example.com";
+        var regRes = await client.PostAsJsonAsync("/api/v1/auth/register", new RegisterRequest
+        {
+            DisplayName = "Grace Test User",
+            Email = testEmail,
+            Password = "Password123!",
+            TimeZoneId = "UTC"
+        });
+        Assert.Equal(HttpStatusCode.Created, regRes.StatusCode);
+
+        var regData = await regRes.Content.ReadFromJsonAsync<ApiResponse<AuthResponse>>(JsonOptions);
+        Assert.NotNull(regData?.Data?.RefreshToken);
+        var initialRefreshToken = regData!.Data!.RefreshToken!;
+
+        // 1. Refresh using body payload without any cookie
+        var refreshRes1 = await client.PostAsJsonAsync("/api/v1/auth/refresh", new RefreshRequest
+        {
+            RefreshToken = initialRefreshToken
+        });
+        Assert.Equal(HttpStatusCode.OK, refreshRes1.StatusCode);
+        var refreshData1 = await refreshRes1.Content.ReadFromJsonAsync<ApiResponse<AuthResponse>>(JsonOptions);
+        Assert.NotNull(refreshData1?.Data?.AccessToken);
+        Assert.NotNull(refreshData1?.Data?.RefreshToken);
+        var rotatedRefreshToken = refreshData1!.Data!.RefreshToken!;
+        var newAccessToken = refreshData1.Data.AccessToken;
+
+        // 2. Concurrent request simulation: Re-sending initialRefreshToken within 60s grace period succeeds
+        var refreshResGrace = await client.PostAsJsonAsync("/api/v1/auth/refresh", new RefreshRequest
+        {
+            RefreshToken = initialRefreshToken
+        });
+        Assert.Equal(HttpStatusCode.OK, refreshResGrace.StatusCode);
+
+        // 3. User session remains valid and active
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", newAccessToken);
+        var meRes = await client.GetAsync("/api/v1/auth/me");
+        Assert.Equal(HttpStatusCode.OK, meRes.StatusCode);
+
+        // 4. Logout using body payload invalidates the session
+        var logoutRes = await client.PostAsJsonAsync("/api/v1/auth/logout", new LogoutRequest
+        {
+            RefreshToken = rotatedRefreshToken
+        });
+        Assert.Equal(HttpStatusCode.NoContent, logoutRes.StatusCode);
+
+        // 5. Subsequent refresh attempts fail
+        var refreshAfterLogout = await client.PostAsJsonAsync("/api/v1/auth/refresh", new RefreshRequest
+        {
+            RefreshToken = rotatedRefreshToken
+        });
+        Assert.Equal(HttpStatusCode.Unauthorized, refreshAfterLogout.StatusCode);
+    }
 }

@@ -1,4 +1,13 @@
-import { apiClient, refreshSessionToken, setAccessToken } from './api/apiClient';
+import {
+  apiClient,
+  clearAuthSession,
+  getRefreshToken,
+  refreshSessionToken,
+  setAccessToken,
+  setCachedUser,
+  setRefreshToken,
+  setTokenExpiresAt
+} from './api/apiClient';
 import type { ApiResponse, AuthResponse, ForgotPasswordResponse, SendOtpResponse, UserDto } from '../types/api';
 
 export interface RegisterPayload {
@@ -40,8 +49,34 @@ export const authService = {
 
   async login(payload: LoginPayload): Promise<AuthResponse> {
     const res = await apiClient.post<ApiResponse<AuthResponse>>('/auth/login', payload);
-    setAccessToken(res.data.data.accessToken);
-    return res.data.data;
+    const data = res.data.data;
+    setAccessToken(data.accessToken);
+    if (data.refreshToken) {
+      setRefreshToken(data.refreshToken);
+    }
+    if (data.expiresAtUtc) {
+      setTokenExpiresAt(data.expiresAtUtc);
+    }
+    if (data.user) {
+      setCachedUser(data.user);
+    }
+    return data;
+  },
+
+  async demoLogin(): Promise<AuthResponse> {
+    const res = await apiClient.post<ApiResponse<AuthResponse>>('/auth/demo-login', {});
+    const data = res.data.data;
+    setAccessToken(data.accessToken);
+    if (data.refreshToken) {
+      setRefreshToken(data.refreshToken);
+    }
+    if (data.expiresAtUtc) {
+      setTokenExpiresAt(data.expiresAtUtc);
+    }
+    if (data.user) {
+      setCachedUser(data.user);
+    }
+    return data;
   },
 
   async refresh(): Promise<AuthResponse | null> {
@@ -50,9 +85,12 @@ export const authService = {
 
   async logout(): Promise<void> {
     try {
-      await apiClient.post('/auth/logout', {});
+      const storedRefreshToken = getRefreshToken();
+      await apiClient.post('/auth/logout', { refreshToken: storedRefreshToken });
+    } catch {
+      // ignore network errors on logout
     } finally {
-      setAccessToken(null);
+      clearAuthSession();
     }
   },
 
@@ -67,7 +105,10 @@ export const authService = {
 
   async me(): Promise<UserDto> {
     const res = await apiClient.get<ApiResponse<UserDto>>('/auth/me');
-    return res.data.data;
+    const user = res.data.data;
+    if (user) {
+      setCachedUser(user);
+    }
+    return user;
   }
 };
-

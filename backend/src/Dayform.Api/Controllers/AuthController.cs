@@ -106,11 +106,16 @@ public class AuthController : ControllerBase
     [HttpPost("refresh")]
     [EnableRateLimiting("auth")]
     [ProducesResponseType(typeof(ApiResponse<AuthResponse>), StatusCodes.Status200OK)]
-    public async Task<IActionResult> Refresh(CancellationToken ct)
+    public async Task<IActionResult> Refresh([FromBody] RefreshRequest? request, CancellationToken ct)
     {
-        var rawToken = Request.Cookies[RefreshCookieName];
+        var rawToken = request?.RefreshToken;
         if (string.IsNullOrWhiteSpace(rawToken))
-            throw new UnauthorizedAppException("Refresh token cookie is missing.", "missing_refresh_token");
+        {
+            rawToken = Request.Cookies[RefreshCookieName];
+        }
+
+        if (string.IsNullOrWhiteSpace(rawToken))
+            throw new UnauthorizedAppException("Refresh token is missing.", "missing_refresh_token");
 
         var result = await _authService.RefreshAsync(rawToken, Request.Headers.UserAgent.ToString(), ct);
         SetRefreshCookie(result.RawRefreshToken, result.RefreshExpiresAtUtc);
@@ -119,14 +124,18 @@ public class AuthController : ControllerBase
 
     [HttpPost("logout")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public async Task<IActionResult> Logout(CancellationToken ct)
+    public async Task<IActionResult> Logout([FromBody] LogoutRequest? request, CancellationToken ct)
     {
-        var rawToken = Request.Cookies[RefreshCookieName];
+        var rawToken = request?.RefreshToken;
+        if (string.IsNullOrWhiteSpace(rawToken))
+        {
+            rawToken = Request.Cookies[RefreshCookieName];
+        }
         await _authService.LogoutAsync(rawToken, ct);
         Response.Cookies.Delete(RefreshCookieName, new CookieOptions
         {
             HttpOnly = true,
-            SameSite = SameSiteMode.Lax,
+            SameSite = Request.IsHttps ? SameSiteMode.None : SameSiteMode.Lax,
             Secure = Request.IsHttps,
             Path = "/api/v1/auth"
         });
@@ -166,7 +175,7 @@ public class AuthController : ControllerBase
         {
             HttpOnly = true,
             Secure = Request.IsHttps,
-            SameSite = SameSiteMode.Lax,
+            SameSite = Request.IsHttps ? SameSiteMode.None : SameSiteMode.Lax,
             Expires = expiresAtUtc,
             Path = "/api/v1/auth"
         });

@@ -225,7 +225,32 @@ public class AuthService : IAuthService
 
         if (existing.RevokedAtUtc is not null)
         {
-            // Token reuse detected — revoke all active tokens for this user
+            // If the token was rotated within a 60-second grace window, resolve the active successor
+            // to avoid race conditions from concurrent requests destroying a valid session.
+            if (existing.RevokedAtUtc >= DateTime.UtcNow.AddSeconds(-60) &&
+                !string.IsNullOrWhiteSpace(existing.ReplacedByTokenHash))
+            {
+                var successor = await _db.RefreshTokens
+                    .FirstOrDefaultAsync(rt => rt.TokenHash == existing.ReplacedByTokenHash, ct);
+                if (successor is not null && successor.RevokedAtUtc is null && DateTime.UtcNow < successor.ExpiresAtUtc)
+                {
+                    var (reissuedAccess, reissuedExp) = _tokenService.GenerateAccessToken(existing.User);
+                    return new AuthResultWithRefresh
+                    {
+                        RawRefreshToken = rawRefreshToken,
+                        RefreshExpiresAtUtc = successor.ExpiresAtUtc,
+                        Response = new AuthResponse
+                        {
+                            AccessToken = reissuedAccess,
+                            RefreshToken = null,
+                            ExpiresAtUtc = reissuedExp,
+                            User = MapUserDto(existing.User)
+                        }
+                    };
+                }
+            }
+
+            // Token reuse detected outside grace window — revoke all active tokens for this user
             var activeTokens = await _db.RefreshTokens
                 .Where(rt => rt.UserId == existing.UserId && rt.RevokedAtUtc == null)
                 .ToListAsync(ct);
@@ -264,6 +289,7 @@ public class AuthService : IAuthService
             Response = new AuthResponse
             {
                 AccessToken = accessToken,
+                RefreshToken = newRaw,
                 ExpiresAtUtc = expiresAtUtc,
                 User = MapUserDto(existing.User)
             }
@@ -391,6 +417,7 @@ public class AuthService : IAuthService
             Response = new AuthResponse
             {
                 AccessToken = accessToken,
+                RefreshToken = rawRefresh,
                 ExpiresAtUtc = expiresAtUtc,
                 User = MapUserDto(user)
             }
