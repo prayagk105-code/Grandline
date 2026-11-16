@@ -72,7 +72,7 @@ public class AuthService : IAuthService
 
         var user = new User
         {
-            DisplayName = request.DisplayName.Trim(),
+            DisplayName = string.IsNullOrWhiteSpace(request.DisplayName) ? request.Email.Split('@')[0] : request.DisplayName.Trim(),
             Email = request.Email.Trim(),
             NormalizedEmail = normalizedEmail,
             TimeZoneId = string.IsNullOrWhiteSpace(request.TimeZoneId) ? "UTC" : request.TimeZoneId.Trim(),
@@ -172,7 +172,7 @@ public class AuthService : IAuthService
 
         var user = new User
         {
-            DisplayName = request.DisplayName.Trim(),
+            DisplayName = string.IsNullOrWhiteSpace(request.DisplayName) ? request.Email.Split('@')[0] : request.DisplayName.Trim(),
             Email = request.Email.Trim(),
             NormalizedEmail = normalizedEmail,
             TimeZoneId = string.IsNullOrWhiteSpace(request.TimeZoneId) ? "UTC" : request.TimeZoneId.Trim(),

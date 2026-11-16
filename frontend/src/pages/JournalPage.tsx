@@ -135,7 +135,7 @@ export const JournalPage: React.FC = () => {
 
       {!loading && !error ? (
         <div className="df-grid-2">
-          <form className="cd" onSubmit={handleSave} style={{ borderLeft: '3px solid var(--mod-personal)', padding: '16px 18px' }}>
+          <form className="cd cd-personal" onSubmit={handleSave} style={{ padding: '16px 18px' }}>
             <div className="row" style={{ gap: 8, alignItems: 'center', marginBottom: 12 }}>
               <span className="mod-icon mod-icon-personal">
                 <DayformIcon name="pen" size={16} />
@@ -145,10 +145,10 @@ export const JournalPage: React.FC = () => {
 
             {/* Daily Mood & Energy State */}
             <div className="df-grid-2" style={{ marginBottom: 12 }}>
-              <div style={{ background: 'var(--sf)', padding: '8px 10px', borderRadius: 'var(--radius-sm)' }}>
+              <div style={{ background: 'var(--card-personal-inner-bg)', border: '1px solid var(--card-personal-inner-border)', padding: '8px 10px', borderRadius: 'var(--radius-sm)' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
                   <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--mut)' }}>Mood</span>
-                  <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--ac)' }}>
+                  <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--card-personal-accent)' }}>
                     {['😞 Low', '😕 Flat', '😐 Steady', '🙂 Good', '😄 Peak'][moodScore - 1] || `${moodScore}/5`}
                   </span>
                 </div>
@@ -167,10 +167,10 @@ export const JournalPage: React.FC = () => {
                 </div>
               </div>
 
-              <div style={{ background: 'var(--sf)', padding: '8px 10px', borderRadius: 'var(--radius-sm)' }}>
+              <div style={{ background: 'var(--card-personal-inner-bg)', border: '1px solid var(--card-personal-inner-border)', padding: '8px 10px', borderRadius: 'var(--radius-sm)' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
                   <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--mut)' }}>Energy</span>
-                  <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--ac)' }}>⚡ {energyScore}/5</span>
+                  <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--card-personal-accent)' }}>⚡ {energyScore}/5</span>
                 </div>
                 <div style={{ display: 'flex', gap: 4 }}>
                   {[1, 2, 3, 4, 5].map((num) => (
@@ -273,7 +273,7 @@ export const JournalPage: React.FC = () => {
                 <h2>Past Reflections</h2>
               </div>
             </div>
-            <div className="cd">
+            <div className="cd cd-personal">
               {pastEntries.filter((e) => e.entryDate !== activeDate).length > 0 ? (
                 pastEntries
                   .filter((e) => e.entryDate !== activeDate)

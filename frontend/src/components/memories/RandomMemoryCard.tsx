@@ -37,7 +37,7 @@ export const RandomMemoryCard: React.FC = () => {
   }
 
   return (
-    <div className="cd home-card-memory-lane" style={{ borderLeft: '3px solid var(--mod-memories)' }}>
+    <div className="cd cd-memories home-card-memory-lane">
       <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
         <div className="row" style={{ gap: 8, alignItems: 'center' }}>
           <span className="mod-icon mod-icon-memories">

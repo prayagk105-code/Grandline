@@ -363,7 +363,7 @@ export const HabitsPage: React.FC = () => {
                       {filtered.filter((h) => h.completedToday).length} of {filtered.length} completed
                     </span>
                   </div>
-                  <div className="cd" style={{ marginBottom: 0 }}>
+                  <div className="cd cd-habits" style={{ marginBottom: 0 }}>
                     {filtered.map((h) => (
                       <HabitRow
                         key={h.id}
@@ -414,7 +414,7 @@ export const HabitsPage: React.FC = () => {
                 </div>
                 <span className="eyebrow">Last 21 weeks</span>
               </div>
-              <div className="cd">
+              <div className="cd cd-habits">
                 <HabitHeatmap days={heatmap} />
               </div>
             </>

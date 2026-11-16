@@ -39,7 +39,7 @@ export const HomeStudyWidget: React.FC = () => {
   const totalSessions = summary?.totalSessionsAllTime ?? 0;
 
   return (
-    <div className="cd home-card-study" style={{ borderLeft: '3px solid var(--mod-study)', marginBottom: 16 }}>
+    <div className="cd cd-study home-card-study">
       {/* Header */}
       <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
         <div className="row" style={{ gap: 8, alignItems: 'center', minWidth: 0, flex: 1 }}>

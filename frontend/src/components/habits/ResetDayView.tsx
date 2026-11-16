@@ -64,7 +64,7 @@ export const ResetDayView: React.FC<ResetDayViewProps> = ({ habits = [] }) => {
       </div>
 
       {isCompleted ? (
-        <div className="cd" style={{ padding: '20px 24px', textAlign: 'center' }}>
+        <div className="cd cd-habits" style={{ padding: '20px 24px', textAlign: 'center' }}>
           <div style={{ fontSize: 36, marginBottom: 8 }}>🌱</div>
           <h3 style={{ margin: '0 0 6px', fontSize: 18 }}>Clean Slate Established</h3>
           <p className="mut" style={{ margin: '0 auto 16px', maxWidth: 440, fontSize: 13.5 }}>
@@ -74,20 +74,20 @@ export const ResetDayView: React.FC<ResetDayViewProps> = ({ habits = [] }) => {
           <div
             style={{
               textAlign: 'left',
-              background: 'var(--cd-sec)',
+              background: 'var(--card-habits-inner-bg)',
               borderRadius: 'var(--radius-md)',
-              border: '1px solid var(--ln)',
+              border: '1px solid var(--card-habits-inner-border)',
               padding: '12px 14px',
               marginBottom: 16
             }}
           >
             <div style={{ marginBottom: 8 }}>
-              <b style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: 0.5, color: 'var(--mut)' }}>Weekly Focus:</b>
+              <b style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: 0.5, color: 'var(--card-habits-accent)' }}>Weekly Focus:</b>
               <p style={{ margin: '2px 0 0', fontSize: 13.5, fontWeight: 500 }}>{weeklyIntention || 'Relentless execution with zero drama.'}</p>
             </div>
             {adjustments && (
               <div>
-                <b style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: 0.5, color: 'var(--mut)' }}>Guardrails & Fixes:</b>
+                <b style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: 0.5, color: 'var(--card-habits-accent)' }}>Guardrails & Fixes:</b>
                 <p style={{ margin: '2px 0 0', fontSize: 13.5 }}>{adjustments}</p>
               </div>
             )}
@@ -105,7 +105,7 @@ export const ResetDayView: React.FC<ResetDayViewProps> = ({ habits = [] }) => {
           </button>
         </div>
       ) : (
-        <div className="cd" style={{ padding: '16px 18px' }}>
+        <div className="cd cd-discipline" style={{ padding: '16px 18px' }}>
           {step === 1 && (
             <div>
               <h3 style={{ margin: '0 0 10px', fontSize: 18 }}>Step 1: The Non-Judgmental Audit</h3>

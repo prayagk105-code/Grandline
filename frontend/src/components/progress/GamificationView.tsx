@@ -98,11 +98,7 @@ export const GamificationView: React.FC = () => {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
       {/* Header Profile / Tier Banner */}
       <div
-        className="cd"
-        style={{
-          background: 'linear-gradient(135deg, var(--cd) 0%, var(--sf) 100%)',
-          border: '1px solid var(--ln)'
-        }}
+        className="cd cd-progress"
       >
         <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
           <div>
@@ -140,7 +136,7 @@ export const GamificationView: React.FC = () => {
       </div>
 
       {/* Daily Missions */}
-      <div className="cd" style={{ padding: 22 }}>
+      <div className="cd cd-progress" style={{ padding: 22 }}>
         <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
           <div>
             <h3 style={{ margin: '0 0 2px', fontSize: 18 }}>Daily Missions & Bounties</h3>
@@ -162,9 +158,9 @@ export const GamificationView: React.FC = () => {
                   justifyContent: 'space-between',
                   alignItems: 'center',
                   padding: '12px 16px',
-                  background: 'var(--cd-sec)',
+                  background: 'var(--card-progress-inner-bg)',
                   borderRadius: 'var(--radius-md)',
-                  border: m.isClaimed ? '1px solid var(--ln)' : isCompleted ? '1px solid var(--ac)' : '1px solid var(--ln)',
+                  border: m.isClaimed ? '1px solid var(--card-progress-inner-border)' : isCompleted ? '1px solid var(--card-progress-accent)' : '1px solid var(--card-progress-inner-border)',
                   opacity: m.isClaimed ? 0.7 : 1
                 }}
               >
@@ -200,7 +196,7 @@ export const GamificationView: React.FC = () => {
       </div>
 
       {/* Badges & Achievements Grid */}
-      <div className="cd" style={{ padding: 22 }}>
+      <div className="cd cd-progress" style={{ padding: 22 }}>
         <h3 style={{ margin: '0 0 6px', fontSize: 18 }}>Achievement Badges</h3>
         <p className="mut" style={{ margin: '0 0 16px', fontSize: 12 }}>
           Earn permanent badges for remarkable consistency and milestones.
@@ -222,8 +218,8 @@ export const GamificationView: React.FC = () => {
                 style={{
                   padding: 14,
                   borderRadius: 10,
-                  background: 'var(--sf)',
-                  border: '1px solid var(--ac)',
+                  background: 'var(--card-progress-inner-bg)',
+                  border: '1px solid var(--card-progress-border)',
                   display: 'flex',
                   alignItems: 'center',
                   gap: 12
@@ -242,7 +238,7 @@ export const GamificationView: React.FC = () => {
       </div>
 
       {/* Custom Rewards Store */}
-      <div className="cd" style={{ padding: 22 }}>
+      <div className="cd cd-progress" style={{ padding: 22 }}>
         <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
           <div>
             <h3 style={{ margin: '0 0 2px', fontSize: 18 }}>XP Rewards Store</h3>

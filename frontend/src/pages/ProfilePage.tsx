@@ -242,7 +242,7 @@ export const ProfilePage: React.FC = () => {
       <PageHeader eyebrow="Your space" title="Profile & Preferences" subtitle="Account, security PIN, backups, and data ownership." />
 
       <div
-        className="cd"
+        className="cd cd-discipline"
         style={{
           display: 'flex',
           alignItems: 'center',
@@ -281,7 +281,7 @@ export const ProfilePage: React.FC = () => {
       </div>
 
       <div className="df-grid-2">
-        <form className="cd" onSubmit={handleSave}>
+        <form className="cd cd-neutral" onSubmit={handleSave}>
           <b className="d" style={{ display: 'block', marginBottom: 12, fontSize: 16 }}>
             Personal Details
           </b>
@@ -347,7 +347,7 @@ export const ProfilePage: React.FC = () => {
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
           {/* App Lock / Security PIN */}
-          <div className="cd">
+          <div className="cd cd-neutral">
             <b className="d" style={{ display: 'block', marginBottom: 6, fontSize: 16 }}>
               🛡️ App Lock / PIN Protection
             </b>
@@ -380,7 +380,7 @@ export const ProfilePage: React.FC = () => {
           </div>
 
           {/* Progressive Web App (PWA) Section */}
-          <div className="cd">
+          <div className="cd cd-neutral">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
               <b className="d" style={{ fontSize: 16 }}>
                 📱 Mobile App & PWA
@@ -406,7 +406,7 @@ export const ProfilePage: React.FC = () => {
           </div>
 
           {/* Data Export & Backup */}
-          <div className="cd">
+          <div className="cd cd-neutral">
             <b className="d" style={{ display: 'block', marginBottom: 6, fontSize: 16 }}>
               Data Ownership & Exports
             </b>
@@ -458,7 +458,7 @@ export const ProfilePage: React.FC = () => {
           </div>
 
           {/* Danger Zone */}
-          <div className="cd" style={{ border: '1px solid rgba(239, 68, 68, 0.3)' }}>
+          <div className="cd cd-danger">
             <b className="d" style={{ display: 'block', marginBottom: 6, fontSize: 16, color: '#dc2626' }}>
               Account & Danger Zone
             </b>

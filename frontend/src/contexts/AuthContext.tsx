@@ -1,6 +1,6 @@
 import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
-import { authService, type LoginPayload, type RegisterPayload, type VerifyOtpAndRegisterPayload } from '../services/authService';
-import { setAccessToken, setOnAuthExpired } from '../services/api/apiClient';
+import { authService, type LoginPayload, type RegisterPayload } from '../services/authService';
+import { getAccessToken, setAccessToken, setOnAuthExpired } from '../services/api/apiClient';
 import type { UserDto } from '../types/api';
 import { applyThemePreference, getCachedTheme } from '../utils/theme';
 
@@ -10,8 +10,6 @@ interface AuthContextValue {
   isAuthenticated: boolean;
   login: (payload: LoginPayload) => Promise<void>;
   register: (payload: RegisterPayload) => Promise<void>;
-  verifyOtpAndRegister: (payload: VerifyOtpAndRegisterPayload) => Promise<void>;
-  demoLogin: () => Promise<void>;
   logout: () => Promise<void>;
   setUser: React.Dispatch<React.SetStateAction<UserDto | null>>;
 }
@@ -31,20 +29,46 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     });
 
     let active = true;
-    authService
-      .refresh()
-      .then((res) => {
-        if (!active) return;
-        if (res?.user) {
-          setUser(res.user);
-          applyThemePreference(res.user.themePreference);
-        } else {
-          setUser(null);
+
+    const initAuth = async () => {
+      try {
+        const token = getAccessToken();
+        if (token) {
+          try {
+            const meUser = await authService.me();
+            if (active && meUser) {
+              setUser(meUser);
+              applyThemePreference(meUser.themePreference);
+              return;
+            }
+          } catch {
+            // Token may need refreshing
+          }
         }
-      })
-      .finally(() => {
-        if (active) setIsLoading(false);
-      });
+
+        const res = await authService.refresh();
+        if (active) {
+          if (res?.user) {
+            setUser(res.user);
+            applyThemePreference(res.user.themePreference);
+          } else {
+            setUser(null);
+            setAccessToken(null);
+          }
+        }
+      } catch {
+        if (active) {
+          setUser(null);
+          setAccessToken(null);
+        }
+      } finally {
+        if (active) {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    initAuth();
 
     return () => {
       active = false;
@@ -59,21 +83,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   const register = useCallback(async (payload: RegisterPayload) => {
-    const res = await authService.register(payload);
-    setUser(res.user);
-    applyThemePreference(res.user.themePreference);
-  }, []);
-
-  const verifyOtpAndRegister = useCallback(async (payload: VerifyOtpAndRegisterPayload) => {
-    const res = await authService.verifyOtpAndRegister(payload);
-    setUser(res.user);
-    applyThemePreference(res.user.themePreference);
-  }, []);
-
-  const demoLogin = useCallback(async () => {
-    const res = await authService.demoLogin();
-    setUser(res.user);
-    applyThemePreference(res.user.themePreference);
+    await authService.register(payload);
   }, []);
 
   const logout = useCallback(async () => {
@@ -89,8 +99,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         isAuthenticated: Boolean(user),
         login,
         register,
-        verifyOtpAndRegister,
-        demoLogin,
         logout,
         setUser
       }}

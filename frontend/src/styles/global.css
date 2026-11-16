@@ -140,14 +140,15 @@ h4 {
   border-radius: 50%;
 }
 
-/* Journey Progress Banner */
+/* Journey Progress Banner - Minimal Dark */
 .home-journey-banner {
   padding: 14px 18px;
   border-radius: var(--radius-xl);
-  background: var(--cd);
-  border: 1px solid var(--ln);
+  background: var(--home-box-bg);
+  border: 1px solid var(--home-box-border);
+  border-top: 2.5px solid #818CF8;
   margin-bottom: 16px;
-  box-shadow: var(--shadow-xs);
+  box-shadow: var(--home-box-shadow);
   display: flex;
   flex-direction: column;
   gap: 9px;
@@ -170,16 +171,17 @@ h4 {
 .home-stat-box {
   padding: 12px 14px;
   border-radius: var(--radius-lg);
-  background: var(--cd-sec);
-  border: 1px solid var(--ln);
+  background: var(--home-box-inner-bg);
+  border: 1px solid var(--home-box-inner-border);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: transform 0.1s ease, border-color 0.15s ease;
+  transition: transform 0.1s ease, border-color 0.15s ease, background 0.15s ease;
 }
 
 .home-stat-box:hover {
-  border-color: var(--ac);
+  border-color: var(--ln-subtle);
+  background: var(--sf);
 }
 
 .home-stat-top {
@@ -199,27 +201,27 @@ h4 {
 
 .home-stat-val {
   font: 700 18px var(--font-display);
-  color: var(--ink);
+  color: var(--home-box-text-main);
   letter-spacing: -0.015em;
 }
 
 .home-stat-label {
   font-size: 11.5px;
   font-weight: 500;
-  color: var(--mut);
+  color: var(--home-box-text-muted);
   margin-bottom: 6px;
 }
 
 .home-stat-sub {
   font-size: 10.5px;
-  color: var(--mut);
+  color: var(--home-box-text-muted);
 }
 
 .home-stat-bar-wrap {
   height: 4px;
   width: 100%;
   border-radius: 999px;
-  background: var(--cd);
+  background: rgba(255, 255, 255, 0.1);
   overflow: hidden;
 }
 
@@ -234,63 +236,501 @@ h4 {
   border-color: var(--ln) !important;
 }
 
-/* Cards on Home - Distinctive Visual Personalities & Polish */
+/* ==========================================================================
+   GRANDLINE Individual Card Background Color System & Polish
+   Applies purposeful, theme-compatible full surface tints to every suitable card
+   ========================================================================== */
+
+/* ==========================================================================
+   GRANDLINE Minimal Card Color System
+   Clean, subtle minimal color tints across all cards and dashboards
+   ========================================================================== */
+
+/* Universal Module Card Classes */
+.cd-habits,
+.home-card-habits {
+  background: var(--card-habits-bg) !important;
+  border: 1px solid var(--card-habits-border) !important;
+}
+
+.cd-habits:hover,
+.home-card-habits:hover {
+  border-color: var(--card-habits-border-hover) !important;
+}
+
+.cd-priorities,
 .home-card-priorities,
+.home-card-pinned {
+  background: var(--card-priorities-bg) !important;
+  border: 1px solid var(--card-priorities-border) !important;
+}
+
+.cd-priorities:hover,
+.home-card-priorities:hover,
+.home-card-pinned:hover {
+  border-color: var(--card-priorities-border-hover) !important;
+}
+
+.cd-study,
+.home-card-study {
+  background: var(--card-study-bg) !important;
+  border: 1px solid var(--card-study-border) !important;
+}
+
+.cd-study:hover,
+.home-card-study:hover {
+  border-color: var(--card-study-border-hover) !important;
+}
+
+.cd-progress,
 .home-card-daily-progress,
-.home-card-focus,
-.home-card-discipline,
-.home-card-goals,
-.home-card-habits,
-.home-card-missions,
-.home-card-schedule,
-.home-card-checkin,
+.home-card-goals {
+  background: var(--card-progress-bg) !important;
+  border: 1px solid var(--card-progress-border) !important;
+}
+
+.cd-progress:hover,
+.home-card-daily-progress:hover,
+.home-card-goals:hover {
+  border-color: var(--card-progress-border-hover) !important;
+}
+
+.cd-balance,
+.home-card-balance,
+.home-card-balance-snapshot {
+  background: var(--card-balance-bg) !important;
+  border: 1px solid var(--card-balance-border) !important;
+}
+
+.cd-balance:hover,
+.home-card-balance:hover,
+.home-card-balance-snapshot:hover {
+  border-color: var(--card-balance-border-hover) !important;
+}
+
+.cd-focus,
+.home-card-focus {
+  background: var(--card-focus-bg) !important;
+  border: 1px solid var(--card-focus-border) !important;
+}
+
+.cd-focus:hover,
+.home-card-focus:hover {
+  border-color: var(--card-focus-border-hover) !important;
+}
+
+.cd-planner,
+.home-card-schedule {
+  background: var(--card-planner-bg) !important;
+  border: 1px solid var(--card-planner-border) !important;
+}
+
+.cd-planner:hover,
+.home-card-schedule:hover {
+  border-color: var(--card-planner-border-hover) !important;
+}
+
+.cd-memories,
 .home-card-memory-lane {
+  background: var(--card-memories-bg) !important;
+  border: 1px solid var(--card-memories-border) !important;
+}
+
+.cd-memories:hover,
+.home-card-memory-lane:hover {
+  border-color: var(--card-memories-border-hover) !important;
+}
+
+.cd-health {
+  background: var(--card-health-bg) !important;
+  border: 1px solid var(--card-health-border) !important;
+}
+
+.cd-health:hover {
+  border-color: var(--card-health-border-hover) !important;
+}
+
+.cd-personal,
+.home-card-checkin {
+  background: var(--card-personal-bg) !important;
+  border: 1px solid var(--card-personal-border) !important;
+}
+
+.cd-personal:hover,
+.home-card-checkin:hover {
+  border-color: var(--card-personal-border-hover) !important;
+}
+
+.cd-discipline,
+.home-card-discipline,
+.home-card-consistency,
+.home-card-missions,
+.home-journey-banner,
+.home-mobile-greeting {
+  background: var(--card-discipline-bg) !important;
+  border: 1px solid var(--card-discipline-border) !important;
+}
+
+.cd-discipline:hover,
+.home-card-discipline:hover,
+.home-card-consistency:hover,
+.home-card-missions:hover,
+.home-journey-banner:hover,
+.home-mobile-greeting:hover {
+  border-color: var(--card-discipline-border-hover) !important;
+}
+
+.cd-danger,
+.cd-overdue {
+  background: var(--card-danger-bg) !important;
+  border: 1px solid var(--card-danger-border) !important;
+}
+
+.cd-danger:hover,
+.cd-overdue:hover {
+  border-color: var(--card-danger-border-hover) !important;
+}
+
+.cd-neutral {
+  background: var(--card-neutral-bg) !important;
+  border: 1px solid var(--card-neutral-border) !important;
+}
+
+.cd-neutral:hover {
+  border-color: var(--card-neutral-border-hover) !important;
+}
+
+/* Card Container Standards (Shadows, Radii & Smooth Transitions) */
+[class*="cd-"],
+[class*="home-card-"],
+.home-journey-banner,
+.home-mobile-greeting {
+  border-radius: var(--radius-lg);
   margin-bottom: 16px;
   position: relative;
   overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
   transition: border-color 0.2s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.15s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.home-card-priorities {
-  border-left: 3px solid var(--hot);
+[class*="cd-"]:hover,
+[class*="home-card-"]:hover,
+.home-journey-banner:hover,
+.home-mobile-greeting:hover {
+  box-shadow: 0 4px 14px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  transform: translateY(-1px);
 }
 
-.home-card-habits {
-  border-left: 3px solid var(--mod-habits);
+/* Metric Strip (Stat Cards) on Home Screen & Dashboards */
+.df-metric-strip .st {
+  background: #FFFFFF !important;
+  border: 1px solid var(--ln) !important;
+  border-radius: var(--radius-md);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  transition: border-color 0.18s ease, transform 0.15s ease, box-shadow 0.18s ease;
 }
 
-.home-card-focus {
-  border-left: 3px solid var(--mod-focus);
+.df-metric-strip .st:hover {
+  border-color: var(--ac) !important;
+  box-shadow: 0 4px 14px -2px rgba(0, 0, 0, 0.08) !important;
+  transform: translateY(-2px);
 }
 
-.home-card-discipline {
-  border-left: 3px solid var(--ac);
+.df-metric-strip .st .l {
+  color: var(--mut) !important;
 }
 
-.home-card-goals {
-  border-left: 3px solid var(--mod-progress);
+.df-metric-strip .st .v {
+  color: var(--ink) !important;
 }
 
-.home-card-schedule {
-  border-left: 3px solid var(--mod-planner);
+.df-metric-strip .st small {
+  color: var(--mut) !important;
 }
 
-.home-card-checkin {
-  border-left: 3px solid var(--mod-personal);
+.df-metric-strip .st .st-icon-wrap {
+  background: var(--sf) !important;
 }
 
-.home-card-daily-progress {
-  border-left: 3px solid var(--ac);
+/* Icon Containers for Each Module */
+.cd-habits .mod-icon,
+.home-card-habits .mod-icon,
+.home-card-habits .mod-icon-habits {
+  background: var(--card-habits-icon-bg) !important;
+  color: var(--card-habits-icon-color) !important;
 }
 
-.home-card-missions {
-  border-left: 3px solid var(--hot);
+.cd-priorities .mod-icon,
+.home-card-priorities .mod-icon,
+.home-card-pinned .mod-icon {
+  background: var(--card-priorities-icon-bg) !important;
+  color: var(--card-priorities-icon-color) !important;
 }
 
-.home-card-memory-lane {
-  border-left: 3px solid var(--mod-memories);
+.cd-study .mod-icon,
+.home-card-study .mod-icon,
+.home-card-study .mod-icon-study {
+  background: var(--card-study-icon-bg) !important;
+  color: var(--card-study-icon-color) !important;
+}
+
+.cd-planner .mod-icon,
+.home-card-schedule .mod-icon,
+.home-card-schedule .mod-icon-planner {
+  background: var(--card-planner-icon-bg) !important;
+  color: var(--card-planner-icon-color) !important;
+}
+
+.cd-progress .mod-icon,
+.home-card-daily-progress .mod-icon,
+.home-card-goals .mod-icon {
+  background: var(--card-progress-icon-bg) !important;
+  color: var(--card-progress-icon-color) !important;
+}
+
+.cd-focus .mod-icon,
+.home-card-focus .mod-icon,
+.home-card-focus .mod-icon-focus {
+  background: var(--card-focus-icon-bg) !important;
+  color: var(--card-focus-icon-color) !important;
+}
+
+.cd-discipline .mod-icon,
+.home-card-missions .mod-icon,
+.home-card-discipline .mod-icon,
+.home-card-consistency .mod-icon,
+.home-card-missions .mod-icon-home,
+.home-card-consistency .mod-icon-home {
+  background: var(--card-discipline-icon-bg) !important;
+  color: var(--card-discipline-icon-color) !important;
+}
+
+.cd-balance .mod-icon,
+.home-card-balance .mod-icon,
+.home-card-balance-snapshot .mod-icon,
+.home-card-balance .mod-icon-balance {
+  background: var(--card-balance-icon-bg) !important;
+  color: var(--card-balance-icon-color) !important;
+}
+
+.cd-personal .mod-icon,
+.home-card-checkin .mod-icon {
+  background: var(--card-personal-icon-bg) !important;
+  color: var(--card-personal-icon-color) !important;
+}
+
+.cd-memories .mod-icon,
+.home-card-memory-lane .mod-icon {
+  background: var(--card-memories-icon-bg) !important;
+  color: var(--card-memories-icon-color) !important;
+}
+
+/* Card Typography - Light Mode: Clean Charcoal and Slate */
+[class*="cd-"] h1, [class*="cd-"] h2, [class*="cd-"] h3, [class*="cd-"] h4, [class*="cd-"] h5, [class*="cd-"] h6,
+[class*="cd-"] .d, [class*="cd-"] strong:not(.badge), [class*="cd-"] b:not(.badge),
+[class*="home-card-"] h1, [class*="home-card-"] h2, [class*="home-card-"] h3, [class*="home-card-"] h4, [class*="home-card-"] h5, [class*="home-card-"] h6,
+[class*="home-card-"] .d, [class*="home-card-"] strong:not(.badge), [class*="home-card-"] b:not(.badge),
+.home-stat-val,
+.home-priority-row b,
+.home-priority-row .d,
+.home-discipline-pillar-val,
+.home-journey-banner b,
+.home-mobile-title {
+  color: var(--ink) !important;
+}
+
+[class*="cd-"] .mut, [class*="cd-"] small:not(.badge),
+[class*="home-card-"] .mut, [class*="home-card-"] small:not(.badge),
+.home-stat-label,
+.home-stat-sub,
+.home-section-subtitle,
+.home-priority-row span,
+.home-journey-top span,
+.home-mobile-subtitle,
+.home-mobile-date {
+  color: var(--mut) !important;
+}
+
+/* Card Inner Panels & Rows: Clean White Surfaces */
+.home-priority-row,
+.home-card-habits .li,
+.home-stat-box,
+.home-discipline-pillar-card,
+[class*="home-card-"] [style*="background: var(--cd-sec)"],
+[class*="home-card-"] [style*="background:var(--cd-sec)"],
+[class*="home-card-"] [style*="background: var(--sf)"],
+[class*="home-card-"] [style*="background:var(--sf)"],
+[class*="cd-"] [style*="background: var(--cd-sec)"],
+[class*="cd-"] [style*="background:var(--cd-sec)"],
+[class*="cd-"] [style*="background: var(--sf)"],
+[class*="cd-"] [style*="background:var(--sf)"] {
+  background: #FFFFFF !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  border-radius: var(--radius-md);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03) !important;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.home-priority-row:hover,
+.home-card-habits .li:hover,
+.home-stat-box:hover {
+  background: #FAF9FE !important;
+  border-color: rgba(0, 0, 0, 0.14) !important;
+}
+
+.home-card-consistency .wk button {
+  background: #FFFFFF !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  color: var(--ink) !important;
+  border-radius: var(--radius-sm);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03) !important;
+}
+
+.home-card-consistency .wk button:hover {
+  background: #F4F2FA !important;
+}
+
+.home-card-consistency .wk button.tdy {
+  border-color: var(--ac) !important;
+  background: #EFEBF8 !important;
+  font-weight: 700;
+}
+
+[class*="home-card-"] [style*="background: var(--cd)"],
+[class*="home-card-"] [style*="background:var(--cd)"],
+[class*="cd-"] [style*="background: var(--cd)"],
+[class*="cd-"] [style*="background:var(--cd)"],
+.home-stat-bar-wrap {
+  background: rgba(0, 0, 0, 0.07) !important;
+}
+
+/* Secondary, Ghost & Icon Buttons inside Cards */
+[class*="home-card-"] .btn.sec,
+[class*="home-card-"] .btn.ghost,
+[class*="home-card-"] .ib,
+[class*="home-card-"] .home-view-toggle-btn,
+[class*="cd-"] .btn.sec,
+[class*="cd-"] .btn.ghost,
+[class*="cd-"] .ib {
+  background: #FFFFFF !important;
+  color: var(--ink) !important;
+  border: 1px solid var(--ln) !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+}
+
+[class*="home-card-"] .btn.sec:hover,
+[class*="home-card-"] .btn.ghost:hover,
+[class*="home-card-"] .ib:hover,
+[class*="home-card-"] .home-view-toggle-btn:hover,
+[class*="cd-"] .btn.sec:hover,
+[class*="cd-"] .btn.ghost:hover,
+[class*="cd-"] .ib:hover {
+  background: #F7F6FB !important;
+  border-color: #D2CFDF !important;
+  color: var(--ink) !important;
+}
+
+/* Links inside Cards */
+[class*="cd-"] .lk,
+[class*="home-card-"] .lk,
+.home-journey-banner .lk {
+  color: var(--ac) !important;
+  font-weight: 600;
+}
+
+[class*="cd-"] .lk:hover,
+[class*="home-card-"] .lk:hover,
+.home-journey-banner .lk:hover {
+  color: var(--ac-hover) !important;
+  text-decoration: underline;
+}
+
+/* Form Inputs inside Cards */
+[class*="cd-"] .inp,
+[class*="cd-"] input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not(.btn),
+[class*="cd-"] textarea,
+[class*="cd-"] select,
+[class*="home-card-"] .inp,
+[class*="home-card-"] input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not(.btn),
+[class*="home-card-"] textarea,
+[class*="home-card-"] select {
+  background: #FFFFFF !important;
+  border: 1px solid var(--ln) !important;
+  color: var(--ink) !important;
+}
+
+/* ==========================================================================
+   Dark Mode Overrides for Cards & High-Contrast Readability
+   ========================================================================== */
+:root[data-theme='dark'] [class*="cd-"] h1, :root[data-theme='dark'] [class*="cd-"] h2, :root[data-theme='dark'] [class*="cd-"] h3,
+:root[data-theme='dark'] [class*="cd-"] .d, :root[data-theme='dark'] [class*="cd-"] b:not(.badge),
+:root[data-theme='dark'] [class*="home-card-"] h1, :root[data-theme='dark'] [class*="home-card-"] h2, :root[data-theme='dark'] [class*="home-card-"] h3,
+:root[data-theme='dark'] [class*="home-card-"] .d, :root[data-theme='dark'] [class*="home-card-"] b:not(.badge),
+:root[data-theme='dark'] .home-stat-val,
+:root[data-theme='dark'] .home-priority-row b,
+:root[data-theme='dark'] .home-priority-row .d,
+:root[data-theme='dark'] .home-discipline-pillar-val,
+:root[data-theme='dark'] .home-journey-banner b,
+:root[data-theme='dark'] .home-mobile-title {
+  color: #FFFFFF !important;
+}
+
+:root[data-theme='dark'] [class*="cd-"] .mut,
+:root[data-theme='dark'] [class*="home-card-"] .mut,
+:root[data-theme='dark'] .home-stat-label,
+:root[data-theme='dark'] .home-stat-sub,
+:root[data-theme='dark'] .home-priority-row span,
+:root[data-theme='dark'] .home-mobile-subtitle {
+  color: rgba(255, 255, 255, 0.72) !important;
+}
+
+:root[data-theme='dark'] .home-priority-row,
+:root[data-theme='dark'] .home-card-habits .li,
+:root[data-theme='dark'] .home-stat-box,
+:root[data-theme='dark'] .home-discipline-pillar-card,
+:root[data-theme='dark'] [class*="home-card-"] [style*="background: var(--cd-sec)"],
+:root[data-theme='dark'] [class*="home-card-"] [style*="background:var(--cd-sec)"],
+:root[data-theme='dark'] [class*="home-card-"] [style*="background: var(--sf)"],
+:root[data-theme='dark'] [class*="home-card-"] [style*="background:var(--sf)"],
+:root[data-theme='dark'] [class*="cd-"] [style*="background: var(--cd-sec)"],
+:root[data-theme='dark'] [class*="cd-"] [style*="background:var(--cd-sec)"],
+:root[data-theme='dark'] [class*="cd-"] [style*="background: var(--sf)"],
+:root[data-theme='dark'] [class*="cd-"] [style*="background:var(--sf)"] {
+  background: rgba(0, 0, 0, 0.25) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: none !important;
+}
+
+:root[data-theme='dark'] [class*="home-card-"] .btn.sec,
+:root[data-theme='dark'] [class*="home-card-"] .ib,
+:root[data-theme='dark'] [class*="cd-"] .btn.sec,
+:root[data-theme='dark'] [class*="cd-"] .ib {
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #FFFFFF !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+}
+
+:root[data-theme='dark'] [class*="home-card-"] .btn.sec:hover,
+:root[data-theme='dark'] [class*="home-card-"] .ib:hover {
+  background: rgba(255, 255, 255, 0.16) !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+}
+
+:root[data-theme='dark'] .df-metric-strip .st {
+  background: var(--cd) !important;
+  border: 1px solid var(--ln) !important;
+}
+
+:root[data-theme='dark'] .df-metric-strip .st .v {
+  color: #FFFFFF !important;
+}
+
+:root[data-theme='dark'] .home-card-consistency .wk button {
+  background: rgba(0, 0, 0, 0.25) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #FFFFFF !important;
 }
 
 /* Discipline Score Inner Cards (Requirement 5) */
@@ -301,8 +741,8 @@ h4 {
 }
 
 .home-discipline-pillar-card {
-  background: var(--sf);
-  border: 1px solid var(--ln);
+  background: var(--home-box-inner-bg);
+  border: 1px solid var(--home-box-inner-border);
   border-radius: var(--radius-md);
   padding: 8px 10px;
   display: flex;
@@ -330,7 +770,7 @@ h4 {
 .home-discipline-pillar-label {
   font-size: 11px;
   font-weight: 600;
-  color: var(--mut);
+  color: var(--home-box-text-muted);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -341,14 +781,14 @@ h4 {
 .home-discipline-pillar-weight {
   font-size: 10px;
   font-weight: 500;
-  color: var(--mut);
+  color: var(--home-box-text-muted);
   flex-shrink: 0;
 }
 
 .home-discipline-pillar-val {
   font-size: 16px;
   font-weight: 700;
-  color: var(--ink);
+  color: var(--home-box-text-main);
   line-height: 1.2;
   font-family: var(--font-display);
 }
@@ -356,8 +796,8 @@ h4 {
 .home-discipline-pillar-bar {
   height: 4px;
   border-radius: 999px;
-  background: var(--cd);
-  border: 1px solid var(--ln-subtle);
+  background: var(--home-stat-bar-track, rgba(0, 0, 0, 0.08));
+  border: none;
   overflow: hidden;
   margin-top: 2px;
 }
@@ -530,7 +970,7 @@ h4 {
   gap: 12px 14px;
 }
 
-.ph > div:first-child {
+.ph>div:first-child {
   flex: 1 1 220px;
   min-width: 0;
 }
@@ -593,8 +1033,8 @@ h4 {
   margin-bottom: 12px;
   box-shadow: var(--shadow-card);
   transition: border-color 0.2s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.15s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
 }
 
@@ -678,8 +1118,8 @@ h4 {
   overflow: hidden;
   box-shadow: var(--shadow-xs);
   transition: border-color 0.18s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.15s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+    transform 0.15s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.18s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .st:hover {
@@ -734,49 +1174,267 @@ h4 {
   flex-shrink: 0;
 }
 
-.st-accent-orange { border-left: 3px solid var(--hot); }
-.st-accent-orange .l { color: var(--hot); }
-.st-accent-orange .st-icon-wrap { color: var(--hot); background: var(--hot-soft); }
+/* Meaningful Full-Surface Color System for Stat Cards */
+.st.st-accent-orange {
+  background: var(--card-priorities-bg);
+  border: 1px solid var(--card-priorities-border);
+}
 
-.st-accent-green { border-left: 3px solid var(--color-success, #287447); }
-.st-accent-green .l { color: var(--color-success, #287447); }
-.st-accent-green .st-icon-wrap { color: var(--color-success, #287447); background: var(--color-success-bg, #EAF5EE); }
+.st.st-accent-orange:hover {
+  border-color: var(--card-priorities-border-hover);
+  box-shadow: var(--shadow-md);
+}
 
-.st-accent-blue { border-left: 3px solid var(--color-calm, #2563eb); }
-.st-accent-blue .l { color: var(--color-calm, #2563eb); }
-.st-accent-blue .st-icon-wrap { color: var(--color-calm, #2563eb); background: var(--color-calm-bg, #EFF6FF); }
+.st.st-accent-orange .l {
+  color: var(--card-priorities-text-muted);
+}
 
-.st-accent-teal { border-left: 3px solid #0d9488; }
-.st-accent-teal .l { color: #0d9488; }
-.st-accent-teal .st-icon-wrap { color: #0d9488; background: var(--mod-balance-soft); }
+.st.st-accent-orange .v {
+  color: var(--card-priorities-accent);
+}
 
-.st-accent-purple { border-left: 3px solid #7775C7; }
-.st-accent-purple .l { color: #7775C7; }
-.st-accent-purple .st-icon-wrap { color: #7775C7; background: var(--mod-focus-soft); }
+.st.st-accent-orange .st-icon-wrap {
+  color: var(--card-priorities-icon-color);
+  background: var(--card-priorities-icon-bg);
+}
 
-.st-accent-forest { border-left: 3px solid var(--ac); }
-.st-accent-forest .l { color: var(--ac); }
-.st-accent-forest .st-icon-wrap { color: var(--ac); background: var(--ac2); }
+.st.st-accent-green {
+  background: var(--card-habits-bg);
+  border: 1px solid var(--card-habits-border);
+}
 
-.st-accent-amber { border-left: 3px solid var(--color-warning, #d97706); }
-.st-accent-amber .l { color: var(--color-warning, #d97706); }
-.st-accent-amber .st-icon-wrap { color: var(--color-warning, #d97706); background: var(--color-warning-bg, #FEF9EE); }
+.st.st-accent-green:hover {
+  border-color: var(--card-habits-border-hover);
+  box-shadow: var(--shadow-md);
+}
 
-.st-accent-red { border-left: 3px solid var(--color-danger, #dc2626); }
-.st-accent-red .l { color: var(--color-danger, #dc2626); }
-.st-accent-red .st-icon-wrap { color: var(--color-danger, #dc2626); background: var(--color-danger-bg, #FEF2F2); }
+.st.st-accent-green .l {
+  color: var(--card-habits-text-muted);
+}
 
-.st-accent-indigo { border-left: 3px solid #6366f1; }
-.st-accent-indigo .l { color: #6366f1; }
-.st-accent-indigo .st-icon-wrap { color: #6366f1; background: var(--mod-planner-soft); }
+.st.st-accent-green .v {
+  color: var(--card-habits-accent);
+}
 
-.st-accent-rose { border-left: 3px solid #d94676; }
-.st-accent-rose .l { color: #d94676; }
-.st-accent-rose .st-icon-wrap { color: #d94676; background: var(--mod-memories-soft); }
+.st.st-accent-green .st-icon-wrap {
+  color: var(--card-habits-icon-color);
+  background: var(--card-habits-icon-bg);
+}
 
-.st-accent-sage { border-left: 3px solid #3d8b57; }
-.st-accent-sage .l { color: #3d8b57; }
-.st-accent-sage .st-icon-wrap { color: #3d8b57; background: var(--mod-health-soft); }
+.st.st-accent-blue {
+  background: var(--card-study-bg);
+  border: 1px solid var(--card-study-border);
+}
+
+.st.st-accent-blue:hover {
+  border-color: var(--card-study-border-hover);
+  box-shadow: var(--shadow-md);
+}
+
+.st.st-accent-blue .l {
+  color: var(--card-study-text-muted);
+}
+
+.st.st-accent-blue .v {
+  color: var(--card-study-accent);
+}
+
+.st.st-accent-blue .st-icon-wrap {
+  color: var(--card-study-icon-color);
+  background: var(--card-study-icon-bg);
+}
+
+.st.st-accent-teal {
+  background: var(--card-balance-bg);
+  border: 1px solid var(--card-balance-border);
+}
+
+.st.st-accent-teal:hover {
+  border-color: var(--card-balance-border-hover);
+  box-shadow: var(--shadow-md);
+}
+
+.st.st-accent-teal .l {
+  color: var(--card-balance-text-muted);
+}
+
+.st.st-accent-teal .v {
+  color: var(--card-balance-accent);
+}
+
+.st.st-accent-teal .st-icon-wrap {
+  color: var(--card-balance-icon-color);
+  background: var(--card-balance-icon-bg);
+}
+
+.st.st-accent-purple {
+  background: var(--card-focus-bg);
+  border: 1px solid var(--card-focus-border);
+}
+
+.st.st-accent-purple:hover {
+  border-color: var(--card-focus-border-hover);
+  box-shadow: var(--shadow-md);
+}
+
+.st.st-accent-purple .l {
+  color: var(--card-focus-text-muted);
+}
+
+.st.st-accent-purple .v {
+  color: var(--card-focus-accent);
+}
+
+.st.st-accent-purple .st-icon-wrap {
+  color: var(--card-focus-icon-color);
+  background: var(--card-focus-icon-bg);
+}
+
+.st.st-accent-forest {
+  background: var(--card-discipline-bg);
+  border: 1px solid var(--card-discipline-border);
+}
+
+.st.st-accent-forest:hover {
+  border-color: var(--card-discipline-border-hover);
+  box-shadow: var(--shadow-md);
+}
+
+.st.st-accent-forest .l {
+  color: var(--card-discipline-text-muted);
+}
+
+.st.st-accent-forest .v {
+  color: var(--card-discipline-accent);
+}
+
+.st.st-accent-forest .st-icon-wrap {
+  color: var(--card-discipline-icon-color);
+  background: var(--card-discipline-icon-bg);
+}
+
+.st.st-accent-amber {
+  background: var(--card-progress-bg);
+  border: 1px solid var(--card-progress-border);
+}
+
+.st.st-accent-amber:hover {
+  border-color: var(--card-progress-border-hover);
+  box-shadow: var(--shadow-md);
+}
+
+.st.st-accent-amber .l {
+  color: var(--card-progress-text-muted);
+}
+
+.st.st-accent-amber .v {
+  color: var(--card-progress-accent);
+}
+
+.st.st-accent-amber .st-icon-wrap {
+  color: var(--card-progress-icon-color);
+  background: var(--card-progress-icon-bg);
+}
+
+.st.st-accent-red {
+  background: var(--card-danger-bg);
+  border: 1px solid var(--card-danger-border);
+}
+
+.st.st-accent-red:hover {
+  border-color: var(--card-danger-border-hover);
+  box-shadow: var(--shadow-md);
+}
+
+.st.st-accent-red .l {
+  color: var(--card-danger-text-muted);
+}
+
+.st.st-accent-red .v {
+  color: var(--card-danger-accent);
+}
+
+.st.st-accent-red .st-icon-wrap {
+  color: var(--card-danger-icon-color);
+  background: var(--card-danger-icon-bg);
+}
+
+.st.st-accent-indigo {
+  background: var(--card-planner-bg);
+  border: 1px solid var(--card-planner-border);
+}
+
+.st.st-accent-indigo:hover {
+  border-color: var(--card-planner-border-hover);
+  box-shadow: var(--shadow-md);
+}
+
+.st.st-accent-indigo .l {
+  color: var(--card-planner-text-muted);
+}
+
+.st.st-accent-indigo .v {
+  color: var(--card-planner-accent);
+}
+
+.st.st-accent-indigo .st-icon-wrap {
+  color: var(--card-planner-icon-color);
+  background: var(--card-planner-icon-bg);
+}
+
+.st.st-accent-rose {
+  background: var(--card-memories-bg);
+  border: 1px solid var(--card-memories-border);
+}
+
+.st.st-accent-rose:hover {
+  border-color: var(--card-memories-border-hover);
+  box-shadow: var(--shadow-md);
+}
+
+.st.st-accent-rose .l {
+  color: var(--card-memories-text-muted);
+}
+
+.st.st-accent-rose .v {
+  color: var(--card-memories-accent);
+}
+
+.st.st-accent-rose .st-icon-wrap {
+  color: var(--card-memories-icon-color);
+  background: var(--card-memories-icon-bg);
+}
+
+.st.st-accent-sage {
+  background: var(--card-health-bg);
+  border: 1px solid var(--card-health-border);
+}
+
+.st.st-accent-sage:hover {
+  border-color: var(--card-health-border-hover);
+  box-shadow: var(--shadow-md);
+}
+
+.st.st-accent-sage .l {
+  color: var(--card-health-text-muted);
+}
+
+.st.st-accent-sage .v {
+  color: var(--card-health-accent);
+}
+
+.st.st-accent-sage .st-icon-wrap {
+  color: var(--card-health-icon-color);
+  background: var(--card-health-icon-bg);
+}
+
+:root[data-theme='dark'] .st[class*="st-accent-"] .v {
+  color: #FFFFFF !important;
+}
+
+:root[data-theme='dark'] .st[class*="st-accent-"] small {
+  color: rgba(255, 255, 255, 0.75) !important;
+}
 
 .li {
   display: flex;
@@ -829,9 +1487,17 @@ h4 {
 }
 
 @keyframes checkPop {
-  0% { transform: scale(0.85); }
-  50% { transform: scale(1.15); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(0.85);
+  }
+
+  50% {
+    transform: scale(1.15);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 .ck {
@@ -846,9 +1512,9 @@ h4 {
   cursor: pointer;
   background: var(--cd);
   transition: background-color 0.18s cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 0.18s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.14s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.18s ease;
+    border-color 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.14s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.18s ease;
 }
 
 .ck:hover:not(:disabled) {
@@ -1046,6 +1712,67 @@ h4 {
   filter: brightness(0.96);
 }
 
+/* Semantic Functional Button Hierarchy (Requirement 6) */
+.btn.success,
+.btn-success {
+  background: var(--card-habits-icon-bg);
+  color: var(--card-habits-icon-color);
+  border: 1px solid var(--card-habits-border);
+  font-weight: 600;
+}
+
+.btn.success:hover:not(:disabled),
+.btn-success:hover:not(:disabled) {
+  background: var(--card-habits-border);
+  border-color: var(--card-habits-border-hover);
+  transform: translateY(-1px);
+}
+
+.btn.warning,
+.btn-warning {
+  background: var(--card-progress-icon-bg);
+  color: var(--card-progress-icon-color);
+  border: 1px solid var(--card-progress-border);
+  font-weight: 600;
+}
+
+.btn.warning:hover:not(:disabled),
+.btn-warning:hover:not(:disabled) {
+  background: var(--card-progress-border);
+  border-color: var(--card-progress-border-hover);
+  transform: translateY(-1px);
+}
+
+.btn.danger,
+.btn-danger {
+  background: var(--card-danger-icon-bg);
+  color: var(--card-danger-icon-color);
+  border: 1px solid var(--card-danger-border);
+  font-weight: 600;
+}
+
+.btn.danger:hover:not(:disabled),
+.btn-danger:hover:not(:disabled) {
+  background: var(--card-danger-border);
+  border-color: var(--card-danger-border-hover);
+  transform: translateY(-1px);
+}
+
+.btn.info,
+.btn-info {
+  background: var(--card-study-icon-bg);
+  color: var(--card-study-icon-color);
+  border: 1px solid var(--card-study-border);
+  font-weight: 600;
+}
+
+.btn.info:hover:not(:disabled),
+.btn-info:hover:not(:disabled) {
+  background: var(--card-study-border);
+  border-color: var(--card-study-border-hover);
+  transform: translateY(-1px);
+}
+
 /* Button Sizes */
 .btn.sm {
   min-height: var(--btn-h-sm);
@@ -1238,16 +1965,55 @@ h4 {
   transition: transform 0.12s ease;
 }
 
-.mod-icon-home { color: var(--mod-home); background: var(--mod-home-soft); }
-.mod-icon-habits { color: var(--mod-habits); background: var(--mod-habits-soft); }
-.mod-icon-study { color: var(--mod-study); background: var(--mod-study-soft); }
-.mod-icon-planner { color: var(--mod-planner); background: var(--mod-planner-soft); }
-.mod-icon-memories { color: var(--mod-memories); background: var(--mod-memories-soft); }
-.mod-icon-balance { color: var(--mod-balance); background: var(--mod-balance-soft); }
-.mod-icon-progress { color: var(--mod-progress); background: var(--mod-progress-soft); }
-.mod-icon-focus { color: var(--mod-focus); background: var(--mod-focus-soft); }
-.mod-icon-health { color: var(--mod-health); background: var(--mod-health-soft); }
-.mod-icon-personal { color: var(--mod-personal); background: var(--mod-personal-soft); }
+.mod-icon-home {
+  color: var(--mod-home);
+  background: var(--mod-home-soft);
+}
+
+.mod-icon-habits {
+  color: var(--mod-habits);
+  background: var(--mod-habits-soft);
+}
+
+.mod-icon-study {
+  color: var(--mod-study);
+  background: var(--mod-study-soft);
+}
+
+.mod-icon-planner {
+  color: var(--mod-planner);
+  background: var(--mod-planner-soft);
+}
+
+.mod-icon-memories {
+  color: var(--mod-memories);
+  background: var(--mod-memories-soft);
+}
+
+.mod-icon-balance {
+  color: var(--mod-balance);
+  background: var(--mod-balance-soft);
+}
+
+.mod-icon-progress {
+  color: var(--mod-progress);
+  background: var(--mod-progress-soft);
+}
+
+.mod-icon-focus {
+  color: var(--mod-focus);
+  background: var(--mod-focus-soft);
+}
+
+.mod-icon-health {
+  color: var(--mod-health);
+  background: var(--mod-health-soft);
+}
+
+.mod-icon-personal {
+  color: var(--mod-personal);
+  background: var(--mod-personal-soft);
+}
 
 /* ==========================================================================
    Progress bars & Weekly bars (Section 12)
@@ -1334,11 +2100,25 @@ h4 {
   transform: scale(1.15);
 }
 
-.hm-cell.a1 { background: var(--h1); }
-.hm-cell.a2 { background: var(--h2); }
-.hm-cell.a3 { background: var(--h3); }
-.hm-cell.a4 { background: var(--h4); }
-.hm-cell.z { background: transparent; }
+.hm-cell.a1 {
+  background: var(--h1);
+}
+
+.hm-cell.a2 {
+  background: var(--h2);
+}
+
+.hm-cell.a3 {
+  background: var(--h3);
+}
+
+.hm-cell.a4 {
+  background: var(--h4);
+}
+
+.hm-cell.z {
+  background: transparent;
+}
 
 .lg {
   display: flex;
@@ -1388,13 +2168,38 @@ h4 {
   filter: brightness(0.97);
 }
 
-.cal-day.a1 { background: var(--h1); }
-.cal-day.a2 { background: var(--h2); }
-.cal-day.a3 { background: var(--h3); color: var(--on); }
-.cal-day.a4 { background: var(--h4); color: var(--on); }
-.cal-day.z { background: var(--sf); opacity: 0.7; }
-.cal-day.tdy { box-shadow: inset 0 0 0 2px var(--hot); }
-.cal-day.sel { outline: 2px solid var(--ink); outline-offset: -2px; }
+.cal-day.a1 {
+  background: var(--h1);
+}
+
+.cal-day.a2 {
+  background: var(--h2);
+}
+
+.cal-day.a3 {
+  background: var(--h3);
+  color: var(--on);
+}
+
+.cal-day.a4 {
+  background: var(--h4);
+  color: var(--on);
+}
+
+.cal-day.z {
+  background: var(--sf);
+  opacity: 0.7;
+}
+
+.cal-day.tdy {
+  box-shadow: inset 0 0 0 2px var(--hot);
+}
+
+.cal-day.sel {
+  outline: 2px solid var(--ink);
+  outline-offset: -2px;
+}
+
 .cal-day.rm::after {
   content: '';
   position: absolute;
@@ -1490,9 +2295,9 @@ h4 {
   color: var(--ink);
   font-size: 13.5px;
   font-family: var(--font-body);
-  transition: border-color 0.18s cubic-bezier(0.16, 1, 0.3, 1), 
-              box-shadow 0.18s cubic-bezier(0.16, 1, 0.3, 1),
-              background-color 0.15s ease;
+  transition: border-color 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.15s ease;
   box-sizing: border-box;
   box-shadow: 0 1px 2px rgba(37, 36, 43, 0.02);
 }
@@ -1551,9 +2356,9 @@ textarea.inp {
   justify-content: center;
   gap: 6px;
   transition: background-color 0.18s cubic-bezier(0.16, 1, 0.3, 1),
-              color 0.18s ease,
-              box-shadow 0.18s ease,
-              transform 0.1s ease;
+    color 0.18s ease,
+    box-shadow 0.18s ease,
+    transform 0.1s ease;
 }
 
 .seg button:hover:not(.on) {
@@ -1608,8 +2413,13 @@ textarea.inp {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 .sb {
@@ -1628,8 +2438,13 @@ textarea.inp {
 }
 
 @keyframes sheetSlideUp {
-  from { transform: translateY(100%); }
-  to { transform: translateY(0); }
+  from {
+    transform: translateY(100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
 }
 
 .sb::before {
@@ -1674,8 +2489,7 @@ textarea.inp {
   box-shadow: 0 -2px 16px rgba(37, 36, 43, 0.05);
 }
 
-:root[data-theme='dark'] .nv,
-:root:not([data-theme='light']) .nv {
+:root[data-theme='dark'] .nv {
   background: rgba(25, 25, 34, 0.92);
   box-shadow: 0 -2px 16px rgba(0, 0, 0, 0.35);
 }
@@ -1751,6 +2565,36 @@ textarea.inp {
   border-radius: var(--radius-xl);
   color: var(--ink);
   transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.08s ease;
+}
+
+.more-card-balance {
+  background: var(--card-balance-bg);
+  border-color: var(--card-balance-border);
+}
+
+.more-card-progress {
+  background: var(--card-progress-bg);
+  border-color: var(--card-progress-border);
+}
+
+.more-card-memories {
+  background: var(--card-memories-bg);
+  border-color: var(--card-memories-border);
+}
+
+.more-card-personal {
+  background: var(--card-personal-bg);
+  border-color: var(--card-personal-border);
+}
+
+.more-card-health {
+  background: var(--card-health-bg);
+  border-color: var(--card-health-border);
+}
+
+.more-card-info {
+  background: var(--card-neutral-bg);
+  border-color: var(--card-neutral-border);
 }
 
 .more-card:hover {
@@ -2057,8 +2901,7 @@ textarea.inp {
   box-sizing: border-box;
 }
 
-:root[data-theme='dark'] .auth-card-surface,
-:root:not([data-theme='light']) .auth-card-surface {
+:root[data-theme='dark'] .auth-card-surface {
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.32);
 }
 
@@ -2506,9 +3349,11 @@ textarea.inp {
   .auth-card-surface {
     padding: 22px 16px;
   }
+
   .auth-form-title {
     font-size: 21px;
   }
+
   .auth-options-row {
     flex-direction: column;
     align-items: flex-start;
@@ -2525,14 +3370,20 @@ textarea.inp {
 }
 
 @keyframes shimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .skel {
     animation: none;
   }
+
   * {
     transition: none !important;
   }

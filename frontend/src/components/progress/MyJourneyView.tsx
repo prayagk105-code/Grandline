@@ -127,7 +127,7 @@ export const MyJourneyView: React.FC = () => {
                 }}
               />
 
-              <div className="cd" style={{ padding: 18 }}>
+              <div className="cd cd-progress" style={{ padding: 18 }}>
                 <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
                   <span className="chip on" style={{ fontSize: 10, padding: '2px 8px' }}>
                     {item.badge}

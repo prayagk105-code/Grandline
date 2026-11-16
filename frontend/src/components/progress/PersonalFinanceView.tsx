@@ -283,7 +283,7 @@ export const PersonalFinanceView: React.FC = () => {
       {tab === 'overview' && (
         <div className="df-grid-2">
           {/* Monthly Budget vs Actual */}
-          <div className="cd" style={{ borderLeft: '3px solid var(--mod-balance)' }}>
+          <div className="cd cd-balance">
             <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
               <div className="row" style={{ gap: 8, alignItems: 'center' }}>
                 <span className="mod-icon mod-icon-balance" style={{ width: 28, height: 28 }}>
@@ -338,7 +338,7 @@ export const PersonalFinanceView: React.FC = () => {
           </div>
 
           {/* Active Savings Goals */}
-          <div className="cd" style={{ borderLeft: '3px solid var(--mod-balance)' }}>
+          <div className="cd cd-balance">
             <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
               <div className="row" style={{ gap: 8, alignItems: 'center' }}>
                 <span className="mod-icon mod-icon-balance" style={{ width: 28, height: 28 }}>
@@ -410,7 +410,7 @@ export const PersonalFinanceView: React.FC = () => {
               {transactions.map((tx) => (
                 <div
                   key={tx.id}
-                  className="cd"
+                  className="cd cd-balance"
                   style={{
                     padding: '12px 18px',
                     display: 'flex',
@@ -472,12 +472,12 @@ export const PersonalFinanceView: React.FC = () => {
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))', gap: 14 }}>
             {savingsGoals.map((sg) => (
-              <div key={sg.id} className="cd" style={{ padding: 18, borderLeft: '3px solid var(--mod-balance)', marginBottom: 0 }}>
+              <div key={sg.id} className="cd cd-balance" style={{ padding: 18, marginBottom: 0 }}>
                 <h4 style={{ margin: '0 0 6px', fontSize: 15 }}>{sg.title}</h4>
                 <div style={{ fontSize: 20, fontWeight: 700, color: 'var(--mod-balance)', margin: '4px 0 10px' }}>
                   ${sg.currentAmount.toLocaleString()} <span className="mut" style={{ fontSize: 12, fontWeight: 400 }}>of ${sg.targetAmount.toLocaleString()}</span>
                 </div>
-                <div style={{ height: 6, borderRadius: 3, background: 'var(--sf)', overflow: 'hidden' }}>
+                <div style={{ height: 6, borderRadius: 3, background: 'var(--card-balance-inner-bg)', overflow: 'hidden' }}>
                   <div
                     style={{
                       height: '100%',
@@ -505,7 +505,7 @@ export const PersonalFinanceView: React.FC = () => {
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))', gap: 14 }}>
             {debts.map((d) => (
-              <div key={d.id} className="cd" style={{ padding: 18, borderLeft: '3px solid var(--badge-overdue-border)', marginBottom: 0 }}>
+              <div key={d.id} className="cd cd-balance" style={{ padding: 18, marginBottom: 0 }}>
                 <h4 style={{ margin: '0 0 4px', fontSize: 15 }}>{d.creditorName}</h4>
                 <div style={{ fontSize: 20, fontWeight: 700, color: 'var(--badge-overdue-text)', margin: '4px 0 8px' }}>
                   ${d.remainingAmount.toLocaleString()} <span className="mut" style={{ fontSize: 12, fontWeight: 400 }}>remaining (orig. ${d.totalAmount.toLocaleString()})</span>
@@ -528,7 +528,7 @@ export const PersonalFinanceView: React.FC = () => {
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 260px), 1fr))', gap: 14 }}>
             {subscriptions.map((s) => (
-              <div key={s.id} className="cd" style={{ padding: 16, marginBottom: 0 }}>
+              <div key={s.id} className="cd cd-balance" style={{ padding: 16, marginBottom: 0 }}>
                 <div className="row" style={{ justifyContent: 'space-between', alignItems: 'baseline' }}>
                   <h4 style={{ margin: 0, fontSize: 14.5 }}>{s.name}</h4>
                   <span style={{ fontSize: 15, fontWeight: 700, color: 'var(--mod-balance)' }}>${s.cost.toFixed(2)}</span>

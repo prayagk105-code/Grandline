@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { DayformIcon } from '../components/common/DayformIcon';
 import { WidgetErrorBoundary } from '../components/common/ErrorBoundary';
 import { PageHeader } from '../components/common/PageHeader';
+import { StatCard } from '../components/common/StatCard';
 import { ErrorState, LoadingSkeleton } from '../components/common/StateBlocks';
 import { TodayHabitsWidget } from '../components/home/TodayHabitsWidget';
 import { CustomDashboardModal, DEFAULT_DASHBOARD_CONFIG, type DashboardConfig } from '../components/home/CustomDashboardModal';
@@ -30,7 +31,7 @@ import { parseApiError } from '../services/api/apiError';
 import { dashboardService } from '../services/dashboardService';
 import { habitService } from '../services/habitService';
 import type { DashboardSummaryDto, HabitDto, MemoryDto } from '../types/api';
-import { getGreetingWord, toIsoDate } from '../utils/date';
+import { formatDurationMinutes, getGreetingWord, toIsoDate } from '../utils/date';
 
 const DASHBOARD_CONFIG_KEY = 'grandline_dashboard_config';
 
@@ -284,7 +285,7 @@ export const HomePage: React.FC = () => {
           <div className="home-journey-top">
             <div className="row" style={{ gap: 8, alignItems: 'center' }}>
               <span style={{ fontSize: 16 }}>⚓</span>
-              <span style={{ font: '600 13px var(--font-display)', color: 'var(--ink)' }}>
+              <span style={{ font: '600 13px var(--font-display)', color: 'var(--home-box-text-main, var(--ink))' }}>
                 Grandline Voyage
               </span>
             </div>
@@ -292,17 +293,52 @@ export const HomePage: React.FC = () => {
               Day {journeyDay} of {journeyTotalDays} ({journeyProgressPct}%)
             </span>
           </div>
-          <div style={{ height: 6, width: '100%', borderRadius: 999, background: 'var(--sf)', overflow: 'hidden' }}>
+          <div style={{ height: 6, width: '100%', borderRadius: 999, background: 'var(--home-stat-bar-track, rgba(0, 0, 0, 0.08))', overflow: 'hidden' }}>
             <div
               style={{
                 height: '100%',
                 width: `${journeyProgressPct}%`,
-                background: 'var(--ac)',
+                background: 'linear-gradient(90deg, #7775C7, #A5B4FC)',
                 borderRadius: 999,
                 transition: 'width 0.4s ease'
               }}
             />
           </div>
+        </div>
+
+        <div className="df-metric-strip" style={{ marginBottom: 14 }}>
+          <StatCard
+            icon="habit"
+            label="Habits Today"
+            value={`${summary.completedHabitsToday ?? 0}/${summary.totalActiveHabits ?? 0}`}
+            note={`${summary.completionPercentToday ?? 0}% completed`}
+            accent="green"
+            onClick={() => navigate('/habits')}
+          />
+          <StatCard
+            icon="flame"
+            label="Current Streak"
+            value={`${summary.currentStreakDays ?? 0}d`}
+            note={`Best: ${summary.bestStreakDays ?? 0} days`}
+            accent="orange"
+            onClick={() => navigate('/habits')}
+          />
+          <StatCard
+            icon="book"
+            label="Focus Volume"
+            value={formatDurationMinutes(summary.focusMinutesLast7Days ?? 0)}
+            note="last 7 days logged"
+            accent="blue"
+            onClick={() => navigate('/study')}
+          />
+          <StatCard
+            icon="chart"
+            label="7-Day Consistency"
+            value={`${Math.round(summary.habitAverageLast7Days ?? 0)}%`}
+            note="overall habit execution"
+            accent="purple"
+            onClick={() => navigate('/progress')}
+          />
         </div>
       </div>
 
@@ -391,7 +427,7 @@ export const HomePage: React.FC = () => {
         )}
 
         {/* 7-Day Consistency Micro-Chart */}
-        <div className="cd home-card-consistency" style={{ marginBottom: 0 }}>
+        <div className="cd cd-discipline home-card-consistency" style={{ marginBottom: 0 }}>
           <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
             <div className="row" style={{ gap: 6, alignItems: 'center' }}>
               <span className="mod-icon mod-icon-home" style={{ width: 26, height: 26 }}>

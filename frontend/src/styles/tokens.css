@@ -69,6 +69,165 @@
   --mod-personal: #8B5CF6;   /* Journal / Personal: Soft Violet */
   --mod-personal-soft: #F5F0FE;
 
+  /* ==========================================================================
+     GRANDLINE Minimal Card Color System - Light Mode
+     Subtle, elegant, minimal color tints with high-contrast readable typography
+     ========================================================================== */
+  /* Habits: Minimal Soft Mint (--mod-habits: #287447) */
+  --card-habits-bg: #F0F8F3;
+  --card-habits-border: #D1EAD8;
+  --card-habits-border-hover: #B2DFBE;
+  --card-habits-icon-bg: #DCF2E4;
+  --card-habits-icon-color: #1E753E;
+  --card-habits-accent: #287447;
+  --card-habits-text-muted: #526A59;
+  --card-habits-inner-bg: #FFFFFF;
+  --card-habits-inner-border: rgba(0, 0, 0, 0.07);
+
+  /* Priorities / Hot: Minimal Warm Peach / Coral (--hot: #B85A2A) */
+  --card-priorities-bg: #FFF6F2;
+  --card-priorities-border: #FDDBCB;
+  --card-priorities-border-hover: #FBC4AA;
+  --card-priorities-icon-bg: #FFE4D7;
+  --card-priorities-icon-color: #B85A2A;
+  --card-priorities-accent: #B85A2A;
+  --card-priorities-text-muted: #73564B;
+  --card-priorities-inner-bg: #FFFFFF;
+  --card-priorities-inner-border: rgba(0, 0, 0, 0.07);
+
+  /* Study: Minimal Soft Sky Blue (--mod-study: #2563EB) */
+  --card-study-bg: #F2F7FE;
+  --card-study-border: #D2E3FC;
+  --card-study-border-hover: #B7D4FB;
+  --card-study-icon-bg: #DFECFD;
+  --card-study-icon-color: #1E5FD8;
+  --card-study-accent: #2563EB;
+  --card-study-text-muted: #52627A;
+  --card-study-inner-bg: #FFFFFF;
+  --card-study-inner-border: rgba(0, 0, 0, 0.07);
+
+  /* Progress / Goals: Minimal Soft Amber / Gold (--mod-progress: #D97706) */
+  --card-progress-bg: #FEFAF2;
+  --card-progress-border: #FDE7BE;
+  --card-progress-border-hover: #FBD99B;
+  --card-progress-icon-bg: #FEF0D4;
+  --card-progress-icon-color: #B45309;
+  --card-progress-accent: #D97706;
+  --card-progress-text-muted: #74614A;
+  --card-progress-inner-bg: #FFFFFF;
+  --card-progress-inner-border: rgba(0, 0, 0, 0.07);
+
+  /* Balance: Minimal Soft Teal (--mod-balance: #0D9488) */
+  --card-balance-bg: #F0F9F8;
+  --card-balance-border: #CAECE8;
+  --card-balance-border-hover: #A7E1DA;
+  --card-balance-icon-bg: #DBF4F1;
+  --card-balance-icon-color: #0D8378;
+  --card-balance-accent: #0D9488;
+  --card-balance-text-muted: #4C6966;
+  --card-balance-inner-bg: #FFFFFF;
+  --card-balance-inner-border: rgba(0, 0, 0, 0.07);
+
+  /* Focus: Minimal Soft Lavender (--mod-focus: #7775C7, --ac: #7775C7) */
+  --card-focus-bg: #F5F4FD;
+  --card-focus-border: #E0DCF7;
+  --card-focus-border-hover: #CBC4F2;
+  --card-focus-icon-bg: #E9E6F9;
+  --card-focus-icon-color: #5B58B5;
+  --card-focus-accent: #7775C7;
+  --card-focus-text-muted: #5F5B73;
+  --card-focus-inner-bg: #FFFFFF;
+  --card-focus-inner-border: rgba(0, 0, 0, 0.07);
+
+  /* Planner: Minimal Soft Periwinkle (--mod-planner: #6366F1) */
+  --card-planner-bg: #F3F4FE;
+  --card-planner-border: #D7DCFC;
+  --card-planner-border-hover: #BDC5FA;
+  --card-planner-icon-bg: #E3E7FD;
+  --card-planner-icon-color: #4F52D0;
+  --card-planner-accent: #6366F1;
+  --card-planner-text-muted: #565A76;
+  --card-planner-inner-bg: #FFFFFF;
+  --card-planner-inner-border: rgba(0, 0, 0, 0.07);
+
+  /* Memories: Minimal Soft Rose (--mod-memories: #D94676) */
+  --card-memories-bg: #FDF3F6;
+  --card-memories-border: #FBD4E1;
+  --card-memories-border-hover: #F8B6CC;
+  --card-memories-icon-bg: #FCE1EB;
+  --card-memories-icon-color: #C22E5F;
+  --card-memories-accent: #D94676;
+  --card-memories-text-muted: #775161;
+  --card-memories-inner-bg: #FFFFFF;
+  --card-memories-inner-border: rgba(0, 0, 0, 0.07);
+
+  /* Health: Minimal Soft Sage (--mod-health: #3D8B57) */
+  --card-health-bg: #F2F9F4;
+  --card-health-border: #D1ECDA;
+  --card-health-border-hover: #B2E1BF;
+  --card-health-icon-bg: #DEF2E4;
+  --card-health-icon-color: #2E7445;
+  --card-health-accent: #3D8B57;
+  --card-health-text-muted: #546C5B;
+  --card-health-inner-bg: #FFFFFF;
+  --card-health-inner-border: rgba(0, 0, 0, 0.07);
+
+  /* Personal / Journal: Minimal Soft Violet (--mod-personal: #8B5CF6) */
+  --card-personal-bg: #F7F4FD;
+  --card-personal-border: #E4DAFB;
+  --card-personal-border-hover: #D2C0F7;
+  --card-personal-icon-bg: #EFE7FC;
+  --card-personal-icon-color: #733FE3;
+  --card-personal-accent: #8B5CF6;
+  --card-personal-text-muted: #615678;
+  --card-personal-inner-bg: #FFFFFF;
+  --card-personal-inner-border: rgba(0, 0, 0, 0.07);
+
+  /* Discipline / Consistency / Missions: Minimal Grandline Lavender (--ac: #7775C7) */
+  --card-discipline-bg: #F3F2FB;
+  --card-discipline-border: #D9D6F3;
+  --card-discipline-border-hover: #C2BEEB;
+  --card-discipline-icon-bg: #E6E4F7;
+  --card-discipline-icon-color: #5B58B5;
+  --card-discipline-accent: #7775C7;
+  --card-discipline-text-muted: #6B687C;
+  --card-discipline-inner-bg: #FFFFFF;
+  --card-discipline-inner-border: rgba(0, 0, 0, 0.07);
+
+  /* Danger / Warning / Overdue: Minimal Soft Crimson (--badge-error-text: #C4424E) */
+  --card-danger-bg: #FEF2F2;
+  --card-danger-border: #FECACA;
+  --card-danger-border-hover: #FCA5A5;
+  --card-danger-icon-bg: #FEE2E2;
+  --card-danger-icon-color: #DC2626;
+  --card-danger-accent: #EF4444;
+  --card-danger-text-muted: #824B4F;
+  --card-danger-inner-bg: #FFFFFF;
+  --card-danger-inner-border: rgba(0, 0, 0, 0.07);
+
+  /* Neutral: Minimal Soft Neutral Surface (--ink: #26252D) */
+  --card-neutral-bg: #F7F6FA;
+  --card-neutral-border: #E6E4F0;
+  --card-neutral-border-hover: #D6D3E4;
+  --card-neutral-icon-bg: #ECEAF4;
+  --card-neutral-icon-color: #4E4C58;
+  --card-neutral-accent: #26252D;
+  --card-neutral-text-muted: #787684;
+  --card-neutral-inner-bg: #FFFFFF;
+  --card-neutral-inner-border: rgba(0, 0, 0, 0.07);
+
+  /* GRANDLINE Home Screen Minimal Box System - Light Mode */
+  --home-box-bg: #F3F2FB;
+  --home-box-bg-hover: #ECEAF8;
+  --home-box-border: #D9D6F3;
+  --home-box-border-hover: #C2BEEB;
+  --home-box-inner-bg: #FFFFFF;
+  --home-box-inner-border: rgba(0, 0, 0, 0.08);
+  --home-box-text-main: var(--ink);
+  --home-box-text-muted: var(--mut);
+  --home-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  --home-stat-bar-track: rgba(0, 0, 0, 0.08);
+
   /* Heatmap Soft Lavender Progression */
   --h0: #EBE9F8;
   --h1: #D6D3F3;
@@ -236,7 +395,7 @@
   --shadow-xs: 0 1px 2px rgba(37, 36, 43, 0.03);
   --shadow-soft: 0 2px 8px rgba(37, 36, 43, 0.04), 0 1px 2px rgba(37, 36, 43, 0.02);
   --shadow-md: 0 4px 16px rgba(37, 36, 43, 0.05), 0 1px 3px rgba(37, 36, 43, 0.02);
-  --shadow-card: 0 1px 3px rgba(37, 36, 43, 0.03), 0 4px 14px rgba(37, 36, 43, 0.025);
+  --shadow-card: 0 2px 8px rgba(18, 16, 28, 0.08), 0 1px 3px rgba(18, 16, 28, 0.05);
   --shadow-lg: 0 8px 24px rgba(37, 36, 43, 0.07), 0 2px 6px rgba(37, 36, 43, 0.03);
   --shadow-sheet: 0 -8px 30px rgba(37, 36, 43, 0.10);
   --focus-ring: 0 0 0 3px rgba(119, 117, 199, 0.28);
@@ -259,7 +418,7 @@
    GRANDLINE Modern Dark Theme - System Default (Dark)
    ========================================================================== */
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']) {
+  :root[data-theme='dark'] {
     /* Primary Surface & Background Palette */
     --bg: #191922;             /* Main background */
     --sf: #22222E;             /* Secondary background / surface */
@@ -321,6 +480,163 @@
     --mod-health-soft: #153325;
     --mod-personal: #C084FC;
     --mod-personal-soft: #2D1A45;
+
+    /* GRANDLINE Home Screen Minimal Dark Card System - Dark Mode */
+    --home-box-bg: #222030;
+    --home-box-bg-hover: #272538;
+    --home-box-border: #33304C;
+    --home-box-border-hover: #454166;
+    --home-box-inner-bg: rgba(255, 255, 255, 0.04);
+    --home-box-inner-border: rgba(255, 255, 255, 0.08);
+    --home-box-text-main: #F4F2F8;
+    --home-box-text-muted: #A7A4B1;
+    --home-box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.35), 0 2px 6px -1px rgba(0, 0, 0, 0.2);
+    --home-stat-bar-track: rgba(255, 255, 255, 0.1);
+
+    /* Card Background Color System - Minimal Dark Mode */
+    /* Habits: Minimal Dark Soft Mint / Green (--mod-habits) */
+    --card-habits-bg: #1E2522;
+    --card-habits-border: #2B3A31;
+    --card-habits-border-hover: #3B5244;
+    --card-habits-icon-bg: rgba(74, 222, 128, 0.12);
+    --card-habits-icon-color: #6EE7B7;
+    --card-habits-accent: #34D399;
+    --card-habits-text-muted: #A7F3D0;
+    --card-habits-inner-bg: rgba(255, 255, 255, 0.04);
+    --card-habits-inner-border: rgba(255, 255, 255, 0.08);
+
+    /* Priorities / Hot: Minimal Dark Warm Coral (--hot) */
+    --card-priorities-bg: #272122;
+    --card-priorities-border: #402D30;
+    --card-priorities-border-hover: #583C41;
+    --card-priorities-icon-bg: rgba(251, 160, 121, 0.12);
+    --card-priorities-icon-color: #FDBA74;
+    --card-priorities-accent: #FB923C;
+    --card-priorities-text-muted: #FED7AA;
+    --card-priorities-inner-bg: rgba(255, 255, 255, 0.04);
+    --card-priorities-inner-border: rgba(255, 255, 255, 0.08);
+
+    /* Study: Minimal Dark Sky Blue (--mod-study) */
+    --card-study-bg: #1D232E;
+    --card-study-border: #293448;
+    --card-study-border-hover: #384764;
+    --card-study-icon-bg: rgba(96, 165, 250, 0.12);
+    --card-study-icon-color: #93C5FD;
+    --card-study-accent: #60A5FA;
+    --card-study-text-muted: #BFDBFE;
+    --card-study-inner-bg: rgba(255, 255, 255, 0.04);
+    --card-study-inner-border: rgba(255, 255, 255, 0.08);
+
+    /* Progress: Minimal Dark Soft Amber / Gold (--mod-progress) */
+    --card-progress-bg: #26221E;
+    --card-progress-border: #3D3326;
+    --card-progress-border-hover: #544532;
+    --card-progress-icon-bg: rgba(251, 191, 36, 0.12);
+    --card-progress-icon-color: #FDE047;
+    --card-progress-accent: #FBBF24;
+    --card-progress-text-muted: #FDE68A;
+    --card-progress-inner-bg: rgba(255, 255, 255, 0.04);
+    --card-progress-inner-border: rgba(255, 255, 255, 0.08);
+
+    /* Balance: Minimal Dark Muted Teal (--mod-balance) */
+    --card-balance-bg: #1C2526;
+    --card-balance-border: #283A3B;
+    --card-balance-border-hover: #365052;
+    --card-balance-icon-bg: rgba(45, 212, 191, 0.12);
+    --card-balance-icon-color: #5EEAD4;
+    --card-balance-accent: #2DD4BF;
+    --card-balance-text-muted: #99F6E4;
+    --card-balance-inner-bg: rgba(255, 255, 255, 0.04);
+    --card-balance-inner-border: rgba(255, 255, 255, 0.08);
+
+    /* Focus: Minimal Dark Lavender (--mod-focus, --ac) */
+    --card-focus-bg: #232130;
+    --card-focus-border: #35304B;
+    --card-focus-border-hover: #494268;
+    --card-focus-icon-bg: rgba(167, 139, 250, 0.12);
+    --card-focus-icon-color: #C4B5FD;
+    --card-focus-accent: #A78BFA;
+    --card-focus-text-muted: #DDD6FE;
+    --card-focus-inner-bg: rgba(255, 255, 255, 0.04);
+    --card-focus-inner-border: rgba(255, 255, 255, 0.08);
+
+    /* Planner: Minimal Dark Periwinkle / Indigo (--mod-planner) */
+    --card-planner-bg: #212232;
+    --card-planner-border: #32334F;
+    --card-planner-border-hover: #45476D;
+    --card-planner-icon-bg: rgba(129, 140, 248, 0.12);
+    --card-planner-icon-color: #A5B4FC;
+    --card-planner-accent: #818CF8;
+    --card-planner-text-muted: #C7D2FE;
+    --card-planner-inner-bg: rgba(255, 255, 255, 0.04);
+    --card-planner-inner-border: rgba(255, 255, 255, 0.08);
+
+    /* Memories: Minimal Dark Dusty Rose (--mod-memories) */
+    --card-memories-bg: #262025;
+    --card-memories-border: #3E2B38;
+    --card-memories-border-hover: #56394D;
+    --card-memories-icon-bg: rgba(251, 113, 133, 0.12);
+    --card-memories-icon-color: #FDA4AF;
+    --card-memories-accent: #FB7185;
+    --card-memories-text-muted: #FECDD3;
+    --card-memories-inner-bg: rgba(255, 255, 255, 0.04);
+    --card-memories-inner-border: rgba(255, 255, 255, 0.08);
+
+    /* Health: Minimal Dark Sage Green (--mod-health) */
+    --card-health-bg: #1D2521;
+    --card-health-border: #2A392F;
+    --card-health-border-hover: #394F41;
+    --card-health-icon-bg: rgba(52, 211, 153, 0.12);
+    --card-health-icon-color: #86EFAC;
+    --card-health-accent: #4ADE80;
+    --card-health-text-muted: #BBF7D0;
+    --card-health-inner-bg: rgba(255, 255, 255, 0.04);
+    --card-health-inner-border: rgba(255, 255, 255, 0.08);
+
+    /* Personal / Journal: Minimal Dark Soft Violet (--mod-personal) */
+    --card-personal-bg: #242031;
+    --card-personal-border: #362B4E;
+    --card-personal-border-hover: #4B3C6C;
+    --card-personal-icon-bg: rgba(192, 132, 252, 0.12);
+    --card-personal-icon-color: #E9D5FF;
+    --card-personal-accent: #C084FC;
+    --card-personal-text-muted: #F3E8FF;
+    --card-personal-inner-bg: rgba(255, 255, 255, 0.04);
+    --card-personal-inner-border: rgba(255, 255, 255, 0.08);
+
+    /* Discipline / Consistency / Missions: Minimal Dark Core Lavender (--ac) */
+    --card-discipline-bg: #222030;
+    --card-discipline-border: #34304E;
+    --card-discipline-border-hover: #49446D;
+    --card-discipline-icon-bg: rgba(166, 161, 232, 0.12);
+    --card-discipline-icon-color: #C7D2FE;
+    --card-discipline-accent: #A5B4FC;
+    --card-discipline-text-muted: #E0E7FF;
+    --card-discipline-inner-bg: rgba(255, 255, 255, 0.04);
+    --card-discipline-inner-border: rgba(255, 255, 255, 0.08);
+
+    /* Danger / Warning / Overdue: Minimal Dark Crimson Error */
+    --card-danger-bg: #281F22;
+    --card-danger-border: #42262B;
+    --card-danger-border-hover: #5D333B;
+    --card-danger-icon-bg: rgba(248, 113, 113, 0.12);
+    --card-danger-icon-color: #FCA5A5;
+    --card-danger-accent: #F87171;
+    --card-danger-text-muted: #FECACA;
+    --card-danger-inner-bg: rgba(255, 255, 255, 0.04);
+    --card-danger-inner-border: rgba(255, 255, 255, 0.08);
+
+    /* Neutral: Minimal Dark Grandline Slate Charcoal */
+    --card-neutral-bg: #21202A;
+    --card-neutral-border: #302F3E;
+    --card-neutral-border-hover: #424053;
+    --card-neutral-icon-bg: rgba(255, 255, 255, 0.08);
+    --card-neutral-icon-color: #C5C3D8;
+    --card-neutral-accent: #E2E0EE;
+    --card-neutral-text-muted: #B2B0C4;
+    --card-neutral-inner-bg: rgba(255, 255, 255, 0.04);
+    --card-neutral-inner-border: rgba(255, 255, 255, 0.08);
+    --card-neutral-inner-border: rgba(255, 255, 255, 0.08);
 
     /* Heatmap Levels - Dark */
     --h0: #252533;
@@ -540,6 +856,163 @@
   --mod-health-soft: #153325;
   --mod-personal: #C084FC;
   --mod-personal-soft: #2D1A45;
+
+  /* GRANDLINE Home Screen Minimal Dark Card System - Dark Mode */
+  --home-box-bg: #222030;
+  --home-box-bg-hover: #272538;
+  --home-box-border: #33304C;
+  --home-box-border-hover: #454166;
+  --home-box-inner-bg: rgba(255, 255, 255, 0.04);
+  --home-box-inner-border: rgba(255, 255, 255, 0.08);
+  --home-box-text-main: #F4F2F8;
+  --home-box-text-muted: #A7A4B1;
+  --home-box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.35), 0 2px 6px -1px rgba(0, 0, 0, 0.2);
+  --home-stat-bar-track: rgba(255, 255, 255, 0.1);
+
+  /* Card Background Color System - Minimal Dark Mode */
+  /* Habits: Minimal Dark Soft Mint / Green (--mod-habits) */
+  --card-habits-bg: #1E2522;
+  --card-habits-border: #2B3A31;
+  --card-habits-border-hover: #3B5244;
+  --card-habits-icon-bg: rgba(74, 222, 128, 0.12);
+  --card-habits-icon-color: #6EE7B7;
+  --card-habits-accent: #34D399;
+  --card-habits-text-muted: #A7F3D0;
+  --card-habits-inner-bg: rgba(255, 255, 255, 0.04);
+  --card-habits-inner-border: rgba(255, 255, 255, 0.08);
+
+  /* Priorities / Hot: Minimal Dark Warm Coral (--hot) */
+  --card-priorities-bg: #272122;
+  --card-priorities-border: #402D30;
+  --card-priorities-border-hover: #583C41;
+  --card-priorities-icon-bg: rgba(251, 160, 121, 0.12);
+  --card-priorities-icon-color: #FDBA74;
+  --card-priorities-accent: #FB923C;
+  --card-priorities-text-muted: #FED7AA;
+  --card-priorities-inner-bg: rgba(255, 255, 255, 0.04);
+  --card-priorities-inner-border: rgba(255, 255, 255, 0.08);
+
+  /* Study: Minimal Dark Sky Blue (--mod-study) */
+  --card-study-bg: #1D232E;
+  --card-study-border: #293448;
+  --card-study-border-hover: #384764;
+  --card-study-icon-bg: rgba(96, 165, 250, 0.12);
+  --card-study-icon-color: #93C5FD;
+  --card-study-accent: #60A5FA;
+  --card-study-text-muted: #BFDBFE;
+  --card-study-inner-bg: rgba(255, 255, 255, 0.04);
+  --card-study-inner-border: rgba(255, 255, 255, 0.08);
+
+  /* Progress: Minimal Dark Soft Amber / Gold (--mod-progress) */
+  --card-progress-bg: #26221E;
+  --card-progress-border: #3D3326;
+  --card-progress-border-hover: #544532;
+  --card-progress-icon-bg: rgba(251, 191, 36, 0.12);
+  --card-progress-icon-color: #FDE047;
+  --card-progress-accent: #FBBF24;
+  --card-progress-text-muted: #FDE68A;
+  --card-progress-inner-bg: rgba(255, 255, 255, 0.04);
+  --card-progress-inner-border: rgba(255, 255, 255, 0.08);
+
+  /* Balance: Minimal Dark Muted Teal (--mod-balance) */
+  --card-balance-bg: #1C2526;
+  --card-balance-border: #283A3B;
+  --card-balance-border-hover: #365052;
+  --card-balance-icon-bg: rgba(45, 212, 191, 0.12);
+  --card-balance-icon-color: #5EEAD4;
+  --card-balance-accent: #2DD4BF;
+  --card-balance-text-muted: #99F6E4;
+  --card-balance-inner-bg: rgba(255, 255, 255, 0.04);
+  --card-balance-inner-border: rgba(255, 255, 255, 0.08);
+
+  /* Focus: Minimal Dark Lavender (--mod-focus, --ac) */
+  --card-focus-bg: #232130;
+  --card-focus-border: #35304B;
+  --card-focus-border-hover: #494268;
+  --card-focus-icon-bg: rgba(167, 139, 250, 0.12);
+  --card-focus-icon-color: #C4B5FD;
+  --card-focus-accent: #A78BFA;
+  --card-focus-text-muted: #DDD6FE;
+  --card-focus-inner-bg: rgba(255, 255, 255, 0.04);
+  --card-focus-inner-border: rgba(255, 255, 255, 0.08);
+
+  /* Planner: Minimal Dark Periwinkle / Indigo (--mod-planner) */
+  --card-planner-bg: #212232;
+  --card-planner-border: #32334F;
+  --card-planner-border-hover: #45476D;
+  --card-planner-icon-bg: rgba(129, 140, 248, 0.12);
+  --card-planner-icon-color: #A5B4FC;
+  --card-planner-accent: #818CF8;
+  --card-planner-text-muted: #C7D2FE;
+  --card-planner-inner-bg: rgba(255, 255, 255, 0.04);
+  --card-planner-inner-border: rgba(255, 255, 255, 0.08);
+
+  /* Memories: Minimal Dark Dusty Rose (--mod-memories) */
+  --card-memories-bg: #262025;
+  --card-memories-border: #3E2B38;
+  --card-memories-border-hover: #56394D;
+  --card-memories-icon-bg: rgba(251, 113, 133, 0.12);
+  --card-memories-icon-color: #FDA4AF;
+  --card-memories-accent: #FB7185;
+  --card-memories-text-muted: #FECDD3;
+  --card-memories-inner-bg: rgba(255, 255, 255, 0.04);
+  --card-memories-inner-border: rgba(255, 255, 255, 0.08);
+
+  /* Health: Minimal Dark Sage Green (--mod-health) */
+  --card-health-bg: #1D2521;
+  --card-health-border: #2A392F;
+  --card-health-border-hover: #394F41;
+  --card-health-icon-bg: rgba(52, 211, 153, 0.12);
+  --card-health-icon-color: #86EFAC;
+  --card-health-accent: #4ADE80;
+  --card-health-text-muted: #BBF7D0;
+  --card-health-inner-bg: rgba(255, 255, 255, 0.04);
+  --card-health-inner-border: rgba(255, 255, 255, 0.08);
+
+  /* Personal / Journal: Minimal Dark Soft Violet (--mod-personal) */
+  --card-personal-bg: #242031;
+  --card-personal-border: #362B4E;
+  --card-personal-border-hover: #4B3C6C;
+  --card-personal-icon-bg: rgba(192, 132, 252, 0.12);
+  --card-personal-icon-color: #E9D5FF;
+  --card-personal-accent: #C084FC;
+  --card-personal-text-muted: #F3E8FF;
+  --card-personal-inner-bg: rgba(255, 255, 255, 0.04);
+  --card-personal-inner-border: rgba(255, 255, 255, 0.08);
+
+  /* Discipline / Consistency / Missions: Minimal Dark Core Lavender (--ac) */
+  --card-discipline-bg: #222030;
+  --card-discipline-border: #34304E;
+  --card-discipline-border-hover: #49446D;
+  --card-discipline-icon-bg: rgba(166, 161, 232, 0.12);
+  --card-discipline-icon-color: #C7D2FE;
+  --card-discipline-accent: #A5B4FC;
+  --card-discipline-text-muted: #E0E7FF;
+  --card-discipline-inner-bg: rgba(255, 255, 255, 0.04);
+  --card-discipline-inner-border: rgba(255, 255, 255, 0.08);
+
+  /* Danger / Warning / Overdue: Minimal Dark Crimson Error */
+  --card-danger-bg: #281F22;
+  --card-danger-border: #42262B;
+  --card-danger-border-hover: #5D333B;
+  --card-danger-icon-bg: rgba(248, 113, 113, 0.12);
+  --card-danger-icon-color: #FCA5A5;
+  --card-danger-accent: #F87171;
+  --card-danger-text-muted: #FECACA;
+  --card-danger-inner-bg: rgba(255, 255, 255, 0.04);
+  --card-danger-inner-border: rgba(255, 255, 255, 0.08);
+
+  /* Neutral: Minimal Dark Grandline Slate Charcoal */
+  --card-neutral-bg: #21202A;
+  --card-neutral-border: #302F3E;
+  --card-neutral-border-hover: #424053;
+  --card-neutral-icon-bg: rgba(255, 255, 255, 0.08);
+  --card-neutral-icon-color: #C5C3D8;
+  --card-neutral-accent: #E2E0EE;
+  --card-neutral-text-muted: #B2B0C4;
+  --card-neutral-inner-bg: rgba(255, 255, 255, 0.04);
+  --card-neutral-inner-border: rgba(255, 255, 255, 0.08);
+  --card-neutral-inner-border: rgba(255, 255, 255, 0.08);
 
   /* Heatmap Levels - Dark */
   --h0: #252533;

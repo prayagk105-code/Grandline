@@ -122,10 +122,9 @@ export const FutureSelfView: React.FC = () => {
               {unlockedLetters.map((l) => (
                 <div
                   key={l.id}
-                  className="cd"
+                  className="cd cd-memories"
                   style={{
                     padding: '14px 16px',
-                    borderLeft: '4px solid var(--ac)',
                     cursor: 'pointer',
                     marginBottom: 0
                   }}
@@ -174,11 +173,9 @@ export const FutureSelfView: React.FC = () => {
                 return (
                   <div
                     key={l.id}
-                    className="cd"
+                    className="cd cd-memories"
                     style={{
                       padding: '14px 16px',
-                      background: 'var(--sf)',
-                      border: '1px dashed var(--ln)',
                       marginBottom: 0
                     }}
                   >

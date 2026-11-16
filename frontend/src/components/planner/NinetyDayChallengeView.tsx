@@ -126,7 +126,7 @@ export const NinetyDayChallengeView: React.FC = () => {
           }
         />
       ) : (
-        <div className="cd" style={{ padding: '16px 18px' }}>
+        <div className="cd cd-priorities" style={{ padding: '16px 18px' }}>
           <div className="row" style={{ justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 12 }}>
             <div>
               <div className="row" style={{ gap: 8, alignItems: 'center', marginBottom: 6 }}>
@@ -229,7 +229,7 @@ export const NinetyDayChallengeView: React.FC = () => {
           <h3 style={{ fontSize: 16, marginBottom: 12 }}>Past Transformation Challenges</h3>
           <div style={{ display: 'grid', gap: 12 }}>
             {pastChallenges.map((pc) => (
-              <div key={pc.id} className="cd" style={{ padding: 16 }}>
+              <div key={pc.id} className="cd cd-neutral" style={{ padding: 16 }}>
                 <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center' }}>
                   <div>
                     <h4 style={{ margin: '0 0 4px', fontSize: 15 }}>{pc.title}</h4>

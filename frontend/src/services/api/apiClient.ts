@@ -7,12 +7,20 @@ const rawBaseUrl = (import.meta.env.VITE_API_BASE_URL || '/api/v1')
   .trim();
 const API_BASE_URL = rawBaseUrl.length > 0 ? rawBaseUrl : '/api/v1';
 
-let accessToken: string | null = null;
+const TOKEN_STORAGE_KEY = 'grandline_access_token';
+let accessToken: string | null = typeof window !== 'undefined' ? localStorage.getItem(TOKEN_STORAGE_KEY) : null;
 let refreshPromise: Promise<AuthResponse | null> | null = null;
 let onAuthExpiredCallback: (() => void) | null = null;
 
 export function setAccessToken(token: string | null): void {
   accessToken = token;
+  if (typeof window !== 'undefined') {
+    if (token) {
+      localStorage.setItem(TOKEN_STORAGE_KEY, token);
+    } else {
+      localStorage.removeItem(TOKEN_STORAGE_KEY);
+    }
+  }
 }
 
 export function getAccessToken(): string | null {

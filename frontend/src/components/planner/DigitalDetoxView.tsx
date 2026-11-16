@@ -137,7 +137,7 @@ export const DigitalDetoxView: React.FC = () => {
           }
         />
       ) : (
-        <div className="cd" style={{ padding: '16px 18px' }}>
+        <div className="cd cd-planner" style={{ padding: '16px 18px' }}>
           <div className="row" style={{ justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 16 }}>
             <div>
               <div className="row" style={{ gap: 8, alignItems: 'center', marginBottom: 6 }}>
@@ -201,7 +201,7 @@ export const DigitalDetoxView: React.FC = () => {
           <h3 style={{ fontSize: 16, marginBottom: 12 }}>Past Detox History</h3>
           <div style={{ display: 'grid', gap: 12 }}>
             {pastDetoxes.map((d) => (
-              <div key={d.id} className="cd" style={{ padding: 16 }}>
+              <div key={d.id} className="cd cd-neutral" style={{ padding: 16 }}>
                 <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center' }}>
                   <div>
                     <h4 style={{ margin: '0 0 4px', fontSize: 15 }}>{d.title}</h4>

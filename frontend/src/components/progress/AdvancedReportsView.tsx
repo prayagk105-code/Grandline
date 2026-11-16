@@ -135,7 +135,7 @@ Verdict: Maintain foundational morning habits; momentum is firmly compounding.`;
 
       {/* Automated Weekly Executive Report */}
       {weeklyReport && (
-        <div className="cd" style={{ padding: 20, background: 'var(--sf)', border: '1px solid var(--ac)' }}>
+        <div className="cd cd-progress" style={{ padding: 20 }}>
           <div className="row" style={{ gap: 8, alignItems: 'center', marginBottom: 10 }}>
             <span style={{ fontSize: 18 }}>🧭</span>
             <h3 style={{ margin: 0, fontSize: 15, fontWeight: 600 }}>Automated Executive Debrief</h3>
@@ -148,7 +148,7 @@ Verdict: Maintain foundational morning habits; momentum is firmly compounding.`;
       )}
 
       {/* 28-Day Habit Heatmap */}
-      <div className="cd" style={{ padding: 22 }}>
+      <div className="cd cd-progress" style={{ padding: 22 }}>
         <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
           <h3 style={{ margin: 0, fontSize: 16 }}>28-Day Consistency Matrix</h3>
           <span className="mut" style={{ fontSize: 12 }}>Darker hue = higher completion</span>
@@ -194,14 +194,14 @@ Verdict: Maintain foundational morning habits; momentum is firmly compounding.`;
 
       {/* Best vs Needs Attention */}
       <div className="df-grid-2">
-        <div className="cd" style={{ padding: 20 }}>
+        <div className="cd cd-progress" style={{ padding: 20 }}>
           <h3 style={{ margin: '0 0 14px', fontSize: 16, color: 'var(--ac)' }}>Top Performing Habits 🔥</h3>
           {bestHabits.length === 0 ? (
             <p className="mut" style={{ fontSize: 13 }}>No habits completed today yet.</p>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               {bestHabits.map((h) => (
-                <div key={h.id} className="row" style={{ justifyContent: 'space-between', padding: '8px 12px', background: 'var(--sf)', borderRadius: 8 }}>
+                <div key={h.id} className="row" style={{ justifyContent: 'space-between', padding: '8px 12px', background: 'var(--card-progress-inner-bg)', border: '1px solid var(--card-progress-inner-border)', borderRadius: 8 }}>
                   <span style={{ fontSize: 14 }}>{h.name}</span>
                   <span className="badge badge-completed badge-sm">
                     Completed Today ✓
@@ -212,14 +212,14 @@ Verdict: Maintain foundational morning habits; momentum is firmly compounding.`;
           )}
         </div>
 
-        <div className="cd" style={{ padding: 20 }}>
+        <div className="cd cd-progress" style={{ padding: 20 }}>
           <h3 style={{ margin: '0 0 14px', fontSize: 16 }}>Habits Needing Attention</h3>
           {strugglingHabits.length === 0 ? (
             <p className="mut" style={{ fontSize: 13 }}>All active habits completed today!</p>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               {strugglingHabits.map((h) => (
-                <div key={h.id} className="row" style={{ justifyContent: 'space-between', padding: '8px 12px', background: 'var(--sf)', borderRadius: 8 }}>
+                <div key={h.id} className="row" style={{ justifyContent: 'space-between', padding: '8px 12px', background: 'var(--card-progress-inner-bg)', border: '1px solid var(--card-progress-inner-border)', borderRadius: 8 }}>
                   <span style={{ fontSize: 14 }}>{h.name}</span>
                   <span className="badge badge-pending badge-sm">
                     Pending
@@ -233,7 +233,7 @@ Verdict: Maintain foundational morning habits; momentum is firmly compounding.`;
 
       {/* Correlation Insights: Sleep vs Productivity & Mood vs Focus */}
       {healthSummary && (
-        <div className="cd" style={{ padding: 22 }}>
+        <div className="cd cd-progress" style={{ padding: 22 }}>
           <h3 style={{ margin: '0 0 12px', fontSize: 16 }}>Biometric & Performance Correlations</h3>
           <p className="mut" style={{ margin: '0 0 16px', fontSize: 13 }}>
             Patterns discovered between your physical state and your mental output.

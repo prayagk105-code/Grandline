@@ -217,7 +217,7 @@ export const ProgressPage: React.FC = () => {
             {summary && habitChart ? (
               <>
                 <div className="df-grid-2" style={{ marginBottom: 12 }}>
-                  <div className="cd" style={{ borderLeft: '3px solid var(--mod-habits)' }}>
+                  <div className="cd cd-habits">
                     <div className="row" style={{ justifyContent: 'space-between', marginBottom: 10 }}>
                       <b className="d" style={{ fontSize: 14 }}>Habit Completion %</b>
                       <small className="mut">by {habitChart.granularity}</small>
@@ -251,7 +251,7 @@ export const ProgressPage: React.FC = () => {
                   </div>
 
                   {studyChart ? (
-                    <div className="cd" style={{ borderLeft: '3px solid var(--mod-study)' }}>
+                    <div className="cd cd-study">
                       <div className="row" style={{ justifyContent: 'space-between', marginBottom: 10 }}>
                         <b className="d" style={{ fontSize: 14 }}>Study Time (minutes)</b>
                         <small className="mut">minutes</small>

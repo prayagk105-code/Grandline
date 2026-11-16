@@ -136,7 +136,7 @@ export const BadHabitsManager: React.FC = () => {
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))', gap: 16 }}>
           {habits.map((h) => (
-            <div key={h.id} className="cd" style={{ padding: '14px 16px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 10 }}>
+            <div key={h.id} className="cd cd-priorities" style={{ padding: '14px 16px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 10 }}>
               <div>
                 <div className="row" style={{ justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
                   <div>
@@ -146,7 +146,7 @@ export const BadHabitsManager: React.FC = () => {
                     </span>
                   </div>
                   <div style={{ textAlign: 'right' }}>
-                    <div style={{ fontSize: 20, fontWeight: 700, color: 'var(--ac)' }}>
+                    <div style={{ fontSize: 20, fontWeight: 700, color: 'var(--card-priorities-accent)' }}>
                       {h.cleanStreakDays}d
                     </div>
                     <span className="mut" style={{ fontSize: 10.5 }}>Clean Streak 🔥</span>
@@ -154,14 +154,14 @@ export const BadHabitsManager: React.FC = () => {
                 </div>
 
                 {h.trigger && (
-                  <div style={{ marginBottom: 6, fontSize: 11.5, background: 'var(--cd-sec)', padding: '6px 10px', borderRadius: 'var(--radius-md)', border: '1px solid var(--ln)' }}>
-                    <b style={{ color: 'var(--ink)' }}>Trigger:</b> <span className="mut">{h.trigger}</span>
+                  <div style={{ marginBottom: 6, fontSize: 11.5, background: 'var(--card-priorities-inner-bg)', padding: '6px 10px', borderRadius: 'var(--radius-md)', border: '1px solid var(--card-priorities-inner-border)' }}>
+                    <b style={{ color: 'var(--card-priorities-accent)' }}>Trigger:</b> <span className="mut">{h.trigger}</span>
                   </div>
                 )}
 
                 {h.replacementHabit && (
-                  <div style={{ marginBottom: 8, fontSize: 11.5, background: 'var(--cd-sec)', padding: '6px 10px', borderRadius: 'var(--radius-md)', border: '1px solid var(--ln)' }}>
-                    <b style={{ color: 'var(--ac)' }}>Replacement:</b> <span style={{ fontWeight: 500 }}>{h.replacementHabit}</span>
+                  <div style={{ marginBottom: 8, fontSize: 11.5, background: 'var(--card-priorities-inner-bg)', padding: '6px 10px', borderRadius: 'var(--radius-md)', border: '1px solid var(--card-priorities-inner-border)' }}>
+                    <b style={{ color: 'var(--card-priorities-accent)' }}>Replacement:</b> <span style={{ fontWeight: 500 }}>{h.replacementHabit}</span>
                   </div>
                 )}
               </div>

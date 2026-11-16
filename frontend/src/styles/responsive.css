@@ -389,14 +389,15 @@
     font-size: 13px;
   }
 
-  /* Mobile Greeting Section */
+  /* Mobile Greeting Section - Minimal Dark */
   .home-mobile-greeting {
-    background: var(--cd);
-    border: 1px solid var(--ln);
+    background: var(--home-box-bg);
+    border: 1px solid var(--home-box-border);
+    border-top: 2.5px solid #818CF8;
     border-radius: var(--radius-xl);
     padding: 14px 16px;
     margin-bottom: 12px;
-    box-shadow: var(--shadow-xs);
+    box-shadow: var(--home-box-shadow);
   }
 
   .home-mobile-greeting-header {
@@ -412,7 +413,7 @@
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.04em;
-    color: var(--mut);
+    color: var(--mod-home);
     margin-bottom: 2px;
   }
 
@@ -420,14 +421,14 @@
     margin: 0;
     font-size: 18px;
     font-weight: 700;
-    color: var(--ink);
+    color: var(--home-box-text-main);
     line-height: 1.25;
   }
 
   .home-mobile-subtitle {
     margin: 3px 0 0;
     font-size: 12px;
-    color: var(--mut);
+    color: var(--home-box-text-muted);
     line-height: 1.35;
   }
 
@@ -441,7 +442,7 @@
   .home-mobile-voyage {
     margin-top: 10px;
     padding-top: 9px;
-    border-top: 1px solid var(--ln-subtle);
+    border-top: 1px solid var(--home-box-inner-border);
   }
 
   .home-mobile-voyage-info {
@@ -454,7 +455,7 @@
   .home-mobile-voyage-label {
     font-size: 12px;
     font-weight: 600;
-    color: var(--ink);
+    color: var(--home-box-text-main);
     display: flex;
     align-items: center;
     gap: 4px;
@@ -462,7 +463,7 @@
 
   .home-mobile-voyage-pct {
     font-size: 11px;
-    color: var(--mut);
+    color: var(--home-box-text-muted);
     font-weight: 500;
   }
 
@@ -470,36 +471,60 @@
     height: 5px;
     width: 100%;
     border-radius: 999px;
-    background: var(--sf);
+    background: var(--home-stat-bar-track, rgba(0, 0, 0, 0.08));
     overflow: hidden;
   }
 
   .home-mobile-voyage-fill {
     height: 100%;
-    background: var(--ac);
+    background: linear-gradient(90deg, #7775C7, #A5B4FC);
     border-radius: 999px;
     transition: width 0.4s ease;
   }
 
-  /* Top Card Overview Snapshot (Requirement 2) */
+  /* Top Card Overview Snapshot - Minimal Dark */
   .home-mobile-overview-stats {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 8px;
     margin-top: 10px;
     padding-top: 10px;
-    border-top: 1px solid var(--ln-subtle);
+    border-top: 1px solid var(--home-box-inner-border);
   }
 
   .home-mobile-stat-pill {
-    background: var(--cd-sec);
-    border: 1px solid var(--ln);
+    background: var(--home-box-inner-bg);
+    border: 1px solid var(--home-box-inner-border);
     border-radius: var(--radius-md);
     padding: 8px 10px;
     display: flex;
     flex-direction: column;
     gap: 3px;
     min-width: 0;
+  }
+
+  .home-mobile-overview-stats > :first-child {
+    background: var(--home-box-inner-bg);
+    border: 1px solid var(--home-box-inner-border);
+    border-left: 3px solid #34D399;
+  }
+  .home-mobile-overview-stats > :first-child .home-mobile-stat-val {
+    color: var(--home-box-text-main);
+  }
+  .home-mobile-overview-stats > :first-child .home-mobile-stat-lbl {
+    color: var(--home-box-text-muted);
+  }
+
+  .home-mobile-overview-stats > :last-child {
+    background: var(--home-box-inner-bg);
+    border: 1px solid var(--home-box-inner-border);
+    border-left: 3px solid #FBBF24;
+  }
+  .home-mobile-overview-stats > :last-child .home-mobile-stat-val {
+    color: var(--home-box-text-main);
+  }
+  .home-mobile-overview-stats > :last-child .home-mobile-stat-lbl {
+    color: var(--home-box-text-muted);
   }
 
   .home-mobile-stat-top {

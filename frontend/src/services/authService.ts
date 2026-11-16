@@ -35,18 +35,6 @@ export interface ResetPasswordPayload {
 export const authService = {
   async register(payload: RegisterPayload): Promise<AuthResponse> {
     const res = await apiClient.post<ApiResponse<AuthResponse>>('/auth/register', payload);
-    setAccessToken(res.data.data.accessToken);
-    return res.data.data;
-  },
-
-  async sendOtp(payload: SendOtpPayload): Promise<SendOtpResponse> {
-    const res = await apiClient.post<ApiResponse<SendOtpResponse>>('/auth/send-otp', payload);
-    return res.data.data;
-  },
-
-  async verifyOtpAndRegister(payload: VerifyOtpAndRegisterPayload): Promise<AuthResponse> {
-    const res = await apiClient.post<ApiResponse<AuthResponse>>('/auth/verify-otp-and-register', payload);
-    setAccessToken(res.data.data.accessToken);
     return res.data.data;
   },
 
@@ -54,16 +42,6 @@ export const authService = {
     const res = await apiClient.post<ApiResponse<AuthResponse>>('/auth/login', payload);
     setAccessToken(res.data.data.accessToken);
     return res.data.data;
-  },
-
-  async demoLogin(): Promise<AuthResponse> {
-    const res = await apiClient.post<ApiResponse<AuthResponse>>('/auth/demo-login', {});
-    setAccessToken(res.data.data.accessToken);
-    return res.data.data;
-  },
-
-  async resetDemoData(): Promise<void> {
-    await apiClient.post('/auth/demo-reset', {});
   },
 
   async refresh(): Promise<AuthResponse | null> {

@@ -165,7 +165,7 @@ export const LifeTimelineView: React.FC = () => {
                 }}
               />
 
-              <div className="cd" style={{ padding: '14px 16px', marginBottom: 0 }}>
+              <div className="cd cd-memories" style={{ padding: '14px 16px', marginBottom: 0 }}>
                 <div className="row" style={{ justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 10, marginBottom: 8 }}>
                   <div className="row" style={{ gap: 8, alignItems: 'center' }}>
                     <span className="chip on" style={{ fontSize: 10, padding: '1px 6px' }}>{item.category}</span>

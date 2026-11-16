@@ -164,7 +164,7 @@ export const PersonalRulesManager: React.FC = () => {
               </button>
             }
           />
-          <div className="cd" style={{ padding: 20 }}>
+          <div className="cd cd-discipline" style={{ padding: 20 }}>
             <h4 style={{ margin: '0 0 12px', fontSize: 14 }}>Sample Principles to Adopt:</h4>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               {DEFAULT_RULE_SUGGESTIONS.map((sug, idx) => (
@@ -176,8 +176,8 @@ export const PersonalRulesManager: React.FC = () => {
                     alignItems: 'center',
                     padding: '10px 14px',
                     borderRadius: 'var(--radius-md)',
-                    border: '1px solid var(--ln)',
-                    background: 'var(--cd-sec)'
+                    border: '1px solid var(--card-discipline-inner-border)',
+                    background: 'var(--card-discipline-inner-bg)'
                   }}
                 >
                   <span style={{ fontSize: 13 }}>"{sug.ruleText}"</span>
@@ -202,11 +202,10 @@ export const PersonalRulesManager: React.FC = () => {
             return (
               <div
                 key={rule.id}
-                className="cd cd-compact"
+                className="cd cd-habits cd-compact"
                 style={{
                   padding: '11px 13px',
-                  marginBottom: 8,
-                  borderLeft: isFollowedToday ? '3px solid var(--badge-completed-text)' : '3px solid var(--ln)'
+                  marginBottom: 8
                 }}
               >
                 <div className="row" style={{ justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 12 }}>

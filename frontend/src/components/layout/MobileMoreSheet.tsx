@@ -82,7 +82,7 @@ export const MobileMoreSheet: React.FC<MobileMoreSheetProps> = ({
               key={item.to}
               to={item.to}
               onClick={onClose}
-              className={({ isActive }) => `more-card ${isActive ? 'active' : ''}`}
+              className={({ isActive }) => `more-card more-card-${item.badgeVariant} ${isActive ? 'active' : ''}`}
             >
               <div
                 className="more-card-icon"

@@ -282,7 +282,7 @@ export const StudyPage: React.FC = () => {
 
                   {paths.length > 0 ? (
                     paths.map((p) => (
-                      <div key={p.id} className="cd" style={{ borderLeft: '3px solid var(--mod-study)' }}>
+                      <div key={p.id} className="cd cd-study">
                         <div className="row">
                           <span className="mod-icon mod-icon-study" style={{ width: 36, height: 36 }}>
                             <DayformIcon name={p.icon || 'book'} size={18} />
@@ -405,7 +405,7 @@ export const StudyPage: React.FC = () => {
                     </div>
                   ) : null}
 
-                  <div className="cd">
+                  <div className="cd cd-study">
                     {sessions.length > 0 ? (
                       sessions.map((s) => (
                         <div key={s.id} className="li" style={{ padding: '9px 0' }}>

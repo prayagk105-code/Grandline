@@ -77,15 +77,15 @@ export const TodayPrioritiesWidget: React.FC = () => {
   const remainingCount = Math.max(0, sorted.length - 4);
 
   return (
-    <div className="cd home-card-priorities" style={{ borderLeft: '3px solid var(--hot)' }}>
+    <div className="cd cd-priorities home-card-priorities">
       <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
         <div className="row" style={{ gap: 8, alignItems: 'center' }}>
-          <span className="mod-icon" style={{ background: 'var(--hot-soft)', color: 'var(--hot)' }}>
+          <span className="mod-icon" style={{ background: 'var(--card-priorities-icon-bg)', color: 'var(--card-priorities-icon-color)' }}>
             <DayformIcon name="check" size={16} />
           </span>
           <div>
             <b className="d" style={{ fontSize: 16 }}>Today's Priorities</b>
-            <div className="mut" style={{ fontSize: 11 }}>Urgent & critical actions</div>
+            <div className="mut" style={{ fontSize: 11, color: 'var(--card-priorities-text-muted)' }}>Urgent & critical actions</div>
           </div>
         </div>
 

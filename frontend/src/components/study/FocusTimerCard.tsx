@@ -44,7 +44,7 @@ export const FocusTimerCard: React.FC<FocusTimerCardProps> = ({ compact = false,
 
   if (compact) {
     return (
-      <div className="cd rg">
+      <div className="cd cd-focus rg">
         <ProgressRing percent={pct} size={92} strokeWidth={9} label={timeText} />
         <div className="g">
           <div style={{ margin: '0 0 10px' }}>{statusBadge}</div>
@@ -63,7 +63,7 @@ export const FocusTimerCard: React.FC<FocusTimerCardProps> = ({ compact = false,
   }
 
   return (
-    <div className="cd" style={{ textAlign: 'center' }}>
+    <div className="cd cd-focus" style={{ textAlign: 'center' }}>
       <div className="chips" style={{ justifyContent: 'center' }}>
         {[25, 50, 60].map((m) => (
           <button

@@ -26,8 +26,8 @@ export const MemoryCard: React.FC<MemoryCardProps> = ({ memory, onSelect }) => {
       onClick={() => onSelect(memory)}
       style={{
         borderRadius: 'var(--radius-lg)',
-        border: '1px solid var(--ln)',
-        background: 'var(--cd)',
+        border: '1px solid var(--card-memories-border)',
+        background: 'var(--card-memories-bg)',
         overflow: 'hidden',
         textAlign: 'left',
         cursor: 'pointer',

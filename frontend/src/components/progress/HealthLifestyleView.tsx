@@ -249,7 +249,7 @@ export const HealthLifestyleView: React.FC = () => {
 
       {/* OVERVIEW / DAILY VITALS VIEW */}
       {subView === 'overview' && (
-        <div className="cd">
+        <div className="cd cd-health">
           <h3 style={{ margin: '0 0 16px', fontSize: 18 }}>Log Vitals for {formatDisplayDate(selectedDate)}</h3>
 
           <form onSubmit={handleSaveDaily} className="health-vitals-grid">
@@ -417,7 +417,7 @@ export const HealthLifestyleView: React.FC = () => {
               {workouts.map((w) => (
                 <div
                   key={w.id}
-                  className="cd"
+                  className="cd cd-health"
                   style={{
                     padding: 16,
                     display: 'flex',
@@ -476,7 +476,7 @@ export const HealthLifestyleView: React.FC = () => {
               {meals.map((m) => (
                 <div
                   key={m.id}
-                  className="cd"
+                  className="cd cd-health"
                   style={{
                     padding: 16,
                     display: 'flex',

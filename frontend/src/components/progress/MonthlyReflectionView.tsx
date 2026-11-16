@@ -121,7 +121,7 @@ export const MonthlyReflectionView: React.FC = () => {
       {loading ? (
         <LoadingSkeleton lines={6} />
       ) : (
-        <form onSubmit={handleSave} className="cd" style={{ padding: 24, display: 'flex', flexDirection: 'column', gap: 18 }}>
+        <form onSubmit={handleSave} className="cd cd-personal" style={{ padding: 24, display: 'flex', flexDirection: 'column', gap: 18 }}>
           <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center' }}>
             <h3 style={{ margin: 0, fontSize: 17 }}>
               {MONTH_NAMES[month - 1]} {year} Retrospective

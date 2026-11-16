@@ -225,7 +225,7 @@ export const PlannerPage: React.FC = () => {
 
           {calendar ? (
             <div className="df-grid-2">
-              <div className="cd">
+              <div className="cd cd-planner">
                 <div className="row" style={{ justifyContent: 'space-between', marginBottom: 14 }}>
                   <button
                     type="button"
@@ -287,7 +287,7 @@ export const PlannerPage: React.FC = () => {
               </div>
 
               <div className="g">
-                <div className="cd" style={{ borderLeft: '3px solid var(--mod-planner)' }}>
+                <div className="cd cd-planner">
                   <div className="row" style={{ justifyContent: 'space-between', marginBottom: 8 }}>
                     <div className="row" style={{ gap: 8, alignItems: 'center' }}>
                       <span className="mod-icon mod-icon-planner" style={{ width: 28, height: 28 }}>
@@ -343,9 +343,9 @@ export const PlannerPage: React.FC = () => {
                             style={{
                               justifyContent: 'space-between',
                               padding: '10px 14px',
-                              background: 'var(--cd-sec)',
+                              background: 'var(--card-planner-inner-bg)',
                               borderRadius: 'var(--radius-md)',
-                              border: '1px solid var(--ln)'
+                              border: '1px solid var(--card-planner-inner-border)'
                             }}
                           >
                             <div>

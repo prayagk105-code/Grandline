@@ -284,7 +284,7 @@ export const KnowledgeHub: React.FC<KnowledgeHubProps> = ({ initialTab = 'books'
               {filteredBooks.map((b) => {
                 const pct = b.totalPages > 0 ? Math.min(100, Math.round((b.currentPage / b.totalPages) * 100)) : 0;
                 return (
-                  <div key={b.id} className="cd" style={{ padding: 18, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                  <div key={b.id} className="cd cd-study" style={{ padding: 18, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                     <div>
                       <div className="row" style={{ justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
                         <span className="chip" style={{ fontSize: 10, padding: '1px 6px' }}>{b.status}</span>
@@ -358,7 +358,7 @@ export const KnowledgeHub: React.FC<KnowledgeHubProps> = ({ initialTab = 'books'
           ) : (
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))', gap: 14 }}>
               {filteredNotes.map((n) => (
-                <div key={n.id} className="cd" style={{ padding: 18 }}>
+                <div key={n.id} className="cd cd-study" style={{ padding: 18 }}>
                   <div className="row" style={{ justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 6 }}>
                     <span className="chip" style={{ fontSize: 10, padding: '1px 6px' }}>{n.category}</span>
                     <button
@@ -379,7 +379,7 @@ export const KnowledgeHub: React.FC<KnowledgeHubProps> = ({ initialTab = 'books'
                   {n.tags && (
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
                       {n.tags.split(',').map((t, idx) => (
-                        <span key={idx} className="mut" style={{ fontSize: 11, background: 'var(--sf)', padding: '2px 6px', borderRadius: 4 }}>
+                        <span key={idx} className="mut" style={{ fontSize: 11, background: 'var(--card-personal-inner-bg)', padding: '2px 6px', borderRadius: 4 }}>
                           #{t.trim().replace(/^#/, '')}
                         </span>
                       ))}
@@ -408,7 +408,7 @@ export const KnowledgeHub: React.FC<KnowledgeHubProps> = ({ initialTab = 'books'
           ) : (
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))', gap: 14 }}>
               {filteredIdeas.map((i) => (
-                <div key={i.id} className="cd" style={{ padding: 16 }}>
+                <div key={i.id} className="cd cd-study" style={{ padding: 16 }}>
                   <div className="row" style={{ justifyContent: 'space-between', marginBottom: 6 }}>
                     <span className="chip on" style={{ fontSize: 10, padding: '1px 6px' }}>{i.status}</span>
                     <button
@@ -449,7 +449,7 @@ export const KnowledgeHub: React.FC<KnowledgeHubProps> = ({ initialTab = 'books'
           ) : (
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))', gap: 14 }}>
               {filteredQuotes.map((q) => (
-                <div key={q.id} className="cd" style={{ padding: 18, borderLeft: q.isFavorite ? '4px solid var(--ac)' : undefined }}>
+                <div key={q.id} className="cd cd-study" style={{ padding: 18 }}>
                   <div className="row" style={{ justifyContent: 'space-between', marginBottom: 8 }}>
                     <span className="chip" style={{ fontSize: 10, padding: '1px 6px' }}>{q.tags || 'Quote'}</span>
                     <button

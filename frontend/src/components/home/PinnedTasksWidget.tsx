@@ -42,7 +42,7 @@ export const PinnedTasksWidget: React.FC = () => {
   };
 
   return (
-    <div className="cd">
+    <div className="cd cd-priorities home-card-pinned">
       <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
         <div className="row" style={{ gap: 8, alignItems: 'center' }}>
           <span style={{ fontSize: 16 }}>📌</span>

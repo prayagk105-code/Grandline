@@ -200,7 +200,7 @@ export const TasksManager: React.FC = () => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       {/* Quick Add Bar */}
-      <form onSubmit={handleQuickAdd} className="cd task-quick-add-form" style={{ padding: '10px 14px', marginBottom: 0 }}>
+      <form onSubmit={handleQuickAdd} className="cd cd-planner task-quick-add-form" style={{ padding: '10px 14px', marginBottom: 0 }}>
         <input
           type="text"
           placeholder="Quick add a new task for today..."
@@ -280,26 +280,18 @@ export const TasksManager: React.FC = () => {
             const isOverdue = !t.isCompleted && t.dueDate && t.dueDate < today;
             const priorityClass =
               t.priority === 'High' ? 'badge-high' : t.priority === 'Medium' ? 'badge-med' : 'badge-low';
+            const cardThemeClass = t.isCompleted ? 'cd-neutral' : 'cd-planner';
             return (
               <div
                 key={t.id}
-                className="cd"
+                className={`cd ${cardThemeClass}`}
                 style={{
                   display: 'flex',
                   flexDirection: 'column',
                   gap: 8,
                   padding: '14px 16px',
                   marginBottom: 8,
-                  borderRadius: 'var(--radius-lg)',
-                  borderLeft: `3px solid ${
-                    t.isCompleted
-                      ? 'var(--mut)'
-                      : t.priority === 'High'
-                      ? 'var(--hot)'
-                      : t.priority === 'Medium'
-                      ? 'var(--badge-med-text)'
-                      : 'var(--ac)'
-                  }`
+                  borderRadius: 'var(--radius-lg)'
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>

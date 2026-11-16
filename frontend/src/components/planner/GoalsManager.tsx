@@ -280,7 +280,7 @@ export const GoalsManager: React.FC = () => {
           ) : (
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))', gap: 14 }}>
               {filteredGoals.map((g) => (
-                <div key={g.id} className="cd" style={{ display: 'flex', flexDirection: 'column', gap: 10, padding: 16 }}>
+                <div key={g.id} className="cd cd-progress" style={{ display: 'flex', flexDirection: 'column', gap: 10, padding: 16 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                     <div>
                       <div style={{ display: 'flex', gap: 6, marginBottom: 4, flexWrap: 'wrap' }}>
@@ -377,7 +377,7 @@ export const GoalsManager: React.FC = () => {
           ) : (
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 260px), 1fr))', gap: 16 }}>
               {visionItems.map((v) => (
-                <div key={v.id} className="cd" style={{ padding: 0, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+                <div key={v.id} className="cd cd-progress" style={{ padding: 0, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
                   {v.imageUrl ? (
                     <img src={v.imageUrl} alt={v.title} style={{ width: '100%', height: 160, objectFit: 'cover' }} />
                   ) : (

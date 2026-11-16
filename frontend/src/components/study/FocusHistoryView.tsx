@@ -99,7 +99,7 @@ export const FocusHistoryView: React.FC = () => {
       )}
 
       {/* Screen Time Section */}
-      <div className="cd" style={{ padding: '14px 16px' }}>
+      <div className="cd cd-focus" style={{ padding: '14px 16px' }}>
         <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
           <div>
             <h3 style={{ margin: '0 0 2px', fontSize: 16 }}>Manual Screen-Time Log</h3>
@@ -163,7 +163,7 @@ export const FocusHistoryView: React.FC = () => {
             {sessions.map((s) => (
               <div
                 key={s.id}
-                className="cd"
+                className="cd cd-study"
                 style={{
                   padding: 14,
                   display: 'flex',

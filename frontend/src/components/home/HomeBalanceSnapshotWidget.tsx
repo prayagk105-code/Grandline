@@ -45,7 +45,7 @@ export const HomeBalanceSnapshotWidget: React.FC = () => {
   const savingsRate = financeSummary?.savingsRatePercent ?? 0;
 
   return (
-    <div className="cd home-card-balance-snapshot" style={{ borderLeft: '3px solid var(--mod-balance)', marginBottom: 16 }}>
+    <div className="cd cd-balance home-card-balance home-card-balance-snapshot">
       {/* Header */}
       <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
         <div className="row" style={{ gap: 8, alignItems: 'center' }}>

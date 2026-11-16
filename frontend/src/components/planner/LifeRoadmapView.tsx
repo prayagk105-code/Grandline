@@ -83,24 +83,24 @@ export const LifeRoadmapView: React.FC = () => {
             textAlign: 'center'
           }}
         >
-          <div style={{ padding: '10px 8px', borderRadius: 8, background: 'var(--cd)', border: '1px solid var(--ln)' }}>
-            <div style={{ fontSize: 10, fontWeight: 700, color: 'var(--ac)' }}>VISION & 5-YR</div>
+          <div style={{ padding: '10px 8px', borderRadius: 8, background: 'var(--card-discipline-bg)', border: '1px solid var(--card-discipline-border)' }}>
+            <div style={{ fontSize: 10, fontWeight: 700, color: 'var(--card-discipline-accent)' }}>VISION & 5-YR</div>
             <div style={{ fontSize: 12, fontWeight: 600 }}>Life Mission</div>
           </div>
-          <div style={{ padding: '10px 8px', borderRadius: 8, background: 'var(--cd)', border: '1px solid var(--ln)' }}>
-            <div style={{ fontSize: 10, fontWeight: 700, color: 'var(--ac)' }}>YEARLY</div>
+          <div style={{ padding: '10px 8px', borderRadius: 8, background: 'var(--card-progress-bg)', border: '1px solid var(--card-progress-border)' }}>
+            <div style={{ fontSize: 10, fontWeight: 700, color: 'var(--card-progress-accent)' }}>YEARLY</div>
             <div style={{ fontSize: 12, fontWeight: 600 }}>Anchors & Goals</div>
           </div>
-          <div style={{ padding: '10px 8px', borderRadius: 8, background: 'var(--cd)', border: '1px solid var(--ln)' }}>
-            <div style={{ fontSize: 10, fontWeight: 700, color: 'var(--ac)' }}>MONTHLY</div>
+          <div style={{ padding: '10px 8px', borderRadius: 8, background: 'var(--card-study-bg)', border: '1px solid var(--card-study-border)' }}>
+            <div style={{ fontSize: 10, fontWeight: 700, color: 'var(--card-study-accent)' }}>MONTHLY</div>
             <div style={{ fontSize: 12, fontWeight: 600 }}>Milestones</div>
           </div>
-          <div style={{ padding: '10px 8px', borderRadius: 8, background: 'var(--cd)', border: '1px solid var(--ln)' }}>
-            <div style={{ fontSize: 10, fontWeight: 700, color: 'var(--ac)' }}>WEEKLY</div>
+          <div style={{ padding: '10px 8px', borderRadius: 8, background: 'var(--card-planner-bg)', border: '1px solid var(--card-planner-border)' }}>
+            <div style={{ fontSize: 10, fontWeight: 700, color: 'var(--card-planner-accent)' }}>WEEKLY</div>
             <div style={{ fontSize: 12, fontWeight: 600 }}>Key Priorities</div>
           </div>
-          <div style={{ padding: '10px 8px', borderRadius: 8, background: 'var(--cd)', border: '1px solid var(--ln)' }}>
-            <div style={{ fontSize: 10, fontWeight: 700, color: 'var(--ac)' }}>DAILY</div>
+          <div style={{ padding: '10px 8px', borderRadius: 8, background: 'var(--card-habits-bg)', border: '1px solid var(--card-habits-border)' }}>
+            <div style={{ fontSize: 10, fontWeight: 700, color: 'var(--card-habits-accent)' }}>DAILY</div>
             <div style={{ fontSize: 12, fontWeight: 600 }}>Tasks & Habits</div>
           </div>
         </div>
@@ -156,7 +156,7 @@ export const LifeRoadmapView: React.FC = () => {
                   {isCompleted ? '✓' : index + 1}
                 </div>
 
-                <div className="cd" style={{ padding: '18px 20px', borderRadius: 12 }}>
+                <div className="cd cd-planner" style={{ padding: '18px 20px', borderRadius: 12 }}>
                   <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
                     <div className="row" style={{ gap: 8, alignItems: 'center' }}>
                       <span className="chip" style={{ fontSize: 11, padding: '2px 8px' }}>

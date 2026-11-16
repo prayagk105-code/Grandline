@@ -27,7 +27,7 @@ export const TodayHabitsWidget: React.FC<TodayHabitsWidgetProps> = ({
   const hasMore = habits.length > initialLimit;
 
   return (
-    <div className="cd home-card-habits" style={{ borderLeft: '3px solid var(--mod-habits)', marginBottom: 16 }}>
+    <div className="cd cd-habits home-card-habits">
       {/* Header */}
       <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
         <div className="row" style={{ gap: 8, alignItems: 'center', minWidth: 0, flex: 1 }}>

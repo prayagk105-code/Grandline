@@ -105,7 +105,7 @@ export const WeeklyReviewView: React.FC = () => {
 
       {/* Task & Goal Retrospective Breakdown */}
       <div className="df-grid-2">
-        <div className="cd" style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+        <div className="cd cd-planner" style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
           <b className="d" style={{ fontSize: 15 }}>Execution Highlights</b>
           <div className="mut" style={{ fontSize: 12 }}>
             • {completedTasks.length} tasks executed successfully.
@@ -130,10 +130,10 @@ export const WeeklyReviewView: React.FC = () => {
           )}
         </div>
 
-        <div className="cd" style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+        <div className="cd cd-progress" style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
           <b className="d" style={{ fontSize: 15 }}>Active Goal Anchors ({activeGoals.length})</b>
           {activeGoals.slice(0, 3).map((g) => (
-            <div key={g.id} style={{ padding: '8px 10px', borderRadius: 8, background: 'var(--sf)' }}>
+            <div key={g.id} style={{ padding: '8px 10px', borderRadius: 8, background: 'var(--card-progress-inner-bg)', border: '1px solid var(--card-progress-inner-border)' }}>
               <div className="row" style={{ justifyContent: 'space-between', fontSize: 13, fontWeight: 500 }}>
                 <span>{g.title}</span>
                 <span>{g.progressPercentage}%</span>
@@ -160,7 +160,7 @@ export const WeeklyReviewView: React.FC = () => {
       </div>
 
       {/* Written Reflection & Intentions */}
-      <form onSubmit={handleSaveReview} className="cd" style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+      <form onSubmit={handleSaveReview} className="cd cd-personal" style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
         <b className="d" style={{ fontSize: 15 }}>Weekly Synthesis & Next Week's Blueprint</b>
 
         <div className="df-grid-2">
