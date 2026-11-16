@@ -74,14 +74,14 @@ export const RegisterPage: React.FC = () => {
         timeZoneId
       });
 
-      showToast('Account created successfully! Please sign in with your email and password.', 'success');
+      showToast('Account created successfully! Please sign in with your email and password.');
       navigate('/login', {
         replace: true,
         state: { registeredEmail: values.email.trim() }
       });
     } catch (err: unknown) {
       const parsed = parseApiError(err, 'Failed to create account.');
-      if (parsed.code === 'email_in_use' || parsed.message.toLowerCase().includes('already exists')) {
+      if (parsed.message.toLowerCase().includes('already exists') || parsed.message.toLowerCase().includes('email')) {
         setApiError('An account with this email address already exists. Please sign in or use another email.');
       } else {
         setApiError(parsed.message);

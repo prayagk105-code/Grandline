@@ -10,6 +10,7 @@ interface AuthContextValue {
   isAuthenticated: boolean;
   login: (payload: LoginPayload) => Promise<void>;
   register: (payload: RegisterPayload) => Promise<void>;
+  demoLogin: () => Promise<void>;
   logout: () => Promise<void>;
   setUser: React.Dispatch<React.SetStateAction<UserDto | null>>;
 }
@@ -86,6 +87,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     await authService.register(payload);
   }, []);
 
+  const demoLogin = useCallback(async () => {
+    const res = await authService.demoLogin();
+    setUser(res.user);
+    applyThemePreference(res.user.themePreference);
+  }, []);
+
   const logout = useCallback(async () => {
     await authService.logout();
     setUser(null);
@@ -99,6 +106,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         isAuthenticated: Boolean(user),
         login,
         register,
+        demoLogin,
         logout,
         setUser
       }}
