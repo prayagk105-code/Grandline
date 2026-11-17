@@ -13,10 +13,10 @@ import { usePwa } from '../utils/usePwa';
 
 // Primary 5 Mobile Navigation Tabs
 const PRIMARY_MOBILE_TABS = [
-  { to: '/', label: 'Home', icon: 'home', end: true },
-  { to: '/habits', label: 'Habits', icon: 'habit', end: false },
-  { to: '/study', label: 'Study', icon: 'book', end: false },
-  { to: '/planner', label: 'Planner', icon: 'cal', end: false }
+  { to: '/', label: 'HOME', icon: 'home', end: true },
+  { to: '/habits', label: 'HABITS', icon: 'habit', end: false },
+  { to: '/study', label: 'STUDY', icon: 'book', end: false },
+  { to: '/planner', label: 'PLANNER', icon: 'cal', end: false }
 ] as const;
 
 // Desktop Navigation - Preserves all 8 sections
@@ -83,33 +83,35 @@ export const AppLayout: React.FC = () => {
         onReloadUpdate={reloadToUpdate}
       />
 
-      <header className="df-header">
-        <NavLink to="/" className="df-logo" aria-label="Grandline Home">
-          <b className="df-logo-mark">⚓</b>
-          <span>GRANDLINE</span>
-        </NavLink>
+      <header className="df-header v4-header">
+        <div className="row" style={{ alignItems: 'center', gap: 10 }}>
+          <NavLink to="/" className="df-logo" aria-label="Grandline Home">
+            <b className="df-logo-mark" style={{ background: '#3B28CC', color: '#FFFFFF', borderRadius: 10 }}>⚓</b>
+            <span>GRANDLINE</span>
+          </NavLink>
 
-        <div className="df-header-actions" style={{ alignItems: 'center' }}>
-          {/* Cloud Sync Status Indicator */}
+          {/* Cloud Sync Status Pill */}
           <div
-            className="row sync-badge"
+            className="row sync-badge v4-sync-badge"
             title={isOnline ? 'Cloud synchronised and up-to-date' : 'Offline - local cache active'}
           >
             <span
-              className="sync-dot"
+              className="sync-dot v4-sync-dot"
               style={{
-                width: 7,
-                height: 7,
+                width: 6,
+                height: 6,
                 borderRadius: '50%',
-                background: isOnline ? '#287447' : '#B8752B',
+                background: isOnline ? '#10B981' : '#B8752B',
                 display: 'inline-block'
               }}
             />
-            <span style={{ fontSize: 11, fontWeight: 500 }} className="mut sync-text">
-              {isOnline ? 'Synced' : 'Offline'}
+            <span style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.04em' }} className="sync-text">
+              {isOnline ? 'SYNC' : 'OFFLINE'}
             </span>
           </div>
+        </div>
 
+        <div className="df-header-actions" style={{ alignItems: 'center' }}>
           {/* PWA Install Button when installable and not yet installed - Desktop only */}
           {canInstall && !isInstalled && (
             <button
@@ -135,7 +137,7 @@ export const AppLayout: React.FC = () => {
             <DayformIcon name="search" size={17} />
           </button>
 
-          {/* Desktop-only Quick Access to Journal & Planner (mobile accesses Planner via bottom nav and Journal via More sheet) */}
+          {/* Desktop-only Quick Access to Journal & Planner */}
           <button
             type="button"
             className="ib header-btn desktop-only"
@@ -158,12 +160,12 @@ export const AppLayout: React.FC = () => {
           {/* Quick Add Icon Button */}
           <button
             type="button"
-            className="ib header-btn"
+            className="v4-btn-quick-add header-btn"
             onClick={() => setQuickAddOpen(true)}
             aria-label="Quick add"
             title="Quick Add Habit or Session"
           >
-            <DayformIcon name="plus" size={17} />
+            <DayformIcon name="plus" size={18} />
           </button>
 
           {/* Profile Avatar Button */}
@@ -173,6 +175,7 @@ export const AppLayout: React.FC = () => {
             onClick={() => navigate('/profile')}
             aria-label="Profile"
             title="Account & Settings"
+            style={{ width: 34, height: 34, fontSize: 13, border: '2px solid #E5E7EB' }}
           >
             {initial}
           </button>
@@ -230,10 +233,17 @@ export const AppLayout: React.FC = () => {
               end={tab.end}
               className={({ isActive }) => `nv-btn ${isActive ? 'on' : ''}`}
             >
-              <span>
-                <DayformIcon name={tab.icon} size={19} />
-              </span>
-              {tab.label}
+              {({ isActive }) => (
+                <>
+                  <span>
+                    <DayformIcon name={tab.icon} size={18} />
+                  </span>
+                  <span style={{ fontSize: 9.5, fontWeight: isActive ? 700 : 600, letterSpacing: '0.04em' }}>
+                    {tab.label}
+                  </span>
+                  {isActive && <span className="v4-nav-dot" />}
+                </>
+              )}
             </NavLink>
           ))}
 
@@ -246,9 +256,12 @@ export const AppLayout: React.FC = () => {
             aria-expanded={moreSheetOpen}
           >
             <span>
-              <DayformIcon name="more" size={19} />
+              <DayformIcon name="more" size={18} />
             </span>
-            More
+            <span style={{ fontSize: 9.5, fontWeight: (isMoreRouteActive || moreSheetOpen) ? 700 : 600, letterSpacing: '0.04em' }}>
+              MORE
+            </span>
+            {(isMoreRouteActive || moreSheetOpen) && <span className="v4-nav-dot" />}
           </button>
         </div>
       </nav>

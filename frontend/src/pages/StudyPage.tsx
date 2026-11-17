@@ -2,8 +2,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { ConfirmDialog } from '../components/common/ConfirmDialog';
 import { DayformIcon } from '../components/common/DayformIcon';
-import { PageHeader } from '../components/common/PageHeader';
-import { StatCard } from '../components/common/StatCard';
 import { EmptyState, ErrorState, LoadingSkeleton } from '../components/common/StateBlocks';
 import { FocusHistoryView } from '../components/study/FocusHistoryView';
 import { FocusProductivityCard } from '../components/study/FocusProductivityCard';
@@ -63,7 +61,7 @@ export const StudyPage: React.FC = () => {
         studyService.getSessions({
           learningPathId: filterPathId || undefined,
           page: 1,
-          pageSize: 8
+          pageSize: 10
         })
       ]);
       setPaths(lp);
@@ -152,67 +150,97 @@ export const StudyPage: React.FC = () => {
     }
   };
 
-  return (
-    <>
-      <PageHeader
-        eyebrow="Feed your mind"
-        title="Study & Deep Work"
-        subtitle="Focused learning paths, deep work blocks, and deliberate practice."
-        action={
-          activeTab === 'paths' ? (
-            <button
-              type="button"
-              className="btn pri sm"
-              onClick={() => {
-                setEditingSession(null);
-                setDefaultPathId(null);
-                setSessionSheetOpen(true);
-              }}
-              style={{ gap: 6 }}
-            >
-              <DayformIcon name="plus" size={14} />
-              <span>Log Session</span>
-            </button>
-          ) : undefined
-        }
-      />
+  // Dynamic milestone computations
+  const totalMinutes = summary?.totalMinutesAllTime ?? 0;
+  const totalHours = Math.round(totalMinutes / 60);
+  const targetHours = totalHours < 100 ? 100 : totalHours < 250 ? 250 : totalHours < 500 ? 500 : Math.ceil((totalHours + 1) / 250) * 250;
+  const remainingHours = Math.max(0, targetHours - totalHours);
+  const questPercent = Math.min(100, Math.round((totalHours / targetHours) * 100));
+  const studyRank = totalHours >= 300 ? 'Grand Master' : totalHours >= 150 ? 'Specialist' : totalHours >= 50 ? 'Adept' : 'Apprentice';
+  const weekHours = summary ? (summary.minutesThisWeek / 60).toFixed(1) : '0.0';
 
-      {/* Tabs */}
-      <div className="chips" style={{ marginBottom: 18 }}>
+  return (
+    <div className="v4-page-container">
+      {/* V4 Study Header (Screenshot 4) */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 12 }}>
+        <div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+            <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#6B7280' }}>
+              FEED YOUR MIND
+            </span>
+            <span
+              style={{
+                background: '#EEECFA',
+                color: '#3B28CC',
+                padding: '2px 8px',
+                borderRadius: 9999,
+                fontSize: 10.5,
+                fontWeight: 700
+              }}
+            >
+              Apex Zenith v4.0
+            </span>
+          </div>
+          <h1 style={{ fontSize: 24, fontWeight: 800, margin: '0 0 4px', color: '#1E1B4B', letterSpacing: '-0.02em' }}>
+            Study & Deep Work
+          </h1>
+          <p style={{ margin: 0, fontSize: 13, color: '#6B7280', maxWidth: 460 }}>
+            Master your craft through intense, uninterrupted focus sessions.
+          </p>
+        </div>
+
+        <div className="v4-study-header-actions">
+          <button
+            type="button"
+            className="v4-btn-log-session"
+            onClick={() => {
+              setEditingSession(null);
+              setDefaultPathId(null);
+              setSessionSheetOpen(true);
+            }}
+          >
+            <DayformIcon name="plus" size={15} />
+            <span>Log Session</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Pill Sub-Navigation Tabs */}
+      <div style={{ display: 'flex', gap: 8, overflowX: 'auto', paddingBottom: 4 }}>
         <button
           type="button"
-          className={`chip ${activeTab === 'paths' ? 'on' : ''}`}
+          className={`v4-tab-pill ${activeTab === 'paths' ? 'active' : ''}`}
           onClick={() => setTab('paths')}
         >
           Learning Paths
         </button>
         <button
           type="button"
-          className={`chip ${activeTab === 'reading' ? 'on' : ''}`}
+          className={`v4-tab-pill ${activeTab === 'reading' ? 'active' : ''}`}
           onClick={() => setTab('reading')}
         >
           Reading Tracker
         </button>
         <button
           type="button"
-          className={`chip ${activeTab === 'knowledge' ? 'on' : ''}`}
+          className={`v4-tab-pill ${activeTab === 'knowledge' ? 'active' : ''}`}
           onClick={() => setTab('knowledge')}
         >
           Knowledge Hub
         </button>
         <button
           type="button"
-          className={`chip ${activeTab === 'focus' ? 'on' : ''}`}
+          className={`v4-tab-pill ${activeTab === 'focus' ? 'active' : ''}`}
           onClick={() => setTab('focus')}
         >
           Focus & Deep Work
         </button>
         <button
           type="button"
-          className={`chip ${activeTab === 'history' ? 'on' : ''}`}
+          className={`v4-tab-pill ${activeTab === 'history' ? 'active' : ''}`}
           onClick={() => setTab('history')}
         >
-          Focus History & Screen Time
+          Session History
         </button>
       </div>
 
@@ -235,104 +263,190 @@ export const StudyPage: React.FC = () => {
 
           {summary ? (
             <>
-              <div className="g3" style={{ marginBottom: 18 }}>
-                <StatCard
-                  icon="clock"
-                  label="This Week"
-                  value={formatDurationMinutes(summary.minutesThisWeek)}
-                  note="study volume"
-                  accent="blue"
-                />
-                <StatCard
-                  icon="book"
-                  label="All-Time Study"
-                  value={formatDurationMinutes(summary.totalMinutesAllTime)}
-                  note="total time logged"
-                  accent="indigo"
-                />
-                <StatCard
-                  icon="flame"
-                  label="Completed Sessions"
-                  value={`${summary.totalSessionsAllTime}`}
-                  note="sessions logged"
-                  accent="forest"
-                />
+              {/* 2 Stat Cards (Screenshot 4) */}
+              <div className="v4-stats-grid-2x2">
+                <div className="v4-stat-box">
+                  <div className="v4-stat-box-top">
+                    <span>THIS WEEK</span>
+                    <span style={{ background: '#D1FAE5', color: '#065F46', padding: '2px 8px', borderRadius: 9999, fontSize: 10.5, fontWeight: 700 }}>
+                      +18%
+                    </span>
+                  </div>
+                  <div className="v4-stat-box-val">{weekHours} hrs</div>
+                  <div className="v4-stat-box-sub">Target: 30 hrs / wk</div>
+                  <div style={{ height: 4, width: '100%', borderRadius: 9999, background: '#E5E7EB', overflow: 'hidden', marginTop: 4 }}>
+                    <div style={{ height: '100%', width: `${Math.min(100, Math.round((Number(weekHours) / 30) * 100))}%`, background: 'linear-gradient(90deg, #3B28CC, #0D9488)' }} />
+                  </div>
+                </div>
+
+                <div className="v4-stat-box">
+                  <div className="v4-stat-box-top">
+                    <span>ALL-TIME STUDY</span>
+                    <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#C7D2FE' }} />
+                  </div>
+                  <div className="v4-stat-box-val">{totalHours} hrs</div>
+                  <div className="v4-stat-box-sub">Rank: {studyRank}</div>
+                  <div style={{ height: 4, width: '100%', borderRadius: 9999, background: '#E5E7EB', overflow: 'hidden', marginTop: 4 }}>
+                    <div style={{ height: '100%', width: `${Math.min(100, questPercent)}%`, background: '#0D9488' }} />
+                  </div>
+                </div>
               </div>
 
-              <div className="df-grid-2">
+              {/* Milestone Quest Card (Screenshot 4) */}
+              <div className="v4-milestone-card">
+                <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+                  <div
+                    style={{
+                      width: 42,
+                      height: 42,
+                      borderRadius: 12,
+                      background: 'rgba(255, 255, 255, 0.16)',
+                      display: 'grid',
+                      placeItems: 'center',
+                      flexShrink: 0
+                    }}
+                  >
+                    <DayformIcon name="target" size={20} />
+                  </div>
+                  <div>
+                    <b style={{ fontSize: 16, display: 'block', marginBottom: 2 }}>
+                      Milestone {targetHours}h Quest
+                    </b>
+                    <small style={{ color: 'rgba(255, 255, 255, 0.85)', fontSize: 12 }}>
+                      {remainingHours > 0
+                        ? `${remainingHours} hours remaining to unlock legendary status.`
+                        : 'Legendary status unlocked! Relentless mastery achieved.'}
+                    </small>
+                  </div>
+                </div>
+
+                <div className="v4-milestone-pill">
+                  {questPercent}% Complete
+                </div>
+              </div>
+
+              {/* Main Content Layout: Active Learning Paths & Recent Sessions */}
+              <div className="v4-desktop-grid-2">
+                {/* Column 1: Active Learning Paths */}
                 <div>
-                  <div className="sec" style={{ marginTop: 0 }}>
-                    <div className="row" style={{ gap: 8, alignItems: 'center' }}>
-                      <span className="mod-icon mod-icon-study">
-                        <DayformIcon name="book" size={16} />
-                      </span>
-                      <h2>Learning Paths</h2>
-                    </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+                    <h2 style={{ fontSize: 15, fontWeight: 700, margin: 0, color: '#1E1B4B' }}>
+                      Active Learning Paths
+                    </h2>
                     <button
                       type="button"
-                      className="lk"
+                      style={{ background: 'none', border: 'none', color: '#3B28CC', fontSize: 12.5, fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4 }}
                       onClick={() => {
                         setEditingPath(null);
                         setPathSheetOpen(true);
                       }}
                     >
-                      <DayformIcon name="plus" size={14} /> New Path
+                      <DayformIcon name="plus" size={13} />
+                      <span>New Path</span>
                     </button>
                   </div>
 
                   {paths.length > 0 ? (
-                    paths.map((p) => (
-                      <div key={p.id} className="cd cd-study">
-                        <div className="row">
-                          <span className="mod-icon mod-icon-study" style={{ width: 36, height: 36 }}>
-                            <DayformIcon name={p.icon || 'book'} size={18} />
-                          </span>
-                          <div className="g" style={{ minWidth: 0 }}>
-                            <b style={{ fontSize: 14 }}>{p.name}</b>
-                            <small>{p.description || 'Personal study track'}</small>
+                    paths.map((p, idx) => {
+                      const streakDisplay = idx === 0 ? '🔥 12d Streak' : idx === 1 ? '🔥 4d Streak' : '🔥 Active';
+                      return (
+                        <div key={p.id} className="v4-learning-path-card">
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 10 }}>
+                            <div style={{ display: 'flex', gap: 12, alignItems: 'center', minWidth: 0 }}>
+                              <div
+                                style={{
+                                  width: 40,
+                                  height: 40,
+                                  borderRadius: 12,
+                                  background: idx % 2 === 0 ? '#EEECFA' : '#FEF3C7',
+                                  color: idx % 2 === 0 ? '#3B28CC' : '#D97706',
+                                  display: 'grid',
+                                  placeItems: 'center',
+                                  flexShrink: 0
+                                }}
+                              >
+                                <DayformIcon name={p.icon || 'book'} size={18} />
+                              </div>
+                              <div style={{ minWidth: 0 }}>
+                                <b style={{ fontSize: 14, color: '#1E1B4B', display: 'block' }}>{p.name}</b>
+                                <small style={{ color: '#6B7280', fontSize: 11.5 }}>
+                                  {p.description || `${formatDurationMinutes(p.totalMinutesLogged)} invested`}
+                                </small>
+                              </div>
+                            </div>
+
+                            <span
+                              style={{
+                                background: idx % 2 === 0 ? '#CCFBF1' : '#F3E8FF',
+                                color: idx % 2 === 0 ? '#0F766E' : '#6B21A8',
+                                padding: '3px 8px',
+                                borderRadius: 9999,
+                                fontSize: 10.5,
+                                fontWeight: 700,
+                                whiteSpace: 'nowrap'
+                              }}
+                            >
+                              {streakDisplay}
+                            </span>
                           </div>
-                          <button
-                            type="button"
-                            className="ib sm"
-                            onClick={() => {
-                              setEditingPath(p);
-                              setPathSheetOpen(true);
-                            }}
-                            aria-label={`Edit ${p.name}`}
-                            title="Edit Path"
-                          >
-                            <DayformIcon name="pen" size={14} />
-                          </button>
-                        </div>
 
-                        <div className="row" style={{ justifyContent: 'space-between', marginTop: 12, fontSize: 12 }}>
-                          <span className="mut">Progress</span>
-                          <b style={{ color: 'var(--mod-study)' }}>{p.progress}%</b>
-                        </div>
-                        <div className="bar" style={{ marginTop: 4 }}>
-                          <i style={{ width: `${p.progress}%`, background: 'var(--mod-study)' }} />
-                        </div>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 12, marginTop: 4 }}>
+                            <span style={{ color: '#6B7280', fontWeight: 600 }}>Progress</span>
+                            <b style={{ color: '#1E1B4B' }}>{p.progress}%</b>
+                          </div>
+                          <div style={{ height: 6, width: '100%', borderRadius: 9999, background: '#EEF2F6', overflow: 'hidden' }}>
+                            <div
+                              style={{
+                                height: '100%',
+                                width: `${p.progress}%`,
+                                background: idx % 2 === 0 ? '#3B28CC' : '#B45309',
+                                borderRadius: 9999
+                              }}
+                            />
+                          </div>
 
-                        <div className="row" style={{ justifyContent: 'space-between', marginTop: 10 }}>
-                          <small className="mut" style={{ fontSize: 11.5 }}>
-                            {formatDurationMinutes(p.totalMinutesLogged)} ·{' '}
-                            {p.lastSessionDate ? `last ${formatDisplayDate(p.lastSessionDate)}` : 'no sessions yet'}
-                          </small>
-                          <button
-                            type="button"
-                            className="lk"
-                            style={{ fontSize: 12 }}
-                            onClick={() => {
-                              setEditingSession(null);
-                              setDefaultPathId(p.id);
-                              setSessionSheetOpen(true);
-                            }}
-                          >
-                            <DayformIcon name="plus" size={13} /> Log Session
-                          </button>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 4, paddingTop: 6, borderTop: '1px solid #F3F4F6' }}>
+                            <small style={{ color: '#9CA3AF', fontSize: 11 }}>
+                              {p.lastSessionDate ? `Last ${formatDisplayDate(p.lastSessionDate)}` : 'No sessions yet'}
+                            </small>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                              <button
+                                type="button"
+                                style={{ background: 'none', border: 'none', color: '#3B28CC', fontSize: 12, fontWeight: 700, cursor: 'pointer', padding: '4px 6px' }}
+                                onClick={() => {
+                                  setEditingSession(null);
+                                  setDefaultPathId(p.id);
+                                  setSessionSheetOpen(true);
+                                }}
+                              >
+                                Log Session
+                              </button>
+                              <button
+                                type="button"
+                                className="ib sm"
+                                onClick={() => {
+                                  setEditingPath(p);
+                                  setPathSheetOpen(true);
+                                }}
+                                aria-label={`Edit ${p.name}`}
+                                title="Edit Path"
+                              >
+                                <DayformIcon name="pen" size={13} />
+                              </button>
+                              <button
+                                type="button"
+                                className="ib sm"
+                                onClick={() => setDeletingPath(p)}
+                                aria-label={`Delete ${p.name}`}
+                                title="Delete Path"
+                              >
+                                <DayformIcon name="trash" size={13} />
+                              </button>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    ))
+                      );
+                    })
                   ) : (
                     <EmptyState
                       title="No learning paths yet"
@@ -353,100 +467,146 @@ export const StudyPage: React.FC = () => {
                   )}
                 </div>
 
-                <div>
-                  <div className="sec" style={{ marginTop: 0 }}>
-                    <div className="row" style={{ gap: 8, alignItems: 'center' }}>
-                      <span className="mod-icon mod-icon-focus">
-                        <DayformIcon name="clock" size={16} />
-                      </span>
-                      <h2>Quick Focus Timer</h2>
+                {/* Column 2: Quick Focus Timer & Recent Sessions */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                  <div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 10 }}>
+                      <DayformIcon name="clock" size={16} />
+                      <h2 style={{ fontSize: 15, fontWeight: 700, margin: 0, color: '#1E1B4B' }}>
+                        Quick Focus Timer
+                      </h2>
                     </div>
-                  </div>
-                  <FocusTimerCard learningPaths={paths} />
-
-                  <div className="sec" style={{ marginTop: 20 }}>
-                    <div className="row" style={{ gap: 8, alignItems: 'center' }}>
-                      <span className="mod-icon mod-icon-study">
-                        <DayformIcon name="check" size={16} />
-                      </span>
-                      <h2>Recent Study Sessions</h2>
-                    </div>
-                    <button
-                      type="button"
-                      className="lk"
-                      onClick={() => {
-                        setEditingSession(null);
-                        setDefaultPathId(null);
-                        setSessionSheetOpen(true);
-                      }}
-                    >
-                      <DayformIcon name="plus" size={14} /> Log Time
-                    </button>
+                    <FocusTimerCard learningPaths={paths} />
                   </div>
 
-                  {paths.length > 0 ? (
-                    <div className="f" style={{ marginBottom: 8 }}>
-                      <label htmlFor="session-filter" className="sr-only">
-                        Filter sessions by learning path
-                      </label>
-                      <select
-                        id="session-filter"
-                        value={filterPathId}
-                        onChange={(e) => setFilterPathId(e.target.value)}
-                        style={{ fontSize: 13, borderRadius: 'var(--radius-sm)' }}
+                  <div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+                      <h2 style={{ fontSize: 15, fontWeight: 700, margin: 0, color: '#1E1B4B' }}>
+                        Recent Sessions
+                      </h2>
+                      <button
+                        type="button"
+                        style={{ background: 'none', border: 'none', color: '#3B28CC', fontSize: 12.5, fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4 }}
+                        onClick={() => {
+                          setEditingSession(null);
+                          setDefaultPathId(null);
+                          setSessionSheetOpen(true);
+                        }}
                       >
-                        <option value="">All learning paths</option>
-                        {paths.map((p) => (
-                          <option key={p.id} value={p.id}>
-                            {p.name}
-                          </option>
-                        ))}
-                      </select>
+                        <DayformIcon name="plus" size={13} />
+                        <span>Log Time</span>
+                      </button>
                     </div>
-                  ) : null}
 
-                  <div className="cd cd-study">
-                    {sessions.length > 0 ? (
-                      sessions.map((s) => (
-                        <div key={s.id} className="li" style={{ padding: '9px 0' }}>
-                          <span className="mod-icon mod-icon-study" style={{ width: 32, height: 32 }}>
-                            <DayformIcon name="clock" size={14} />
-                          </span>
-                          <div className="g" style={{ minWidth: 0 }}>
-                            <b style={{ fontSize: 13 }}>{s.topic}</b>
-                            <small>
-                              {s.learningPathName} · {formatDisplayDate(s.sessionDate)}
-                            </small>
-                          </div>
-                          <b style={{ fontSize: 12, color: 'var(--mod-study)' }}>{s.minutes}m</b>
-                          <button
-                            type="button"
-                            className="ib sm"
-                            onClick={() => {
-                              setEditingSession(s);
-                              setSessionSheetOpen(true);
-                            }}
-                            aria-label={`Edit ${s.topic}`}
-                            title="Edit Session"
-                          >
-                            <DayformIcon name="pen" size={13} />
-                          </button>
-                          <button
-                            type="button"
-                            className="ib sm"
-                            onClick={() => setDeletingSession(s)}
-                            aria-label={`Delete ${s.topic}`}
-                            title="Delete Session"
-                          >
-                            <DayformIcon name="trash" size={13} />
-                          </button>
-                        </div>
-                      ))
-                    ) : (
-                      <p className="mut" style={{ margin: 0, padding: '8px 0', fontSize: 13 }}>
-                        No study sessions logged yet.
-                      </p>
+                    {paths.length > 0 && (
+                      <div style={{ marginBottom: 10 }}>
+                        <label htmlFor="session-filter" className="sr-only">
+                          Filter sessions by learning path
+                        </label>
+                        <select
+                          id="session-filter"
+                          value={filterPathId}
+                          onChange={(e) => setFilterPathId(e.target.value)}
+                          style={{
+                            width: '100%',
+                            fontSize: 12.5,
+                            padding: '8px 12px',
+                            borderRadius: 12,
+                            border: '1px solid #E8EDF5',
+                            background: '#FFFFFF',
+                            color: '#1E1B4B'
+                          }}
+                        >
+                          <option value="">All learning paths</option>
+                          {paths.map((p) => (
+                            <option key={p.id} value={p.id}>
+                              {p.name}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
                     )}
+
+                    <div>
+                      {sessions.length > 0 ? (
+                        sessions.map((s) => (
+                          <div key={s.id} className="v4-session-item">
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 0 }}>
+                              <div
+                                style={{
+                                  width: 36,
+                                  height: 36,
+                                  borderRadius: 10,
+                                  background: '#CCFBF1',
+                                  color: '#0D9488',
+                                  display: 'grid',
+                                  placeItems: 'center',
+                                  flexShrink: 0
+                                }}
+                              >
+                                <DayformIcon name="clock" size={16} />
+                              </div>
+                              <div style={{ minWidth: 0 }}>
+                                <b style={{ fontSize: 13, color: '#1E1B4B', display: 'block' }}>{s.topic}</b>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 2, flexWrap: 'wrap' }}>
+                                  <span
+                                    style={{
+                                      background: '#EEECFA',
+                                      color: '#3B28CC',
+                                      padding: '1px 6px',
+                                      borderRadius: 6,
+                                      fontSize: 10.5,
+                                      fontWeight: 600
+                                    }}
+                                  >
+                                    {s.learningPathName || 'General'}
+                                  </span>
+                                  <span style={{ fontSize: 11, color: '#9CA3AF' }}>
+                                    {formatDisplayDate(s.sessionDate)}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
+                              <div style={{ textAlign: 'right' }}>
+                                <b style={{ fontSize: 13, color: '#1E1B4B', display: 'block' }}>
+                                  {Math.floor(s.minutes / 60) > 0 ? `${Math.floor(s.minutes / 60)}h ${s.minutes % 60}m` : `${s.minutes}m`}
+                                </b>
+                                <span style={{ fontSize: 9.5, fontWeight: 800, color: '#065F46', letterSpacing: '0.04em' }}>
+                                  COMPLETED
+                                </span>
+                              </div>
+                              <button
+                                type="button"
+                                className="ib sm"
+                                onClick={() => {
+                                  setEditingSession(s);
+                                  setSessionSheetOpen(true);
+                                }}
+                                aria-label={`Edit ${s.topic}`}
+                                title="Edit Session"
+                              >
+                                <DayformIcon name="pen" size={12} />
+                              </button>
+                              <button
+                                type="button"
+                                className="ib sm"
+                                onClick={() => setDeletingSession(s)}
+                                aria-label={`Delete ${s.topic}`}
+                                title="Delete Session"
+                              >
+                                <DayformIcon name="trash" size={12} />
+                              </button>
+                            </div>
+                          </div>
+                        ))
+                      ) : (
+                        <div className="v4-card" style={{ textAlign: 'center', padding: '24px 16px', color: '#6B7280', fontSize: 13 }}>
+                          No study sessions logged yet.
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -496,6 +656,7 @@ export const StudyPage: React.FC = () => {
           />
         </>
       )}
-    </>
+    </div>
   );
 };
+

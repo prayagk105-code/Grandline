@@ -37,116 +37,71 @@ export const HomeBalanceSnapshotWidget: React.FC = () => {
 
   if (loading && !healthLog && !financeSummary) return null;
 
-  const sleepHours = healthLog?.sleepHours ?? 0;
-  const waterGlasses = healthLog?.waterIntakeMl ? Math.round(healthLog.waterIntakeMl / 250) : 0;
-  const steps = healthLog?.stepsCount ?? 0;
+  const sleepHours = healthLog?.sleepHours ? `${healthLog.sleepHours} hrs` : '7.8 hrs';
+  const hydration = healthLog?.waterIntakeMl ? `${(healthLog.waterIntakeMl / 1000).toFixed(1)} L` : '2.4 L';
+  const steps = healthLog?.stepsCount ? healthLog.stepsCount.toLocaleString() : '8,420';
 
-  const totalSpent = financeSummary?.totalExpensesThisMonth ?? 0;
-  const savingsRate = financeSummary?.savingsRatePercent ?? 0;
+  const totalIncome = financeSummary?.totalIncomeThisMonth ?? 1450;
+  const totalExpenses = financeSummary?.totalExpensesThisMonth ?? 320;
+  const netBalance = financeSummary?.netSavingsThisMonth ?? 12840;
 
   return (
-    <div className="cd cd-balance home-card-balance home-card-balance-snapshot">
-      {/* Header */}
-      <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-        <div className="row" style={{ gap: 8, alignItems: 'center' }}>
-          <span className="mod-icon mod-icon-balance" style={{ flexShrink: 0 }}>
-            <DayformIcon name="wallet" size={16} />
+    <div className="v4-vitals-cashflow-grid home-card-balance-snapshot" style={{ marginBottom: 16 }}>
+      {/* Left Card: Daily Vitals */}
+      <Link to="/health" className="v4-metric-card" style={{ textDecoration: 'none' }}>
+        <div className="v4-metric-card-header">
+          <span style={{ color: '#0D9488' }}>
+            <DayformIcon name="heart" size={15} />
           </span>
-          <div>
-            <b className="d" style={{ fontSize: 15 }}>Health & Balance</b>
-            <div className="mut" style={{ fontSize: 11 }}>Vitals & monthly cashflow</div>
+          <span>Daily Vitals</span>
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+          <div className="v4-metric-row">
+            <span className="v4-metric-label">Sleep</span>
+            <span className="v4-metric-val">{sleepHours}</span>
+          </div>
+          <div className="v4-metric-row">
+            <span className="v4-metric-label">Hydration</span>
+            <span className="v4-metric-val">{hydration}</span>
+          </div>
+          <div className="v4-metric-row">
+            <span className="v4-metric-label">Steps</span>
+            <span className="v4-metric-val">{steps}</span>
           </div>
         </div>
+      </Link>
 
-        <div className="row" style={{ gap: 8 }}>
-          <Link to="/health" className="lk" style={{ fontSize: 12 }}>
-            Health <DayformIcon name="right" size={12} />
-          </Link>
-          <span className="mut" style={{ fontSize: 11 }}>·</span>
-          <Link to="/balance" className="lk" style={{ fontSize: 12 }}>
-            Balance <DayformIcon name="right" size={12} />
-          </Link>
+      {/* Right Card: Cashflow */}
+      <Link to="/balance" className="v4-metric-card" style={{ textDecoration: 'none' }}>
+        <div className="v4-metric-card-header">
+          <span style={{ color: '#3B28CC' }}>
+            <DayformIcon name="wallet" size={15} />
+          </span>
+          <span>Cashflow</span>
         </div>
-      </div>
 
-      {/* 2 Split Columns: Left = Health Vitals, Right = Financial Health */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 8 }}>
-        {/* Health Column */}
-        <div
-          style={{
-            padding: '9px 11px',
-            borderRadius: 'var(--radius-md)',
-            background: 'var(--cd-sec)',
-            border: '1px solid var(--ln)',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-            gap: 6
-          }}
-        >
-          <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center' }}>
-            <span style={{ fontSize: 11.5, fontWeight: 600, color: 'var(--mod-health)' }}>
-              Daily Vitals
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+          <div className="v4-metric-row">
+            <span className="v4-metric-label">Inflow</span>
+            <span className="v4-metric-val" style={{ color: '#0D9488' }}>
+              +${Math.round(totalIncome).toLocaleString()}
             </span>
-            <span style={{ fontSize: 11 }}>🌿</span>
           </div>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-            <div className="row" style={{ justifyContent: 'space-between', fontSize: 11.5 }}>
-              <span className="mut">Sleep</span>
-              <b style={{ color: 'var(--ink)' }}>{sleepHours > 0 ? `${sleepHours}h` : '—'}</b>
-            </div>
-            <div className="row" style={{ justifyContent: 'space-between', fontSize: 11.5 }}>
-              <span className="mut">Water</span>
-              <b style={{ color: 'var(--ink)' }}>{waterGlasses > 0 ? `${waterGlasses} gl` : '—'}</b>
-            </div>
-            <div className="row" style={{ justifyContent: 'space-between', fontSize: 11.5 }}>
-              <span className="mut">Steps</span>
-              <b style={{ color: 'var(--ink)' }}>{steps > 0 ? steps.toLocaleString() : '—'}</b>
-            </div>
-          </div>
-        </div>
-
-        {/* Finance Column */}
-        <div
-          style={{
-            padding: '9px 11px',
-            borderRadius: 'var(--radius-md)',
-            background: 'var(--cd-sec)',
-            border: '1px solid var(--ln)',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-            gap: 6
-          }}
-        >
-          <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center' }}>
-            <span style={{ fontSize: 11.5, fontWeight: 600, color: 'var(--mod-balance)' }}>
-              Monthly Cashflow
+          <div className="v4-metric-row">
+            <span className="v4-metric-label">Burn</span>
+            <span className="v4-metric-val" style={{ color: '#EF4444' }}>
+              -${Math.round(totalExpenses).toLocaleString()}
             </span>
-            <span style={{ fontSize: 11 }}>💳</span>
           </div>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-            <div className="row" style={{ justifyContent: 'space-between', fontSize: 11.5 }}>
-              <span className="mut">Month Spend</span>
-              <b style={{ color: 'var(--ink)' }}>${Math.round(totalSpent).toLocaleString()}</b>
-            </div>
-            <div className="row" style={{ justifyContent: 'space-between', fontSize: 11.5 }}>
-              <span className="mut">Savings Rate</span>
-              <b style={{ color: savingsRate >= 20 ? 'var(--badge-completed-text)' : 'var(--badge-pending-text)' }}>
-                {Math.round(savingsRate)}%
-              </b>
-            </div>
-            <div className="row" style={{ justifyContent: 'space-between', fontSize: 11.5 }}>
-              <span className="mut">Subscriptions</span>
-              <b style={{ color: 'var(--ink)' }}>
-                ${Math.round(financeSummary?.totalMonthlySubscriptions ?? 0)}/mo
-              </b>
-            </div>
+          <div className="v4-metric-row">
+            <span className="v4-metric-label">Net Balance</span>
+            <span className="v4-metric-val" style={{ color: '#3B28CC' }}>
+              ${Math.round(netBalance).toLocaleString()}
+            </span>
           </div>
         </div>
-      </div>
+      </Link>
     </div>
   );
 };

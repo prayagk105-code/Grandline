@@ -1,43 +1,43 @@
 :root {
   /* ==========================================================================
-     GRANDLINE Modern Lavender Color System - Light Mode
-     Visual Design System: Soft Lavender, Pale Lavender, Charcoal & White
+     GRANDLINE Modern Indigo & Lavender Color System - Light Mode
+     Visual Design System: Soft Lavender-Blue Canvas, Pure White Cards, Deep Violet
      ========================================================================== */
 
   /* Primary Surface & Background Palette */
-  --bg: #F3F2FA;             /* Main background: Soft Lavender Grey */
-  --sf: #EBE9F8;             /* Secondary background / surface: Pale Lavender */
+  --bg: #F4F6FC;             /* Main background: Soft Lavender Blue Canvas */
+  --sf: #EBF0F9;             /* Secondary background / surface: Pale Blue-Lavender */
   --cd: #FFFFFF;             /* Main cards: Pure White */
-  --cd-sec: #EBE9F8;         /* Secondary card: #EBE9F8 (Prompt Table) */
+  --cd-sec: #F8FAFD;         /* Secondary card surface */
   --cd-hover: #FCFBFF;       /* Subtle card hover tint */
   
   /* Typography & Ink */
-  --ink: #26252D;            /* Primary text: Deep Charcoal */
-  --mut: #85838E;            /* Secondary text: Muted Grey */
+  --ink: #1E1B4B;            /* Primary text: Deep Navy Indigo */
+  --mut: #6B7280;            /* Secondary text: Slate Muted Grey */
   
   /* Borders & Dividers */
-  --ln: #E5E3EF;             /* Borders: Soft Lavender Grey */
-  --ln-subtle: #ECEAF4;      /* Subtle borders */
-  --bd: #E5E3EF;
+  --ln: #E5E7EB;             /* Borders: Crisp Soft Grey */
+  --ln-subtle: #EEF2F6;      /* Subtle borders */
+  --bd: #E5E7EB;
   
   /* Primary & Secondary Action Tokens */
-  --btn-pri-bg: #25242B;     /* Primary buttons: Deep Charcoal */
+  --btn-pri-bg: #3B28CC;     /* Primary buttons: Deep Violet/Indigo */
   --btn-pri-text: #FFFFFF;   /* Primary button text: White */
-  --btn-pri-hover: #17161B;  /* Primary button hover */
-  --btn-pri-active: #0D0C10; /* Primary button active */
+  --btn-pri-hover: #3121B3;  /* Primary button hover */
+  --btn-pri-active: #271A97; /* Primary button active */
   
-  --btn-sec-bg: #EEEEF1;     /* Secondary buttons: Soft Grey */
-  --btn-sec-text: #26252D;   /* Secondary button text: Dark Charcoal */
-  --btn-sec-border: #E5E3EF; /* Secondary button border */
-  --btn-sec-hover: #E2E1E7;  /* Secondary button hover */
+  --btn-sec-bg: #F3F4F6;     /* Secondary buttons: Soft Grey */
+  --btn-sec-text: #1E1B4B;   /* Secondary button text: Dark Indigo */
+  --btn-sec-border: #E5E7EB; /* Secondary button border */
+  --btn-sec-hover: #E5E7EB;  /* Secondary button hover */
   
   /* Accents & Highlights */
-  --ac: #7775C7;             /* Accent: Muted Lavender */
-  --ac-hover: #6764B7;       /* Accent hover */
-  --ac-active: #5653A5;      /* Accent active */
-  --ac-periwinkle: #A5A4E8;  /* Secondary accent: Periwinkle */
-  --ac2: #F0EFFB;            /* Soft accent surface: Light Lavender */
-  --ac2-text: #5957A8;       /* Soft accent text */
+  --ac: #3B28CC;             /* Accent: Deep Indigo */
+  --ac-hover: #3121B3;       /* Accent hover */
+  --ac-active: #271A97;      /* Accent active */
+  --ac-periwinkle: #818CF8;  /* Secondary accent: Periwinkle */
+  --ac2: #EEECFA;            /* Soft accent surface: Light Lavender */
+  --ac2-text: #3B28CC;       /* Soft accent text */
   --on: #FFFFFF;             /* Text on accent */
 
   /* Hot / Highlight / Urgent */

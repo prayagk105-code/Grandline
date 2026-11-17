@@ -26,7 +26,7 @@ export const DisciplineScoreCard: React.FC = () => {
 
   if (loading || !scoreData) {
     return (
-      <div className="cd home-card-discipline" style={{ padding: 18 }}>
+      <div className="v4-card home-card-discipline" style={{ padding: 18 }}>
         <span className="mut" style={{ fontSize: 13 }}>Calculating discipline score...</span>
       </div>
     );
@@ -34,149 +34,121 @@ export const DisciplineScoreCard: React.FC = () => {
 
   const rawScore = Number(scoreData?.overallScore ?? 0);
   const score = isNaN(rawScore) ? 0 : Math.round(rawScore);
-  const tierColor =
-    score >= 80 ? 'var(--ac)' : score >= 60 ? 'var(--mod-study)' : score >= 40 ? 'var(--mod-progress)' : 'var(--badge-overdue-text)';
-
   const habitScore = Math.round(Number(scoreData?.habitScore ?? 0) || 0);
   const focusScore = Math.round(Number(scoreData?.focusScore ?? 0) || 0);
   const taskScore = Math.round(Number(scoreData?.taskScore ?? 0) || 0);
-  const title = scoreData?.ratingTitle || (scoreData as any)?.scoreTier || 'On Track';
+  const title = scoreData?.ratingTitle || (scoreData as any)?.scoreTier || 'High Consistency';
 
   return (
     <>
-      <div className="cd home-card-discipline" style={{ marginBottom: 16 }}>
-        {/* Card Header */}
-        <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-          <div className="row" style={{ gap: 8, alignItems: 'center' }}>
-            <span className="mod-icon mod-icon-home" style={{ width: 28, height: 28 }}>
-              <span style={{ fontSize: 14 }}>🛡️</span>
-            </span>
-            <div>
-              <b className="d" style={{ fontSize: 15 }}>Discipline Score</b>
-              <div className="mut" style={{ fontSize: 11 }}>30-day verified consistency</div>
-            </div>
-          </div>
-
-          <button
-            type="button"
-            className="ib sm"
-            onClick={() => setShowExplainModal(true)}
-            title="Formula & Factor Breakdown"
-            aria-label="Formula & Factor Breakdown"
-            style={{ width: 28, height: 28 }}
-          >
-            <span style={{ fontSize: 12, fontWeight: 700 }}>?</span>
-          </button>
-        </div>
-
-        {/* Main Score Prominent Section */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            padding: '10px 14px',
-            background: 'var(--cd-sec)',
-            border: '1px solid var(--ln)',
-            borderRadius: 'var(--radius-lg)',
-            marginBottom: 10
-          }}
-        >
+      <div className="v4-card home-card-discipline" style={{ marginBottom: 16 }}>
+        {/* Card Header matching Screenshot 1: TELEMETRY INDEX / Discipline Mastery Hub */}
+        <div className="v4-telemetry-header">
           <div>
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
-              <span style={{ font: '700 24px var(--font-display)', color: 'var(--ink)' }}>{score}</span>
-              <span className="mut" style={{ fontSize: 13 }}>/ 100</span>
-            </div>
-            <div className="mut" style={{ fontSize: 10.5 }}>Deterministic score</div>
+            <h3 className="v4-telemetry-title">TELEMETRY INDEX</h3>
+            <p className="v4-telemetry-subtitle">Discipline Mastery Hub</p>
+            <span className="sr-only">Discipline Score</span>
           </div>
 
-          <span
-            style={{
-              fontSize: 11,
-              fontWeight: 700,
-              color: tierColor,
-              background: 'var(--cd)',
-              padding: '4px 10px',
-              borderRadius: 'var(--radius-pill)',
-              border: '1px solid var(--ln)'
-            }}
-          >
-            {title}
-          </span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <span className="sr-only">{title}</span>
+            <div
+              className="v4-score-circle"
+              title={`Discipline Score: ${score}/100 (${title})`}
+              aria-label={`Score: ${score} out of 100`}
+            >
+              <span>{score}</span>
+              <span className="sr-only">/ 100</span>
+            </div>
+
+            <button
+              type="button"
+              className="ib sm"
+              onClick={() => setShowExplainModal(true)}
+              title="Formula & Factor Breakdown"
+              aria-label="Formula & Factor Breakdown"
+              style={{ width: 28, height: 28 }}
+            >
+              <span style={{ fontSize: 12, fontWeight: 700 }}>?</span>
+            </button>
+          </div>
         </div>
 
-        {/* 3 Inner Cards: Replaces separate horizontal lines */}
-        <div className="home-discipline-pillars-grid">
-          {/* Habit Consistency Card */}
-          <div className="home-discipline-pillar-card">
-            <div className="home-discipline-pillar-header">
-              <span className="home-discipline-pillar-dot" style={{ background: 'var(--mod-habits)' }} />
-              <span className="home-discipline-pillar-label" title="Habit Consistency (40% Weight)">
-                Habits
-              </span>
-              <span className="home-discipline-pillar-weight">40%</span>
+        {/* 3 Pillars matching Screenshot 1: HABITS, FOCUS, TASKS */}
+        <div className="v4-telemetry-pillars home-discipline-pillars-grid">
+          {/* Habits Pillar */}
+          <div className="v4-pillar-box home-discipline-pillar-card">
+            <div className="v4-pillar-top home-discipline-pillar-header">
+              <span className="v4-pillar-dot home-discipline-pillar-dot" style={{ background: '#3B28CC' }} />
+              <span className="home-discipline-pillar-label">Habits</span>
+              <span className="home-discipline-pillar-weight sr-only">40%</span>
             </div>
-            <div className="home-discipline-pillar-val">{habitScore}%</div>
-            <div className="home-discipline-pillar-bar">
+            <div className="v4-pillar-val home-discipline-pillar-val">{habitScore}%</div>
+            <div className="v4-pillar-label">Consistency</div>
+            <div className="v4-pillar-bar home-discipline-pillar-bar">
               <div
                 className="home-discipline-pillar-fill"
                 style={{
+                  height: '100%',
                   width: `${Math.min(100, Math.max(0, habitScore))}%`,
-                  background: 'var(--mod-habits)'
+                  background: '#3B28CC',
+                  borderRadius: 9999
                 }}
               />
             </div>
           </div>
 
-          {/* Focus Adherence Card */}
-          <div className="home-discipline-pillar-card">
-            <div className="home-discipline-pillar-header">
-              <span className="home-discipline-pillar-dot" style={{ background: 'var(--mod-focus)' }} />
-              <span className="home-discipline-pillar-label" title="Focus Adherence (30% Weight)">
-                Focus
-              </span>
-              <span className="home-discipline-pillar-weight">30%</span>
+          {/* Focus Pillar */}
+          <div className="v4-pillar-box home-discipline-pillar-card">
+            <div className="v4-pillar-top home-discipline-pillar-header">
+              <span className="v4-pillar-dot home-discipline-pillar-dot" style={{ background: '#0D9488' }} />
+              <span className="home-discipline-pillar-label">Focus</span>
+              <span className="home-discipline-pillar-weight sr-only">30%</span>
             </div>
-            <div className="home-discipline-pillar-val">{focusScore}%</div>
-            <div className="home-discipline-pillar-bar">
+            <div className="v4-pillar-val home-discipline-pillar-val">{focusScore}%</div>
+            <div className="v4-pillar-label">Execution</div>
+            <div className="v4-pillar-bar home-discipline-pillar-bar">
               <div
                 className="home-discipline-pillar-fill"
                 style={{
+                  height: '100%',
                   width: `${Math.min(100, Math.max(0, focusScore))}%`,
-                  background: 'var(--mod-focus)'
+                  background: '#0D9488',
+                  borderRadius: 9999
                 }}
               />
             </div>
           </div>
 
-          {/* Task Execution Card */}
-          <div className="home-discipline-pillar-card">
-            <div className="home-discipline-pillar-header">
-              <span className="home-discipline-pillar-dot" style={{ background: 'var(--mod-planner)' }} />
-              <span className="home-discipline-pillar-label" title="Task Execution (30% Weight)">
-                Tasks
-              </span>
-              <span className="home-discipline-pillar-weight">30%</span>
+          {/* Tasks Pillar */}
+          <div className="v4-pillar-box home-discipline-pillar-card">
+            <div className="v4-pillar-top home-discipline-pillar-header">
+              <span className="v4-pillar-dot home-discipline-pillar-dot" style={{ background: '#D97706' }} />
+              <span className="home-discipline-pillar-label">Tasks</span>
+              <span className="home-discipline-pillar-weight sr-only">30%</span>
             </div>
-            <div className="home-discipline-pillar-val">{taskScore}%</div>
-            <div className="home-discipline-pillar-bar">
+            <div className="v4-pillar-val home-discipline-pillar-val">{taskScore}%</div>
+            <div className="v4-pillar-label">Velocity</div>
+            <div className="v4-pillar-bar home-discipline-pillar-bar">
               <div
                 className="home-discipline-pillar-fill"
                 style={{
+                  height: '100%',
                   width: `${Math.min(100, Math.max(0, taskScore))}%`,
-                  background: 'var(--mod-planner)'
+                  background: '#D97706',
+                  borderRadius: 9999
                 }}
               />
             </div>
           </div>
         </div>
 
-        {/* View Formula Action */}
-        <div style={{ marginTop: 10, textAlign: 'center' }}>
+        {/* View Formula Link Action */}
+        <div style={{ marginTop: 12, textAlign: 'center' }}>
           <button
             type="button"
             className="lk"
-            style={{ fontSize: 11.5 }}
+            style={{ fontSize: 11.5, color: '#3B28CC' }}
             onClick={() => setShowExplainModal(true)}
           >
             View Mathematical Formula →

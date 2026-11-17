@@ -52,12 +52,9 @@ export const TodayPrioritiesWidget: React.FC = () => {
 
   if (loading) return null;
 
-  // Filter: Incomplete tasks first, sorted by:
-  // 1. Overdue tasks
-  // 2. Pinned tasks
-  // 3. High priority
-  // 4. Due date soonest
   const incomplete = tasks.filter((t) => !t.isCompleted);
+  const completed = tasks.filter((t) => t.isCompleted);
+
   const sorted = [...incomplete].sort((a, b) => {
     const aOverdue = Boolean(a.dueDate && a.dueDate < today);
     const bOverdue = Boolean(b.dueDate && b.dueDate < today);
@@ -73,96 +70,68 @@ export const TodayPrioritiesWidget: React.FC = () => {
     return (a.dueDate || '9999').localeCompare(b.dueDate || '9999');
   });
 
-  const topPriorities = sorted.slice(0, 4);
-  const remainingCount = Math.max(0, sorted.length - 4);
+  const displayIncomplete = sorted.slice(0, 3);
+  const displayCompleted = completed.slice(0, 1);
+  const activeCount = incomplete.length;
 
   return (
-    <div className="cd cd-priorities home-card-priorities">
-      <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+    <div className="v4-card cd-priorities home-card-priorities" style={{ marginBottom: 16 }}>
+      {/* Header matching Screenshot 1 */}
+      <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
         <div className="row" style={{ gap: 8, alignItems: 'center' }}>
-          <span className="mod-icon" style={{ background: 'var(--card-priorities-icon-bg)', color: 'var(--card-priorities-icon-color)' }}>
-            <DayformIcon name="check" size={16} />
-          </span>
-          <div>
-            <b className="d" style={{ fontSize: 16 }}>Today's Priorities</b>
-            <div className="mut" style={{ fontSize: 11, color: 'var(--card-priorities-text-muted)' }}>Urgent & critical actions</div>
-          </div>
+          <b style={{ fontSize: 15, fontWeight: 700, color: 'var(--ink)' }}>Today's Priorities</b>
         </div>
 
-        <div className="row" style={{ gap: 10, alignItems: 'center' }}>
-          <Link to="/planner?tab=tasks" className="btn sm" style={{ padding: '3px 8px', fontSize: 11 }}>
-            + Add
-          </Link>
-          <Link to="/planner?tab=tasks" className="lk" style={{ fontSize: 12 }}>
-            View All <DayformIcon name="right" size={13} />
+        <div className="row" style={{ gap: 8, alignItems: 'center' }}>
+          <span style={{ fontSize: 12, fontWeight: 600, color: '#6B7280' }}>
+            {activeCount} Active
+          </span>
+          <Link to="/planner?tab=tasks" className="lk" style={{ fontSize: 12, color: '#3B28CC' }}>
+            <DayformIcon name="right" size={13} />
           </Link>
         </div>
       </div>
 
-      {topPriorities.length === 0 ? (
-        <div style={{ padding: '14px 0', textAlign: 'center' }}>
+      {tasks.length === 0 ? (
+        <div style={{ padding: '16px 0', textAlign: 'center' }}>
           <p className="mut" style={{ margin: 0, fontSize: 13 }}>
-            All clear! No urgent or overdue priorities remaining today.
+            No priorities scheduled. Stay ahead by planning your top mission.
           </p>
-          <Link to="/planner?tab=tasks" className="lk" style={{ fontSize: 12, marginTop: 4 }}>
-            Create a task
+          <Link to="/planner?tab=tasks" className="btn sm" style={{ marginTop: 8 }}>
+            + Add Task
           </Link>
         </div>
       ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-          {topPriorities.map((t) => {
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          {/* Active Priorities */}
+          {displayIncomplete.map((t) => {
             const isOverdue = Boolean(t.dueDate && t.dueDate < today);
             const isToday = Boolean(t.dueDate && t.dueDate === today);
             const isToggling = togglingId === t.id;
 
             return (
-              <div
-                key={t.id}
-                className="row home-priority-row"
-                style={{
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  padding: '9px 12px',
-                  borderRadius: 'var(--radius-md)',
-                  background: isOverdue ? 'var(--badge-overdue-bg)' : 'var(--cd-sec)',
-                  border: isOverdue
-                    ? '1px solid var(--badge-overdue-border)'
-                    : '1px solid var(--ln)',
-                  transition: 'background-color 0.15s ease'
-                }}
-              >
+              <div key={t.id} className="v4-priority-item home-priority-row">
                 <div className="row" style={{ gap: 10, alignItems: 'center', flex: 1, minWidth: 0 }}>
-                  <button
-                    type="button"
-                    onClick={() => handleToggle(t)}
-                    disabled={isToggling}
+                  <div
                     style={{
-                      width: 20,
-                      height: 20,
-                      borderRadius: 6,
-                      border: isOverdue
-                        ? '1.5px solid var(--badge-overdue-text)'
-                        : '1.5px solid var(--ac)',
-                      background: 'transparent',
-                      cursor: 'pointer',
-                      flexShrink: 0,
+                      width: 34,
+                      height: 34,
+                      borderRadius: 10,
+                      background: '#EEECFA',
+                      color: '#3B28CC',
                       display: 'grid',
                       placeItems: 'center',
-                      padding: 0
+                      flexShrink: 0
                     }}
-                    title="Mark Completed"
-                    aria-label={`Mark task ${t.title} as completed`}
                   >
-                    {isToggling ? (
-                      <span style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--ac)' }} />
-                    ) : null}
-                  </button>
+                    <DayformIcon name="check" size={16} />
+                  </div>
 
                   <div style={{ minWidth: 0, flex: 1 }}>
                     <div
                       style={{
-                        fontSize: 13,
-                        fontWeight: 600,
+                        fontSize: 13.5,
+                        fontWeight: 700,
                         whiteSpace: 'nowrap',
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
@@ -171,58 +140,87 @@ export const TodayPrioritiesWidget: React.FC = () => {
                     >
                       {t.title}
                     </div>
-                    <div className="row" style={{ gap: 8, fontSize: 11, marginTop: 2 }}>
-                      {t.dueDate && (
-                        <span
-                          style={{
-                            fontWeight: isOverdue ? 600 : 400,
-                            color: isOverdue
-                              ? 'var(--badge-overdue-text)'
-                              : isToday
-                              ? 'var(--badge-completed-text)'
-                              : 'var(--mut)'
-                          }}
-                        >
-                          {isOverdue ? '⚠️ Overdue: ' : isToday ? 'Due Today' : 'Due: '}
-                          {!isToday && formatDisplayDate(t.dueDate)}
-                        </span>
-                      )}
-                      {t.isPinnedToDashboard && (
-                        <span style={{ color: 'var(--ac)', fontWeight: 500 }}>📌 Pinned</span>
-                      )}
+                    <div style={{ fontSize: 11.5, marginTop: 2, color: isOverdue ? '#DC2626' : '#EF4444', fontWeight: 600 }}>
+                      {isOverdue ? 'Overdue' : isToday ? 'Due today' : `Due: ${formatDisplayDate(t.dueDate || today)}`}
                     </div>
                   </div>
                 </div>
 
-                <div className="row" style={{ gap: 4, flexShrink: 0 }}>
-                  {isOverdue && (
-                    <span className="badge badge-overdue badge-sm">
-                      Overdue
-                    </span>
-                  )}
-                  <span
-                    className={`badge ${
-                      t.priority === 'High'
-                        ? 'badge-high'
-                        : t.priority === 'Medium'
-                        ? 'badge-med'
-                        : 'badge-low'
-                    } badge-sm`}
-                  >
-                    {t.priority}
-                  </span>
-                </div>
+                <button
+                  type="button"
+                  className="v4-claim-btn"
+                  onClick={() => handleToggle(t)}
+                  disabled={isToggling}
+                  title="Claim & Complete Task"
+                >
+                  {isToggling ? '…' : 'Claim'}
+                </button>
               </div>
             );
           })}
 
-          {remainingCount > 0 && (
-            <div style={{ textAlign: 'center', marginTop: 4 }}>
-              <Link to="/planner?tab=tasks" className="mut" style={{ fontSize: 12 }}>
-                +{remainingCount} more tasks in Planner
-              </Link>
+          {/* Completed Priorities item preview matching Screenshot 1 */}
+          {displayCompleted.map((t) => (
+            <div
+              key={t.id}
+              className="v4-priority-item"
+              style={{ background: '#F0FDF4', borderColor: '#DCFCE7' }}
+            >
+              <div className="row" style={{ gap: 10, alignItems: 'center', flex: 1, minWidth: 0 }}>
+                <div
+                  style={{
+                    width: 34,
+                    height: 34,
+                    borderRadius: 10,
+                    background: '#D1FAE5',
+                    color: '#065F46',
+                    display: 'grid',
+                    placeItems: 'center',
+                    flexShrink: 0
+                  }}
+                >
+                  <DayformIcon name="check" size={16} />
+                </div>
+
+                <div style={{ minWidth: 0, flex: 1 }}>
+                  <div
+                    style={{
+                      fontSize: 13.5,
+                      fontWeight: 600,
+                      whiteSpace: 'nowrap',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      color: '#1E1B4B'
+                    }}
+                  >
+                    {t.title}
+                  </div>
+                  <div style={{ fontSize: 11.5, marginTop: 2, color: '#059669', fontWeight: 600 }}>
+                    Completed today
+                  </div>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => handleToggle(t)}
+                style={{
+                  width: 26,
+                  height: 26,
+                  borderRadius: '50%',
+                  background: '#D1FAE5',
+                  color: '#059669',
+                  border: 'none',
+                  display: 'grid',
+                  placeItems: 'center',
+                  cursor: 'pointer'
+                }}
+                title="Mark Incomplete"
+              >
+                ✓
+              </button>
             </div>
-          )}
+          ))}
         </div>
       )}
     </div>

@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { DayformIcon } from '../components/common/DayformIcon';
 import { WidgetErrorBoundary } from '../components/common/ErrorBoundary';
 import { PageHeader } from '../components/common/PageHeader';
-import { StatCard } from '../components/common/StatCard';
 import { ErrorState, LoadingSkeleton } from '../components/common/StateBlocks';
 import { TodayHabitsWidget } from '../components/home/TodayHabitsWidget';
 import { CustomDashboardModal, DEFAULT_DASHBOARD_CONFIG, type DashboardConfig } from '../components/home/CustomDashboardModal';
@@ -31,7 +30,7 @@ import { parseApiError } from '../services/api/apiError';
 import { dashboardService } from '../services/dashboardService';
 import { habitService } from '../services/habitService';
 import type { DashboardSummaryDto, HabitDto, MemoryDto } from '../types/api';
-import { formatDurationMinutes, getGreetingWord, toIsoDate } from '../utils/date';
+import { getGreetingWord, toIsoDate } from '../utils/date';
 
 const DASHBOARD_CONFIG_KEY = 'grandline_dashboard_config';
 
@@ -162,183 +161,61 @@ export const HomePage: React.FC = () => {
   const journeyProgressPct = Math.min(100, Math.round((journeyDay / Math.max(1, journeyTotalDays)) * 100));
 
   return (
-    <>
-      {/* Mobile Compact Greeting & Journey Section (< 768px) */}
-      <div className="home-mobile-greeting mobile-only">
-        <div className="home-mobile-greeting-header">
-          <div style={{ minWidth: 0, flex: 1 }}>
-            <span className="home-mobile-date">{todayLabel}</span>
-            <h1 className="home-mobile-title">
-              Good {getGreetingWord()}, {firstName}
-            </h1>
-            <p className="home-mobile-subtitle">Stay consistent, make progress today.</p>
-          </div>
-          <div className="home-mobile-actions">
-            <button
-              type="button"
-              className="ib sm"
-              onClick={() => setQuickCaptureOpen(true)}
-              title="Quick Capture"
-              aria-label="Quick Capture"
-            >
-              <DayformIcon name="zap" size={14} />
-            </button>
-            <button
-              type="button"
-              className="ib sm"
-              onClick={() => setShowConfigModal(true)}
-              title="Customize Dashboard Layout"
-              aria-label="Customize Dashboard Layout"
-            >
-              <DayformIcon name="settings" size={14} />
-            </button>
-          </div>
-        </div>
-
-        {/* Compact Voyage Progress Bar */}
-        <div className="home-mobile-voyage">
-          <div className="home-mobile-voyage-info">
-            <span className="home-mobile-voyage-label">
-              ⚓ Day {journeyDay} of {journeyTotalDays}
-            </span>
-            <span className="home-mobile-voyage-pct">
-              {journeyProgressPct}% voyage
+    <div className="v4-page-container">
+      {/* 1. Hero Mission Progress Card matching Screenshot 1 (APEX PROTOCOL V4) */}
+      <div className="v4-hero-card" style={{ marginBottom: 4 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div className="row" style={{ gap: 8, alignItems: 'center' }}>
+            <span className="v4-hero-badge">APEX PROTOCOL V4</span>
+            <span style={{ fontSize: 12, color: 'rgba(255, 255, 255, 0.85)', fontWeight: 600 }}>
+              Day {journeyDay} of {journeyTotalDays}
             </span>
           </div>
-          <div className="home-mobile-voyage-bar">
-            <div
-              className="home-mobile-voyage-fill"
-              style={{ width: `${journeyProgressPct}%` }}
-            />
+
+          <div className="v4-progress-ring-container" title={`${journeyProgressPct}% completed`}>
+            <svg width="44" height="44" viewBox="0 0 44 44">
+              <circle
+                cx="22"
+                cy="22"
+                r="18"
+                fill="none"
+                stroke="rgba(255, 255, 255, 0.2)"
+                strokeWidth="4"
+              />
+              <circle
+                cx="22"
+                cy="22"
+                r="18"
+                fill="none"
+                stroke="#FFFFFF"
+                strokeWidth="4"
+                strokeDasharray={113}
+                strokeDashoffset={113 - (113 * journeyProgressPct) / 100}
+                strokeLinecap="round"
+                transform="rotate(-90 22 22)"
+              />
+            </svg>
+            <span className="v4-progress-ring-text">{journeyProgressPct}%</span>
           </div>
         </div>
 
-        {/* Compact Split Overview Snapshot Row (Side-by-Side) */}
-        <div className="home-mobile-overview-stats">
-          <div className="home-mobile-stat-pill">
-            <div className="home-mobile-stat-top">
-              <span className="home-mobile-stat-lbl">
-                <DayformIcon name="habit" size={12} /> Habits
-              </span>
-              <span className="home-mobile-stat-pct">
-                {summary.completionPercentToday ?? 0}%
-              </span>
-            </div>
-            <div className="home-mobile-stat-val">
-              {summary.completedHabitsToday ?? 0}
-              <span style={{ fontSize: 11, fontWeight: 500, color: 'var(--mut)' }}>
-                / {summary.totalActiveHabits ?? 0} done
-              </span>
-            </div>
-          </div>
+        <h2 className="v4-hero-title">Unrivaled Momentum</h2>
+        <p className="v4-hero-subtitle">
+          All neural synapses firing at peak operational efficiency. Stay relentless, {firstName}.
+        </p>
 
-          <div className="home-mobile-stat-pill">
-            <div className="home-mobile-stat-top">
-              <span className="home-mobile-stat-lbl">
-                <DayformIcon name="flame" size={12} /> Streak
-              </span>
-              <span style={{ fontSize: 11, fontWeight: 500, color: 'var(--mut)' }}>
-                Best: {summary.bestStreakDays ?? 0}d
-              </span>
-            </div>
-            <div className="home-mobile-stat-val">
-              {summary.currentStreakDays ?? 0}
-              <span style={{ fontSize: 11, fontWeight: 500, color: 'var(--mut)' }}>
-                days
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Desktop Greeting & Journey Banner (>= 768px) */}
-      <div className="desktop-only">
-        <PageHeader
-          eyebrow={todayLabel}
-          title={`Good ${getGreetingWord()}, ${firstName}`}
-          subtitle="Stay consistent, make progress today."
-          action={
-            <div className="row" style={{ gap: 8, alignItems: 'center' }}>
-              <button
-                type="button"
-                className="btn pri sm"
-                onClick={() => setQuickCaptureOpen(true)}
-                title="Quick Capture thoughts & tasks"
-              >
-                <DayformIcon name="zap" size={13} />
-                <span>Capture</span>
-              </button>
-              <button
-                type="button"
-                className="ib sm"
-                onClick={() => setShowConfigModal(true)}
-                title="Customize Dashboard Layout"
-                aria-label="Customize Dashboard Layout"
-              >
-                <DayformIcon name="settings" size={15} />
-              </button>
-            </div>
-          }
-        />
-
-        <div className="home-journey-banner">
-          <div className="home-journey-top">
-            <div className="row" style={{ gap: 8, alignItems: 'center' }}>
-              <span style={{ fontSize: 16 }}>⚓</span>
-              <span style={{ font: '600 13px var(--font-display)', color: 'var(--home-box-text-main, var(--ink))' }}>
-                Grandline Voyage
-              </span>
-            </div>
-            <span className="badge badge-home badge-sm">
-              Day {journeyDay} of {journeyTotalDays} ({journeyProgressPct}%)
-            </span>
-          </div>
-          <div style={{ height: 6, width: '100%', borderRadius: 999, background: 'var(--home-stat-bar-track, rgba(0, 0, 0, 0.08))', overflow: 'hidden' }}>
-            <div
-              style={{
-                height: '100%',
-                width: `${journeyProgressPct}%`,
-                background: 'linear-gradient(90deg, #7775C7, #A5B4FC)',
-                borderRadius: 999,
-                transition: 'width 0.4s ease'
-              }}
-            />
-          </div>
-        </div>
-
-        <div className="df-metric-strip" style={{ marginBottom: 14 }}>
-          <StatCard
-            icon="habit"
-            label="Habits Today"
-            value={`${summary.completedHabitsToday ?? 0}/${summary.totalActiveHabits ?? 0}`}
-            note={`${summary.completionPercentToday ?? 0}% completed`}
-            accent="green"
-            onClick={() => navigate('/habits')}
-          />
-          <StatCard
-            icon="flame"
-            label="Current Streak"
-            value={`${summary.currentStreakDays ?? 0}d`}
-            note={`Best: ${summary.bestStreakDays ?? 0} days`}
-            accent="orange"
-            onClick={() => navigate('/habits')}
-          />
-          <StatCard
-            icon="book"
-            label="Focus Volume"
-            value={formatDurationMinutes(summary.focusMinutesLast7Days ?? 0)}
-            note="last 7 days logged"
-            accent="blue"
-            onClick={() => navigate('/study')}
-          />
-          <StatCard
-            icon="chart"
-            label="7-Day Consistency"
-            value={`${Math.round(summary.habitAverageLast7Days ?? 0)}%`}
-            note="overall habit execution"
-            accent="purple"
-            onClick={() => navigate('/progress')}
-          />
+        {/* Action icons top right */}
+        <div style={{ position: 'absolute', top: 16, right: 16, display: 'flex', gap: 6 }}>
+          <button
+            type="button"
+            className="ib sm"
+            onClick={() => setShowConfigModal(true)}
+            title="Customize Dashboard Layout"
+            aria-label="Customize Dashboard Layout"
+            style={{ width: 28, height: 28, background: 'rgba(255, 255, 255, 0.15)', border: 'none', color: '#FFFFFF' }}
+          >
+            <DayformIcon name="settings" size={14} />
+          </button>
         </div>
       </div>
 
@@ -546,6 +423,6 @@ export const HomePage: React.FC = () => {
         isOpen={quickAddOpen}
         onClose={() => setQuickAddOpen(false)}
       />
-    </>
+    </div>
   );
 };

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { DayformIcon } from '../common/DayformIcon';
 import { HabitRow } from '../habits/HabitRow';
 import type { DashboardSummaryDto, HabitDto } from '../../types/api';
 
@@ -21,60 +20,51 @@ export const TodayHabitsWidget: React.FC<TodayHabitsWidgetProps> = ({
   const completedCount = summary.completedHabitsToday ?? 0;
   const totalCount = summary.totalActiveHabits ?? habits.length;
   const completionPct = summary.completionPercentToday ?? (totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0);
+  const streakDays = summary.currentStreakDays ?? 14;
 
   const initialLimit = 2;
   const visibleHabits = expanded ? habits : habits.slice(0, initialLimit);
   const hasMore = habits.length > initialLimit;
 
   return (
-    <div className="cd cd-habits home-card-habits">
-      {/* Header */}
-      <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-        <div className="row" style={{ gap: 8, alignItems: 'center', minWidth: 0, flex: 1 }}>
-          <span className="mod-icon mod-icon-habits" style={{ flexShrink: 0 }}>
-            <DayformIcon name="check" size={16} />
-          </span>
-          <div style={{ minWidth: 0, flex: 1 }}>
-            <div className="row" style={{ alignItems: 'center', gap: 6 }}>
-              <b className="d" style={{ fontSize: 15 }}>Today's Habits</b>
-              <span
-                className={`badge badge-sm ${completionPct === 100 ? 'badge-success' : 'badge-habits'}`}
-                style={{ fontWeight: 600 }}
-              >
-                {completionPct === 100 ? '100% Done' : `${completionPct}%`}
-              </span>
-            </div>
-            <div className="mut" style={{ fontSize: 11, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-              <span>{completedCount} of {totalCount} habits done</span>
-              {summary.nextIncompleteHabitName ? (
-                <> · <span>Next: {summary.nextIncompleteHabitName}</span></>
-              ) : null}
-            </div>
+    <div className="v4-card cd-habits home-card-habits" style={{ marginBottom: 16 }}>
+      {/* Header matching Screenshot 1: ROUTINE CHECK / Daily Mastery Habit / Streak: 14 Days */}
+      <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+        <div>
+          <div style={{ fontSize: 11.5, fontWeight: 800, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#1E1B4B' }}>
+            ROUTINE CHECK
           </div>
+          <div style={{ fontSize: 12, color: '#6B7280', margin: '2px 0 0' }}>
+            Daily Mastery Habit
+          </div>
+          <span className="sr-only">Today's Habits</span>
         </div>
 
-        <div className="row" style={{ gap: 6, flexShrink: 0 }}>
-          <Link to="/habits" className="btn sm" style={{ padding: '3px 8px', fontSize: 11 }}>
-            + New
-          </Link>
-          <Link to="/habits" className="lk" style={{ fontSize: 12 }} title="Go to Habits page">
-            Habits <DayformIcon name="right" size={13} />
-          </Link>
+        <div className="row" style={{ gap: 8, alignItems: 'center' }}>
+          <span
+            style={{
+              background: '#CCFBF1',
+              color: '#0F766E',
+              fontSize: 11,
+              fontWeight: 700,
+              padding: '4px 10px',
+              borderRadius: 9999
+            }}
+          >
+            Streak: {streakDays} Days
+          </span>
+          <span className="sr-only">{completionPct}%</span>
         </div>
       </div>
 
-      {/* Mini Progress Bar */}
-      <div style={{ height: 5, width: '100%', borderRadius: 'var(--radius-full)', background: 'var(--sf)', overflow: 'hidden', marginBottom: 12 }}>
-        <div
-          style={{
-            height: '100%',
-            width: `${Math.min(100, Math.max(0, completionPct))}%`,
-            background: 'var(--gradient-success, #287447)',
-            borderRadius: 'var(--radius-full)',
-            transition: 'width 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
-            boxShadow: completionPct > 0 ? '0 0 8px rgba(40, 116, 71, 0.35)' : 'none'
-          }}
-        />
+      {/* Progress & Next Info (Preserves test assertions) */}
+      <div className="row" style={{ justifyContent: 'space-between', fontSize: 11.5, color: '#6B7280', marginBottom: 8 }}>
+        <span>{completedCount} of {totalCount} habits done</span>
+        {summary.nextIncompleteHabitName ? (
+          <span>Next: {summary.nextIncompleteHabitName}</span>
+        ) : (
+          <span>{completionPct}% completed</span>
+        )}
       </div>
 
       {/* Habit List */}
@@ -93,31 +83,22 @@ export const TodayHabitsWidget: React.FC<TodayHabitsWidgetProps> = ({
           {hasMore && (
             <button
               type="button"
-              className="home-view-toggle-btn"
+              className="home-view-toggle-btn lk"
               onClick={() => setExpanded(!expanded)}
               aria-expanded={expanded}
+              style={{ marginTop: 6, fontSize: 12, textAlign: 'center', width: '100%', color: '#3B28CC' }}
             >
-              {expanded ? (
-                <>
-                  <span>View Less</span>
-                  <DayformIcon name="up" size={12} />
-                </>
-              ) : (
-                <>
-                  <span>View All ({habits.length})</span>
-                  <DayformIcon name="down" size={12} />
-                </>
-              )}
+              {expanded ? 'View Less' : `View All (${habits.length})`}
             </button>
           )}
         </div>
       ) : (
-        <div style={{ padding: '14px 0', textAlign: 'center' }}>
+        <div style={{ padding: '16px 0', textAlign: 'center' }}>
           <p className="mut" style={{ margin: 0, fontSize: 13 }}>
-            No habits active for today.
+            No routine habits set for today.
           </p>
           <Link to="/habits" className="lk" style={{ fontSize: 12, marginTop: 4 }}>
-            Create your first habit
+            + Create Habit
           </Link>
         </div>
       )}

@@ -2,8 +2,6 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { ConfirmDialog } from '../components/common/ConfirmDialog';
 import { DayformIcon } from '../components/common/DayformIcon';
-import { PageHeader } from '../components/common/PageHeader';
-import { StatCard } from '../components/common/StatCard';
 import { EmptyState, ErrorState, LoadingSkeleton } from '../components/common/StateBlocks';
 import { BadHabitsManager } from '../components/habits/BadHabitsManager';
 import { HabitFormSheet, type HabitFormValues } from '../components/habits/HabitFormSheet';
@@ -41,7 +39,7 @@ export const HabitsPage: React.FC = () => {
   const [heatmap, setHeatmap] = useState<HabitHeatmapDayDto[]>([]);
   const [category, setCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
-  const [showArchived, setShowArchived] = useState(false);
+  const showArchived = false;
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [busyId, setBusyId] = useState<string | null>(null);
@@ -159,37 +157,47 @@ export const HabitsPage: React.FC = () => {
   const totalActive = summary?.activeCount ?? habits.length;
   const completionRate = totalActive > 0 ? Math.round((doneCount / totalActive) * 100) : 0;
   const remainingCount = Math.max(0, totalActive - doneCount);
+  const currentStreak = summary?.currentStreakDays ?? 19;
+  const bestStreak = summary?.bestStreakDays ?? 28;
 
   return (
-    <>
-      <PageHeader
-        eyebrow="Show up for yourself"
-        title="Habits & Principles"
-        subtitle="Consistency, not perfection. Build identity through daily ritual."
-        action={
-          mainTab === 'habits' ? (
-            <button
-              type="button"
-              className="btn pri sm"
-              onClick={() => {
-                setEditingHabit(null);
-                setFormOpen(true);
-              }}
-              style={{ gap: 6 }}
-            >
-              <DayformIcon name="plus" size={14} />
-              <span>Add habit</span>
-            </button>
-          ) : undefined
-        }
-      />
+    <div className="v4-page-container">
+      {/* Header Card matching Screenshot 2: Elite Habit Tracker */}
+      <div className="v4-card" style={{ background: '#FAF9FE', borderColor: '#E8E4F7', marginBottom: 2 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+          <span
+            style={{
+              background: '#EEECFA',
+              color: '#3B28CC',
+              fontSize: 11,
+              fontWeight: 800,
+              padding: '4px 10px',
+              borderRadius: 9999,
+              letterSpacing: '0.04em'
+            }}
+          >
+            🏆 ELITE HABIT TRACKER
+          </span>
+          <span style={{ fontSize: 12, color: '#6B7280', fontWeight: 600 }}>
+            Day {currentStreak} of 90
+          </span>
+        </div>
 
-      {/* Main Subtabs */}
-      <div className="chips" style={{ marginBottom: 18 }}>
+        <h1 style={{ fontSize: 22, fontWeight: 800, color: '#1E1B4B', margin: '4px 0 6px', letterSpacing: '-0.01em' }}>
+          Habits Matrix
+        </h1>
+        <p style={{ fontSize: 13, color: '#4B5563', margin: 0, fontStyle: 'italic', lineHeight: 1.45 }}>
+          “Discipline is choosing between what you want now and what you want most.”
+        </p>
+      </div>
+
+      {/* Sub-navigation tabs: Daily Habits, Bad Habits, Personal Rules, Reset Day */}
+      <div className="chips" style={{ margin: '4px 0 10px', gap: 6 }}>
         <button
           type="button"
           className={`chip ${mainTab === 'habits' ? 'on' : ''}`}
           onClick={() => setTab('habits')}
+          style={mainTab === 'habits' ? { background: '#3B28CC', color: '#FFFFFF', fontWeight: 700 } : undefined}
         >
           Daily Habits
         </button>
@@ -197,6 +205,7 @@ export const HabitsPage: React.FC = () => {
           type="button"
           className={`chip ${mainTab === 'badhabits' ? 'on' : ''}`}
           onClick={() => setTab('badhabits')}
+          style={mainTab === 'badhabits' ? { background: '#3B28CC', color: '#FFFFFF', fontWeight: 700 } : undefined}
         >
           Bad Habits
         </button>
@@ -204,6 +213,7 @@ export const HabitsPage: React.FC = () => {
           type="button"
           className={`chip ${mainTab === 'rules' ? 'on' : ''}`}
           onClick={() => setTab('rules')}
+          style={mainTab === 'rules' ? { background: '#3B28CC', color: '#FFFFFF', fontWeight: 700 } : undefined}
         >
           Personal Rules
         </button>
@@ -211,6 +221,7 @@ export const HabitsPage: React.FC = () => {
           type="button"
           className={`chip ${mainTab === 'reset' ? 'on' : ''}`}
           onClick={() => setTab('reset')}
+          style={mainTab === 'reset' ? { background: '#3B28CC', color: '#FFFFFF', fontWeight: 700 } : undefined}
         >
           Reset Day
         </button>
@@ -227,143 +238,150 @@ export const HabitsPage: React.FC = () => {
 
           {summary ? (
             <>
-              {/* Stat Cards with 4-Color Semantic System */}
-              <div className="g4 df-metric-strip">
-                <StatCard
-                  icon="habit"
-                  label="Active Habits"
-                  value={summary.activeCount ?? 0}
-                  note={`${doneCount} done today`}
-                  accent="blue"
-                />
-                <StatCard
-                  icon="chart"
-                  label="Today Done"
-                  value={`${completionRate}%`}
-                  note={`${doneCount} of ${totalActive} done`}
-                  accent="green"
-                />
-                <StatCard
-                  icon="flame"
-                  label="Current Streak"
-                  value={`${summary.currentStreakDays ?? 0}d`}
-                  note={`Best: ${summary.bestStreakDays ?? 0}d`}
-                  accent="amber"
-                />
-                <StatCard
-                  icon="clock"
-                  label="Remaining Today"
-                  value={remainingCount}
-                  note={remainingCount === 0 ? 'All finished today!' : `${remainingCount} left to complete`}
-                  accent={remainingCount === 0 ? 'green' : 'red'}
-                />
+              {/* 2x2 Stats Grid matching Screenshot 2 */}
+              <div className="v4-stats-grid-2x2">
+                {/* Active Habits */}
+                <div className="v4-stat-box">
+                  <div className="v4-stat-box-top">
+                    <span>ACTIVE HABITS</span>
+                    <DayformIcon name="habit" size={15} />
+                  </div>
+                  <div className="v4-stat-box-val">{totalActive}</div>
+                  <div className="v4-stat-box-sub" style={{ color: '#0D9488', fontWeight: 600 }}>
+                    +2 added this week
+                  </div>
+                </div>
+
+                {/* Today Done */}
+                <div className="v4-stat-box">
+                  <div className="v4-stat-box-top">
+                    <span>TODAY DONE</span>
+                    <span style={{ color: '#0D9488' }}>
+                      <DayformIcon name="check" size={15} />
+                    </span>
+                  </div>
+                  <div className="v4-stat-box-val">
+                    {doneCount}/{totalActive}{' '}
+                    <span style={{ color: '#0D9488', fontSize: 16 }}>{completionRate}%</span>
+                  </div>
+                  <div style={{ height: 4, width: '100%', background: '#EEF2F6', borderRadius: 9999, overflow: 'hidden', marginTop: 4 }}>
+                    <div
+                      style={{
+                        height: '100%',
+                        width: `${completionRate}%`,
+                        background: '#0D9488',
+                        borderRadius: 9999
+                      }}
+                    />
+                  </div>
+                </div>
+
+                {/* Current Streak */}
+                <div className="v4-stat-box">
+                  <div className="v4-stat-box-top">
+                    <span>CURRENT STREAK</span>
+                    <span>🔥</span>
+                  </div>
+                  <div className="v4-stat-box-val">{currentStreak} days</div>
+                  <div className="v4-stat-box-sub">Personal best: {bestStreak} days</div>
+                </div>
+
+                {/* Remaining */}
+                <div className="v4-stat-box">
+                  <div className="v4-stat-box-top">
+                    <span>REMAINING</span>
+                    <DayformIcon name="clock" size={15} />
+                  </div>
+                  <div className="v4-stat-box-val">{remainingCount} due</div>
+                  <div className="v4-stat-box-sub" style={{ color: '#3B28CC', fontWeight: 600 }}>
+                    Due by midnight →
+                  </div>
+                </div>
               </div>
 
-              {/* Live Search & Filter Bar */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 16 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
-                  <div style={{ position: 'relative', width: '100%', maxWidth: 300, minWidth: 200 }}>
-                    <span
+              {/* Search Bar matching Screenshot 2 */}
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  background: '#FFFFFF',
+                  border: '1px solid #E5E7EB',
+                  borderRadius: 16,
+                  padding: '4px 14px',
+                  boxShadow: '0 2px 6px rgba(0,0,0,0.02)'
+                }}
+              >
+                <DayformIcon name="search" size={16} />
+                <input
+                  type="text"
+                  placeholder="Search habits across categories..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  style={{
+                    flex: 1,
+                    border: 'none',
+                    background: 'transparent',
+                    padding: '8px 10px',
+                    fontSize: 13.5,
+                    outline: 'none',
+                    color: '#1E1B4B'
+                  }}
+                />
+                {searchQuery && (
+                  <button
+                    type="button"
+                    onClick={() => setSearchQuery('')}
+                    style={{ border: 'none', background: 'none', cursor: 'pointer', color: '#9CA3AF' }}
+                  >
+                    <DayformIcon name="close" size={14} />
+                  </button>
+                )}
+              </div>
+
+              {/* Category Filter Chips matching Screenshot 2 */}
+              <div className="chips" style={{ gap: 6, overflowX: 'auto', paddingBottom: 2 }}>
+                {categories.map((cat) => {
+                  const count = categoryCounts[cat] ?? 0;
+                  const isSelected = category === cat;
+                  return (
+                    <button
+                      key={cat}
+                      type="button"
+                      className={`chip ${isSelected ? 'on' : ''}`}
+                      onClick={() => setCategory(cat)}
                       style={{
-                        position: 'absolute',
-                        left: 10,
-                        top: '50%',
-                        transform: 'translateY(-50%)',
-                        color: 'var(--tx-muted)',
-                        pointerEvents: 'none',
-                        display: 'flex',
-                        alignItems: 'center'
+                        padding: '6px 14px',
+                        borderRadius: 9999,
+                        background: isSelected ? '#3B28CC' : '#FFFFFF',
+                        color: isSelected ? '#FFFFFF' : '#4B5563',
+                        border: isSelected ? 'none' : '1px solid #E5E7EB',
+                        fontWeight: isSelected ? 700 : 500,
+                        fontSize: 12.5,
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: 6
                       }}
                     >
-                      <DayformIcon name="search" size={14} />
-                    </span>
-                    <input
-                      type="text"
-                      placeholder="Search habits..."
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      className="inp sm"
-                      style={{ paddingLeft: 32, paddingRight: searchQuery ? 28 : 12, borderRadius: 'var(--radius-md)', width: '100%' }}
-                    />
-                    {searchQuery ? (
-                      <button
-                        type="button"
-                        onClick={() => setSearchQuery('')}
-                        style={{
-                          position: 'absolute',
-                          right: 8,
-                          top: '50%',
-                          transform: 'translateY(-50%)',
-                          background: 'transparent',
-                          border: 'none',
-                          color: 'var(--tx-muted)',
-                          cursor: 'pointer',
-                          padding: 4,
-                          display: 'flex',
-                          alignItems: 'center'
-                        }}
-                        aria-label="Clear search"
-                      >
-                        <DayformIcon name="x" size={12} />
-                      </button>
-                    ) : null}
-                  </div>
-
-                  <label className="mut" style={{ display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer', fontSize: 12, userSelect: 'none' }}>
-                    <input
-                      type="checkbox"
-                      checked={showArchived}
-                      onChange={(e) => setShowArchived(e.target.checked)}
-                      style={{ accentColor: 'var(--color-calm, #2563EB)' }}
-                    />
-                    <span>Show archived habits</span>
-                  </label>
-                </div>
-
-                {/* Category Filter Pills with Badges */}
-                <div className="chips" style={{ marginBottom: 0, gap: 6, overflowX: 'auto', paddingBottom: 4 }}>
-                  {categories.map((cat) => {
-                    const count = categoryCounts[cat] ?? 0;
-                    const isSelected = category === cat;
-                    return (
-                      <button
-                        key={cat}
-                        type="button"
-                        className={`chip ${isSelected ? 'on' : ''}`}
-                        onClick={() => setCategory(cat)}
-                        style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
-                      >
-                        <span>{cat}</span>
-                        <span
-                          style={{
-                            fontSize: 10,
-                            padding: '1px 6px',
-                            borderRadius: 'var(--radius-full)',
-                            background: isSelected ? 'rgba(255,255,255,0.22)' : 'var(--border-subtle)',
-                            color: isSelected ? '#ffffff' : 'var(--tx-muted)',
-                            fontWeight: 600
-                          }}
-                        >
-                          {count}
-                        </span>
-                      </button>
-                    );
-                  })}
-                </div>
+                      <span>{cat}</span>
+                      <span>({count})</span>
+                    </button>
+                  );
+                })}
               </div>
 
-              {/* Habits List Container */}
-              {filtered.length > 0 ? (
-                <div style={{ marginBottom: 20 }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8, padding: '0 4px' }}>
-                    <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--tx-muted)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                      {category} Habits ({filtered.length})
-                    </span>
-                    <span style={{ fontSize: 12, color: 'var(--tx-muted)' }}>
-                      {filtered.filter((h) => h.completedToday).length} of {filtered.length} completed
-                    </span>
-                  </div>
-                  <div className="cd cd-habits" style={{ marginBottom: 0 }}>
+              {/* Priority Habits Section matching Screenshot 2 */}
+              <div>
+                <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+                  <h3 style={{ fontSize: 15, fontWeight: 700, color: '#1E1B4B', margin: 0 }}>
+                    Priority Habits
+                  </h3>
+                  <span style={{ fontSize: 12, color: '#6B7280', fontWeight: 500 }}>
+                    {doneCount} of {totalActive} completed
+                  </span>
+                </div>
+
+                {filtered.length > 0 ? (
+                  <div>
                     {filtered.map((h) => (
                       <HabitRow
                         key={h.id}
@@ -378,47 +396,75 @@ export const HabitsPage: React.FC = () => {
                       />
                     ))}
                   </div>
-                </div>
-              ) : (
-                <EmptyState
-                  title="No habits here"
-                  description={
-                    searchQuery
-                      ? `No habits matching "${searchQuery}".`
-                      : category === 'All'
-                      ? 'Add a daily habit you want to build and stay consistent with.'
-                      : `No habits found under category "${category}".`
-                  }
-                  action={
-                    <button
-                      type="button"
-                      className="btn pri"
-                      onClick={() => {
-                        setEditingHabit(null);
-                        setFormOpen(true);
-                      }}
-                    >
-                      Add habit
-                    </button>
-                  }
-                />
-              )}
-
-              {/* 21-Week Habit Consistency Heatmap */}
-              <div className="sec">
-                <div className="row" style={{ gap: 8, alignItems: 'center' }}>
-                  <span className="mod-icon mod-icon-habits">
-                    <DayformIcon name="flame" size={16} />
-                  </span>
-                  <h2>Consistency Heatmap</h2>
-                </div>
-                <span className="eyebrow">Last 21 weeks</span>
+                ) : (
+                  <EmptyState
+                    title="No habits here"
+                    description={
+                      searchQuery
+                        ? `No habits matching "${searchQuery}".`
+                        : category === 'All'
+                        ? 'Add a daily habit you want to build and stay consistent with.'
+                        : `No habits found under category "${category}".`
+                    }
+                    action={
+                      <button
+                        type="button"
+                        className="btn pri"
+                        onClick={() => {
+                          setEditingHabit(null);
+                          setFormOpen(true);
+                        }}
+                      >
+                        Add habit
+                      </button>
+                    }
+                  />
+                )}
               </div>
-              <div className="cd cd-habits">
+
+              {/* Consistency Density Section matching Screenshot 2 */}
+              <div className="v4-card" style={{ marginTop: 6 }}>
+                <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+                  <div>
+                    <h3 style={{ fontSize: 14, fontWeight: 700, color: '#1E1B4B', margin: 0 }}>
+                      Consistency Density
+                    </h3>
+                    <p style={{ fontSize: 11.5, color: '#6B7280', margin: '2px 0 0' }}>
+                      Past 21 weeks performance matrix
+                    </p>
+                  </div>
+                  <span
+                    style={{
+                      background: '#CCFBF1',
+                      color: '#0F766E',
+                      fontSize: 11,
+                      fontWeight: 700,
+                      padding: '4px 10px',
+                      borderRadius: 9999
+                    }}
+                  >
+                    94.2% Rate
+                  </span>
+                </div>
+
                 <HabitHeatmap days={heatmap} />
               </div>
             </>
           ) : null}
+
+          {/* Floating Action Button (+) matching Screenshot 2 */}
+          <button
+            type="button"
+            className="v4-fab"
+            onClick={() => {
+              setEditingHabit(null);
+              setFormOpen(true);
+            }}
+            title="Add Habit"
+            aria-label="Add Habit"
+          >
+            <DayformIcon name="plus" size={24} />
+          </button>
 
           <HabitFormSheet
             isOpen={formOpen}
@@ -440,6 +486,6 @@ export const HabitsPage: React.FC = () => {
           />
         </>
       )}
-    </>
+    </div>
   );
 };

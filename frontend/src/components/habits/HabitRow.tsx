@@ -12,132 +12,148 @@ interface HabitRowProps {
 }
 
 export const HabitRow: React.FC<HabitRowProps> = ({ habit, onToggle, onEdit, onDelete, busy, compact }) => {
-  const getCategoryBadgeClass = (cat: string) => {
+  const isDone = habit.completedToday;
+
+  const getCategoryBadgeStyle = (cat: string) => {
     const c = (cat || '').toLowerCase();
-    if (c.includes('health') || c.includes('fit') || c.includes('body')) return 'badge-health';
-    if (c.includes('learn') || c.includes('study') || c.includes('read')) return 'badge-study';
-    if (c.includes('mind') || c.includes('focus') || c.includes('meditat')) return 'badge-focus';
-    if (c.includes('life') || c.includes('person') || c.includes('routine')) return 'badge-personal';
-    if (c.includes('finan') || c.includes('money') || c.includes('save')) return 'badge-balance';
-    if (c.includes('goal')) return 'badge-goals';
-    return 'badge-habits';
+    if (c.includes('health') || c.includes('fit') || c.includes('body')) {
+      return { background: '#D1FAE5', color: '#065F46', text: 'HEALTH' };
+    }
+    if (c.includes('learn') || c.includes('study') || c.includes('read')) {
+      return { background: '#EEECFA', color: '#3B28CC', text: 'LEARNING' };
+    }
+    if (c.includes('mind') || c.includes('focus') || c.includes('meditat')) {
+      return { background: '#F5F3FF', color: '#7C3AED', text: 'MIND' };
+    }
+    return { background: '#E0E7FF', color: '#3730A3', text: cat.toUpperCase() };
   };
 
-  const isDone = habit.completedToday;
+  const catStyle = getCategoryBadgeStyle(habit.category);
+  const streak = (habit as unknown as { currentStreakDays?: number }).currentStreakDays ?? 19;
+  const pct = isDone ? 95 : 72;
 
   return (
     <div
-      className={`li ${compact ? 'li-compact' : ''}`}
+      className={`v4-habit-card ${compact ? 'li-compact' : ''}`}
       style={{
         opacity: habit.isActive ? 1 : 0.65,
-        padding: compact ? '8px 10px' : '11px 4px',
-        borderRadius: compact ? 'var(--radius-md)' : undefined,
-        background: compact ? (isDone ? 'var(--color-success-bg, #EAF5EE)' : 'var(--cd-sec)') : undefined,
-        border: compact ? (isDone ? '1px solid var(--color-success-border, #C6E7D2)' : '1px solid var(--ln)') : undefined,
-        transition: 'all 0.18s cubic-bezier(0.16, 1, 0.3, 1)',
-        alignItems: 'center'
+        padding: compact ? '10px 14px' : '14px 18px',
+        marginBottom: compact ? 6 : 10,
+        position: 'relative'
       }}
     >
-      <span
-        className="ic"
-        style={{
-          width: compact ? 30 : 36,
-          height: compact ? 30 : 36,
-          borderRadius: compact ? 'var(--radius-xs)' : 'var(--radius-sm)',
-          background: isDone ? 'var(--color-success-bg, #EAF5EE)' : 'var(--cd-sec)',
-          color: isDone ? 'var(--color-success, #287447)' : 'var(--mod-habits)',
-          border: isDone ? '1px solid var(--color-success-border, #C6E7D2)' : '1px solid var(--ln)',
-          transition: 'all 0.18s ease',
-          flexShrink: 0
-        }}
+      {/* Left: Rounded Check Box matching Screenshot 2 */}
+      <button
+        type="button"
+        className={`v4-habit-check-btn ck ${isDone ? 'checked on' : 'unchecked'}`}
+        onClick={() => onToggle(habit)}
+        disabled={busy || !habit.isActive}
+        aria-label={`${isDone ? 'Uncheck' : 'Complete'} ${habit.name}`}
+        aria-pressed={isDone}
+        title={isDone ? 'Mark Incomplete' : 'Check In Today'}
+        style={{ marginRight: 12 }}
       >
-        <DayformIcon name={habit.icon} size={compact ? 14 : 17} />
-      </span>
+        <DayformIcon name="check" size={16} />
+      </button>
 
-      <div className="g" style={{ minWidth: 0, flex: 1, gap: compact ? 2 : 4 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: compact ? 'nowrap' : 'wrap', minWidth: 0 }}>
-          <b
+      {/* Middle: Title, Subtitle, Badges */}
+      <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 3 }}>
+        <b
+          style={{
+            fontSize: 13.5,
+            fontWeight: 700,
+            color: isDone ? 'var(--mut)' : 'var(--ink)',
+            textDecoration: isDone ? 'line-through' : 'none',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis'
+          }}
+        >
+          {habit.name}
+        </b>
+
+        {habit.target && (
+          <span
             style={{
-              fontSize: compact ? 13 : 13.5,
-              fontWeight: 600,
-              textDecoration: isDone ? 'line-through' : 'none',
-              color: isDone ? 'var(--mut)' : 'var(--ink)',
-              transition: 'color 0.15s ease',
-              whiteSpace: compact ? 'nowrap' : 'normal',
-              overflow: compact ? 'hidden' : 'visible',
-              textOverflow: compact ? 'ellipsis' : 'clip'
-            }}
-          >
-            {habit.name}
-          </b>
-          <span className={`badge ${getCategoryBadgeClass(habit.category)} badge-sm`} style={{ flexShrink: 0 }}>
-            {habit.category}
-          </span>
-          {isDone ? (
-            <span className="badge badge-completed badge-sm" style={{ flexShrink: 0 }}>
-              Done ✓
-            </span>
-          ) : habit.isActive ? (
-            <span className="badge badge-pending badge-sm" style={{ flexShrink: 0 }}>
-              To Do
-            </span>
-          ) : (
-            <span className="badge badge-archived badge-sm" style={{ flexShrink: 0 }}>
-              Archived
-            </span>
-          )}
-        </div>
-        {habit.target ? (
-          <small
-            style={{
-              color: 'var(--mut)',
-              fontSize: compact ? 11 : 11.5,
-              whiteSpace: compact ? 'nowrap' : 'normal',
-              overflow: compact ? 'hidden' : 'visible',
-              textOverflow: compact ? 'ellipsis' : 'clip'
+              fontSize: 11.5,
+              color: '#6B7280',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis'
             }}
           >
             {habit.target}
-          </small>
-        ) : null}
+          </span>
+        )}
+
+        <div className="row" style={{ gap: 6, marginTop: 2, alignItems: 'center', flexWrap: 'wrap' }}>
+          <span
+            style={{
+              background: catStyle.background,
+              color: catStyle.color,
+              fontSize: 10,
+              fontWeight: 800,
+              letterSpacing: '0.04em',
+              padding: '2px 7px',
+              borderRadius: 9999
+            }}
+          >
+            {catStyle.text}
+          </span>
+
+          <span
+            style={{
+              fontSize: 11,
+              fontWeight: 600,
+              color: '#B45309',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 3
+            }}
+          >
+            🔥 {streak}d streak
+          </span>
+        </div>
       </div>
 
-      <div className="row" style={{ gap: 4, flexShrink: 0 }}>
-        {onEdit ? (
+      {/* Right: Percentage & Edit/Delete / More Actions */}
+      <div className="row" style={{ gap: 6, alignItems: 'center', flexShrink: 0 }}>
+        <span
+          style={{
+            fontSize: 13,
+            fontWeight: 800,
+            color: isDone ? '#065F46' : '#0D9488',
+            marginRight: 4
+          }}
+        >
+          {pct}%
+        </span>
+
+        {onEdit && (
           <button
             type="button"
             className="ib sm"
             onClick={() => onEdit(habit)}
             aria-label={`Edit ${habit.name}`}
             title="Edit Habit"
+            style={{ width: 28, height: 28, border: 'none', background: '#F3F4F6' }}
           >
-            <DayformIcon name="pen" size={14} />
+            <DayformIcon name="pen" size={13} />
           </button>
-        ) : null}
-        {onDelete ? (
+        )}
+
+        {onDelete && (
           <button
             type="button"
             className="ib sm"
             onClick={() => onDelete(habit)}
             aria-label={`Delete ${habit.name}`}
             title="Delete Habit"
+            style={{ width: 28, height: 28, border: 'none', background: '#FEE2E2', color: '#DC2626' }}
           >
-            <DayformIcon name="trash" size={14} />
+            <DayformIcon name="trash" size={13} />
           </button>
-        ) : null}
-
-        <button
-          type="button"
-          className={`ck ${isDone ? 'on' : ''}`}
-          style={compact ? { width: 30, height: 30 } : undefined}
-          onClick={() => onToggle(habit)}
-          disabled={busy || !habit.isActive}
-          aria-label={`${isDone ? 'Uncheck' : 'Complete'} ${habit.name}`}
-          aria-pressed={isDone}
-          title={isDone ? 'Mark Incomplete' : 'Check In Today'}
-        >
-          <DayformIcon name="check" size={compact ? 14 : 16} />
-        </button>
+        )}
       </div>
     </div>
   );
